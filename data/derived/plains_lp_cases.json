@@ -1,0 +1,688 @@
+{
+ "manchester_ok_20220513": {
+  "images": [
+   1,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "track": "storm 7-18 km W-WNW of Manchester 00:25-00:55Z, then drifted S-SSE ~15 km/h; several cells by 02Z",
+  "soundings": {
+   "HRRR 23Z, inflow 36.95N 97.95W": {
+    "mlcape": 3207,
+    "mlcin": -3,
+    "mllcl_m_agl": 1191,
+    "el_m_agl": 12115,
+    "lapse_700_500_C_per_km": 7.4,
+    "srh1": 42,
+    "srh3": 130,
+    "shear6_kt": 40,
+    "bunkers_rm_from_deg_kt": [
+     309,
+     17
+    ],
+    "sr_anvil_kt": 17,
+    "sr_mid_kt": 22
+   },
+   "OUN balloon 00Z": {
+    "mlcape": 3075,
+    "mlcin": -87,
+    "mllcl_m_agl": 1233,
+    "el_m_agl": 12122,
+    "lapse_700_500_C_per_km": 7.93,
+    "srh1": 147,
+    "srh3": 229,
+    "shear6_kt": 40,
+    "bunkers_rm_from_deg_kt": [
+     334,
+     14
+    ],
+    "sr_anvil_kt": 29,
+    "sr_mid_kt": 21
+   }
+  },
+  "radar": {
+   "KICT 00:54Z (94 km)": {
+    "echo_top_18dBZ_m": 15500.0,
+    "echo_top_50dBZ_m": 10000.0,
+    "max_dbz": 60.3,
+    "max_dbz_height_m": 7500.0,
+    "core50_km2_1km_4km_7km": [
+     25,
+     12,
+     33
+    ],
+    "core40_km2_1km_4km_7km": [
+     108,
+     79,
+     96
+    ],
+    "weak_echo_vault_m": [
+     3000.0,
+     8000.0
+    ],
+    "couplet_vrot_ms_diam_m": [
+     17.0,
+     7299
+    ]
+   },
+   "KVNX 00:55Z (31 km)": {
+    "echo_top_18dBZ_m": 14000.0,
+    "echo_top_50dBZ_m": 12000.0,
+    "max_dbz": 63.9,
+    "max_dbz_height_m": 6000.0,
+    "core50_km2_1km_4km_7km": [
+     13,
+     8,
+     22
+    ],
+    "core40_km2_1km_4km_7km": [
+     71,
+     48,
+     75
+    ],
+    "weak_echo_vault_m": [
+     2000.0,
+     10000.0
+    ],
+    "couplet_vrot_ms_diam_m": [
+     13.0,
+     6468
+    ]
+   }
+  },
+  "life_cycle": {
+   "radar": "KICT, 93-107 km range",
+   "first_40dbz_utc": "2022-05-14T00:16:03",
+   "mature_utc": "2022-05-14T01:42:20",
+   "last_40dbz_utc": "2022-05-14T02:20:27",
+   "lifetime_h": 2.07,
+   "first_echo_to_mature_min": 86,
+   "end": "merged",
+   "how_it_ended": "merged at 02:20Z with a neighbouring 116 km2 cell that had formed beside it",
+   "max_dbz": 67.5,
+   "max_top50_km_above_radar": 11.9,
+   "max_top18_km_above_radar": 14.7,
+   "max_area40_lowest_tilt_km2": 217,
+   "max_area40_composite_km2": 321,
+   "core_pulses_50dbz_above_5km": 0,
+   "motion_mean": {
+    "from_deg": 326,
+    "kmh": 14.0,
+    "kt": 7.6
+   },
+   "motion_by_third_of_life": [
+    {
+     "utc": "00:16-00:48",
+     "from_deg": 285,
+     "kmh": 16.3
+    },
+    {
+     "utc": "00:54-01:31",
+     "from_deg": 356,
+     "kmh": 13.2
+    },
+    {
+     "utc": "01:36-02:20",
+     "from_deg": 337,
+     "kmh": 18.3
+    }
+   ],
+   "net_displacement_km": 29.9,
+   "start_latlon": [
+    37.058,
+    -98.261
+   ],
+   "end_latlon": [
+    36.829,
+    -98.083
+   ],
+   "file": "data/derived/radar/lp_manchester_20220513_lifecycle.json"
+  },
+  "satellite": {
+   "source": "GOES-16 ABI band 13, 1-min mesoscale M1, parallax-corrected at 12 km",
+   "first_own_minus50C_top_utc": "2022-05-14T00:28:25",
+   "first_echo_to_minus50C_top_min": 12,
+   "first_echo_to_anvil_1000km2_min": 34,
+   "coldest_top_c": -66.1,
+   "coldest_utc": "2022-05-14T01:13:25",
+   "anvil_shape_mostly_free_scans": {
+    "scans": 37,
+    "length_km": 107.8,
+    "width_km": 75.3,
+    "aspect_ratio": 1.45,
+    "major_axis_deg": 31,
+    "spreads_toward_deg": 46,
+    "direction_consistency": 0.99,
+    "backshear_km_median_p90": [
+     6.8,
+     15.7
+    ],
+    "upwind_of_radar_core_km": 6.8,
+    "downstream_reach_km": 98.3
+   },
+   "largest_mostly_free_anvil": {
+    "utc": "2022-05-14T02:19:25",
+    "area_km2": 10880,
+    "extent_major_km": 158.7,
+    "extent_minor_km": 109.2,
+    "major_axis_deg": 39,
+    "downstream_to_deg": 48,
+    "backshear_km": 8.5
+   },
+   "largest_connected_shield_km2": 10880,
+   "shield_growth_first_hour": {
+    "mean_km2_per_min": 114.8,
+    "mean_radial_spread_ms": 8.6
+   },
+   "overshooting_tops": {
+    "fraction_of_mature_scans": 0.29,
+    "episodes": 8,
+    "median_episode_min": 3.5,
+    "longest_episode_min": 5.0,
+    "diam_km_median_max": [
+     9.1,
+     11.4
+    ],
+    "depth_below_anvil_K_median_max": [
+     7.4,
+     10.6
+    ]
+   },
+   "file": "data/derived/satellite/lp_manchester_20220513.json",
+   "coldest_note": "coldest cloud top while the radar still had the storm",
+   "shield_note": "Manchester's anvil was alone until the 02:20Z merger, so its connected shield is its anvil; the 10,900 km2 maximum is at the merger",
+   "anvil_growth_start_to_largest": {
+    "from": [
+     "00:50Z",
+     1000
+    ],
+    "to": [
+     "02:19Z",
+     10900
+    ],
+    "km2_per_min": 110
+   }
+  },
+  "spc_reports": {
+   "official_within_25km_of_storm": {
+    "hail_reports": 4,
+    "wind_reports": 0,
+    "tornado_reports": 0,
+    "largest_hail_in": 1.25,
+    "strongest_gust_kt": null
+   },
+   "reports": [
+    {
+     "utc": "2022-05-14T01:32:00",
+     "kind": "hail",
+     "size_in": 1.25,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 10.5
+    },
+    {
+     "utc": "2022-05-14T01:39:00",
+     "kind": "hail",
+     "size_in": 1.25,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 0.8
+    },
+    {
+     "utc": "2022-05-14T01:46:00",
+     "kind": "hail",
+     "size_in": 1.0,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 4.6
+    },
+    {
+     "utc": "2022-05-14T01:46:00",
+     "kind": "hail",
+     "size_in": 1.0,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 27.6
+    },
+    {
+     "utc": "2022-05-14T01:46:00",
+     "kind": "hail",
+     "size_in": 1.0,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 5.5
+    }
+   ],
+   "note": "SPC database (Storm Data). Reports more than 25 km from the storm's radar position at the time are listed but not counted.",
+   "file": "data/derived/radar/lp_manchester_20220513_spc_reports.json"
+  }
+ },
+ "earth_tx_20210516": {
+  "images": [
+   2,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "track": "moved E at 16-20 km/h over its life (radar 22:48-02:36Z, ~65 km); SPC tornado 00:40Z at 34.112N 102.439W, 0.97 mi, 50 yd, EFU",
+  "soundings": {
+   "HRRR 23Z, inflow 34.05N 102.30W": {
+    "mlcape": 2570,
+    "mlcin": -2,
+    "mllcl_m_agl": 1525,
+    "el_m_agl": 10981,
+    "lapse_700_500_C_per_km": 7.71,
+    "srh1": 47,
+    "srh3": 121,
+    "shear6_kt": 28,
+    "bunkers_rm_from_deg_kt": [
+     308,
+     12
+    ],
+    "sr_anvil_kt": 43,
+    "sr_mid_kt": 18
+   },
+   "AMA balloon 00Z (150 km N, cooler air; not representative)": {
+    "mlcape": 442,
+    "mlcin": -51,
+    "mllcl_m_agl": 2193,
+    "el_m_agl": 7481,
+    "lapse_700_500_C_per_km": 7.54,
+    "srh1": 91,
+    "srh3": 252,
+    "shear6_kt": 37,
+    "bunkers_rm_from_deg_kt": [
+     343,
+     10
+    ],
+    "sr_anvil_kt": 46,
+    "sr_mid_kt": 18
+   }
+  },
+  "radar": {
+   "KLBB 00:38Z (81 km), tornado time": {
+    "echo_top_18dBZ_m": 15500.0,
+    "echo_top_50dBZ_m": 13000.0,
+    "max_dbz": 59.9,
+    "max_dbz_height_m": 0.0,
+    "core50_km2_1km_4km_7km": [
+     129,
+     54,
+     65
+    ],
+    "core40_km2_1km_4km_7km": [
+     248,
+     215,
+     212
+    ],
+    "weak_echo_vault_m": [
+     3000.0,
+     6000.0
+    ],
+    "couplet_vrot_ms_diam_m": [
+     20.2,
+     710
+    ]
+   }
+  },
+  "life_cycle": {
+   "radar": "KLBB, 52-94 km range",
+   "first_40dbz_utc": "2021-05-16T22:48:14",
+   "mature_utc": "2021-05-17T00:29:14",
+   "last_40dbz_utc": "2021-05-17T02:36:54",
+   "lifetime_h": 3.81,
+   "first_echo_to_mature_min": 101,
+   "end": "collapsed_new_cell_on_outflow",
+   "how_it_ended": "core collapsed (50 dBZ top fell from 8.7 to 0.6 km in 25 min) and a new cell grew on its outflow 6 km to the SSE at 02:42Z, becoming the stronger 03-04Z storm",
+   "max_dbz": 71.0,
+   "max_top50_km_above_radar": 14.5,
+   "max_top18_km_above_radar": 15.8,
+   "max_area40_lowest_tilt_km2": 382,
+   "max_area40_composite_km2": 582,
+   "core_pulses_50dbz_above_5km": 1,
+   "motion_mean": {
+    "from_deg": 264,
+    "kmh": 17.5,
+    "kt": 9.5
+   },
+   "motion_by_third_of_life": [
+    {
+     "utc": "22:48-23:53",
+     "from_deg": 234,
+     "kmh": 20.4
+    },
+    {
+     "utc": "23:57-01:10",
+     "from_deg": 284,
+     "kmh": 15.9
+    },
+    {
+     "utc": "01:15-02:36",
+     "from_deg": 277,
+     "kmh": 20.5
+    }
+   ],
+   "net_displacement_km": 65.5,
+   "start_latlon": [
+    34.059,
+    -102.706
+   ],
+   "end_latlon": [
+    34.094,
+    -101.999
+   ],
+   "file": "data/derived/radar/lp_earth_20210516_lifecycle.json"
+  },
+  "satellite": {
+   "source": "GOES-16 ABI band 13, 1-min mesoscale M1, parallax-corrected at 12 km",
+   "first_own_minus50C_top_utc": null,
+   "first_echo_to_minus50C_top_min": null,
+   "first_echo_to_anvil_1000km2_min": null,
+   "coldest_top_c": -70.8,
+   "coldest_utc": "2021-05-17T00:32:24",
+   "anvil_shape_mostly_free_scans": {
+    "scans": 48,
+    "length_km": 83.9,
+    "width_km": 42.9,
+    "aspect_ratio": 2.06,
+    "major_axis_deg": 83,
+    "spreads_toward_deg": 63,
+    "direction_consistency": 0.26,
+    "backshear_km_median_p90": [
+     9.2,
+     35.5
+    ],
+    "upwind_of_radar_core_km": 16.7,
+    "downstream_reach_km": 60.8
+   },
+   "largest_mostly_free_anvil": {
+    "utc": "2021-05-17T00:38:24",
+    "area_km2": 5631,
+    "extent_major_km": 121.0,
+    "extent_minor_km": 70.3,
+    "major_axis_deg": 101,
+    "downstream_to_deg": 93,
+    "backshear_km": 7.5
+   },
+   "largest_connected_shield_km2": 122518,
+   "shield_growth_first_hour": null,
+   "overshooting_tops": {
+    "fraction_of_mature_scans": 0.44,
+    "episodes": 7,
+    "median_episode_min": 7.0,
+    "longest_episode_min": 18.0,
+    "diam_km_median_max": [
+     8.4,
+     16.7
+    ],
+    "depth_below_anvil_K_median_max": [
+     8.6,
+     16.6
+    ]
+   },
+   "file": "data/derived/satellite/lp_earth_20210516.json",
+   "first_clear_own_cold_top_utc": "2021-05-16T23:27:24",
+   "first_echo_to_clear_own_cold_top_min": 39,
+   "timing_note": "Earth grew under a -55 C anvil sheet left by neighbouring cells to its north and east (radar: it split from a small parent at 23:07Z), so its own -50 C top cannot be separated from that sheet before 23:27Z, when the first overshooting top appears over it and its own anvil (~2,200 km2 by 23:33Z) becomes distinct",
+   "coldest_note": "coldest cloud top while the radar still had the storm",
+   "shield_note": "from 00:15Z the -50 C region around Earth is joined to a 40,000-120,000 km2 shield of other storms to the N and NE, so the connected shield says nothing about this storm; the anvil shape statistics are noisy (direction consistency 0.26): use largest_mostly_free_anvil (00:38Z, tornado time)",
+   "anvil_growth_start_to_largest": {
+    "from": [
+     "23:27Z",
+     1260
+    ],
+    "to": [
+     "00:38Z",
+     5630
+    ],
+    "km2_per_min": 60,
+    "note": "hemmed in by neighbouring anvils to the N and E: a lower bound"
+   }
+  },
+  "spc_reports": {
+   "official_within_25km_of_storm": {
+    "hail_reports": 1,
+    "wind_reports": 0,
+    "tornado_reports": 1,
+    "largest_hail_in": 1.5,
+    "strongest_gust_kt": null
+   },
+   "reports": [
+    {
+     "utc": "2021-05-17T00:29:00",
+     "kind": "hail",
+     "size_in": 1.5,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 4.0
+    },
+    {
+     "utc": "2021-05-17T00:40:00",
+     "kind": "tornado",
+     "size_in": null,
+     "gust_kt": null,
+     "ef": "EFU",
+     "km_from_storm_at_time": 8.3
+    }
+   ],
+   "note": "SPC database (Storm Data). Reports more than 25 km from the storm's radar position at the time are listed but not counted.",
+   "file": "data/derived/radar/lp_earth_20210516_spc_reports.json"
+  }
+ },
+ "hope_nm_20220603": {
+  "images": [
+   9,
+   10
+  ],
+  "track": "formed over the Sacramento Mountains ~60 km W of Hope at 18:26Z, drifted E at ~15 km/h, 15 km WSW of Hope 21:45-22:15Z, died 22:53Z near Hope; the SSE-moving storm after 22:45Z was a new cell (KHDX is blocked by the Sacramento Mountains)",
+  "soundings": {
+   "HRRR 21Z, inflow 32.80N 104.55W": {
+    "mlcape": 1825,
+    "mlcin": -31,
+    "mllcl_m_agl": 1921,
+    "el_m_agl": 10987,
+    "lapse_700_500_C_per_km": 8.11,
+    "srh1": 43,
+    "srh3": 125,
+    "shear6_kt": 46,
+    "bunkers_rm_from_deg_kt": [
+     318,
+     9
+    ],
+    "sr_anvil_kt": 35,
+    "sr_mid_kt": 23
+   },
+   "MAF balloon 00Z (250 km SE)": {
+    "mlcape": 1887,
+    "mlcin": -29,
+    "mllcl_m_agl": 1703,
+    "el_m_agl": 11105,
+    "lapse_700_500_C_per_km": 8.42,
+    "srh1": 35,
+    "srh3": 300,
+    "shear6_kt": 31,
+    "bunkers_rm_from_deg_kt": [
+     358,
+     11
+    ],
+    "sr_anvil_kt": 62,
+    "sr_mid_kt": 16
+   }
+  },
+  "radar": {
+   "KFDX 22:16Z (236 km; lowest beam ~4-5 km over the storm)": {
+    "echo_top_18dBZ_m": 17500.0,
+    "echo_top_50dBZ_m": 1500.0,
+    "max_dbz": 52.8,
+    "max_dbz_height_m": 1000.0,
+    "core50_km2_1km_4km_7km": [
+     5,
+     0,
+     0
+    ],
+    "core40_km2_1km_4km_7km": [
+     45,
+     80,
+     22
+    ],
+    "weak_echo_vault_m": null,
+    "couplet_vrot_ms_diam_m": [
+     11.5,
+     6879
+    ]
+   }
+  },
+  "life_cycle": {
+   "radar": "KFDX at 222-253 km: lowest beam 4-5 km above ground, cells only 4-60 km2; the track may be a chain of short-lived pulses (11 splits) rather than one updraft",
+   "first_40dbz_utc": "2022-06-03T18:26:19",
+   "mature_utc": "2022-06-03T19:42:21",
+   "last_40dbz_utc": "2022-06-03T22:53:10",
+   "lifetime_h": 4.45,
+   "first_echo_to_mature_min": 76,
+   "end": "died",
+   "how_it_ended": "weakened in place to a 5 km2 core while new cells grew 20-30 km to its SE (one of them became the SSE-moving 60 dBZ storm of 23-01Z)",
+   "max_dbz": 58.5,
+   "max_top50_km_above_radar": 9.2,
+   "max_top18_km_above_radar": 13.6,
+   "max_area40_lowest_tilt_km2": 47,
+   "max_area40_composite_km2": 58,
+   "core_pulses_50dbz_above_5km": 6,
+   "motion_mean": {
+    "from_deg": 277,
+    "kmh": 15.5,
+    "kt": 8.4
+   },
+   "motion_by_third_of_life": [
+    {
+     "utc": "18:26-19:37",
+     "from_deg": 255,
+     "kmh": 7.2
+    },
+    {
+     "utc": "19:42-20:51",
+     "from_deg": 283,
+     "kmh": 25.0
+    },
+    {
+     "utc": "20:56-22:53",
+     "from_deg": 276,
+     "kmh": 14.9
+    }
+   ],
+   "net_displacement_km": 67.5,
+   "start_latlon": [
+    32.883,
+    -105.373
+   ],
+   "end_latlon": [
+    32.826,
+    -104.645
+   ],
+   "file": "data/derived/radar/lp_hope_20220603_lifecycle.json"
+  },
+  "satellite": {
+   "source": "GOES-16 ABI band 13, 1-min mesoscale M2, parallax-corrected at 12 km",
+   "first_own_minus50C_top_utc": "2022-06-03T18:24:55",
+   "first_echo_to_minus50C_top_min": -1,
+   "first_echo_to_anvil_1000km2_min": 92,
+   "coldest_top_c": -69.1,
+   "coldest_utc": "2022-06-03T21:44:55",
+   "anvil_shape_mostly_free_scans": {
+    "scans": 30,
+    "length_km": 139.2,
+    "width_km": 52.5,
+    "aspect_ratio": 3.0,
+    "major_axis_deg": 79,
+    "spreads_toward_deg": 81,
+    "direction_consistency": 1.0,
+    "backshear_km_median_p90": [
+     22.6,
+     32.5
+    ],
+    "upwind_of_radar_core_km": 3.4,
+    "downstream_reach_km": 121.8
+   },
+   "largest_mostly_free_anvil": {
+    "utc": "2022-06-03T21:14:55",
+    "area_km2": 7199,
+    "extent_major_km": 189.6,
+    "extent_minor_km": 62.3,
+    "major_axis_deg": 77,
+    "downstream_to_deg": 77,
+    "backshear_km": 25.0
+   },
+   "largest_connected_shield_km2": 21479,
+   "shield_growth_first_hour": null,
+   "overshooting_tops": {
+    "fraction_of_mature_scans": 0.5,
+    "episodes": 3,
+    "median_episode_min": 7.0,
+    "longest_episode_min": 11.0,
+    "diam_km_median_max": [
+     7.9,
+     9.4
+    ],
+    "depth_below_anvil_K_median_max": [
+     9.3,
+     12.1
+    ]
+   },
+   "file": "data/derived/satellite/lp_hope_20220603.json",
+   "coldest_note": "coldest cloud top while the radar still had the storm",
+   "shield_note": "from ~21:10Z the anvil plume touches a larger anvil 50-150 km to its N (other storms), so the connected shield (21,000 km2) is not this storm's; the storm's own plume peaked at ~7,200 km2",
+   "anvil_growth_start_to_largest": {
+    "from": [
+     "20:00Z",
+     2130
+    ],
+    "to": [
+     "21:15Z",
+     7200
+    ],
+    "km2_per_min": 70
+   }
+  },
+  "spc_reports": {
+   "official_within_25km_of_storm": {
+    "hail_reports": 2,
+    "wind_reports": 0,
+    "tornado_reports": 0,
+    "largest_hail_in": 1.0,
+    "strongest_gust_kt": null
+   },
+   "reports": [
+    {
+     "utc": "2022-06-03T20:50:00",
+     "kind": "hail",
+     "size_in": 1.0,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 8.2
+    },
+    {
+     "utc": "2022-06-03T20:59:00",
+     "kind": "hail",
+     "size_in": 0.75,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 6.5
+    },
+    {
+     "utc": "2022-06-03T23:18:00",
+     "kind": "hail",
+     "size_in": 1.0,
+     "gust_kt": null,
+     "ef": null,
+     "km_from_storm_at_time": 31.9
+    }
+   ],
+   "note": "SPC database (Storm Data). Reports more than 25 km from the storm's radar position at the time are listed but not counted.",
+   "file": "data/derived/radar/lp_hope_20220603_spc_reports.json"
+  }
+ }
+}

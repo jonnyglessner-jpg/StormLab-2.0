@@ -1,0 +1,59 @@
+{
+ "case": "lp_earth_20210516",
+ "site": "KLBB",
+ "volume_time_utc": "2021-05-17T00:38:28",
+ "file": "KLBB20210517_003828_V06",
+ "storm_xy_km_from_radar": [
+  -57.7,
+  57.1
+ ],
+ "storm_latlon": [
+  34.167,
+  -102.437
+ ],
+ "range_km": 81.1,
+ "max_dbz": 59.9,
+ "max_dbz_height_m": 0.0,
+ "echo_top_m": {
+  "18dBZ": 15500.0,
+  "30dBZ": 15000.0,
+  "50dBZ": 13000.0
+ },
+ "core_area_km2_at_1000m": {
+  "40dBZ": 248,
+  "50dBZ": 129,
+  "55dBZ": 45,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_4000m": {
+  "40dBZ": 215,
+  "50dBZ": 54,
+  "55dBZ": 12,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_7000m": {
+  "40dBZ": 212,
+  "50dBZ": 65,
+  "55dBZ": 12,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "bwer_vault": {
+  "x_km": -60.7,
+  "y_km": 56.1,
+  "base_m": 3000.0,
+  "top_m": 6000.0,
+  "depth_m": 3000,
+  "cap_dbz": 41.1
+ },
+ "low_level_couplet": {
+  "sweep_elev_deg": 0.48,
+  "vin_ms": -22.5,
+  "vout_ms": 18.0,
+  "rotational_velocity_ms": 20.2,
+  "diameter_m": 710,
+  "note": "region-based dealiased; max/min within 10 km of the storm, a first look, not a meso detection"
+ }
+}

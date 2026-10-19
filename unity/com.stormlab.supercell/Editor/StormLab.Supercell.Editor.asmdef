@@ -1,0 +1,10 @@
+{
+  "name": "StormLab.Supercell.Editor",
+  "rootNamespace": "StormLab.Supercell.EditorTools",
+  "references": [ "StormLab.Supercell" ],
+  "includePlatforms": [ "Editor" ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

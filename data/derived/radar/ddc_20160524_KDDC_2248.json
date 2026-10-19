@@ -1,0 +1,54 @@
+{
+ "case": "ddc_20160524",
+ "site": "KDDC",
+ "volume_time_utc": "2016-05-24T22:48:36",
+ "file": "KDDC20160524_224836_V06.gz",
+ "storm_xy_km_from_radar": [
+  -26.3,
+  14.7
+ ],
+ "max_dbz": 55.1,
+ "max_dbz_height_m": 1500.0,
+ "echo_top_m": {
+  "18dBZ": 15500.0,
+  "30dBZ": 15500.0,
+  "50dBZ": 9500.0
+ },
+ "core_area_km2_at_1000m": {
+  "40dBZ": 226,
+  "50dBZ": 27,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_4000m": {
+  "40dBZ": 134,
+  "50dBZ": 14,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_7000m": {
+  "40dBZ": 58,
+  "50dBZ": 5,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "bwer_vault": {
+  "x_km": -12.3,
+  "y_km": -9.3,
+  "base_m": 2500.0,
+  "top_m": 5000.0,
+  "depth_m": 2500,
+  "cap_dbz": 34.5
+ },
+ "low_level_couplet": {
+  "sweep_elev_deg": 0.48,
+  "vin_ms": -29.0,
+  "vout_ms": 29.5,
+  "rotational_velocity_ms": 29.2,
+  "diameter_m": 14728,
+  "note": "raw, not dealiased; treat as a first look"
+ }
+}

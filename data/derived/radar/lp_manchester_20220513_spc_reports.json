@@ -1,0 +1,110 @@
+{
+ "case": "lp_manchester_20220513",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-05-13T23:46:03",
+  "2022-05-14T02:50:27"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 4,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.25,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 5,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.25,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:32:00",
+   "lat": 36.88,
+   "lon": -98.1,
+   "state": "OK",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 10.5,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:39:00",
+   "lat": 36.93,
+   "lon": -98.11,
+   "state": "OK",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 0.8,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:46:00",
+   "lat": 36.92,
+   "lon": -98.16,
+   "state": "OK",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 4.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:46:00",
+   "lat": 36.92,
+   "lon": -98.42,
+   "state": "OK",
+   "km_from_track": 20.9,
+   "km_from_storm_at_time": 27.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:46:00",
+   "lat": 36.92,
+   "lon": -98.17,
+   "state": "OK",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 5.5,
+   "size_in": 1.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:32:00",
+   "mag": "125",
+   "location": "10 W WAKITA, GRANT OK",
+   "lat": 36.88,
+   "lon": -98.1,
+   "comments": "(OUN)",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 10.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:39:00",
+   "mag": "125",
+   "location": "1 SW MANCHESTER, ALFALFA OK",
+   "lat": 36.93,
+   "lon": -98.11,
+   "comments": "(OUN)",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 0.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-14T01:46:00",
+   "mag": "100",
+   "location": "7 W AMORITA, ALFALFA OK",
+   "lat": 36.92,
+   "lon": -98.42,
+   "comments": "(OUN)",
+   "km_from_track": 20.9,
+   "km_from_storm_at_time": 27.6
+  }
+ ]
+}

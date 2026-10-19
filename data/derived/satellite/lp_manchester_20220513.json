@@ -1,0 +1,9403 @@
+{
+ "case": "lp_manchester_20220513",
+ "frame_centre_latlon": [
+  36.974,
+  -98.149
+ ],
+ "parallax_height_km": 12,
+ "method": "GOES-16 ABI L2 CMIP band 13; positions in km east/north of frame_centre, navigated at the cloud top (parallax-corrected); anvil = connected <= -50 C region touching the storm; OT after Bedka et al. 2010",
+ "summary": {
+  "scans": 214,
+  "sectors": [
+   "M1"
+  ],
+  "first_own_minus50C_top_utc": "2022-05-14T00:28:25",
+  "first_anvil_1000km2_utc": "2022-05-14T00:50:28",
+  "coldest_c": -73.0,
+  "coldest_utc": "2022-05-14T03:09:25",
+  "isolated_until_utc": "2022-05-14T00:55:25",
+  "first_echo_to_minus50C_min": 12,
+  "first_echo_to_anvil_1000km2_min": 34,
+  "shield_growth_first_hour_after_1000km2": {
+   "mean_km2_per_min": 114.8,
+   "mean_radial_spread_ms": 8.6
+  },
+  "largest_connected_shield_during_radar_life": {
+   "utc": "2022-05-14T02:19:25",
+   "area_km2": 10880
+  },
+  "growth_first_hour_after_1000km2": {
+   "mean_km2_per_min": 51.8,
+   "mean_radial_spread_ms": 6.7,
+   "minutes_used": 6
+  },
+  "max_growth_km2_per_min_isolated": 109.9,
+  "largest_anvil_during_radar_life": {
+   "utc": "2022-05-14T02:19:25",
+   "area_km2_median_filtered": 10880,
+   "area_km2": 10880,
+   "extent_major_km": 158.7,
+   "extent_minor_km": 109.2,
+   "ellipse_major_km": 150.1,
+   "ellipse_minor_km": 98.9,
+   "major_axis_deg": 39,
+   "downstream_to_deg": 48,
+   "backshear_km": 8.5,
+   "upwind_of_radar_core_km": 6.8,
+   "downstream_reach_km": 152.3,
+   "edge_shared_with_other_anvils": 0.0,
+   "edge_of_box": false
+  },
+  "largest_mostly_free_anvil": {
+   "utc": "2022-05-14T02:19:25",
+   "area_km2_median_filtered": 10880,
+   "area_km2": 10880,
+   "extent_major_km": 158.7,
+   "extent_minor_km": 109.2,
+   "ellipse_major_km": 150.1,
+   "ellipse_minor_km": 98.9,
+   "major_axis_deg": 39,
+   "downstream_to_deg": 48,
+   "backshear_km": 8.5,
+   "upwind_of_radar_core_km": 6.8,
+   "downstream_reach_km": 152.3,
+   "edge_shared_with_other_anvils": 0.0,
+   "edge_of_box": false
+  },
+  "shape_mostly_free_scans_over_1000km2": {
+   "scans": 37,
+   "extent_major_km_median": 107.8,
+   "extent_minor_km_median": 75.3,
+   "aspect_ratio_median": 1.45,
+   "major_axis_deg_mean": 31,
+   "downstream_to_deg_mean": 46,
+   "downstream_direction_consistency": 0.99,
+   "backshear_km_median_p90": [
+    6.8,
+    15.7
+   ],
+   "downstream_reach_km_median": 98.3,
+   "upwind_of_radar_core_km_median": 6.8
+  },
+  "cold_top_from_radar_core_km_median": 4.0,
+  "overshooting_tops": {
+   "scans_considered": 82,
+   "fraction_of_scans_with_ot": 0.29,
+   "episodes": 8,
+   "median_episode_min": 3.5,
+   "longest_episode_min": 5.0,
+   "diam_km_median_max": [
+    9.1,
+    11.4
+   ],
+   "depth_k_median_max": [
+    7.4,
+    10.6
+   ],
+   "note": "diameter is resolution-limited: one 2 km ABI pixel is ~2.5-3.5 km here, so OTs under ~5 km look ~5 km"
+  }
+ },
+ "scans": [
+  {
+   "utc": "2022-05-13T23:46:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 70.6,
+   "coldest_k": 256.0,
+   "coldest_c": -17.2,
+   "updraft_xy_km": [
+    -10.8,
+    0.3
+   ],
+   "updraft_from_radar_core_km": 9.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:47:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 70.8,
+   "coldest_k": 251.9,
+   "coldest_c": -21.2,
+   "updraft_xy_km": [
+    -8.4,
+    0.2
+   ],
+   "updraft_from_radar_core_km": 9.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:48:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 71.0,
+   "coldest_k": 249.8,
+   "coldest_c": -23.3,
+   "updraft_xy_km": [
+    -8.4,
+    0.2
+   ],
+   "updraft_from_radar_core_km": 9.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:49:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 71.2,
+   "coldest_k": 245.3,
+   "coldest_c": -27.9,
+   "updraft_xy_km": [
+    -9.3,
+    3.1
+   ],
+   "updraft_from_radar_core_km": 6.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:50:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 71.4,
+   "coldest_k": 245.4,
+   "coldest_c": -27.7,
+   "updraft_xy_km": [
+    -6.9,
+    3.0
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:51:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 71.6,
+   "coldest_k": 239.7,
+   "coldest_c": -33.5,
+   "updraft_xy_km": [
+    -6.9,
+    3.0
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:52:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 71.8,
+   "coldest_k": 240.3,
+   "coldest_c": -32.8,
+   "updraft_xy_km": [
+    -6.9,
+    3.0
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:53:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 72.0,
+   "coldest_k": 235.8,
+   "coldest_c": -37.3,
+   "updraft_xy_km": [
+    -5.4,
+    5.8
+   ],
+   "updraft_from_radar_core_km": 5.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:54:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 72.2,
+   "coldest_k": 238.0,
+   "coldest_c": -35.1,
+   "updraft_xy_km": [
+    -4.5,
+    2.8
+   ],
+   "updraft_from_radar_core_km": 8.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:55:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 72.4,
+   "coldest_k": 231.9,
+   "coldest_c": -41.2,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 7.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:56:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 72.6,
+   "coldest_k": 234.5,
+   "coldest_c": -38.7,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 7.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:57:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 72.8,
+   "coldest_k": 233.8,
+   "coldest_c": -39.4,
+   "updraft_xy_km": [
+    -0.7,
+    5.5
+   ],
+   "updraft_from_radar_core_km": 10.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:58:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 73.0,
+   "coldest_k": 234.0,
+   "coldest_c": -39.1,
+   "updraft_xy_km": [
+    -6.9,
+    3.0
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-13T23:59:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 73.2,
+   "coldest_k": 234.5,
+   "coldest_c": -38.7,
+   "updraft_xy_km": [
+    -4.5,
+    2.8
+   ],
+   "updraft_from_radar_core_km": 8.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:00:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 73.4,
+   "coldest_k": 233.4,
+   "coldest_c": -39.7,
+   "updraft_xy_km": [
+    -4.5,
+    2.8
+   ],
+   "updraft_from_radar_core_km": 8.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:01:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 73.6,
+   "coldest_k": 232.7,
+   "coldest_c": -40.5,
+   "updraft_xy_km": [
+    -4.5,
+    2.8
+   ],
+   "updraft_from_radar_core_km": 8.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:02:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 73.8,
+   "coldest_k": 233.4,
+   "coldest_c": -39.8,
+   "updraft_xy_km": [
+    -2.2,
+    2.7
+   ],
+   "updraft_from_radar_core_km": 10.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:03:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 74.0,
+   "coldest_k": 233.2,
+   "coldest_c": -39.9,
+   "updraft_xy_km": [
+    -2.2,
+    2.7
+   ],
+   "updraft_from_radar_core_km": 10.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:04:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 74.2,
+   "coldest_k": 233.5,
+   "coldest_c": -39.6,
+   "updraft_xy_km": [
+    -0.7,
+    5.5
+   ],
+   "updraft_from_radar_core_km": 10.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:05:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 74.4,
+   "coldest_k": 233.5,
+   "coldest_c": -39.6,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:06:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 74.5,
+   "coldest_k": 233.9,
+   "coldest_c": -39.2,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:07:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 74.7,
+   "coldest_k": 233.8,
+   "coldest_c": -39.4,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:08:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 74.9,
+   "coldest_k": 233.6,
+   "coldest_c": -39.5,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:09:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 75.1,
+   "coldest_k": 233.6,
+   "coldest_c": -39.5,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:10:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 75.3,
+   "coldest_k": 233.7,
+   "coldest_c": -39.5,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:11:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 75.5,
+   "coldest_k": 232.5,
+   "coldest_c": -40.7,
+   "updraft_xy_km": [
+    -7.8,
+    5.9
+   ],
+   "updraft_from_radar_core_km": 4.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:12:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 75.7,
+   "coldest_k": 226.7,
+   "coldest_c": -46.5,
+   "updraft_xy_km": [
+    -8.7,
+    8.8
+   ],
+   "updraft_from_radar_core_km": 1.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:13:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 75.9,
+   "coldest_k": 225.1,
+   "coldest_c": -48.1,
+   "updraft_xy_km": [
+    -8.7,
+    8.8
+   ],
+   "updraft_from_radar_core_km": 1.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:14:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 76.1,
+   "coldest_k": 223.6,
+   "coldest_c": -49.5,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 3.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:15:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 76.3,
+   "coldest_k": 221.9,
+   "coldest_c": -51.3,
+   "updraft_xy_km": [
+    -8.7,
+    8.8
+   ],
+   "updraft_from_radar_core_km": 1.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:16:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.9,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 76.5,
+   "coldest_k": 221.6,
+   "coldest_c": -51.5,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 3.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:17:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.5,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 76.7,
+   "coldest_k": 221.6,
+   "coldest_c": -51.5,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 3.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:18:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -9.0,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 76.9,
+   "coldest_k": 222.3,
+   "coldest_c": -50.9,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 2.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:19:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -8.6,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 77.1,
+   "coldest_k": 222.4,
+   "coldest_c": -50.7,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 2.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:20:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -8.2,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 77.3,
+   "coldest_k": 221.0,
+   "coldest_c": -52.1,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 2.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:21:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -8.0,
+    9.4
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 77.5,
+   "coldest_k": 221.5,
+   "coldest_c": -51.7,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:22:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -7.9,
+    9.5
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 77.7,
+   "coldest_k": 220.2,
+   "coldest_c": -52.9,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:23:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -7.8,
+    9.6
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 77.9,
+   "coldest_k": 220.3,
+   "coldest_c": -52.9,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:24:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -7.7,
+    9.7
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 78.1,
+   "coldest_k": 218.4,
+   "coldest_c": -54.7,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 1.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:25:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -7.5,
+    9.8
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 78.3,
+   "coldest_k": 218.6,
+   "coldest_c": -54.5,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 3.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:26:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -6.9,
+    9.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 78.5,
+   "coldest_k": 219.6,
+   "coldest_c": -53.6,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 3.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:27:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -6.3,
+    10.0
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 78.7,
+   "coldest_k": 220.1,
+   "coldest_c": -53.1,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 2.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T00:28:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -5.8,
+    10.0
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 78.9,
+   "coldest_k": 218.6,
+   "coldest_c": -54.5,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 1.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 82,
+    "centroid_xy_km": [
+     -2.9,
+     9.2
+    ],
+    "ellipse_major_km": 11.0,
+    "ellipse_minor_km": 10.4,
+    "major_axis_deg": 7,
+    "extent_major_km": 8.8,
+    "extent_minor_km": 8.4,
+    "downstream_to_deg": 81,
+    "updraft_to_centroid_km": 3.4,
+    "downstream_reach_km": 7.0,
+    "backshear_km": 0.4,
+    "upwind_of_radar_core_km": 1.1,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 82,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:29:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -5.2,
+    10.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 79.1,
+   "coldest_k": 216.1,
+   "coldest_c": -57.1,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 109,
+    "centroid_xy_km": [
+     -2.0,
+     9.9
+    ],
+    "ellipse_major_km": 12.8,
+    "ellipse_minor_km": 11.4,
+    "major_axis_deg": 61,
+    "extent_major_km": 10.1,
+    "extent_minor_km": 8.9,
+    "downstream_to_deg": 75,
+    "updraft_to_centroid_km": 4.5,
+    "downstream_reach_km": 9.1,
+    "backshear_km": 0.1,
+    "upwind_of_radar_core_km": 1.5,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 109,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:30:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -4.9,
+    10.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 79.3,
+   "coldest_k": 215.3,
+   "coldest_c": -57.9,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 2.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 130,
+    "centroid_xy_km": [
+     -1.6,
+     9.9
+    ],
+    "ellipse_major_km": 14.0,
+    "ellipse_minor_km": 12.2,
+    "major_axis_deg": 105,
+    "extent_major_km": 11.7,
+    "extent_minor_km": 9.7,
+    "downstream_to_deg": 75,
+    "updraft_to_centroid_km": 4.9,
+    "downstream_reach_km": 11.3,
+    "backshear_km": 0.1,
+    "upwind_of_radar_core_km": 1.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 130,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:31:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -4.7,
+    10.0
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 79.4,
+   "coldest_k": 215.3,
+   "coldest_c": -57.9,
+   "updraft_xy_km": [
+    -7.2,
+    11.6
+   ],
+   "updraft_from_radar_core_km": 2.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 177,
+    "centroid_xy_km": [
+     -0.3,
+     10.6
+    ],
+    "ellipse_major_km": 18.7,
+    "ellipse_minor_km": 12.6,
+    "major_axis_deg": 70,
+    "extent_major_km": 15.9,
+    "extent_minor_km": 10.9,
+    "downstream_to_deg": 98,
+    "updraft_to_centroid_km": 6.9,
+    "downstream_reach_km": 14.3,
+    "backshear_km": 1.1,
+    "upwind_of_radar_core_km": 3.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 177,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:32:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -4.6,
+    9.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     10.2,
+     40.7
+    ]
+   ],
+   "solar_zenith_deg": 79.6,
+   "coldest_k": 216.8,
+   "coldest_c": -56.3,
+   "updraft_xy_km": [
+    -7.2,
+    11.6
+   ],
+   "updraft_from_radar_core_km": 3.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 198,
+    "centroid_xy_km": [
+     0.1,
+     10.8
+    ],
+    "ellipse_major_km": 17.7,
+    "ellipse_minor_km": 15.3,
+    "major_axis_deg": 67,
+    "extent_major_km": 14.2,
+    "extent_minor_km": 14.0,
+    "downstream_to_deg": 96,
+    "updraft_to_centroid_km": 7.3,
+    "downstream_reach_km": 15.5,
+    "backshear_km": -0.0,
+    "upwind_of_radar_core_km": 2.7,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 198,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:33:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -4.5,
+    9.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     10.2,
+     40.7
+    ]
+   ],
+   "solar_zenith_deg": 79.8,
+   "coldest_k": 217.5,
+   "coldest_c": -55.6,
+   "updraft_xy_km": [
+    -7.2,
+    11.6
+   ],
+   "updraft_from_radar_core_km": 3.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 246,
+    "centroid_xy_km": [
+     1.1,
+     10.4
+    ],
+    "ellipse_major_km": 19.9,
+    "ellipse_minor_km": 17.4,
+    "major_axis_deg": 64,
+    "extent_major_km": 17.1,
+    "extent_minor_km": 16.6,
+    "downstream_to_deg": 98,
+    "updraft_to_centroid_km": 8.3,
+    "downstream_reach_km": 16.8,
+    "backshear_km": -0.0,
+    "upwind_of_radar_core_km": 2.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 246,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:34:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -4.3,
+    9.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     10.2,
+     40.7
+    ]
+   ],
+   "solar_zenith_deg": 80.0,
+   "coldest_k": 217.7,
+   "coldest_c": -55.5,
+   "updraft_xy_km": [
+    4.8,
+    10.9
+   ],
+   "updraft_from_radar_core_km": 9.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 314,
+    "centroid_xy_km": [
+     1.1,
+     10.6
+    ],
+    "ellipse_major_km": 22.1,
+    "ellipse_minor_km": 19.4,
+    "major_axis_deg": 71,
+    "extent_major_km": 18.3,
+    "extent_minor_km": 17.0,
+    "downstream_to_deg": 266,
+    "updraft_to_centroid_km": 3.7,
+    "downstream_reach_km": 13.6,
+    "backshear_km": 6.0,
+    "upwind_of_radar_core_km": 15.1,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 314,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:35:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -4.0,
+    9.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     10.2,
+     40.7
+    ]
+   ],
+   "solar_zenith_deg": 80.2,
+   "coldest_k": 215.8,
+   "coldest_c": -57.3,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 2.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 355,
+    "centroid_xy_km": [
+     1.6,
+     11.0
+    ],
+    "ellipse_major_km": 22.8,
+    "ellipse_minor_km": 20.4,
+    "major_axis_deg": 71,
+    "extent_major_km": 20.4,
+    "extent_minor_km": 19.1,
+    "downstream_to_deg": 73,
+    "updraft_to_centroid_km": 8.2,
+    "downstream_reach_km": 18.0,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 4.7,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 355,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:36:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -3.7,
+    9.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     10.2,
+     40.7
+    ]
+   ],
+   "solar_zenith_deg": 80.4,
+   "coldest_k": 215.9,
+   "coldest_c": -57.2,
+   "updraft_xy_km": [
+    -6.3,
+    8.7
+   ],
+   "updraft_from_radar_core_km": 2.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 382,
+    "centroid_xy_km": [
+     2.0,
+     11.2
+    ],
+    "ellipse_major_km": 24.2,
+    "ellipse_minor_km": 20.6,
+    "major_axis_deg": 80,
+    "extent_major_km": 22.6,
+    "extent_minor_km": 18.7,
+    "downstream_to_deg": 73,
+    "updraft_to_centroid_km": 8.7,
+    "downstream_reach_km": 20.2,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 5.0,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 382,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:37:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -3.4,
+    9.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.6,
+     40.8
+    ]
+   ],
+   "solar_zenith_deg": 80.6,
+   "coldest_k": 216.5,
+   "coldest_c": -56.7,
+   "updraft_xy_km": [
+    -2.4,
+    11.3
+   ],
+   "updraft_from_radar_core_km": 2.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 396,
+    "centroid_xy_km": [
+     2.9,
+     11.2
+    ],
+    "ellipse_major_km": 24.2,
+    "ellipse_minor_km": 21.1,
+    "major_axis_deg": 93,
+    "extent_major_km": 22.5,
+    "extent_minor_km": 17.2,
+    "downstream_to_deg": 91,
+    "updraft_to_centroid_km": 5.3,
+    "downstream_reach_km": 16.7,
+    "backshear_km": 5.7,
+    "upwind_of_radar_core_km": 4.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 396,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:38:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -3.1,
+    9.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.6,
+     40.8
+    ]
+   ],
+   "solar_zenith_deg": 80.8,
+   "coldest_k": 216.1,
+   "coldest_c": -57.1,
+   "updraft_xy_km": [
+    -2.4,
+    11.3
+   ],
+   "updraft_from_radar_core_km": 2.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 457,
+    "centroid_xy_km": [
+     3.4,
+     12.3
+    ],
+    "ellipse_major_km": 25.0,
+    "ellipse_minor_km": 23.9,
+    "major_axis_deg": 103,
+    "extent_major_km": 24.2,
+    "extent_minor_km": 21.7,
+    "downstream_to_deg": 80,
+    "updraft_to_centroid_km": 5.9,
+    "downstream_reach_km": 18.3,
+    "backshear_km": 5.0,
+    "upwind_of_radar_core_km": 4.0,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 457,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:39:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.8,
+    8.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.6,
+     40.8
+    ]
+   ],
+   "solar_zenith_deg": 81.0,
+   "coldest_k": 215.1,
+   "coldest_c": -58.0,
+   "updraft_xy_km": [
+    -4.8,
+    11.4
+   ],
+   "updraft_from_radar_core_km": 3.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 512,
+    "centroid_xy_km": [
+     4.0,
+     12.0
+    ],
+    "ellipse_major_km": 26.9,
+    "ellipse_minor_km": 24.6,
+    "major_axis_deg": 83,
+    "extent_major_km": 25.4,
+    "extent_minor_km": 23.1,
+    "downstream_to_deg": 86,
+    "updraft_to_centroid_km": 8.8,
+    "downstream_reach_km": 21.3,
+    "backshear_km": 4.1,
+    "upwind_of_radar_core_km": 5.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 512,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:40:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.8,
+    8.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.6,
+     40.8
+    ]
+   ],
+   "solar_zenith_deg": 81.2,
+   "coldest_k": 214.0,
+   "coldest_c": -59.1,
+   "updraft_xy_km": [
+    -4.8,
+    11.4
+   ],
+   "updraft_from_radar_core_km": 3.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 539,
+    "centroid_xy_km": [
+     4.6,
+     11.8
+    ],
+    "ellipse_major_km": 27.7,
+    "ellipse_minor_km": 25.2,
+    "major_axis_deg": 80,
+    "extent_major_km": 25.6,
+    "extent_minor_km": 23.6,
+    "downstream_to_deg": 88,
+    "updraft_to_centroid_km": 9.4,
+    "downstream_reach_km": 23.0,
+    "backshear_km": 3.2,
+    "upwind_of_radar_core_km": 5.1,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 539,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:41:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.8,
+    8.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.6,
+     40.8
+    ]
+   ],
+   "solar_zenith_deg": 81.4,
+   "coldest_k": 214.6,
+   "coldest_c": -58.5,
+   "updraft_xy_km": [
+    -2.4,
+    11.3
+   ],
+   "updraft_from_radar_core_km": 2.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 587,
+    "centroid_xy_km": [
+     5.2,
+     11.6
+    ],
+    "ellipse_major_km": 29.4,
+    "ellipse_minor_km": 25.9,
+    "major_axis_deg": 73,
+    "extent_major_km": 27.0,
+    "extent_minor_km": 24.3,
+    "downstream_to_deg": 88,
+    "updraft_to_centroid_km": 7.6,
+    "downstream_reach_km": 23.0,
+    "backshear_km": 5.5,
+    "upwind_of_radar_core_km": 5.1,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 587,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:42:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.8,
+    8.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     12.7,
+     39.7
+    ]
+   ],
+   "solar_zenith_deg": 81.6,
+   "coldest_k": 213.7,
+   "coldest_c": -59.5,
+   "updraft_xy_km": [
+    -2.4,
+    11.3
+   ],
+   "updraft_from_radar_core_km": 2.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 607,
+    "centroid_xy_km": [
+     5.8,
+     11.4
+    ],
+    "ellipse_major_km": 30.1,
+    "ellipse_minor_km": 26.3,
+    "major_axis_deg": 91,
+    "extent_major_km": 29.5,
+    "extent_minor_km": 23.3,
+    "downstream_to_deg": 89,
+    "updraft_to_centroid_km": 8.2,
+    "downstream_reach_km": 23.8,
+    "backshear_km": 5.6,
+    "upwind_of_radar_core_km": 5.2,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 607,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:43:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.7,
+    8.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     12.7,
+     39.7
+    ]
+   ],
+   "solar_zenith_deg": 81.8,
+   "coldest_k": 215.7,
+   "coldest_c": -57.5,
+   "updraft_xy_km": [
+    -1.5,
+    8.4
+   ],
+   "updraft_from_radar_core_km": 1.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 669,
+    "centroid_xy_km": [
+     6.3,
+     11.8
+    ],
+    "ellipse_major_km": 31.0,
+    "ellipse_minor_km": 28.2,
+    "major_axis_deg": 101,
+    "extent_major_km": 31.2,
+    "extent_minor_km": 26.8,
+    "downstream_to_deg": 66,
+    "updraft_to_centroid_km": 8.6,
+    "downstream_reach_km": 24.2,
+    "backshear_km": 5.0,
+    "upwind_of_radar_core_km": 3.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 669,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:44:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.7,
+    8.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     12.7,
+     39.7
+    ]
+   ],
+   "solar_zenith_deg": 82.0,
+   "coldest_k": 214.8,
+   "coldest_c": -58.3,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 1.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 716,
+    "centroid_xy_km": [
+     7.1,
+     12.3
+    ],
+    "ellipse_major_km": 31.8,
+    "ellipse_minor_km": 29.3,
+    "major_axis_deg": 95,
+    "extent_major_km": 31.0,
+    "extent_minor_km": 26.0,
+    "downstream_to_deg": 71,
+    "updraft_to_centroid_km": 11.6,
+    "downstream_reach_km": 26.8,
+    "backshear_km": 2.4,
+    "upwind_of_radar_core_km": 3.5,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 716,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:45:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.3,
+    7.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     12.7,
+     39.7
+    ]
+   ],
+   "solar_zenith_deg": 82.2,
+   "coldest_k": 213.4,
+   "coldest_c": -59.7,
+   "updraft_xy_km": [
+    -1.5,
+    8.4
+   ],
+   "updraft_from_radar_core_km": 0.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 730,
+    "centroid_xy_km": [
+     7.3,
+     12.2
+    ],
+    "ellipse_major_km": 32.4,
+    "ellipse_minor_km": 29.5,
+    "major_axis_deg": 96,
+    "extent_major_km": 32.2,
+    "extent_minor_km": 26.3,
+    "downstream_to_deg": 67,
+    "updraft_to_centroid_km": 9.6,
+    "downstream_reach_km": 24.6,
+    "backshear_km": 5.0,
+    "upwind_of_radar_core_km": 4.0,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 730,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:46:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.0,
+    7.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.1,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 82.3,
+   "coldest_k": 213.9,
+   "coldest_c": -59.3,
+   "updraft_xy_km": [
+    -1.5,
+    8.4
+   ],
+   "updraft_from_radar_core_km": 0.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 757,
+    "centroid_xy_km": [
+     8.0,
+     12.3
+    ],
+    "ellipse_major_km": 33.4,
+    "ellipse_minor_km": 29.6,
+    "major_axis_deg": 85,
+    "extent_major_km": 32.5,
+    "extent_minor_km": 27.3,
+    "downstream_to_deg": 68,
+    "updraft_to_centroid_km": 10.3,
+    "downstream_reach_km": 26.8,
+    "backshear_km": 4.9,
+    "upwind_of_radar_core_km": 4.2,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 757,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:47:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.6,
+    7.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.1,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 82.5,
+   "coldest_k": 213.9,
+   "coldest_c": -59.3,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 2.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 791,
+    "centroid_xy_km": [
+     8.7,
+     12.1
+    ],
+    "ellipse_major_km": 34.9,
+    "ellipse_minor_km": 29.6,
+    "major_axis_deg": 91,
+    "extent_major_km": 34.3,
+    "extent_minor_km": 26.1,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 13.1,
+    "downstream_reach_km": 29.3,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 4.2,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 791,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:48:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.2,
+    7.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.1,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 82.7,
+   "coldest_k": 213.1,
+   "coldest_c": -60.1,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 3.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 825,
+    "centroid_xy_km": [
+     9.3,
+     12.9
+    ],
+    "ellipse_major_km": 35.2,
+    "ellipse_minor_km": 30.8,
+    "major_axis_deg": 98,
+    "extent_major_km": 33.6,
+    "extent_minor_km": 29.6,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 13.9,
+    "downstream_reach_km": 31.4,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 4.4,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 825,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:49:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -0.9,
+    6.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.1,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 82.9,
+   "coldest_k": 214.2,
+   "coldest_c": -58.9,
+   "updraft_xy_km": [
+    -1.5,
+    8.4
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 866,
+    "centroid_xy_km": [
+     9.9,
+     13.0
+    ],
+    "ellipse_major_km": 36.0,
+    "ellipse_minor_km": 31.5,
+    "major_axis_deg": 87,
+    "extent_major_km": 35.5,
+    "extent_minor_km": 29.3,
+    "downstream_to_deg": 68,
+    "updraft_to_centroid_km": 12.3,
+    "downstream_reach_km": 28.9,
+    "backshear_km": 4.9,
+    "upwind_of_radar_core_km": 4.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 866,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:50:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -0.5,
+    6.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.1,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 83.1,
+   "coldest_k": 214.4,
+   "coldest_c": -58.7,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 2.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1340,
+    "centroid_xy_km": [
+     13.2,
+     22.1
+    ],
+    "ellipse_major_km": 64.4,
+    "ellipse_minor_km": 32.3,
+    "major_axis_deg": 19,
+    "extent_major_km": 59.4,
+    "extent_minor_km": 36.4,
+    "downstream_to_deg": 34,
+    "updraft_to_centroid_km": 20.3,
+    "downstream_reach_km": 53.6,
+    "backshear_km": 6.3,
+    "upwind_of_radar_core_km": 6.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 1347,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:51:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -0.2,
+    6.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.1,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 83.3,
+   "coldest_k": 214.7,
+   "coldest_c": -58.4,
+   "updraft_xy_km": [
+    1.7,
+    5.4
+   ],
+   "updraft_from_radar_core_km": 2.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1422,
+    "centroid_xy_km": [
+     14.1,
+     22.3
+    ],
+    "ellipse_major_km": 64.6,
+    "ellipse_minor_km": 33.0,
+    "major_axis_deg": 19,
+    "extent_major_km": 60.1,
+    "extent_minor_km": 36.4,
+    "downstream_to_deg": 36,
+    "updraft_to_centroid_km": 21.0,
+    "downstream_reach_km": 54.7,
+    "backshear_km": 6.3,
+    "upwind_of_radar_core_km": 5.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.06,
+    "connected_shield_km2": 1429,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:52:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.1,
+    6.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.9,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 83.5,
+   "coldest_k": 214.7,
+   "coldest_c": -58.4,
+   "updraft_xy_km": [
+    4.1,
+    5.2
+   ],
+   "updraft_from_radar_core_km": 4.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1490,
+    "centroid_xy_km": [
+     14.5,
+     22.0
+    ],
+    "ellipse_major_km": 64.8,
+    "ellipse_minor_km": 33.9,
+    "major_axis_deg": 19,
+    "extent_major_km": 61.2,
+    "extent_minor_km": 38.2,
+    "downstream_to_deg": 32,
+    "updraft_to_centroid_km": 19.7,
+    "downstream_reach_km": 53.8,
+    "backshear_km": 7.5,
+    "upwind_of_radar_core_km": 6.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.12,
+    "connected_shield_km2": 1511,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:53:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.5,
+    5.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.9,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 83.7,
+   "coldest_k": 213.1,
+   "coldest_c": -60.1,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 3.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1661,
+    "centroid_xy_km": [
+     15.4,
+     22.9
+    ],
+    "ellipse_major_km": 66.3,
+    "ellipse_minor_km": 35.6,
+    "major_axis_deg": 19,
+    "extent_major_km": 62.4,
+    "extent_minor_km": 38.7,
+    "downstream_to_deg": 47,
+    "updraft_to_centroid_km": 25.3,
+    "downstream_reach_km": 57.8,
+    "backshear_km": 3.0,
+    "upwind_of_radar_core_km": 5.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.06,
+    "connected_shield_km2": 1668,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:54:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.8,
+    5.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.9,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 83.9,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    0.2,
+    2.6
+   ],
+   "updraft_from_radar_core_km": 3.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1716,
+    "centroid_xy_km": [
+     15.8,
+     23.0
+    ],
+    "ellipse_major_km": 66.6,
+    "ellipse_minor_km": 36.0,
+    "major_axis_deg": 20,
+    "extent_major_km": 63.1,
+    "extent_minor_km": 40.2,
+    "downstream_to_deg": 37,
+    "updraft_to_centroid_km": 25.7,
+    "downstream_reach_km": 59.1,
+    "backshear_km": 3.1,
+    "upwind_of_radar_core_km": 5.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.06,
+    "connected_shield_km2": 1723,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:55:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.8,
+    5.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.9,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 84.1,
+   "coldest_k": 212.9,
+   "coldest_c": -60.3,
+   "updraft_xy_km": [
+    -4.8,
+    11.4
+   ],
+   "updraft_from_radar_core_km": 8.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1866,
+    "centroid_xy_km": [
+     16.9,
+     23.5
+    ],
+    "ellipse_major_km": 68.3,
+    "ellipse_minor_km": 37.9,
+    "major_axis_deg": 19,
+    "extent_major_km": 64.4,
+    "extent_minor_km": 41.0,
+    "downstream_to_deg": 61,
+    "updraft_to_centroid_km": 24.8,
+    "downstream_reach_km": 54.3,
+    "backshear_km": 4.0,
+    "upwind_of_radar_core_km": 6.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.06,
+    "connected_shield_km2": 1873,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:56:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.7,
+    5.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     14.9,
+     39.8
+    ]
+   ],
+   "solar_zenith_deg": 84.3,
+   "coldest_k": 209.8,
+   "coldest_c": -63.3,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 5.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1214,
+    "centroid_xy_km": [
+     13.0,
+     13.5
+    ],
+    "ellipse_major_km": 44.0,
+    "ellipse_minor_km": 40.3,
+    "major_axis_deg": 131,
+    "extent_major_km": 46.6,
+    "extent_minor_km": 41.5,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 17.7,
+    "downstream_reach_km": 38.2,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 5.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.34,
+    "connected_shield_km2": 1955,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:57:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.7,
+    5.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.7,
+     21.1
+    ],
+    [
+     15.8,
+     39.3
+    ]
+   ],
+   "solar_zenith_deg": 84.5,
+   "coldest_k": 209.9,
+   "coldest_c": -63.2,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 3.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1288,
+    "centroid_xy_km": [
+     14.4,
+     13.4
+    ],
+    "ellipse_major_km": 45.1,
+    "ellipse_minor_km": 41.8,
+    "major_axis_deg": 108,
+    "extent_major_km": 42.1,
+    "extent_minor_km": 48.1,
+    "downstream_to_deg": 66,
+    "updraft_to_centroid_km": 19.1,
+    "downstream_reach_km": 39.7,
+    "backshear_km": 2.9,
+    "upwind_of_radar_core_km": 6.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.33,
+    "connected_shield_km2": 2085,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:58:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.6,
+    5.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.7,
+     21.1
+    ],
+    [
+     15.8,
+     39.3
+    ]
+   ],
+   "solar_zenith_deg": 84.7,
+   "coldest_k": 209.1,
+   "coldest_c": -64.1,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 3.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1302,
+    "centroid_xy_km": [
+     13.6,
+     13.6
+    ],
+    "ellipse_major_km": 45.9,
+    "ellipse_minor_km": 41.2,
+    "major_axis_deg": 133,
+    "extent_major_km": 48.7,
+    "extent_minor_km": 44.4,
+    "downstream_to_deg": 64,
+    "updraft_to_centroid_km": 18.4,
+    "downstream_reach_km": 39.9,
+    "backshear_km": 3.0,
+    "upwind_of_radar_core_km": 6.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.38,
+    "connected_shield_km2": 2195,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T00:59:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.6,
+    5.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.7,
+     21.1
+    ],
+    [
+     15.8,
+     39.3
+    ]
+   ],
+   "solar_zenith_deg": 84.8,
+   "coldest_k": 210.8,
+   "coldest_c": -62.3,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 3.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 2304,
+    "centroid_xy_km": [
+     19.2,
+     24.1
+    ],
+    "ellipse_major_km": 72.4,
+    "ellipse_minor_km": 43.0,
+    "major_axis_deg": 20,
+    "extent_major_km": 69.8,
+    "extent_minor_km": 45.1,
+    "downstream_to_deg": 50,
+    "updraft_to_centroid_km": 28.9,
+    "downstream_reach_km": 63.6,
+    "backshear_km": 4.1,
+    "upwind_of_radar_core_km": 6.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 2311,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:00:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.5,
+    5.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.7,
+     21.1
+    ],
+    [
+     15.8,
+     39.3
+    ]
+   ],
+   "solar_zenith_deg": 85.0,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 3.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 2379,
+    "centroid_xy_km": [
+     19.6,
+     23.8
+    ],
+    "ellipse_major_km": 73.8,
+    "ellipse_minor_km": 43.7,
+    "major_axis_deg": 21,
+    "extent_major_km": 72.5,
+    "extent_minor_km": 45.1,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 29.1,
+    "downstream_reach_km": 65.1,
+    "backshear_km": 4.1,
+    "upwind_of_radar_core_km": 6.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.12,
+    "connected_shield_km2": 2406,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:01:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.5,
+    5.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.7,
+     21.1
+    ],
+    [
+     15.8,
+     39.3
+    ]
+   ],
+   "solar_zenith_deg": 85.2,
+   "coldest_k": 211.2,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    -3.9,
+    8.5
+   ],
+   "updraft_from_radar_core_km": 5.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1636,
+    "centroid_xy_km": [
+     16.1,
+     13.7
+    ],
+    "ellipse_major_km": 49.9,
+    "ellipse_minor_km": 47.0,
+    "major_axis_deg": 121,
+    "extent_major_km": 48.3,
+    "extent_minor_km": 50.2,
+    "downstream_to_deg": 75,
+    "updraft_to_centroid_km": 20.7,
+    "downstream_reach_km": 45.2,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 5.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.33,
+    "connected_shield_km2": 2550,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:02:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.4,
+    4.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.1,
+     22.5
+    ],
+    [
+     17.6,
+     38.9
+    ]
+   ],
+   "solar_zenith_deg": 85.4,
+   "coldest_k": 211.1,
+   "coldest_c": -62.0,
+   "updraft_xy_km": [
+    -2.4,
+    11.3
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1602,
+    "centroid_xy_km": [
+     15.4,
+     13.2
+    ],
+    "ellipse_major_km": 50.1,
+    "ellipse_minor_km": 45.9,
+    "major_axis_deg": 141,
+    "extent_major_km": 53.4,
+    "extent_minor_km": 49.3,
+    "downstream_to_deg": 84,
+    "updraft_to_centroid_km": 17.9,
+    "downstream_reach_km": 42.9,
+    "backshear_km": 4.2,
+    "upwind_of_radar_core_km": 6.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 2645,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:03:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.4,
+    4.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.1,
+     22.5
+    ],
+    [
+     17.6,
+     38.9
+    ]
+   ],
+   "solar_zenith_deg": 85.6,
+   "coldest_k": 212.9,
+   "coldest_c": -60.3,
+   "updraft_xy_km": [
+    -2.4,
+    11.3
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1554,
+    "centroid_xy_km": [
+     15.1,
+     12.1
+    ],
+    "ellipse_major_km": 50.3,
+    "ellipse_minor_km": 44.1,
+    "major_axis_deg": 109,
+    "extent_major_km": 47.6,
+    "extent_minor_km": 50.3,
+    "downstream_to_deg": 87,
+    "updraft_to_centroid_km": 17.5,
+    "downstream_reach_km": 43.4,
+    "backshear_km": 4.9,
+    "upwind_of_radar_core_km": 7.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 2769,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:04:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.3,
+    4.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.1,
+     22.5
+    ],
+    [
+     17.6,
+     38.9
+    ]
+   ],
+   "solar_zenith_deg": 85.8,
+   "coldest_k": 212.0,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -0.7,
+    5.5
+   ],
+   "updraft_from_radar_core_km": 1.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1608,
+    "centroid_xy_km": [
+     15.7,
+     11.8
+    ],
+    "ellipse_major_km": 52.7,
+    "ellipse_minor_km": 43.4,
+    "major_axis_deg": 96,
+    "extent_major_km": 52.4,
+    "extent_minor_km": 51.6,
+    "downstream_to_deg": 69,
+    "updraft_to_centroid_km": 17.6,
+    "downstream_reach_km": 43.3,
+    "backshear_km": 7.0,
+    "upwind_of_radar_core_km": 7.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 2857,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:05:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.8,
+    4.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.1,
+     22.5
+    ],
+    [
+     17.6,
+     38.9
+    ]
+   ],
+   "solar_zenith_deg": 86.0,
+   "coldest_k": 210.1,
+   "coldest_c": -63.0,
+   "updraft_xy_km": [
+    2.6,
+    2.5
+   ],
+   "updraft_from_radar_core_km": 2.9,
+   "ots": [
+    {
+     "x": 2.6032715885152005,
+     "y": 2.4568733376516008,
+     "bt_k": 210.1,
+     "depth_k": 7.5,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 2939,
+    "centroid_xy_km": [
+     22.4,
+     25.5
+    ],
+    "ellipse_major_km": 81.5,
+    "ellipse_minor_km": 48.8,
+    "major_axis_deg": 24,
+    "extent_major_km": 78.2,
+    "extent_minor_km": 50.2,
+    "downstream_to_deg": 41,
+    "updraft_to_centroid_km": 30.4,
+    "downstream_reach_km": 69.5,
+    "backshear_km": 7.8,
+    "upwind_of_radar_core_km": 8.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.09,
+    "connected_shield_km2": 2981,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:06:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    1.5,
+    4.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.1,
+     22.5
+    ],
+    [
+     17.6,
+     38.9
+    ]
+   ],
+   "solar_zenith_deg": 86.2,
+   "coldest_k": 210.2,
+   "coldest_c": -63.0,
+   "updraft_xy_km": [
+    -0.7,
+    5.5
+   ],
+   "updraft_from_radar_core_km": 2.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 3028,
+    "centroid_xy_km": [
+     22.7,
+     25.6
+    ],
+    "ellipse_major_km": 82.3,
+    "ellipse_minor_km": 49.8,
+    "major_axis_deg": 23,
+    "extent_major_km": 78.9,
+    "extent_minor_km": 51.7,
+    "downstream_to_deg": 49,
+    "updraft_to_centroid_km": 30.9,
+    "downstream_reach_km": 69.7,
+    "backshear_km": 7.6,
+    "upwind_of_radar_core_km": 8.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.1,
+    "connected_shield_km2": 3070,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:07:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    2.3,
+    4.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.2,
+     -1.4
+    ],
+    [
+     8.5,
+     23.5
+    ],
+    [
+     19.3,
+     38.7
+    ]
+   ],
+   "solar_zenith_deg": 86.4,
+   "coldest_k": 207.9,
+   "coldest_c": -65.2,
+   "updraft_xy_km": [
+    -0.7,
+    5.5
+   ],
+   "updraft_from_radar_core_km": 3.1,
+   "ots": [
+    {
+     "x": -0.6500367808660609,
+     "y": 5.491016040493479,
+     "bt_k": 207.9,
+     "depth_k": 8.9,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 599,
+    "centroid_xy_km": [
+     5.3,
+     4.4
+    ],
+    "ellipse_major_km": 44.8,
+    "ellipse_minor_km": 24.5,
+    "major_axis_deg": 136,
+    "extent_major_km": 43.6,
+    "extent_minor_km": 22.8,
+    "downstream_to_deg": 100,
+    "updraft_to_centroid_km": 6.1,
+    "downstream_reach_km": 32.5,
+    "backshear_km": 7.5,
+    "upwind_of_radar_core_km": 10.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.48,
+    "connected_shield_km2": 3117,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:08:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.0,
+    4.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.2,
+     -1.4
+    ],
+    [
+     8.5,
+     23.5
+    ],
+    [
+     19.3,
+     38.7
+    ]
+   ],
+   "solar_zenith_deg": 86.5,
+   "coldest_k": 209.4,
+   "coldest_c": -63.8,
+   "updraft_xy_km": [
+    -1.5,
+    8.4
+   ],
+   "updraft_from_radar_core_km": 6.0,
+   "ots": [
+    {
+     "x": -1.5222746749012113,
+     "y": 8.397119863453975,
+     "bt_k": 209.4,
+     "depth_k": 7.2,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 218,
+    "centroid_xy_km": [
+     -0.6,
+     3.6
+    ],
+    "ellipse_major_km": 21.0,
+    "ellipse_minor_km": 15.2,
+    "major_axis_deg": 138,
+    "extent_major_km": 20.5,
+    "extent_minor_km": 14.0,
+    "downstream_to_deg": 169,
+    "updraft_to_centroid_km": 4.9,
+    "downstream_reach_km": 12.1,
+    "backshear_km": 6.6,
+    "upwind_of_radar_core_km": 11.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.63,
+    "connected_shield_km2": 3214,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:09:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.8,
+    4.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.2,
+     -1.4
+    ],
+    [
+     8.5,
+     23.5
+    ],
+    [
+     19.3,
+     38.7
+    ]
+   ],
+   "solar_zenith_deg": 86.7,
+   "coldest_k": 211.2,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    0.2,
+    2.6
+   ],
+   "updraft_from_radar_core_km": 4.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 734,
+    "centroid_xy_km": [
+     7.9,
+     2.4
+    ],
+    "ellipse_major_km": 48.1,
+    "ellipse_minor_km": 23.7,
+    "major_axis_deg": 120,
+    "extent_major_km": 45.2,
+    "extent_minor_km": 24.2,
+    "downstream_to_deg": 91,
+    "updraft_to_centroid_km": 7.7,
+    "downstream_reach_km": 34.2,
+    "backshear_km": 9.0,
+    "upwind_of_radar_core_km": 12.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.31,
+    "connected_shield_km2": 3357,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:10:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.0,
+    4.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.2,
+     -1.4
+    ],
+    [
+     8.5,
+     23.5
+    ],
+    [
+     19.3,
+     38.7
+    ]
+   ],
+   "solar_zenith_deg": 86.9,
+   "coldest_k": 213.8,
+   "coldest_c": -59.3,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 7.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 3282,
+    "centroid_xy_km": [
+     26.1,
+     27.8
+    ],
+    "ellipse_major_km": 85.6,
+    "ellipse_minor_km": 52.1,
+    "major_axis_deg": 24,
+    "extent_major_km": 84.5,
+    "extent_minor_km": 55.5,
+    "downstream_to_deg": 53,
+    "updraft_to_centroid_km": 36.7,
+    "downstream_reach_km": 74.6,
+    "backshear_km": 4.3,
+    "upwind_of_radar_core_km": 9.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.19,
+    "connected_shield_km2": 3460,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:11:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.4,
+    4.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.2,
+     -1.4
+    ],
+    [
+     8.5,
+     23.5
+    ],
+    [
+     19.3,
+     38.7
+    ]
+   ],
+   "solar_zenith_deg": 87.1,
+   "coldest_k": 213.3,
+   "coldest_c": -59.8,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 6.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 382,
+    "centroid_xy_km": [
+     -0.2,
+     9.8
+    ],
+    "ellipse_major_km": 29.0,
+    "ellipse_minor_km": 17.4,
+    "major_axis_deg": 3,
+    "extent_major_km": 25.7,
+    "extent_minor_km": 17.3,
+    "downstream_to_deg": 35,
+    "updraft_to_centroid_km": 5.0,
+    "downstream_reach_km": 17.6,
+    "backshear_km": 8.2,
+    "upwind_of_radar_core_km": 10.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.56,
+    "connected_shield_km2": 3563,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:12:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    2.9,
+    4.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     17.8,
+     35.9
+    ]
+   ],
+   "solar_zenith_deg": 87.3,
+   "coldest_k": 207.7,
+   "coldest_c": -65.4,
+   "updraft_xy_km": [
+    -2.2,
+    2.7
+   ],
+   "updraft_from_radar_core_km": 5.3,
+   "ots": [
+    {
+     "x": -2.1629666331850745,
+     "y": 2.7155806867843597,
+     "bt_k": 207.7,
+     "depth_k": 9.9,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 1430,
+    "centroid_xy_km": [
+     11.6,
+     9.6
+    ],
+    "ellipse_major_km": 49.9,
+    "ellipse_minor_km": 41.4,
+    "major_axis_deg": 160,
+    "extent_major_km": 52.7,
+    "extent_minor_km": 51.9,
+    "downstream_to_deg": 63,
+    "updraft_to_centroid_km": 15.4,
+    "downstream_reach_km": 46.7,
+    "backshear_km": 5.2,
+    "upwind_of_radar_core_km": 10.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.41,
+    "connected_shield_km2": 3665,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:13:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    2.4,
+    4.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     17.8,
+     35.9
+    ]
+   ],
+   "solar_zenith_deg": 87.5,
+   "coldest_k": 207.1,
+   "coldest_c": -66.1,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 5.5,
+   "ots": [
+    {
+     "x": -3.034894710319608,
+     "y": 5.620671576076438,
+     "bt_k": 207.1,
+     "depth_k": 10.6,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1417,
+    "centroid_xy_km": [
+     10.9,
+     9.0
+    ],
+    "ellipse_major_km": 51.4,
+    "ellipse_minor_km": 37.7,
+    "major_axis_deg": 160,
+    "extent_major_km": 53.6,
+    "extent_minor_km": 36.6,
+    "downstream_to_deg": 76,
+    "updraft_to_centroid_km": 14.3,
+    "downstream_reach_km": 32.3,
+    "backshear_km": 4.6,
+    "upwind_of_radar_core_km": 9.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.33,
+    "connected_shield_km2": 3802,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:14:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    1.8,
+    4.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     17.8,
+     35.9
+    ]
+   ],
+   "solar_zenith_deg": 87.7,
+   "coldest_k": 209.7,
+   "coldest_c": -63.5,
+   "updraft_xy_km": [
+    -3.0,
+    5.6
+   ],
+   "updraft_from_radar_core_km": 5.0,
+   "ots": [
+    {
+     "x": -3.034894710319608,
+     "y": 5.620671576076438,
+     "bt_k": 209.7,
+     "depth_k": 7.9,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 3918,
+    "centroid_xy_km": [
+     26.7,
+     27.9
+    ],
+    "ellipse_major_km": 93.4,
+    "ellipse_minor_km": 55.6,
+    "major_axis_deg": 30,
+    "extent_major_km": 91.0,
+    "extent_minor_km": 60.7,
+    "downstream_to_deg": 53,
+    "updraft_to_centroid_km": 37.2,
+    "downstream_reach_km": 80.0,
+    "backshear_km": 7.8,
+    "upwind_of_radar_core_km": 11.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.04,
+    "connected_shield_km2": 3924,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:15:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    1.3,
+    4.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     17.8,
+     35.9
+    ]
+   ],
+   "solar_zenith_deg": 87.8,
+   "coldest_k": 213.1,
+   "coldest_c": -60.1,
+   "updraft_xy_km": [
+    -5.4,
+    5.8
+   ],
+   "updraft_from_radar_core_km": 6.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1566,
+    "centroid_xy_km": [
+     12.4,
+     8.6
+    ],
+    "ellipse_major_km": 52.4,
+    "ellipse_minor_km": 41.7,
+    "major_axis_deg": 152,
+    "extent_major_km": 56.1,
+    "extent_minor_km": 42.1,
+    "downstream_to_deg": 81,
+    "updraft_to_centroid_km": 18.1,
+    "downstream_reach_km": 40.0,
+    "backshear_km": 2.3,
+    "upwind_of_radar_core_km": 8.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.34,
+    "connected_shield_km2": 4055,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:16:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.7,
+    3.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     17.8,
+     35.9
+    ]
+   ],
+   "solar_zenith_deg": 88.0,
+   "coldest_k": 213.6,
+   "coldest_c": -59.5,
+   "updraft_xy_km": [
+    8.2,
+    -0.7
+   ],
+   "updraft_from_radar_core_km": 8.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1600,
+    "centroid_xy_km": [
+     12.8,
+     8.0
+    ],
+    "ellipse_major_km": 53.9,
+    "ellipse_minor_km": 41.5,
+    "major_axis_deg": 151,
+    "extent_major_km": 57.2,
+    "extent_minor_km": 43.0,
+    "downstream_to_deg": 28,
+    "updraft_to_centroid_km": 9.8,
+    "downstream_reach_km": 38.5,
+    "backshear_km": 11.5,
+    "upwind_of_radar_core_km": 11.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.3,
+    "connected_shield_km2": 4163,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:17:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.1,
+    2.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     17.8,
+     35.9
+    ]
+   ],
+   "solar_zenith_deg": 88.2,
+   "coldest_k": 212.3,
+   "coldest_c": -60.9,
+   "updraft_xy_km": [
+    5.9,
+    -0.6
+   ],
+   "updraft_from_radar_core_km": 6.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1633,
+    "centroid_xy_km": [
+     13.6,
+     7.7
+    ],
+    "ellipse_major_km": 53.8,
+    "ellipse_minor_km": 43.0,
+    "major_axis_deg": 148,
+    "extent_major_km": 57.3,
+    "extent_minor_km": 44.7,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 11.3,
+    "downstream_reach_km": 33.7,
+    "backshear_km": 10.7,
+    "upwind_of_radar_core_km": 9.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.31,
+    "connected_shield_km2": 4280,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:18:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -0.5,
+    1.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     18.2,
+     29.5
+    ],
+    [
+     19.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 88.4,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    6.7,
+    -3.5
+   ],
+   "updraft_from_radar_core_km": 9.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 4457,
+    "centroid_xy_km": [
+     29.4,
+     28.5
+    ],
+    "ellipse_major_km": 99.7,
+    "ellipse_minor_km": 59.3,
+    "major_axis_deg": 30,
+    "extent_major_km": 96.4,
+    "extent_minor_km": 65.2,
+    "downstream_to_deg": 35,
+    "updraft_to_centroid_km": 39.2,
+    "downstream_reach_km": 87.1,
+    "backshear_km": 10.1,
+    "upwind_of_radar_core_km": 10.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.04,
+    "connected_shield_km2": 4464,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:19:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.1,
+    1.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     18.2,
+     29.5
+    ],
+    [
+     19.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 88.6,
+   "coldest_k": 213.3,
+   "coldest_c": -59.9,
+   "updraft_xy_km": [
+    3.5,
+    -0.4
+   ],
+   "updraft_from_radar_core_km": 4.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 4545,
+    "centroid_xy_km": [
+     30.0,
+     28.4
+    ],
+    "ellipse_major_km": 101.2,
+    "ellipse_minor_km": 59.7,
+    "major_axis_deg": 30,
+    "extent_major_km": 97.6,
+    "extent_minor_km": 67.4,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 39.2,
+    "downstream_reach_km": 87.6,
+    "backshear_km": 10.7,
+    "upwind_of_radar_core_km": 8.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.06,
+    "connected_shield_km2": 4566,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:20:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.6,
+    0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     18.2,
+     29.5
+    ],
+    [
+     19.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 88.8,
+   "coldest_k": 210.3,
+   "coldest_c": -62.8,
+   "updraft_xy_km": [
+    1.1,
+    -0.3
+   ],
+   "updraft_from_radar_core_km": 2.8,
+   "ots": [
+    {
+     "x": 1.089531373420746,
+     "y": -0.31676737989953946,
+     "bt_k": 210.3,
+     "depth_k": 7.1,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 4703,
+    "centroid_xy_km": [
+     30.8,
+     28.8
+    ],
+    "ellipse_major_km": 102.3,
+    "ellipse_minor_km": 61.2,
+    "major_axis_deg": 31,
+    "extent_major_km": 98.7,
+    "extent_minor_km": 67.7,
+    "downstream_to_deg": 46,
+    "updraft_to_centroid_km": 41.6,
+    "downstream_reach_km": 89.0,
+    "backshear_km": 9.1,
+    "upwind_of_radar_core_km": 7.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.14,
+    "connected_shield_km2": 4758,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:21:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.9,
+    -0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     18.2,
+     29.5
+    ],
+    [
+     19.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 88.9,
+   "coldest_k": 210.4,
+   "coldest_c": -62.7,
+   "updraft_xy_km": [
+    2.0,
+    -3.2
+   ],
+   "updraft_from_radar_core_km": 4.9,
+   "ots": [
+    {
+     "x": 1.9567555380726622,
+     "y": -3.2180673703676765,
+     "bt_k": 210.4,
+     "depth_k": 7.3,
+     "diam_km": 9.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 4696,
+    "centroid_xy_km": [
+     31.5,
+     29.1
+    ],
+    "ellipse_major_km": 103.7,
+    "ellipse_minor_km": 62.0,
+    "major_axis_deg": 31,
+    "extent_major_km": 99.8,
+    "extent_minor_km": 69.7,
+    "downstream_to_deg": 42,
+    "updraft_to_centroid_km": 43.8,
+    "downstream_reach_km": 92.3,
+    "backshear_km": 7.6,
+    "upwind_of_radar_core_km": 7.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.17,
+    "connected_shield_km2": 4812,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:22:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.9,
+    -0.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     18.2,
+     29.5
+    ],
+    [
+     19.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 89.1,
+   "coldest_k": 211.1,
+   "coldest_c": -62.0,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 3.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 4934,
+    "centroid_xy_km": [
+     32.0,
+     28.9
+    ],
+    "ellipse_major_km": 104.2,
+    "ellipse_minor_km": 63.4,
+    "major_axis_deg": 31,
+    "extent_major_km": 100.7,
+    "extent_minor_km": 67.8,
+    "downstream_to_deg": 45,
+    "updraft_to_centroid_km": 45.5,
+    "downstream_reach_km": 95.1,
+    "backshear_km": 6.0,
+    "upwind_of_radar_core_km": 7.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.11,
+    "connected_shield_km2": 4996,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:23:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.0,
+    -0.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     20.1,
+     28.8
+    ],
+    [
+     20.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 89.3,
+   "coldest_k": 208.3,
+   "coldest_c": -64.9,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 3.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 5071,
+    "centroid_xy_km": [
+     32.5,
+     29.0
+    ],
+    "ellipse_major_km": 104.0,
+    "ellipse_minor_km": 64.3,
+    "major_axis_deg": 31,
+    "extent_major_km": 101.9,
+    "extent_minor_km": 70.2,
+    "downstream_to_deg": 46,
+    "updraft_to_centroid_km": 46.0,
+    "downstream_reach_km": 95.0,
+    "backshear_km": 6.0,
+    "upwind_of_radar_core_km": 7.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.04,
+    "connected_shield_km2": 5078,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:24:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.0,
+    0.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     20.1,
+     28.8
+    ],
+    [
+     20.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 89.5,
+   "coldest_k": 209.8,
+   "coldest_c": -63.3,
+   "updraft_xy_km": [
+    2.0,
+    -3.2
+   ],
+   "updraft_from_radar_core_km": 5.1,
+   "ots": [
+    {
+     "x": 1.9567555380726622,
+     "y": -3.2180673703676765,
+     "bt_k": 209.8,
+     "depth_k": 7.3,
+     "diam_km": 7.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 5132,
+    "centroid_xy_km": [
+     33.6,
+     29.1
+    ],
+    "ellipse_major_km": 106.2,
+    "ellipse_minor_km": 65.2,
+    "major_axis_deg": 31,
+    "extent_major_km": 102.0,
+    "extent_minor_km": 70.1,
+    "downstream_to_deg": 44,
+    "updraft_to_centroid_km": 45.2,
+    "downstream_reach_km": 95.2,
+    "backshear_km": 7.7,
+    "upwind_of_radar_core_km": 7.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.12,
+    "connected_shield_km2": 5214,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:25:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.0,
+    0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     20.1,
+     28.8
+    ],
+    [
+     20.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 89.7,
+   "coldest_k": 213.3,
+   "coldest_c": -59.8,
+   "updraft_xy_km": [
+    -1.3,
+    -0.2
+   ],
+   "updraft_from_radar_core_km": 0.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 5303,
+    "centroid_xy_km": [
+     34.1,
+     29.5
+    ],
+    "ellipse_major_km": 106.5,
+    "ellipse_minor_km": 66.4,
+    "major_axis_deg": 32,
+    "extent_major_km": 103.4,
+    "extent_minor_km": 72.4,
+    "downstream_to_deg": 50,
+    "updraft_to_centroid_km": 46.2,
+    "downstream_reach_km": 96.0,
+    "backshear_km": 7.1,
+    "upwind_of_radar_core_km": 6.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.09,
+    "connected_shield_km2": 5344,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:26:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.0,
+    0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     20.1,
+     28.8
+    ],
+    [
+     20.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 89.9,
+   "coldest_k": 210.4,
+   "coldest_c": -62.7,
+   "updraft_xy_km": [
+    -1.3,
+    -0.2
+   ],
+   "updraft_from_radar_core_km": 0.8,
+   "ots": [
+    {
+     "x": -1.292828622509757,
+     "y": -0.1875219270580435,
+     "bt_k": 210.4,
+     "depth_k": 6.8,
+     "diam_km": 5.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 5371,
+    "centroid_xy_km": [
+     34.8,
+     29.9
+    ],
+    "ellipse_major_km": 107.7,
+    "ellipse_minor_km": 67.2,
+    "major_axis_deg": 32,
+    "extent_major_km": 105.7,
+    "extent_minor_km": 73.1,
+    "downstream_to_deg": 50,
+    "updraft_to_centroid_km": 47.0,
+    "downstream_reach_km": 96.5,
+    "backshear_km": 7.1,
+    "upwind_of_radar_core_km": 6.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.12,
+    "connected_shield_km2": 5454,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:27:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.1,
+    -0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     20.1,
+     28.8
+    ],
+    [
+     20.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 90.0,
+   "coldest_k": 210.5,
+   "coldest_c": -62.7,
+   "updraft_xy_km": [
+    -1.3,
+    -0.2
+   ],
+   "updraft_from_radar_core_km": 0.8,
+   "ots": [
+    {
+     "x": -1.292828622509757,
+     "y": -0.1875219270580435,
+     "bt_k": 210.5,
+     "depth_k": 7.2,
+     "diam_km": 11.4
+    }
+   ],
+   "anvil": {
+    "area_km2": 5508,
+    "centroid_xy_km": [
+     35.6,
+     30.0
+    ],
+    "ellipse_major_km": 107.9,
+    "ellipse_minor_km": 68.0,
+    "major_axis_deg": 33,
+    "extent_major_km": 106.8,
+    "extent_minor_km": 75.6,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 47.7,
+    "downstream_reach_km": 97.6,
+    "backshear_km": 7.0,
+    "upwind_of_radar_core_km": 6.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.08,
+    "connected_shield_km2": 5549,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:28:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.1,
+    -0.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     20.1,
+     28.8
+    ],
+    [
+     20.8,
+     48.4
+    ]
+   ],
+   "solar_zenith_deg": 90.2,
+   "coldest_k": 210.2,
+   "coldest_c": -63.0,
+   "updraft_xy_km": [
+    4.3,
+    -3.3
+   ],
+   "updraft_from_radar_core_km": 7.1,
+   "ots": [
+    {
+     "x": 4.336896987535246,
+     "y": -3.3469161411263415,
+     "bt_k": 210.2,
+     "depth_k": 7.4,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 5596,
+    "centroid_xy_km": [
+     36.0,
+     30.2
+    ],
+    "ellipse_major_km": 108.6,
+    "ellipse_minor_km": 67.8,
+    "major_axis_deg": 34,
+    "extent_major_km": 107.8,
+    "extent_minor_km": 74.9,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 46.1,
+    "downstream_reach_km": 98.3,
+    "backshear_km": 9.2,
+    "upwind_of_radar_core_km": 6.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 5610,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:29:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.2,
+    -0.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.3,
+     28.3
+    ],
+    [
+     5.9,
+     29.1
+    ],
+    [
+     21.4,
+     49.8
+    ]
+   ],
+   "solar_zenith_deg": 90.4,
+   "coldest_k": 210.9,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    6.7,
+    -3.5
+   ],
+   "updraft_from_radar_core_km": 9.3,
+   "ots": [
+    {
+     "x": 6.716224602097127,
+     "y": -3.475581300926318,
+     "bt_k": 210.9,
+     "depth_k": 6.8,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1541,
+    "centroid_xy_km": [
+     18.3,
+     1.5
+    ],
+    "ellipse_major_km": 61.3,
+    "ellipse_minor_km": 37.1,
+    "major_axis_deg": 99,
+    "extent_major_km": 61.8,
+    "extent_minor_km": 40.1,
+    "downstream_to_deg": 67,
+    "updraft_to_centroid_km": 12.6,
+    "downstream_reach_km": 48.3,
+    "backshear_km": 11.4,
+    "upwind_of_radar_core_km": 4.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.39,
+    "connected_shield_km2": 5679,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:30:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.3,
+    -1.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.3,
+     28.3
+    ],
+    [
+     5.9,
+     29.1
+    ],
+    [
+     21.4,
+     49.8
+    ]
+   ],
+   "solar_zenith_deg": 90.6,
+   "coldest_k": 211.8,
+   "coldest_c": -61.4,
+   "updraft_xy_km": [
+    4.3,
+    -3.3
+   ],
+   "updraft_from_radar_core_km": 6.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 5747,
+    "centroid_xy_km": [
+     37.2,
+     30.8
+    ],
+    "ellipse_major_km": 111.1,
+    "ellipse_minor_km": 69.0,
+    "major_axis_deg": 35,
+    "extent_major_km": 109.8,
+    "extent_minor_km": 77.4,
+    "downstream_to_deg": 44,
+    "updraft_to_centroid_km": 47.4,
+    "downstream_reach_km": 99.8,
+    "backshear_km": 9.2,
+    "upwind_of_radar_core_km": 6.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.11,
+    "connected_shield_km2": 5829,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:31:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -2.3,
+    -1.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.3,
+     28.3
+    ],
+    [
+     5.9,
+     29.1
+    ],
+    [
+     21.4,
+     49.8
+    ]
+   ],
+   "solar_zenith_deg": 90.8,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 2.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 5816,
+    "centroid_xy_km": [
+     37.7,
+     31.2
+    ],
+    "ellipse_major_km": 111.4,
+    "ellipse_minor_km": 69.4,
+    "major_axis_deg": 34,
+    "extent_major_km": 110.4,
+    "extent_minor_km": 75.3,
+    "downstream_to_deg": 48,
+    "updraft_to_centroid_km": 51.3,
+    "downstream_reach_km": 102.7,
+    "backshear_km": 6.0,
+    "upwind_of_radar_core_km": 5.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.11,
+    "connected_shield_km2": 5898,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:32:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.9,
+    -2.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.3,
+     28.3
+    ],
+    [
+     5.9,
+     29.1
+    ],
+    [
+     21.4,
+     49.8
+    ]
+   ],
+   "solar_zenith_deg": 91.0,
+   "coldest_k": 208.2,
+   "coldest_c": -65.0,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 5939,
+    "centroid_xy_km": [
+     38.6,
+     31.5
+    ],
+    "ellipse_major_km": 112.6,
+    "ellipse_minor_km": 70.0,
+    "major_axis_deg": 34,
+    "extent_major_km": 111.7,
+    "extent_minor_km": 75.7,
+    "downstream_to_deg": 48,
+    "updraft_to_centroid_km": 52.1,
+    "downstream_reach_km": 104.0,
+    "backshear_km": 5.9,
+    "upwind_of_radar_core_km": 5.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.11,
+    "connected_shield_km2": 6021,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:33:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -1.1,
+    -2.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.3,
+     28.3
+    ],
+    [
+     5.9,
+     29.1
+    ],
+    [
+     21.4,
+     49.8
+    ]
+   ],
+   "solar_zenith_deg": 91.2,
+   "coldest_k": 208.7,
+   "coldest_c": -64.5,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 0.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 6061,
+    "centroid_xy_km": [
+     38.9,
+     31.6
+    ],
+    "ellipse_major_km": 113.1,
+    "ellipse_minor_km": 70.6,
+    "major_axis_deg": 33,
+    "extent_major_km": 112.1,
+    "extent_minor_km": 75.4,
+    "downstream_to_deg": 49,
+    "updraft_to_centroid_km": 52.4,
+    "downstream_reach_km": 105.3,
+    "backshear_km": 5.9,
+    "upwind_of_radar_core_km": 5.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.1,
+    "connected_shield_km2": 6123,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:34:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.4,
+     3.3
+    ],
+    [
+     23.3,
+     26.1
+    ],
+    [
+     22.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 91.3,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    -1.3,
+    -0.2
+   ],
+   "updraft_from_radar_core_km": 3.1,
+   "ots": [
+    {
+     "x": -1.292828622509757,
+     "y": -0.1875219270580435,
+     "bt_k": 210.7,
+     "depth_k": 6.9,
+     "diam_km": 7.2
+    }
+   ],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T01:35:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    0.4,
+    -3.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.4,
+     3.3
+    ],
+    [
+     23.3,
+     26.1
+    ],
+    [
+     22.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 91.5,
+   "coldest_k": 212.1,
+   "coldest_c": -61.1,
+   "updraft_xy_km": [
+    -1.3,
+    -0.2
+   ],
+   "updraft_from_radar_core_km": 3.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T01:36:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    1.2,
+    -4.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.4,
+     3.3
+    ],
+    [
+     23.3,
+     26.1
+    ],
+    [
+     22.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 91.7,
+   "coldest_k": 212.8,
+   "coldest_c": -60.4,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 1.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T01:37:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    1.9,
+    -4.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.4,
+     3.3
+    ],
+    [
+     23.3,
+     26.1
+    ],
+    [
+     22.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 91.9,
+   "coldest_k": 213.1,
+   "coldest_c": -60.1,
+   "updraft_xy_km": [
+    2.0,
+    -3.2
+   ],
+   "updraft_from_radar_core_km": 1.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-05-14T01:38:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    2.3,
+    -4.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.4,
+     3.3
+    ],
+    [
+     23.3,
+     26.1
+    ],
+    [
+     22.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 92.1,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    4.3,
+    -3.3
+   ],
+   "updraft_from_radar_core_km": 2.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 6063,
+    "centroid_xy_km": [
+     44.0,
+     30.8
+    ],
+    "ellipse_major_km": 122.9,
+    "ellipse_minor_km": 72.5,
+    "major_axis_deg": 33,
+    "extent_major_km": 117.1,
+    "extent_minor_km": 81.2,
+    "downstream_to_deg": 49,
+    "updraft_to_centroid_km": 52.3,
+    "downstream_reach_km": 107.3,
+    "backshear_km": 9.8,
+    "upwind_of_radar_core_km": 7.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.27,
+    "connected_shield_km2": 6784,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:39:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    2.8,
+    -5.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.4,
+     3.3
+    ],
+    [
+     23.3,
+     26.1
+    ],
+    [
+     22.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 92.3,
+   "coldest_k": 213.3,
+   "coldest_c": -59.9,
+   "updraft_xy_km": [
+    7.6,
+    -6.4
+   ],
+   "updraft_from_radar_core_km": 5.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 6831,
+    "centroid_xy_km": [
+     42.1,
+     31.5
+    ],
+    "ellipse_major_km": 118.3,
+    "ellipse_minor_km": 75.5,
+    "major_axis_deg": 34,
+    "extent_major_km": 117.8,
+    "extent_minor_km": 83.1,
+    "downstream_to_deg": 42,
+    "updraft_to_centroid_km": 51.3,
+    "downstream_reach_km": 109.2,
+    "backshear_km": 9.2,
+    "upwind_of_radar_core_km": 6.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.1,
+    "connected_shield_km2": 6879,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:40:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.2,
+    -5.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.7,
+     23.9
+    ],
+    [
+     23.6,
+     51.3
+    ]
+   ],
+   "solar_zenith_deg": 92.5,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    5.2,
+    -6.2
+   ],
+   "updraft_from_radar_core_km": 2.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1715,
+    "centroid_xy_km": [
+     22.3,
+     -1.0
+    ],
+    "ellipse_major_km": 73.5,
+    "ellipse_minor_km": 41.0,
+    "major_axis_deg": 108,
+    "extent_major_km": 68.3,
+    "extent_minor_km": 47.5,
+    "downstream_to_deg": 73,
+    "updraft_to_centroid_km": 17.8,
+    "downstream_reach_km": 60.4,
+    "backshear_km": 9.0,
+    "upwind_of_radar_core_km": 7.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.4,
+    "connected_shield_km2": 7035,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:41:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.6,
+    -5.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.7,
+     23.9
+    ],
+    [
+     23.6,
+     51.3
+    ]
+   ],
+   "solar_zenith_deg": 92.7,
+   "coldest_k": 212.2,
+   "coldest_c": -60.9,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 4.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7077,
+    "centroid_xy_km": [
+     43.7,
+     32.4
+    ],
+    "ellipse_major_km": 119.7,
+    "ellipse_minor_km": 77.1,
+    "major_axis_deg": 35,
+    "extent_major_km": 119.3,
+    "extent_minor_km": 81.8,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 56.6,
+    "downstream_reach_km": 112.3,
+    "backshear_km": 5.8,
+    "upwind_of_radar_core_km": 7.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.08,
+    "connected_shield_km2": 7118,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:42:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.1,
+    -5.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.7,
+     23.9
+    ],
+    [
+     23.6,
+     51.3
+    ]
+   ],
+   "solar_zenith_deg": 92.8,
+   "coldest_k": 210.4,
+   "coldest_c": -62.7,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 5.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7152,
+    "centroid_xy_km": [
+     44.3,
+     32.5
+    ],
+    "ellipse_major_km": 119.8,
+    "ellipse_minor_km": 78.0,
+    "major_axis_deg": 36,
+    "extent_major_km": 120.6,
+    "extent_minor_km": 85.8,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 57.2,
+    "downstream_reach_km": 113.4,
+    "backshear_km": 5.8,
+    "upwind_of_radar_core_km": 7.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.08,
+    "connected_shield_km2": 7193,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:43:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.1,
+    -6.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.7,
+     23.9
+    ],
+    [
+     23.6,
+     51.3
+    ]
+   ],
+   "solar_zenith_deg": 93.0,
+   "coldest_k": 211.7,
+   "coldest_c": -61.4,
+   "updraft_xy_km": [
+    -1.9,
+    -5.9
+   ],
+   "updraft_from_radar_core_km": 6.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7268,
+    "centroid_xy_km": [
+     44.9,
+     32.7
+    ],
+    "ellipse_major_km": 121.1,
+    "ellipse_minor_km": 78.4,
+    "major_axis_deg": 37,
+    "extent_major_km": 121.9,
+    "extent_minor_km": 84.8,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 60.6,
+    "downstream_reach_km": 117.7,
+    "backshear_km": 2.9,
+    "upwind_of_radar_core_km": 7.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.08,
+    "connected_shield_km2": 7309,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:44:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.9,
+    -6.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     24.7,
+     23.9
+    ],
+    [
+     23.6,
+     51.3
+    ]
+   ],
+   "solar_zenith_deg": 93.2,
+   "coldest_k": 211.5,
+   "coldest_c": -61.6,
+   "updraft_xy_km": [
+    0.4,
+    -6.0
+   ],
+   "updraft_from_radar_core_km": 3.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7377,
+    "centroid_xy_km": [
+     45.8,
+     32.9
+    ],
+    "ellipse_major_km": 122.0,
+    "ellipse_minor_km": 79.8,
+    "major_axis_deg": 37,
+    "extent_major_km": 123.3,
+    "extent_minor_km": 86.8,
+    "downstream_to_deg": 49,
+    "updraft_to_centroid_km": 59.8,
+    "downstream_reach_km": 117.9,
+    "backshear_km": 4.7,
+    "upwind_of_radar_core_km": 7.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.1,
+    "connected_shield_km2": 7459,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:45:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.7,
+    -6.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     26.8,
+     23.2
+    ],
+    [
+     24.6,
+     51.6
+    ]
+   ],
+   "solar_zenith_deg": 93.4,
+   "coldest_k": 211.9,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 5.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7520,
+    "centroid_xy_km": [
+     46.2,
+     33.0
+    ],
+    "ellipse_major_km": 123.7,
+    "ellipse_minor_km": 79.9,
+    "major_axis_deg": 37,
+    "extent_major_km": 125.4,
+    "extent_minor_km": 86.8,
+    "downstream_to_deg": 52,
+    "updraft_to_centroid_km": 59.0,
+    "downstream_reach_km": 118.0,
+    "backshear_km": 6.9,
+    "upwind_of_radar_core_km": 8.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.08,
+    "connected_shield_km2": 7575,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:46:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.5,
+    -6.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     26.8,
+     23.2
+    ],
+    [
+     24.6,
+     51.6
+    ]
+   ],
+   "solar_zenith_deg": 93.6,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    -0.4,
+    -3.1
+   ],
+   "updraft_from_radar_core_km": 5.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7690,
+    "centroid_xy_km": [
+     46.8,
+     33.0
+    ],
+    "ellipse_major_km": 125.1,
+    "ellipse_minor_km": 81.0,
+    "major_axis_deg": 37,
+    "extent_major_km": 126.8,
+    "extent_minor_km": 89.3,
+    "downstream_to_deg": 53,
+    "updraft_to_centroid_km": 59.5,
+    "downstream_reach_km": 119.0,
+    "backshear_km": 6.8,
+    "upwind_of_radar_core_km": 7.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.09,
+    "connected_shield_km2": 7745,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:47:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.4,
+    -7.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     26.8,
+     23.2
+    ],
+    [
+     24.6,
+     51.6
+    ]
+   ],
+   "solar_zenith_deg": 93.7,
+   "coldest_k": 211.6,
+   "coldest_c": -61.5,
+   "updraft_xy_km": [
+    0.4,
+    -6.0
+   ],
+   "updraft_from_radar_core_km": 3.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7827,
+    "centroid_xy_km": [
+     47.3,
+     33.3
+    ],
+    "ellipse_major_km": 126.3,
+    "ellipse_minor_km": 82.4,
+    "major_axis_deg": 37,
+    "extent_major_km": 128.2,
+    "extent_minor_km": 91.3,
+    "downstream_to_deg": 50,
+    "updraft_to_centroid_km": 61.1,
+    "downstream_reach_km": 122.5,
+    "backshear_km": 5.9,
+    "upwind_of_radar_core_km": 7.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.09,
+    "connected_shield_km2": 7909,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:48:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.3,
+    -7.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     26.8,
+     23.2
+    ],
+    [
+     24.6,
+     51.6
+    ]
+   ],
+   "solar_zenith_deg": 93.9,
+   "coldest_k": 212.0,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    0.4,
+    -6.0
+   ],
+   "updraft_from_radar_core_km": 3.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 7936,
+    "centroid_xy_km": [
+     47.8,
+     33.3
+    ],
+    "ellipse_major_km": 126.8,
+    "ellipse_minor_km": 82.9,
+    "major_axis_deg": 37,
+    "extent_major_km": 128.7,
+    "extent_minor_km": 91.3,
+    "downstream_to_deg": 50,
+    "updraft_to_centroid_km": 61.6,
+    "downstream_reach_km": 123.0,
+    "backshear_km": 5.9,
+    "upwind_of_radar_core_km": 7.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.1,
+    "connected_shield_km2": 8004,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:49:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.3,
+    -7.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     26.8,
+     23.2
+    ],
+    [
+     24.6,
+     51.6
+    ]
+   ],
+   "solar_zenith_deg": 94.1,
+   "coldest_k": 213.5,
+   "coldest_c": -59.6,
+   "updraft_xy_km": [
+    16.9,
+    1.7
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 8133,
+    "centroid_xy_km": [
+     48.3,
+     33.5
+    ],
+    "ellipse_major_km": 127.7,
+    "ellipse_minor_km": 83.9,
+    "major_axis_deg": 38,
+    "extent_major_km": 130.5,
+    "extent_minor_km": 93.9,
+    "downstream_to_deg": 45,
+    "updraft_to_centroid_km": 44.7,
+    "downstream_reach_km": 107.6,
+    "backshear_km": 23.1,
+    "upwind_of_radar_core_km": 6.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.07,
+    "connected_shield_km2": 8168,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:50:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.4,
+    -7.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     26.8,
+     23.2
+    ],
+    [
+     24.6,
+     51.6
+    ]
+   ],
+   "solar_zenith_deg": 94.3,
+   "coldest_k": 213.6,
+   "coldest_c": -59.5,
+   "updraft_xy_km": [
+    19.3,
+    1.6
+   ],
+   "updraft_from_radar_core_km": 18.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 8276,
+    "centroid_xy_km": [
+     48.7,
+     33.4
+    ],
+    "ellipse_major_km": 128.1,
+    "ellipse_minor_km": 85.5,
+    "major_axis_deg": 37,
+    "extent_major_km": 130.9,
+    "extent_minor_km": 95.2,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 43.4,
+    "downstream_reach_km": 106.3,
+    "backshear_km": 24.5,
+    "upwind_of_radar_core_km": 6.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.07,
+    "connected_shield_km2": 8304,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:51:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.5,
+    -8.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     29.8,
+     22.4
+    ],
+    [
+     9.4,
+     30.0
+    ],
+    [
+     26.3,
+     52.2
+    ]
+   ],
+   "solar_zenith_deg": 94.5,
+   "coldest_k": 213.8,
+   "coldest_c": -59.3,
+   "updraft_xy_km": [
+    21.6,
+    1.4
+   ],
+   "updraft_from_radar_core_km": 20.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 8350,
+    "centroid_xy_km": [
+     49.4,
+     33.3
+    ],
+    "ellipse_major_km": 129.3,
+    "ellipse_minor_km": 85.8,
+    "major_axis_deg": 37,
+    "extent_major_km": 132.3,
+    "extent_minor_km": 95.2,
+    "downstream_to_deg": 41,
+    "updraft_to_centroid_km": 42.3,
+    "downstream_reach_km": 106.6,
+    "backshear_km": 25.8,
+    "upwind_of_radar_core_km": 6.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.1,
+    "connected_shield_km2": 8412,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:52:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.6,
+    -8.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     29.8,
+     22.4
+    ],
+    [
+     9.4,
+     30.0
+    ],
+    [
+     26.3,
+     52.2
+    ]
+   ],
+   "solar_zenith_deg": 94.6,
+   "coldest_k": 213.3,
+   "coldest_c": -59.9,
+   "updraft_xy_km": [
+    1.1,
+    -0.3
+   ],
+   "updraft_from_radar_core_km": 8.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1708,
+    "centroid_xy_km": [
+     21.1,
+     -2.1
+    ],
+    "ellipse_major_km": 77.8,
+    "ellipse_minor_km": 43.8,
+    "major_axis_deg": 116,
+    "extent_major_km": 72.2,
+    "extent_minor_km": 51.8,
+    "downstream_to_deg": 95,
+    "updraft_to_centroid_km": 20.1,
+    "downstream_reach_km": 64.1,
+    "backshear_km": 13.1,
+    "upwind_of_radar_core_km": 16.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.39,
+    "connected_shield_km2": 8494,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:53:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    3.7,
+    -8.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     29.8,
+     22.4
+    ],
+    [
+     9.4,
+     30.0
+    ],
+    [
+     26.3,
+     52.2
+    ]
+   ],
+   "solar_zenith_deg": 94.8,
+   "coldest_k": 212.0,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    5.2,
+    -6.2
+   ],
+   "updraft_from_radar_core_km": 2.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 8548,
+    "centroid_xy_km": [
+     49.9,
+     33.4
+    ],
+    "ellipse_major_km": 130.7,
+    "ellipse_minor_km": 87.5,
+    "major_axis_deg": 37,
+    "extent_major_km": 133.6,
+    "extent_minor_km": 98.6,
+    "downstream_to_deg": 48,
+    "updraft_to_centroid_km": 59.7,
+    "downstream_reach_km": 124.5,
+    "backshear_km": 9.3,
+    "upwind_of_radar_core_km": 6.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.08,
+    "connected_shield_km2": 8596,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:54:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.0,
+    -9.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     29.8,
+     22.4
+    ],
+    [
+     9.4,
+     30.0
+    ],
+    [
+     26.3,
+     52.2
+    ]
+   ],
+   "solar_zenith_deg": 95.0,
+   "coldest_k": 213.1,
+   "coldest_c": -60.0,
+   "updraft_xy_km": [
+    5.2,
+    -6.2
+   ],
+   "updraft_from_radar_core_km": 3.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1755,
+    "centroid_xy_km": [
+     21.8,
+     -2.5
+    ],
+    "ellipse_major_km": 80.3,
+    "ellipse_minor_km": 43.9,
+    "major_axis_deg": 113,
+    "extent_major_km": 77.8,
+    "extent_minor_km": 53.2,
+    "downstream_to_deg": 77,
+    "updraft_to_centroid_km": 17.0,
+    "downstream_reach_km": 63.5,
+    "backshear_km": 14.4,
+    "upwind_of_radar_core_km": 12.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.39,
+    "connected_shield_km2": 8685,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:55:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.3,
+    -9.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     29.8,
+     22.4
+    ],
+    [
+     9.4,
+     30.0
+    ],
+    [
+     26.3,
+     52.2
+    ]
+   ],
+   "solar_zenith_deg": 95.2,
+   "coldest_k": 211.9,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -11.7,
+    3.2
+   ],
+   "updraft_from_radar_core_km": 20.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1735,
+    "centroid_xy_km": [
+     21.6,
+     -2.5
+    ],
+    "ellipse_major_km": 80.7,
+    "ellipse_minor_km": 42.6,
+    "major_axis_deg": 110,
+    "extent_major_km": 80.8,
+    "extent_minor_km": 51.7,
+    "downstream_to_deg": 100,
+    "updraft_to_centroid_km": 33.8,
+    "downstream_reach_km": 81.6,
+    "backshear_km": 1.4,
+    "upwind_of_radar_core_km": 19.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.39,
+    "connected_shield_km2": 8733,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:56:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.6,
+    -9.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -8.6,
+     -0.1
+    ],
+    [
+     30.9,
+     21.4
+    ],
+    [
+     21.1,
+     43.9
+    ],
+    [
+     30.7,
+     57.2
+    ]
+   ],
+   "solar_zenith_deg": 95.4,
+   "coldest_k": 213.3,
+   "coldest_c": -59.8,
+   "updraft_xy_km": [
+    6.1,
+    -9.1
+   ],
+   "updraft_from_radar_core_km": 1.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1783,
+    "centroid_xy_km": [
+     21.6,
+     -1.4
+    ],
+    "ellipse_major_km": 79.1,
+    "ellipse_minor_km": 45.3,
+    "major_axis_deg": 112,
+    "extent_major_km": 80.3,
+    "extent_minor_km": 52.8,
+    "downstream_to_deg": 64,
+    "updraft_to_centroid_km": 17.3,
+    "downstream_reach_km": 61.5,
+    "backshear_km": 9.4,
+    "upwind_of_radar_core_km": 7.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.41,
+    "connected_shield_km2": 8822,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:57:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.0,
+    -10.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -8.6,
+     -0.1
+    ],
+    [
+     30.9,
+     21.4
+    ],
+    [
+     21.1,
+     43.9
+    ],
+    [
+     30.7,
+     57.2
+    ]
+   ],
+   "solar_zenith_deg": 95.5,
+   "coldest_k": 213.8,
+   "coldest_c": -59.3,
+   "updraft_xy_km": [
+    4.5,
+    -11.9
+   ],
+   "updraft_from_radar_core_km": 1.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1762,
+    "centroid_xy_km": [
+     21.9,
+     -2.0
+    ],
+    "ellipse_major_km": 81.4,
+    "ellipse_minor_km": 44.1,
+    "major_axis_deg": 107,
+    "extent_major_km": 84.6,
+    "extent_minor_km": 53.7,
+    "downstream_to_deg": 60,
+    "updraft_to_centroid_km": 20.0,
+    "downstream_reach_km": 64.6,
+    "backshear_km": 8.0,
+    "upwind_of_radar_core_km": 9.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.41,
+    "connected_shield_km2": 8870,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:58:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.3,
+    -10.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -8.6,
+     -0.1
+    ],
+    [
+     30.9,
+     21.4
+    ],
+    [
+     21.1,
+     43.9
+    ],
+    [
+     30.7,
+     57.2
+    ]
+   ],
+   "solar_zenith_deg": 95.7,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    3.7,
+    -9.0
+   ],
+   "updraft_from_radar_core_km": 2.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1741,
+    "centroid_xy_km": [
+     22.7,
+     -2.6
+    ],
+    "ellipse_major_km": 80.6,
+    "ellipse_minor_km": 42.4,
+    "major_axis_deg": 105,
+    "extent_major_km": 85.2,
+    "extent_minor_km": 54.0,
+    "downstream_to_deg": 71,
+    "updraft_to_centroid_km": 20.1,
+    "downstream_reach_km": 68.6,
+    "backshear_km": 10.8,
+    "upwind_of_radar_core_km": 12.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.46,
+    "connected_shield_km2": 8953,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T01:59:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.5,
+    -10.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -8.6,
+     -0.1
+    ],
+    [
+     30.9,
+     21.4
+    ],
+    [
+     21.1,
+     43.9
+    ],
+    [
+     30.7,
+     57.2
+    ]
+   ],
+   "solar_zenith_deg": 95.9,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    3.7,
+    -9.0
+   ],
+   "updraft_from_radar_core_km": 2.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1863,
+    "centroid_xy_km": [
+     23.1,
+     -2.6
+    ],
+    "ellipse_major_km": 81.5,
+    "ellipse_minor_km": 42.2,
+    "major_axis_deg": 104,
+    "extent_major_km": 87.0,
+    "extent_minor_km": 54.4,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 20.4,
+    "downstream_reach_km": 71.0,
+    "backshear_km": 10.9,
+    "upwind_of_radar_core_km": 12.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.43,
+    "connected_shield_km2": 9090,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:00:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.4,
+    -11.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -8.6,
+     -0.1
+    ],
+    [
+     30.9,
+     21.4
+    ],
+    [
+     21.1,
+     43.9
+    ],
+    [
+     30.7,
+     57.2
+    ]
+   ],
+   "solar_zenith_deg": 96.1,
+   "coldest_k": 212.1,
+   "coldest_c": -61.1,
+   "updraft_xy_km": [
+    3.7,
+    -9.0
+   ],
+   "updraft_from_radar_core_km": 2.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1856,
+    "centroid_xy_km": [
+     23.7,
+     -3.3
+    ],
+    "ellipse_major_km": 85.0,
+    "ellipse_minor_km": 38.7,
+    "major_axis_deg": 102,
+    "extent_major_km": 89.6,
+    "extent_minor_km": 51.9,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 20.8,
+    "downstream_reach_km": 73.9,
+    "backshear_km": 11.4,
+    "upwind_of_radar_core_km": 12.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.42,
+    "connected_shield_km2": 9220,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:01:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.2,
+    -11.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.5,
+     -1.2
+    ],
+    [
+     30.1,
+     20.4
+    ],
+    [
+     21.4,
+     44.6
+    ],
+    [
+     31.7,
+     58.2
+    ]
+   ],
+   "solar_zenith_deg": 96.2,
+   "coldest_k": 211.7,
+   "coldest_c": -61.4,
+   "updraft_xy_km": [
+    1.3,
+    -8.9
+   ],
+   "updraft_from_radar_core_km": 4.7,
+   "ots": [
+    {
+     "x": 1.3075896402117388,
+     "y": -8.887253125527952,
+     "bt_k": 211.7,
+     "depth_k": 6.8,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1991,
+    "centroid_xy_km": [
+     25.4,
+     -2.8
+    ],
+    "ellipse_major_km": 86.6,
+    "ellipse_minor_km": 39.6,
+    "major_axis_deg": 100,
+    "extent_major_km": 89.9,
+    "extent_minor_km": 52.0,
+    "downstream_to_deg": 76,
+    "updraft_to_centroid_km": 24.9,
+    "downstream_reach_km": 76.7,
+    "backshear_km": 9.5,
+    "upwind_of_radar_core_km": 12.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.48,
+    "connected_shield_km2": 9323,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:02:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.1,
+    -11.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.5,
+     -1.2
+    ],
+    [
+     30.1,
+     20.4
+    ],
+    [
+     21.4,
+     44.6
+    ],
+    [
+     31.7,
+     58.2
+    ]
+   ],
+   "solar_zenith_deg": 96.4,
+   "coldest_k": 210.2,
+   "coldest_c": -63.0,
+   "updraft_xy_km": [
+    1.3,
+    -8.9
+   ],
+   "updraft_from_radar_core_km": 4.8,
+   "ots": [
+    {
+     "x": 1.3075896402117388,
+     "y": -8.887253125527952,
+     "bt_k": 210.2,
+     "depth_k": 8.5,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 9345,
+    "centroid_xy_km": [
+     53.9,
+     36.7
+    ],
+    "ellipse_major_km": 139.7,
+    "ellipse_minor_km": 89.7,
+    "major_axis_deg": 33,
+    "extent_major_km": 144.3,
+    "extent_minor_km": 100.1,
+    "downstream_to_deg": 49,
+    "updraft_to_centroid_km": 69.6,
+    "downstream_reach_km": 137.2,
+    "backshear_km": 5.6,
+    "upwind_of_radar_core_km": 6.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.18,
+    "connected_shield_km2": 9447,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:03:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.0,
+    -12.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.5,
+     -1.2
+    ],
+    [
+     30.1,
+     20.4
+    ],
+    [
+     21.4,
+     44.6
+    ],
+    [
+     31.7,
+     58.2
+    ]
+   ],
+   "solar_zenith_deg": 96.6,
+   "coldest_k": 211.1,
+   "coldest_c": -62.0,
+   "updraft_xy_km": [
+    3.7,
+    -9.0
+   ],
+   "updraft_from_radar_core_km": 3.4,
+   "ots": [
+    {
+     "x": 3.686223881047227,
+     "y": -9.015887200790033,
+     "bt_k": 211.1,
+     "depth_k": 7.7,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 1678,
+    "centroid_xy_km": [
+     25.7,
+     -6.1
+    ],
+    "ellipse_major_km": 91.6,
+    "ellipse_minor_km": 31.4,
+    "major_axis_deg": 97,
+    "extent_major_km": 92.3,
+    "extent_minor_km": 39.8,
+    "downstream_to_deg": 82,
+    "updraft_to_centroid_km": 22.2,
+    "downstream_reach_km": 77.8,
+    "backshear_km": 13.2,
+    "upwind_of_radar_core_km": 14.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.51,
+    "connected_shield_km2": 9577,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:04:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.8,
+    -12.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.5,
+     -1.2
+    ],
+    [
+     30.1,
+     20.4
+    ],
+    [
+     21.4,
+     44.6
+    ],
+    [
+     31.7,
+     58.2
+    ]
+   ],
+   "solar_zenith_deg": 96.8,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    2.2,
+    -11.8
+   ],
+   "updraft_from_radar_core_km": 2.8,
+   "ots": [
+    {
+     "x": 2.171079702804161,
+     "y": -11.783982442022761,
+     "bt_k": 210.7,
+     "depth_k": 8.0,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1705,
+    "centroid_xy_km": [
+     25.3,
+     -5.9
+    ],
+    "ellipse_major_km": 90.4,
+    "ellipse_minor_km": 32.6,
+    "major_axis_deg": 98,
+    "extent_major_km": 91.3,
+    "extent_minor_km": 40.0,
+    "downstream_to_deg": 76,
+    "updraft_to_centroid_km": 23.9,
+    "downstream_reach_km": 78.7,
+    "backshear_km": 7.3,
+    "upwind_of_radar_core_km": 9.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.42,
+    "connected_shield_km2": 9679,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:05:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    4.9,
+    -12.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.5,
+     -1.2
+    ],
+    [
+     30.1,
+     20.4
+    ],
+    [
+     21.4,
+     44.6
+    ],
+    [
+     31.7,
+     58.2
+    ]
+   ],
+   "solar_zenith_deg": 96.9,
+   "coldest_k": 211.8,
+   "coldest_c": -61.4,
+   "updraft_xy_km": [
+    4.5,
+    -11.9
+   ],
+   "updraft_from_radar_core_km": 0.9,
+   "ots": [
+    {
+     "x": 4.5484775594572024,
+     "y": -11.912413705411781,
+     "bt_k": 211.8,
+     "depth_k": 7.2,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1691,
+    "centroid_xy_km": [
+     25.8,
+     -6.0
+    ],
+    "ellipse_major_km": 90.6,
+    "ellipse_minor_km": 33.1,
+    "major_axis_deg": 97,
+    "extent_major_km": 89.9,
+    "extent_minor_km": 40.2,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 22.1,
+    "downstream_reach_km": 76.2,
+    "backshear_km": 9.3,
+    "upwind_of_radar_core_km": 9.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.4,
+    "connected_shield_km2": 9761,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:06:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.0,
+    -13.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.5,
+     -1.2
+    ],
+    [
+     30.1,
+     20.4
+    ],
+    [
+     21.4,
+     44.6
+    ],
+    [
+     31.7,
+     58.2
+    ]
+   ],
+   "solar_zenith_deg": 97.1,
+   "coldest_k": 213.6,
+   "coldest_c": -59.5,
+   "updraft_xy_km": [
+    4.5,
+    -11.9
+   ],
+   "updraft_from_radar_core_km": 1.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1678,
+    "centroid_xy_km": [
+     26.5,
+     -5.5
+    ],
+    "ellipse_major_km": 93.3,
+    "ellipse_minor_km": 33.9,
+    "major_axis_deg": 97,
+    "extent_major_km": 91.2,
+    "extent_minor_km": 42.9,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 22.8,
+    "downstream_reach_km": 78.2,
+    "backshear_km": 6.8,
+    "upwind_of_radar_core_km": 7.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.42,
+    "connected_shield_km2": 9837,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:07:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.1,
+    -13.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -11.6,
+     -11.7
+    ],
+    [
+     -6.4,
+     -2.2
+    ],
+    [
+     30.3,
+     18.2
+    ],
+    [
+     30.9,
+     33.5
+    ],
+    [
+     23.0,
+     43.6
+    ],
+    [
+     33.3,
+     59.6
+    ]
+   ],
+   "solar_zenith_deg": 97.3,
+   "coldest_k": 214.4,
+   "coldest_c": -58.8,
+   "updraft_xy_km": [
+    5.2,
+    -6.2
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1671,
+    "centroid_xy_km": [
+     25.2,
+     -5.4
+    ],
+    "ellipse_major_km": 95.0,
+    "ellipse_minor_km": 33.0,
+    "major_axis_deg": 96,
+    "extent_major_km": 93.6,
+    "extent_minor_km": 40.1,
+    "downstream_to_deg": 88,
+    "updraft_to_centroid_km": 20.0,
+    "downstream_reach_km": 78.8,
+    "backshear_km": 15.0,
+    "upwind_of_radar_core_km": 14.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.38,
+    "connected_shield_km2": 9919,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:08:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.2,
+    -13.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -11.6,
+     -11.7
+    ],
+    [
+     -6.4,
+     -2.2
+    ],
+    [
+     30.3,
+     18.2
+    ],
+    [
+     30.9,
+     33.5
+    ],
+    [
+     23.0,
+     43.6
+    ],
+    [
+     33.3,
+     59.6
+    ]
+   ],
+   "solar_zenith_deg": 97.5,
+   "coldest_k": 213.7,
+   "coldest_c": -59.5,
+   "updraft_xy_km": [
+    4.5,
+    -11.9
+   ],
+   "updraft_from_radar_core_km": 1.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1611,
+    "centroid_xy_km": [
+     25.5,
+     -5.3
+    ],
+    "ellipse_major_km": 96.6,
+    "ellipse_minor_km": 32.5,
+    "major_axis_deg": 95,
+    "extent_major_km": 93.7,
+    "extent_minor_km": 40.1,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 22.0,
+    "downstream_reach_km": 77.9,
+    "backshear_km": 11.1,
+    "upwind_of_radar_core_km": 11.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.39,
+    "connected_shield_km2": 9926,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:09:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.2,
+    -13.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -11.6,
+     -11.7
+    ],
+    [
+     -6.4,
+     -2.2
+    ],
+    [
+     30.3,
+     18.2
+    ],
+    [
+     30.9,
+     33.5
+    ],
+    [
+     23.0,
+     43.6
+    ],
+    [
+     33.3,
+     59.6
+    ]
+   ],
+   "solar_zenith_deg": 97.7,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    4.5,
+    -11.9
+   ],
+   "updraft_from_radar_core_km": 2.0,
+   "ots": [
+    {
+     "x": 4.5484775594572024,
+     "y": -11.912413705411781,
+     "bt_k": 212.6,
+     "depth_k": 6.8,
+     "diam_km": 9.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 1590,
+    "centroid_xy_km": [
+     25.6,
+     -5.1
+    ],
+    "ellipse_major_km": 98.6,
+    "ellipse_minor_km": 32.3,
+    "major_axis_deg": 95,
+    "extent_major_km": 96.1,
+    "extent_minor_km": 37.2,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 22.1,
+    "downstream_reach_km": 80.0,
+    "backshear_km": 11.0,
+    "upwind_of_radar_core_km": 11.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.39,
+    "connected_shield_km2": 9954,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:10:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.3,
+    -14.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -11.6,
+     -11.7
+    ],
+    [
+     -6.4,
+     -2.2
+    ],
+    [
+     30.3,
+     18.2
+    ],
+    [
+     30.9,
+     33.5
+    ],
+    [
+     23.0,
+     43.6
+    ],
+    [
+     33.3,
+     59.6
+    ]
+   ],
+   "solar_zenith_deg": 97.8,
+   "coldest_k": 212.1,
+   "coldest_c": -61.1,
+   "updraft_xy_km": [
+    6.9,
+    -12.0
+   ],
+   "updraft_from_radar_core_km": 2.5,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 212.1,
+     "depth_k": 7.6,
+     "diam_km": 9.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 1658,
+    "centroid_xy_km": [
+     25.7,
+     -4.6
+    ],
+    "ellipse_major_km": 99.5,
+    "ellipse_minor_km": 33.6,
+    "major_axis_deg": 96,
+    "extent_major_km": 96.0,
+    "extent_minor_km": 40.1,
+    "downstream_to_deg": 68,
+    "updraft_to_centroid_km": 20.2,
+    "downstream_reach_km": 76.5,
+    "backshear_km": 12.5,
+    "upwind_of_radar_core_km": 10.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.41,
+    "connected_shield_km2": 10056,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:11:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.4,
+    -14.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -11.6,
+     -11.7
+    ],
+    [
+     -6.4,
+     -2.2
+    ],
+    [
+     30.3,
+     18.2
+    ],
+    [
+     30.9,
+     33.5
+    ],
+    [
+     23.0,
+     43.6
+    ],
+    [
+     33.3,
+     59.6
+    ]
+   ],
+   "solar_zenith_deg": 98.0,
+   "coldest_k": 212.3,
+   "coldest_c": -60.9,
+   "updraft_xy_km": [
+    6.9,
+    -12.0
+   ],
+   "updraft_from_radar_core_km": 2.7,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 212.3,
+     "depth_k": 7.4,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1631,
+    "centroid_xy_km": [
+     26.5,
+     -5.2
+    ],
+    "ellipse_major_km": 99.7,
+    "ellipse_minor_km": 33.1,
+    "major_axis_deg": 95,
+    "extent_major_km": 96.1,
+    "extent_minor_km": 40.0,
+    "downstream_to_deg": 71,
+    "updraft_to_centroid_km": 20.7,
+    "downstream_reach_km": 77.3,
+    "backshear_km": 12.9,
+    "upwind_of_radar_core_km": 10.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.47,
+    "connected_shield_km2": 10171,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:12:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.6,
+    -14.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -6.6,
+     -5.0
+    ],
+    [
+     30.1,
+     16.1
+    ],
+    [
+     34.3,
+     33.0
+    ],
+    [
+     26.8,
+     40.3
+    ],
+    [
+     25.4,
+     47.3
+    ],
+    [
+     34.5,
+     60.5
+    ]
+   ],
+   "solar_zenith_deg": 98.2,
+   "coldest_k": 213.0,
+   "coldest_c": -60.2,
+   "updraft_xy_km": [
+    6.9,
+    -12.0
+   ],
+   "updraft_from_radar_core_km": 2.9,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 213.0,
+     "depth_k": 6.6,
+     "diam_km": 9.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 1603,
+    "centroid_xy_km": [
+     27.0,
+     -5.5
+    ],
+    "ellipse_major_km": 102.3,
+    "ellipse_minor_km": 31.4,
+    "major_axis_deg": 94,
+    "extent_major_km": 98.5,
+    "extent_minor_km": 34.3,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 21.1,
+    "downstream_reach_km": 79.9,
+    "backshear_km": 13.2,
+    "upwind_of_radar_core_km": 11.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.44,
+    "connected_shield_km2": 10253,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:13:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.7,
+    -14.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -6.6,
+     -5.0
+    ],
+    [
+     30.1,
+     16.1
+    ],
+    [
+     34.3,
+     33.0
+    ],
+    [
+     26.8,
+     40.3
+    ],
+    [
+     25.4,
+     47.3
+    ],
+    [
+     34.5,
+     60.5
+    ]
+   ],
+   "solar_zenith_deg": 98.3,
+   "coldest_k": 214.0,
+   "coldest_c": -59.1,
+   "updraft_xy_km": [
+    6.9,
+    -12.0
+   ],
+   "updraft_from_radar_core_km": 3.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1590,
+    "centroid_xy_km": [
+     27.3,
+     -5.5
+    ],
+    "ellipse_major_km": 103.7,
+    "ellipse_minor_km": 31.4,
+    "major_axis_deg": 94,
+    "extent_major_km": 97.5,
+    "extent_minor_km": 34.4,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 21.5,
+    "downstream_reach_km": 80.0,
+    "backshear_km": 13.2,
+    "upwind_of_radar_core_km": 11.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.44,
+    "connected_shield_km2": 10342,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:14:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.8,
+    -15.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -6.6,
+     -5.0
+    ],
+    [
+     30.1,
+     16.1
+    ],
+    [
+     34.3,
+     33.0
+    ],
+    [
+     26.8,
+     40.3
+    ],
+    [
+     25.4,
+     47.3
+    ],
+    [
+     34.5,
+     60.5
+    ]
+   ],
+   "solar_zenith_deg": 98.5,
+   "coldest_k": 214.4,
+   "coldest_c": -58.7,
+   "updraft_xy_km": [
+    5.4,
+    -14.8
+   ],
+   "updraft_from_radar_core_km": 0.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1576,
+    "centroid_xy_km": [
+     29.0,
+     -5.5
+    ],
+    "ellipse_major_km": 104.6,
+    "ellipse_minor_km": 31.5,
+    "major_axis_deg": 94,
+    "extent_major_km": 98.3,
+    "extent_minor_km": 34.4,
+    "downstream_to_deg": 69,
+    "updraft_to_centroid_km": 25.4,
+    "downstream_reach_km": 83.2,
+    "backshear_km": 5.2,
+    "upwind_of_radar_core_km": 5.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.47,
+    "connected_shield_km2": 10491,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:15:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -15.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -6.6,
+     -5.0
+    ],
+    [
+     30.1,
+     16.1
+    ],
+    [
+     34.3,
+     33.0
+    ],
+    [
+     26.8,
+     40.3
+    ],
+    [
+     25.4,
+     47.3
+    ],
+    [
+     34.5,
+     60.5
+    ]
+   ],
+   "solar_zenith_deg": 98.7,
+   "coldest_k": 213.5,
+   "coldest_c": -59.6,
+   "updraft_xy_km": [
+    5.4,
+    -14.8
+   ],
+   "updraft_from_radar_core_km": 0.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1705,
+    "centroid_xy_km": [
+     28.2,
+     -4.9
+    ],
+    "ellipse_major_km": 104.9,
+    "ellipse_minor_km": 34.0,
+    "major_axis_deg": 95,
+    "extent_major_km": 104.5,
+    "extent_minor_km": 40.0,
+    "downstream_to_deg": 66,
+    "updraft_to_centroid_km": 24.8,
+    "downstream_reach_km": 84.5,
+    "backshear_km": 11.7,
+    "upwind_of_radar_core_km": 11.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.42,
+    "connected_shield_km2": 10572,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:16:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -15.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -6.6,
+     -5.0
+    ],
+    [
+     30.1,
+     16.1
+    ],
+    [
+     34.3,
+     33.0
+    ],
+    [
+     26.8,
+     40.3
+    ],
+    [
+     25.4,
+     47.3
+    ],
+    [
+     34.5,
+     60.5
+    ]
+   ],
+   "solar_zenith_deg": 98.9,
+   "coldest_k": 212.9,
+   "coldest_c": -60.3,
+   "updraft_xy_km": [
+    7.8,
+    -14.9
+   ],
+   "updraft_from_radar_core_km": 2.0,
+   "ots": [
+    {
+     "x": 7.784279965035326,
+     "y": -14.935393659687039,
+     "bt_k": 212.9,
+     "depth_k": 7.0,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1691,
+    "centroid_xy_km": [
+     28.5,
+     -5.7
+    ],
+    "ellipse_major_km": 106.4,
+    "ellipse_minor_km": 31.5,
+    "major_axis_deg": 94,
+    "extent_major_km": 104.6,
+    "extent_minor_km": 37.1,
+    "downstream_to_deg": 66,
+    "updraft_to_centroid_km": 22.7,
+    "downstream_reach_km": 82.1,
+    "backshear_km": 13.6,
+    "upwind_of_radar_core_km": 11.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.44,
+    "connected_shield_km2": 10653,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:17:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -15.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -6.6,
+     -5.0
+    ],
+    [
+     30.1,
+     16.1
+    ],
+    [
+     34.3,
+     33.0
+    ],
+    [
+     26.8,
+     40.3
+    ],
+    [
+     25.4,
+     47.3
+    ],
+    [
+     34.5,
+     60.5
+    ]
+   ],
+   "solar_zenith_deg": 99.0,
+   "coldest_k": 211.3,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    7.8,
+    -14.9
+   ],
+   "updraft_from_radar_core_km": 2.0,
+   "ots": [
+    {
+     "x": 7.784279965035326,
+     "y": -14.935393659687039,
+     "bt_k": 211.3,
+     "depth_k": 8.6,
+     "diam_km": 7.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 1779,
+    "centroid_xy_km": [
+     27.8,
+     -5.0
+    ],
+    "ellipse_major_km": 103.3,
+    "ellipse_minor_km": 34.0,
+    "major_axis_deg": 95,
+    "extent_major_km": 100.8,
+    "extent_minor_km": 40.1,
+    "downstream_to_deg": 64,
+    "updraft_to_centroid_km": 22.4,
+    "downstream_reach_km": 76.8,
+    "backshear_km": 13.0,
+    "upwind_of_radar_core_km": 11.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.41,
+    "connected_shield_km2": 10749,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:18:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -15.8
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 99.2,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    23.8,
+    9.9
+   ],
+   "updraft_from_radar_core_km": 31.3,
+   "ots": [
+    {
+     "x": 10.158667592316807,
+     "y": -15.0632493801945,
+     "bt_k": 212.0,
+     "depth_k": 8.2,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 10770,
+    "centroid_xy_km": [
+     62.2,
+     39.5
+    ],
+    "ellipse_major_km": 149.4,
+    "ellipse_minor_km": 98.3,
+    "major_axis_deg": 38,
+    "extent_major_km": 157.0,
+    "extent_minor_km": 108.4,
+    "downstream_to_deg": 52,
+    "updraft_to_centroid_km": 48.4,
+    "downstream_reach_km": 121.1,
+    "backshear_km": 37.6,
+    "upwind_of_radar_core_km": 7.7,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 10770,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:19:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -15.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 99.4,
+   "coldest_k": 209.8,
+   "coldest_c": -63.3,
+   "updraft_xy_km": [
+    4.5,
+    -11.9
+   ],
+   "updraft_from_radar_core_km": 4.2,
+   "ots": [
+    {
+     "x": 4.5484775594572024,
+     "y": -11.912413705411781,
+     "bt_k": 209.8,
+     "depth_k": 10.0,
+     "diam_km": 8.3
+    },
+    {
+     "x": 23.80981214446265,
+     "y": 9.886351580954775,
+     "bt_k": 209.9,
+     "depth_k": 7.1,
+     "diam_km": 16.7
+    }
+   ],
+   "anvil": {
+    "area_km2": 10880,
+    "centroid_xy_km": [
+     62.6,
+     39.8
+    ],
+    "ellipse_major_km": 150.1,
+    "ellipse_minor_km": 98.9,
+    "major_axis_deg": 39,
+    "extent_major_km": 158.7,
+    "extent_minor_km": 109.2,
+    "downstream_to_deg": 48,
+    "updraft_to_centroid_km": 77.8,
+    "downstream_reach_km": 152.3,
+    "backshear_km": 8.5,
+    "upwind_of_radar_core_km": 6.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 10880,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:20:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 99.6,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    23.8,
+    9.9
+   ],
+   "updraft_from_radar_core_km": 31.5,
+   "ots": [
+    {
+     "x": 23.80981214446265,
+     "y": 9.886351580954775,
+     "bt_k": 210.6,
+     "depth_k": 6.5,
+     "diam_km": 17.5
+    },
+    {
+     "x": 4.5484775594572024,
+     "y": -11.912413705411781,
+     "bt_k": 210.7,
+     "depth_k": 9.0,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 10892,
+    "centroid_xy_km": [
+     63.2,
+     39.7
+    ],
+    "ellipse_major_km": 150.5,
+    "ellipse_minor_km": 99.1,
+    "major_axis_deg": 39,
+    "extent_major_km": 158.9,
+    "extent_minor_km": 109.1,
+    "downstream_to_deg": 53,
+    "updraft_to_centroid_km": 49.4,
+    "downstream_reach_km": 122.8,
+    "backshear_km": 37.6,
+    "upwind_of_radar_core_km": 7.7,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 10892,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:21:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 99.7,
+   "coldest_k": 211.0,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    36.5,
+    6.3
+   ],
+   "updraft_from_radar_core_km": 38.0,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 211.1,
+     "depth_k": 8.7,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 11001,
+    "centroid_xy_km": [
+     63.5,
+     39.7
+    ],
+    "ellipse_major_km": 151.7,
+    "ellipse_minor_km": 99.4,
+    "major_axis_deg": 39,
+    "extent_major_km": 159.0,
+    "extent_minor_km": 110.5,
+    "downstream_to_deg": 39,
+    "updraft_to_centroid_km": 42.9,
+    "downstream_reach_km": 117.4,
+    "backshear_km": 41.6,
+    "upwind_of_radar_core_km": 4.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 11001,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:22:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 99.9,
+   "coldest_k": 210.9,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    37.4,
+    3.4
+   ],
+   "updraft_from_radar_core_km": 37.1,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 211.1,
+     "depth_k": 8.6,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 11103,
+    "centroid_xy_km": [
+     63.6,
+     39.7
+    ],
+    "ellipse_major_km": 152.8,
+    "ellipse_minor_km": 99.9,
+    "major_axis_deg": 39,
+    "extent_major_km": 160.4,
+    "extent_minor_km": 111.2,
+    "downstream_to_deg": 36,
+    "updraft_to_centroid_km": 44.7,
+    "downstream_reach_km": 120.4,
+    "backshear_km": 38.7,
+    "upwind_of_radar_core_km": 4.4,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 11103,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:23:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 100.1,
+   "coldest_k": 210.8,
+   "coldest_c": -62.3,
+   "updraft_xy_km": [
+    6.9,
+    -12.0
+   ],
+   "updraft_from_radar_core_km": 4.2,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 210.8,
+     "depth_k": 8.8,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 11191,
+    "centroid_xy_km": [
+     64.0,
+     39.7
+    ],
+    "ellipse_major_km": 153.5,
+    "ellipse_minor_km": 100.2,
+    "major_axis_deg": 39,
+    "extent_major_km": 162.0,
+    "extent_minor_km": 110.7,
+    "downstream_to_deg": 48,
+    "updraft_to_centroid_km": 77.0,
+    "downstream_reach_km": 153.7,
+    "backshear_km": 10.4,
+    "upwind_of_radar_core_km": 6.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 11191,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:24:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 100.2,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    -11.5,
+    -5.3
+   ],
+   "updraft_from_radar_core_km": 20.4,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 210.6,
+     "depth_k": 8.9,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 11199,
+    "centroid_xy_km": [
+     64.3,
+     40.0
+    ],
+    "ellipse_major_km": 153.5,
+    "ellipse_minor_km": 100.6,
+    "major_axis_deg": 39,
+    "extent_major_km": 163.5,
+    "extent_minor_km": 111.2,
+    "downstream_to_deg": 59,
+    "updraft_to_centroid_km": 88.3,
+    "downstream_reach_km": 162.2,
+    "backshear_km": 0.7,
+    "upwind_of_radar_core_km": 10.1,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 11199,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:25:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 100.4,
+   "coldest_k": 210.9,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    -11.5,
+    -5.3
+   ],
+   "updraft_from_radar_core_km": 20.4,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 211.3,
+     "depth_k": 8.1,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 11206,
+    "centroid_xy_km": [
+     64.7,
+     40.2
+    ],
+    "ellipse_major_km": 153.9,
+    "ellipse_minor_km": 100.7,
+    "major_axis_deg": 39,
+    "extent_major_km": 160.1,
+    "extent_minor_km": 110.7,
+    "downstream_to_deg": 59,
+    "updraft_to_centroid_km": 88.7,
+    "downstream_reach_km": 158.7,
+    "backshear_km": 1.5,
+    "upwind_of_radar_core_km": 10.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 11206,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:26:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 100.6,
+   "coldest_k": 210.9,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    -10.6,
+    -8.2
+   ],
+   "updraft_from_radar_core_km": 18.3,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 211.5,
+     "depth_k": 7.8,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 11315,
+    "centroid_xy_km": [
+     64.8,
+     40.2
+    ],
+    "ellipse_major_km": 154.4,
+    "ellipse_minor_km": 101.5,
+    "major_axis_deg": 39,
+    "extent_major_km": 161.5,
+    "extent_minor_km": 110.7,
+    "downstream_to_deg": 57,
+    "updraft_to_centroid_km": 89.6,
+    "downstream_reach_km": 161.0,
+    "backshear_km": 0.8,
+    "upwind_of_radar_core_km": 10.5,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 11315,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:27:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 100.7,
+   "coldest_k": 211.2,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    6.9,
+    -12.0
+   ],
+   "updraft_from_radar_core_km": 4.2,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 211.2,
+     "depth_k": 8.1,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1610,
+    "centroid_xy_km": [
+     24.9,
+     -6.8
+    ],
+    "ellipse_major_km": 105.5,
+    "ellipse_minor_km": 32.5,
+    "major_axis_deg": 95,
+    "extent_major_km": 104.3,
+    "extent_minor_km": 39.9,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 18.7,
+    "downstream_reach_km": 82.6,
+    "backshear_km": 15.8,
+    "upwind_of_radar_core_km": 13.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 11314,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:28:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 100.9,
+   "coldest_k": 211.8,
+   "coldest_c": -61.4,
+   "updraft_xy_km": [
+    39.8,
+    3.3
+   ],
+   "updraft_from_radar_core_km": 39.0,
+   "ots": [
+    {
+     "x": 6.9249058590957855,
+     "y": -12.040653640431218,
+     "bt_k": 211.8,
+     "depth_k": 7.5,
+     "diam_km": 7.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 1664,
+    "centroid_xy_km": [
+     24.6,
+     -6.4
+    ],
+    "ellipse_major_km": 103.3,
+    "ellipse_minor_km": 33.7,
+    "major_axis_deg": 95,
+    "extent_major_km": 104.3,
+    "extent_minor_km": 42.8,
+    "downstream_to_deg": 237,
+    "updraft_to_centroid_km": 18.0,
+    "downstream_reach_km": 49.5,
+    "backshear_km": 37.8,
+    "upwind_of_radar_core_km": 76.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 11301,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:29:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 101.1,
+   "coldest_k": 212.2,
+   "coldest_c": -60.9,
+   "updraft_xy_km": [
+    8.4,
+    -9.3
+   ],
+   "updraft_from_radar_core_km": 7.3,
+   "ots": [
+    {
+     "x": 8.440739255865322,
+     "y": -9.272589058577674,
+     "bt_k": 212.2,
+     "depth_k": 7.4,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1665,
+    "centroid_xy_km": [
+     23.8,
+     -6.2
+    ],
+    "ellipse_major_km": 103.2,
+    "ellipse_minor_km": 33.8,
+    "major_axis_deg": 95,
+    "extent_major_km": 103.0,
+    "extent_minor_km": 42.8,
+    "downstream_to_deg": 79,
+    "updraft_to_centroid_km": 15.6,
+    "downstream_reach_km": 79.7,
+    "backshear_km": 20.8,
+    "upwind_of_radar_core_km": 16.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.35,
+    "connected_shield_km2": 11369,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:30:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 101.2,
+   "coldest_k": 211.0,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    -6.7,
+    -5.6
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [
+    {
+     "x": 9.30052436050656,
+     "y": -12.168710991172714,
+     "bt_k": 212.8,
+     "depth_k": 6.8,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1881,
+    "centroid_xy_km": [
+     27.1,
+     -5.7
+    ],
+    "ellipse_major_km": 111.0,
+    "ellipse_minor_km": 32.4,
+    "major_axis_deg": 94,
+    "extent_major_km": 107.0,
+    "extent_minor_km": 42.8,
+    "downstream_to_deg": 90,
+    "updraft_to_centroid_km": 33.8,
+    "downstream_reach_km": 100.1,
+    "backshear_km": 7.2,
+    "upwind_of_radar_core_km": 19.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.35,
+    "connected_shield_km2": 11411,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:31:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 101.4,
+   "coldest_k": 210.4,
+   "coldest_c": -62.7,
+   "updraft_xy_km": [
+    -12.3,
+    -2.4
+   ],
+   "updraft_from_radar_core_km": 22.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1881,
+    "centroid_xy_km": [
+     26.6,
+     -5.3
+    ],
+    "ellipse_major_km": 111.3,
+    "ellipse_minor_km": 32.5,
+    "major_axis_deg": 94,
+    "extent_major_km": 109.4,
+    "extent_minor_km": 45.6,
+    "downstream_to_deg": 94,
+    "updraft_to_centroid_km": 39.0,
+    "downstream_reach_km": 108.0,
+    "backshear_km": 1.3,
+    "upwind_of_radar_core_km": 20.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 11555,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:32:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 101.6,
+   "coldest_k": 207.5,
+   "coldest_c": -65.7,
+   "updraft_xy_km": [
+    -13.0,
+    -8.1
+   ],
+   "updraft_from_radar_core_km": 20.5,
+   "ots": [
+    {
+     "x": -3.4519653685728935,
+     "y": -8.629443343246258,
+     "bt_k": 211.3,
+     "depth_k": 6.7,
+     "diam_km": 14.1
+    }
+   ],
+   "anvil": {
+    "area_km2": 1942,
+    "centroid_xy_km": [
+     27.0,
+     -5.1
+    ],
+    "ellipse_major_km": 111.2,
+    "ellipse_minor_km": 33.6,
+    "major_axis_deg": 94,
+    "extent_major_km": 111.7,
+    "extent_minor_km": 45.5,
+    "downstream_to_deg": 86,
+    "updraft_to_centroid_km": 40.1,
+    "downstream_reach_km": 110.9,
+    "backshear_km": 0.7,
+    "upwind_of_radar_core_km": 18.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.37,
+    "connected_shield_km2": 11615,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:33:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 101.7,
+   "coldest_k": 209.0,
+   "coldest_c": -64.2,
+   "updraft_xy_km": [
+    -13.0,
+    -8.1
+   ],
+   "updraft_from_radar_core_km": 20.5,
+   "ots": [
+    {
+     "x": -3.4519653685728935,
+     "y": -8.629443343246258,
+     "bt_k": 210.1,
+     "depth_k": 8.0,
+     "diam_km": 13.5
+    }
+   ],
+   "anvil": {
+    "area_km2": 1942,
+    "centroid_xy_km": [
+     26.9,
+     -5.0
+    ],
+    "ellipse_major_km": 110.1,
+    "ellipse_minor_km": 33.1,
+    "major_axis_deg": 95,
+    "extent_major_km": 106.9,
+    "extent_minor_km": 45.4,
+    "downstream_to_deg": 86,
+    "updraft_to_centroid_km": 40.0,
+    "downstream_reach_km": 106.3,
+    "backshear_km": 0.6,
+    "upwind_of_radar_core_km": 18.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 11663,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:34:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 101.9,
+   "coldest_k": 210.0,
+   "coldest_c": -63.1,
+   "updraft_xy_km": [
+    -13.0,
+    -8.1
+   ],
+   "updraft_from_radar_core_km": 20.5,
+   "ots": [
+    {
+     "x": -3.4519653685728935,
+     "y": -8.629443343246258,
+     "bt_k": 210.1,
+     "depth_k": 7.8,
+     "diam_km": 13.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 1989,
+    "centroid_xy_km": [
+     26.7,
+     -5.2
+    ],
+    "ellipse_major_km": 110.6,
+    "ellipse_minor_km": 33.0,
+    "major_axis_deg": 94,
+    "extent_major_km": 106.9,
+    "extent_minor_km": 42.7,
+    "downstream_to_deg": 86,
+    "updraft_to_centroid_km": 39.8,
+    "downstream_reach_km": 106.3,
+    "backshear_km": 0.7,
+    "upwind_of_radar_core_km": 18.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.35,
+    "connected_shield_km2": 11745,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:35:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 102.1,
+   "coldest_k": 210.0,
+   "coldest_c": -63.1,
+   "updraft_xy_km": [
+    -12.1,
+    -11.0
+   ],
+   "updraft_from_radar_core_km": 18.7,
+   "ots": [
+    {
+     "x": -1.0717007228701303,
+     "y": -8.758444284402028,
+     "bt_k": 211.1,
+     "depth_k": 6.7,
+     "diam_km": 15.6
+    }
+   ],
+   "anvil": {
+    "area_km2": 2044,
+    "centroid_xy_km": [
+     26.2,
+     -5.1
+    ],
+    "ellipse_major_km": 111.5,
+    "ellipse_minor_km": 33.0,
+    "major_axis_deg": 94,
+    "extent_major_km": 110.4,
+    "extent_minor_km": 42.7,
+    "downstream_to_deg": 81,
+    "updraft_to_centroid_km": 38.8,
+    "downstream_reach_km": 107.4,
+    "backshear_km": 1.3,
+    "upwind_of_radar_core_km": 18.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.35,
+    "connected_shield_km2": 11753,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:36:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 102.2,
+   "coldest_k": 210.1,
+   "coldest_c": -63.0,
+   "updraft_xy_km": [
+    -12.1,
+    -11.0
+   ],
+   "updraft_from_radar_core_km": 18.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 2078,
+    "centroid_xy_km": [
+     26.0,
+     -5.0
+    ],
+    "ellipse_major_km": 111.1,
+    "ellipse_minor_km": 33.8,
+    "major_axis_deg": 94,
+    "extent_major_km": 110.4,
+    "extent_minor_km": 45.5,
+    "downstream_to_deg": 81,
+    "updraft_to_centroid_km": 38.6,
+    "downstream_reach_km": 107.4,
+    "backshear_km": 1.2,
+    "upwind_of_radar_core_km": 18.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.36,
+    "connected_shield_km2": 11841,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:37:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 102.4,
+   "coldest_k": 208.9,
+   "coldest_c": -64.2,
+   "updraft_xy_km": [
+    -13.0,
+    -8.1
+   ],
+   "updraft_from_radar_core_km": 20.5,
+   "ots": [
+    {
+     "x": -6.701759530630149,
+     "y": -5.601337692106018,
+     "bt_k": 209.6,
+     "depth_k": 7.0,
+     "diam_km": 10.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 719,
+    "centroid_xy_km": [
+     1.7,
+     -8.8
+    ],
+    "ellipse_major_km": 43.0,
+    "ellipse_minor_km": 24.1,
+    "major_axis_deg": 113,
+    "extent_major_km": 43.5,
+    "extent_minor_km": 25.2,
+    "downstream_to_deg": 93,
+    "updraft_to_centroid_km": 14.7,
+    "downstream_reach_km": 40.1,
+    "backshear_km": 2.4,
+    "upwind_of_radar_core_km": 21.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.48,
+    "connected_shield_km2": 11897,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:38:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 102.6,
+   "coldest_k": 208.9,
+   "coldest_c": -64.2,
+   "updraft_xy_km": [
+    -10.6,
+    -8.2
+   ],
+   "updraft_from_radar_core_km": 18.3,
+   "ots": [
+    {
+     "x": -3.4519653685728935,
+     "y": -8.629443343246258,
+     "bt_k": 209.1,
+     "depth_k": 8.2,
+     "diam_km": 9.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 420,
+    "centroid_xy_km": [
+     0.5,
+     -12.5
+    ],
+    "ellipse_major_km": 52.1,
+    "ellipse_minor_km": 15.2,
+    "major_axis_deg": 109,
+    "extent_major_km": 44.2,
+    "extent_minor_km": 15.4,
+    "downstream_to_deg": 111,
+    "updraft_to_centroid_km": 11.8,
+    "downstream_reach_km": 37.7,
+    "backshear_km": 6.4,
+    "upwind_of_radar_core_km": 24.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.47,
+    "connected_shield_km2": 12019,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:39:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 102.7,
+   "coldest_k": 209.3,
+   "coldest_c": -63.8,
+   "updraft_xy_km": [
+    -10.6,
+    -8.2
+   ],
+   "updraft_from_radar_core_km": 18.3,
+   "ots": [
+    {
+     "x": -3.4519653685728935,
+     "y": -8.629443343246258,
+     "bt_k": 209.8,
+     "depth_k": 7.4,
+     "diam_km": 10.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 666,
+    "centroid_xy_km": [
+     -0.6,
+     -5.0
+    ],
+    "ellipse_major_km": 34.1,
+    "ellipse_minor_km": 25.7,
+    "major_axis_deg": 89,
+    "extent_major_km": 30.9,
+    "extent_minor_km": 22.6,
+    "downstream_to_deg": 72,
+    "updraft_to_centroid_km": 10.5,
+    "downstream_reach_km": 24.9,
+    "backshear_km": 4.7,
+    "upwind_of_radar_core_km": 17.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.77,
+    "connected_shield_km2": 12114,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:40:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 102.9,
+   "coldest_k": 209.9,
+   "coldest_c": -63.2,
+   "updraft_xy_km": [
+    -10.6,
+    -8.2
+   ],
+   "updraft_from_radar_core_km": 18.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1367,
+    "centroid_xy_km": [
+     17.8,
+     -8.7
+    ],
+    "ellipse_major_km": 106.5,
+    "ellipse_minor_km": 25.8,
+    "major_axis_deg": 94,
+    "extent_major_km": 99.6,
+    "extent_minor_km": 26.1,
+    "downstream_to_deg": 91,
+    "updraft_to_centroid_km": 28.4,
+    "downstream_reach_km": 93.9,
+    "backshear_km": 5.7,
+    "upwind_of_radar_core_km": 22.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.46,
+    "connected_shield_km2": 12168,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:41:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 103.1,
+   "coldest_k": 207.6,
+   "coldest_c": -65.5,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1013,
+    "centroid_xy_km": [
+     23.8,
+     -12.4
+    ],
+    "ellipse_major_km": 117.0,
+    "ellipse_minor_km": 15.9,
+    "major_axis_deg": 89,
+    "extent_major_km": 102.5,
+    "extent_minor_km": 16.7,
+    "downstream_to_deg": 92,
+    "updraft_to_centroid_km": 33.5,
+    "downstream_reach_km": 95.2,
+    "backshear_km": 7.2,
+    "upwind_of_radar_core_km": 23.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.47,
+    "connected_shield_km2": 12359,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:42:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 103.2,
+   "coldest_k": 207.5,
+   "coldest_c": -65.7,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 535,
+    "centroid_xy_km": [
+     -0.7,
+     -13.0
+    ],
+    "ellipse_major_km": 40.4,
+    "ellipse_minor_km": 18.0,
+    "major_axis_deg": 100,
+    "extent_major_km": 38.5,
+    "extent_minor_km": 16.7,
+    "downstream_to_deg": 102,
+    "updraft_to_centroid_km": 9.2,
+    "downstream_reach_km": 30.2,
+    "backshear_km": 8.5,
+    "upwind_of_radar_core_km": 24.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.44,
+    "connected_shield_km2": 12496,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:43:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 103.4,
+   "coldest_k": 206.6,
+   "coldest_c": -66.6,
+   "updraft_xy_km": [
+    -12.1,
+    -11.0
+   ],
+   "updraft_from_radar_core_km": 18.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 312,
+    "centroid_xy_km": [
+     -6.7,
+     -13.8
+    ],
+    "ellipse_major_km": 35.2,
+    "ellipse_minor_km": 14.8,
+    "major_axis_deg": 117,
+    "extent_major_km": 34.5,
+    "extent_minor_km": 14.8,
+    "downstream_to_deg": 117,
+    "updraft_to_centroid_km": 6.1,
+    "downstream_reach_km": 25.9,
+    "backshear_km": 8.6,
+    "upwind_of_radar_core_km": 26.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.52,
+    "connected_shield_km2": 12420,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:44:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 103.5,
+   "coldest_k": 206.3,
+   "coldest_c": -66.8,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [
+    {
+     "x": -9.727662415053832,
+     "y": -11.139103057521881,
+     "bt_k": 206.3,
+     "depth_k": 11.2,
+     "diam_km": 7.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 217,
+    "centroid_xy_km": [
+     -11.6,
+     -9.2
+    ],
+    "ellipse_major_km": 19.1,
+    "ellipse_minor_km": 15.2,
+    "major_axis_deg": 154,
+    "extent_major_km": 16.6,
+    "extent_minor_km": 12.9,
+    "downstream_to_deg": 316,
+    "updraft_to_centroid_km": 2.8,
+    "downstream_reach_km": 11.6,
+    "backshear_km": 6.2,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.67,
+    "connected_shield_km2": 12474,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:45:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 103.7,
+   "coldest_k": 207.1,
+   "coldest_c": -66.1,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [
+    {
+     "x": -9.727662415053832,
+     "y": -11.139103057521881,
+     "bt_k": 207.1,
+     "depth_k": 10.4,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 224,
+    "centroid_xy_km": [
+     -11.7,
+     -9.5
+    ],
+    "ellipse_major_km": 19.7,
+    "ellipse_minor_km": 15.5,
+    "major_axis_deg": 164,
+    "extent_major_km": 17.4,
+    "extent_minor_km": 11.5,
+    "downstream_to_deg": 310,
+    "updraft_to_centroid_km": 2.6,
+    "downstream_reach_km": 11.4,
+    "backshear_km": 6.3,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.74,
+    "connected_shield_km2": 12609,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:46:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 103.9,
+   "coldest_k": 209.0,
+   "coldest_c": -64.2,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [
+    {
+     "x": -9.727662415053832,
+     "y": -11.139103057521881,
+     "bt_k": 209.0,
+     "depth_k": 8.2,
+     "diam_km": 10.6
+    }
+   ],
+   "anvil": {
+    "area_km2": 447,
+    "centroid_xy_km": [
+     -6.5,
+     -13.9
+    ],
+    "ellipse_major_km": 37.7,
+    "ellipse_minor_km": 18.8,
+    "major_axis_deg": 122,
+    "extent_major_km": 38.4,
+    "extent_minor_km": 18.5,
+    "downstream_to_deg": 131,
+    "updraft_to_centroid_km": 4.2,
+    "downstream_reach_km": 24.0,
+    "backshear_km": 13.3,
+    "upwind_of_radar_core_km": 28.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.48,
+    "connected_shield_km2": 12766,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:47:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 104.0,
+   "coldest_k": 209.2,
+   "coldest_c": -63.9,
+   "updraft_xy_km": [
+    -11.2,
+    -13.9
+   ],
+   "updraft_from_radar_core_km": 17.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 406,
+    "centroid_xy_km": [
+     -5.9,
+     -15.6
+    ],
+    "ellipse_major_km": 38.8,
+    "ellipse_minor_km": 16.7,
+    "major_axis_deg": 114,
+    "extent_major_km": 36.8,
+    "extent_minor_km": 16.3,
+    "downstream_to_deg": 107,
+    "updraft_to_centroid_km": 5.6,
+    "downstream_reach_km": 27.1,
+    "backshear_km": 9.7,
+    "upwind_of_radar_core_km": 26.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.5,
+    "connected_shield_km2": 12834,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:48:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 104.2,
+   "coldest_k": 206.2,
+   "coldest_c": -67.0,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [
+    {
+     "x": -9.727662415053832,
+     "y": -11.139103057521881,
+     "bt_k": 206.2,
+     "depth_k": 10.9,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 204,
+    "centroid_xy_km": [
+     -12.5,
+     -11.2
+    ],
+    "ellipse_major_km": 17.4,
+    "ellipse_minor_km": 15.9,
+    "major_axis_deg": 112,
+    "extent_major_km": 17.0,
+    "extent_minor_km": 14.9,
+    "downstream_to_deg": 269,
+    "updraft_to_centroid_km": 2.7,
+    "downstream_reach_km": 9.5,
+    "backshear_km": 5.6,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.76,
+    "connected_shield_km2": 12909,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:49:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 104.4,
+   "coldest_k": 203.2,
+   "coldest_c": -69.9,
+   "updraft_xy_km": [
+    -9.7,
+    -11.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [
+    {
+     "x": -9.727662415053832,
+     "y": -11.139103057521881,
+     "bt_k": 203.2,
+     "depth_k": 14.0,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 217,
+    "centroid_xy_km": [
+     -12.8,
+     -11.3
+    ],
+    "ellipse_major_km": 17.9,
+    "ellipse_minor_km": 16.7,
+    "major_axis_deg": 111,
+    "extent_major_km": 17.3,
+    "extent_minor_km": 15.6,
+    "downstream_to_deg": 267,
+    "updraft_to_centroid_km": 3.1,
+    "downstream_reach_km": 10.2,
+    "backshear_km": 5.4,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.72,
+    "connected_shield_km2": 13059,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:50:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 104.5,
+   "coldest_k": 207.0,
+   "coldest_c": -66.2,
+   "updraft_xy_km": [
+    -12.1,
+    -11.0
+   ],
+   "updraft_from_radar_core_km": 18.7,
+   "ots": [
+    {
+     "x": -12.10980407940838,
+     "y": -11.009579517007564,
+     "bt_k": 207.0,
+     "depth_k": 10.2,
+     "diam_km": 10.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 211,
+    "centroid_xy_km": [
+     -13.1,
+     -11.2
+    ],
+    "ellipse_major_km": 17.0,
+    "ellipse_minor_km": 16.8,
+    "major_axis_deg": 178,
+    "extent_major_km": 14.6,
+    "extent_minor_km": 15.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.71,
+    "connected_shield_km2": 13160,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:51:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 104.7,
+   "coldest_k": 209.5,
+   "coldest_c": -63.6,
+   "updraft_xy_km": [
+    -3.2,
+    -17.2
+   ],
+   "updraft_from_radar_core_km": 9.2,
+   "ots": [
+    {
+     "x": -3.2361233791368487,
+     "y": -17.187915480372375,
+     "bt_k": 209.5,
+     "depth_k": 7.3,
+     "diam_km": 11.0
+    }
+   ],
+   "anvil": {
+    "area_km2": 4313,
+    "centroid_xy_km": [
+     36.4,
+     0.9
+    ],
+    "ellipse_major_km": 139.4,
+    "ellipse_minor_km": 45.3,
+    "major_axis_deg": 86,
+    "extent_major_km": 140.8,
+    "extent_minor_km": 50.7,
+    "downstream_to_deg": 65,
+    "updraft_to_centroid_km": 43.6,
+    "downstream_reach_km": 122.7,
+    "backshear_km": 13.1,
+    "upwind_of_radar_core_km": 21.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.3,
+    "connected_shield_km2": 13249,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:52:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 104.8,
+   "coldest_k": 209.1,
+   "coldest_c": -64.1,
+   "updraft_xy_km": [
+    -8.0,
+    -16.9
+   ],
+   "updraft_from_radar_core_km": 13.9,
+   "ots": [
+    {
+     "x": -7.993150254859385,
+     "y": -16.93022599768881,
+     "bt_k": 209.1,
+     "depth_k": 7.4,
+     "diam_km": 11.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 4591,
+    "centroid_xy_km": [
+     37.3,
+     1.9
+    ],
+    "ellipse_major_km": 138.8,
+    "ellipse_minor_km": 47.7,
+    "major_axis_deg": 85,
+    "extent_major_km": 140.8,
+    "extent_minor_km": 53.3,
+    "downstream_to_deg": 67,
+    "updraft_to_centroid_km": 49.0,
+    "downstream_reach_km": 127.8,
+    "backshear_km": 9.2,
+    "upwind_of_radar_core_km": 22.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.29,
+    "connected_shield_km2": 13372,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:53:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.0,
+   "coldest_k": 206.3,
+   "coldest_c": -66.8,
+   "updraft_xy_km": [
+    -8.0,
+    -16.9
+   ],
+   "updraft_from_radar_core_km": 13.9,
+   "ots": [
+    {
+     "x": -7.993150254859385,
+     "y": -16.93022599768881,
+     "bt_k": 206.3,
+     "depth_k": 10.4,
+     "diam_km": 10.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 447,
+    "centroid_xy_km": [
+     -6.2,
+     -17.9
+    ],
+    "ellipse_major_km": 41.1,
+    "ellipse_minor_km": 17.6,
+    "major_axis_deg": 116,
+    "extent_major_km": 40.9,
+    "extent_minor_km": 17.0,
+    "downstream_to_deg": 119,
+    "updraft_to_centroid_km": 2.0,
+    "downstream_reach_km": 23.6,
+    "backshear_km": 17.2,
+    "upwind_of_radar_core_km": 29.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.46,
+    "connected_shield_km2": 13460,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:54:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.1,
+   "coldest_k": 206.1,
+   "coldest_c": -67.1,
+   "updraft_xy_km": [
+    -8.9,
+    -14.0
+   ],
+   "updraft_from_radar_core_km": 14.9,
+   "ots": [
+    {
+     "x": -8.859634324437295,
+     "y": -14.035264087249505,
+     "bt_k": 206.1,
+     "depth_k": 11.1,
+     "diam_km": 10.6
+    }
+   ],
+   "anvil": {
+    "area_km2": 454,
+    "centroid_xy_km": [
+     -6.0,
+     -18.4
+    ],
+    "ellipse_major_km": 45.2,
+    "ellipse_minor_km": 16.6,
+    "major_axis_deg": 112,
+    "extent_major_km": 43.2,
+    "extent_minor_km": 16.6,
+    "downstream_to_deg": 147,
+    "updraft_to_centroid_km": 5.2,
+    "downstream_reach_km": 21.4,
+    "backshear_km": 14.4,
+    "upwind_of_radar_core_km": 24.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.44,
+    "connected_shield_km2": 13487,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:55:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.3,
+   "coldest_k": 207.5,
+   "coldest_c": -65.7,
+   "updraft_xy_km": [
+    -8.9,
+    -14.0
+   ],
+   "updraft_from_radar_core_km": 14.9,
+   "ots": [
+    {
+     "x": -8.859634324437295,
+     "y": -14.035264087249505,
+     "bt_k": 207.5,
+     "depth_k": 9.9,
+     "diam_km": 11.0
+    }
+   ],
+   "anvil": {
+    "area_km2": 480,
+    "centroid_xy_km": [
+     -5.4,
+     -18.9
+    ],
+    "ellipse_major_km": 46.0,
+    "ellipse_minor_km": 17.4,
+    "major_axis_deg": 112,
+    "extent_major_km": 43.2,
+    "extent_minor_km": 17.4,
+    "downstream_to_deg": 145,
+    "updraft_to_centroid_km": 5.9,
+    "downstream_reach_km": 23.3,
+    "backshear_km": 14.5,
+    "upwind_of_radar_core_km": 24.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.43,
+    "connected_shield_km2": 13576,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:56:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.5,
+   "coldest_k": 208.7,
+   "coldest_c": -64.5,
+   "updraft_xy_km": [
+    -8.0,
+    -16.9
+   ],
+   "updraft_from_radar_core_km": 13.9,
+   "ots": [
+    {
+     "x": -7.993150254859385,
+     "y": -16.93022599768881,
+     "bt_k": 208.7,
+     "depth_k": 8.4,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 2452,
+    "centroid_xy_km": [
+     7.9,
+     -1.3
+    ],
+    "ellipse_major_km": 67.7,
+    "ellipse_minor_km": 47.1,
+    "major_axis_deg": 53,
+    "extent_major_km": 68.7,
+    "extent_minor_km": 48.7,
+    "downstream_to_deg": 45,
+    "updraft_to_centroid_km": 22.3,
+    "downstream_reach_km": 58.4,
+    "backshear_km": 9.4,
+    "upwind_of_radar_core_km": 19.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.41,
+    "connected_shield_km2": 13630,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:57:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.6,
+   "coldest_k": 206.4,
+   "coldest_c": -66.7,
+   "updraft_xy_km": [
+    -8.0,
+    -16.9
+   ],
+   "updraft_from_radar_core_km": 13.9,
+   "ots": [
+    {
+     "x": -7.993150254859385,
+     "y": -16.93022599768881,
+     "bt_k": 206.4,
+     "depth_k": 10.6,
+     "diam_km": 7.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 338,
+    "centroid_xy_km": [
+     -2.9,
+     -21.7
+    ],
+    "ellipse_major_km": 34.9,
+    "ellipse_minor_km": 17.3,
+    "major_axis_deg": 116,
+    "extent_major_km": 34.5,
+    "extent_minor_km": 16.1,
+    "downstream_to_deg": 133,
+    "updraft_to_centroid_km": 7.0,
+    "downstream_reach_km": 23.4,
+    "backshear_km": 8.9,
+    "upwind_of_radar_core_km": 18.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.67,
+    "connected_shield_km2": 13637,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:58:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.8,
+   "coldest_k": 206.8,
+   "coldest_c": -66.4,
+   "updraft_xy_km": [
+    -8.0,
+    -16.9
+   ],
+   "updraft_from_radar_core_km": 13.9,
+   "ots": [
+    {
+     "x": -7.993150254859385,
+     "y": -16.93022599768881,
+     "bt_k": 206.8,
+     "depth_k": 10.3,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 372,
+    "centroid_xy_km": [
+     -2.0,
+     -22.3
+    ],
+    "ellipse_major_km": 37.0,
+    "ellipse_minor_km": 18.3,
+    "major_axis_deg": 114,
+    "extent_major_km": 36.7,
+    "extent_minor_km": 16.9,
+    "downstream_to_deg": 132,
+    "updraft_to_centroid_km": 8.1,
+    "downstream_reach_km": 25.5,
+    "backshear_km": 8.9,
+    "upwind_of_radar_core_km": 18.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.66,
+    "connected_shield_km2": 13760,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T02:59:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 105.9,
+   "coldest_k": 205.1,
+   "coldest_c": -68.1,
+   "updraft_xy_km": [
+    -10.4,
+    -16.8
+   ],
+   "updraft_from_radar_core_km": 16.3,
+   "ots": [
+    {
+     "x": -10.372811194910515,
+     "y": -16.8011107290489,
+     "bt_k": 205.1,
+     "depth_k": 12.3,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 358,
+    "centroid_xy_km": [
+     -1.2,
+     -23.7
+    ],
+    "ellipse_major_km": 35.7,
+    "ellipse_minor_km": 17.0,
+    "major_axis_deg": 106,
+    "extent_major_km": 35.0,
+    "extent_minor_km": 15.8,
+    "downstream_to_deg": 127,
+    "updraft_to_centroid_km": 11.5,
+    "downstream_reach_km": 28.5,
+    "backshear_km": 4.4,
+    "upwind_of_radar_core_km": 17.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.61,
+    "connected_shield_km2": 13781,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:00:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 106.1,
+   "coldest_k": 202.9,
+   "coldest_c": -70.3,
+   "updraft_xy_km": [
+    -7.1,
+    -19.8
+   ],
+   "updraft_from_radar_core_km": 13.5,
+   "ots": [
+    {
+     "x": -7.128436008489703,
+     "y": -19.823221852152823,
+     "bt_k": 202.9,
+     "depth_k": 14.6,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 311,
+    "centroid_xy_km": [
+     -2.8,
+     -24.1
+    ],
+    "ellipse_major_km": 32.6,
+    "ellipse_minor_km": 16.5,
+    "major_axis_deg": 119,
+    "extent_major_km": 32.1,
+    "extent_minor_km": 14.7,
+    "downstream_to_deg": 135,
+    "updraft_to_centroid_km": 6.1,
+    "downstream_reach_km": 21.2,
+    "backshear_km": 8.9,
+    "upwind_of_radar_core_km": 15.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.68,
+    "connected_shield_km2": 13822,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:01:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 106.2,
+   "coldest_k": 201.5,
+   "coldest_c": -71.6,
+   "updraft_xy_km": [
+    -7.1,
+    -19.8
+   ],
+   "updraft_from_radar_core_km": 13.5,
+   "ots": [
+    {
+     "x": -7.128436008489703,
+     "y": -19.823221852152823,
+     "bt_k": 201.5,
+     "depth_k": 16.0,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 331,
+    "centroid_xy_km": [
+     -2.5,
+     -24.5
+    ],
+    "ellipse_major_km": 33.4,
+    "ellipse_minor_km": 16.9,
+    "major_axis_deg": 119,
+    "extent_major_km": 32.2,
+    "extent_minor_km": 15.8,
+    "downstream_to_deg": 135,
+    "updraft_to_centroid_km": 6.6,
+    "downstream_reach_km": 21.2,
+    "backshear_km": 8.9,
+    "upwind_of_radar_core_km": 15.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.66,
+    "connected_shield_km2": 13891,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:02:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 106.4,
+   "coldest_k": 204.0,
+   "coldest_c": -69.1,
+   "updraft_xy_km": [
+    -9.5,
+    -19.7
+   ],
+   "updraft_from_radar_core_km": 15.8,
+   "ots": [
+    {
+     "x": -9.506860813310716,
+     "y": -19.694309970569652,
+     "bt_k": 204.0,
+     "depth_k": 13.2,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 326,
+    "centroid_xy_km": [
+     -16.2,
+     -15.3
+    ],
+    "ellipse_major_km": 35.4,
+    "ellipse_minor_km": 14.3,
+    "major_axis_deg": 137,
+    "extent_major_km": 31.0,
+    "extent_minor_km": 13.9,
+    "downstream_to_deg": 304,
+    "updraft_to_centroid_km": 8.0,
+    "downstream_reach_km": 24.3,
+    "backshear_km": 6.4,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.65,
+    "connected_shield_km2": 13817,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:03:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 106.5,
+   "coldest_k": 202.9,
+   "coldest_c": -70.3,
+   "updraft_xy_km": [
+    -9.5,
+    -19.7
+   ],
+   "updraft_from_radar_core_km": 15.8,
+   "ots": [
+    {
+     "x": -9.506860813310716,
+     "y": -19.694309970569652,
+     "bt_k": 202.9,
+     "depth_k": 14.2,
+     "diam_km": 8.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 122,
+    "centroid_xy_km": [
+     -10.4,
+     -19.5
+    ],
+    "ellipse_major_km": 14.6,
+    "ellipse_minor_km": 12.4,
+    "major_axis_deg": 144,
+    "extent_major_km": 13.0,
+    "extent_minor_km": 10.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 13742,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:04:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 106.7,
+   "coldest_k": 201.0,
+   "coldest_c": -72.1,
+   "updraft_xy_km": [
+    -11.9,
+    -19.6
+   ],
+   "updraft_from_radar_core_km": 18.1,
+   "ots": [
+    {
+     "x": -11.886104124589767,
+     "y": -19.565214964765918,
+     "bt_k": 201.0,
+     "depth_k": 16.3,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 149,
+    "centroid_xy_km": [
+     -9.4,
+     -20.5
+    ],
+    "ellipse_major_km": 17.9,
+    "ellipse_minor_km": 11.6,
+    "major_axis_deg": 137,
+    "extent_major_km": 17.7,
+    "extent_minor_km": 10.6,
+    "downstream_to_deg": 110,
+    "updraft_to_centroid_km": 2.7,
+    "downstream_reach_km": 10.4,
+    "backshear_km": 5.9,
+    "upwind_of_radar_core_km": 21.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.93,
+    "connected_shield_km2": 13817,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:05:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 106.9,
+   "coldest_k": 201.0,
+   "coldest_c": -72.1,
+   "updraft_xy_km": [
+    -8.6,
+    -22.6
+   ],
+   "updraft_from_radar_core_km": 15.9,
+   "ots": [
+    {
+     "x": -8.642562907625315,
+     "y": -22.58593119215615,
+     "bt_k": 201.0,
+     "depth_k": 15.8,
+     "diam_km": 9.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 149,
+    "centroid_xy_km": [
+     -9.7,
+     -21.6
+    ],
+    "ellipse_major_km": 18.4,
+    "ellipse_minor_km": 11.7,
+    "major_axis_deg": 142,
+    "extent_major_km": 17.5,
+    "extent_minor_km": 10.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 13742,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:06:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.0,
+   "coldest_k": 202.6,
+   "coldest_c": -70.5,
+   "updraft_xy_km": [
+    -8.6,
+    -22.6
+   ],
+   "updraft_from_radar_core_km": 15.9,
+   "ots": [
+    {
+     "x": -8.642562907625315,
+     "y": -22.58593119215615,
+     "bt_k": 202.6,
+     "depth_k": 14.2,
+     "diam_km": 9.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 149,
+    "centroid_xy_km": [
+     -9.7,
+     -21.6
+    ],
+    "ellipse_major_km": 18.4,
+    "ellipse_minor_km": 11.7,
+    "major_axis_deg": 142,
+    "extent_major_km": 17.5,
+    "extent_minor_km": 10.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 13843,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:07:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.2,
+   "coldest_k": 205.2,
+   "coldest_c": -67.9,
+   "updraft_xy_km": [
+    -11.9,
+    -19.6
+   ],
+   "updraft_from_radar_core_km": 18.1,
+   "ots": [
+    {
+     "x": -11.886104124589767,
+     "y": -19.565214964765918,
+     "bt_k": 205.2,
+     "depth_k": 11.4,
+     "diam_km": 8.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 3548,
+    "centroid_xy_km": [
+     9.8,
+     -4.3
+    ],
+    "ellipse_major_km": 81.8,
+    "ellipse_minor_km": 57.1,
+    "major_axis_deg": 54,
+    "extent_major_km": 83.0,
+    "extent_minor_km": 57.1,
+    "downstream_to_deg": 55,
+    "updraft_to_centroid_km": 26.5,
+    "downstream_reach_km": 71.6,
+    "backshear_km": 11.3,
+    "upwind_of_radar_core_km": 27.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.28,
+    "connected_shield_km2": 14047,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:08:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.3,
+   "coldest_k": 202.3,
+   "coldest_c": -70.9,
+   "updraft_xy_km": [
+    -9.5,
+    -19.7
+   ],
+   "updraft_from_radar_core_km": 15.8,
+   "ots": [
+    {
+     "x": -9.506860813310716,
+     "y": -19.694309970569652,
+     "bt_k": 202.3,
+     "depth_k": 14.0,
+     "diam_km": 7.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 3793,
+    "centroid_xy_km": [
+     10.3,
+     -3.6
+    ],
+    "ellipse_major_km": 85.3,
+    "ellipse_minor_km": 58.2,
+    "major_axis_deg": 50,
+    "extent_major_km": 86.2,
+    "extent_minor_km": 57.7,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 25.5,
+    "downstream_reach_km": 72.7,
+    "backshear_km": 13.4,
+    "upwind_of_radar_core_km": 27.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.3,
+    "connected_shield_km2": 14087,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:09:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.5,
+   "coldest_k": 200.2,
+   "coldest_c": -73.0,
+   "updraft_xy_km": [
+    -8.6,
+    -22.6
+   ],
+   "updraft_from_radar_core_km": 15.9,
+   "ots": [
+    {
+     "x": -8.642562907625315,
+     "y": -22.58593119215615,
+     "bt_k": 200.2,
+     "depth_k": 16.0,
+     "diam_km": 7.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 3921,
+    "centroid_xy_km": [
+     10.6,
+     -4.0
+    ],
+    "ellipse_major_km": 86.2,
+    "ellipse_minor_km": 59.4,
+    "major_axis_deg": 50,
+    "extent_major_km": 87.3,
+    "extent_minor_km": 58.5,
+    "downstream_to_deg": 46,
+    "updraft_to_centroid_km": 26.8,
+    "downstream_reach_km": 73.8,
+    "backshear_km": 13.6,
+    "upwind_of_radar_core_km": 28.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.29,
+    "connected_shield_km2": 14148,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:10:28",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.6,
+   "coldest_k": 203.0,
+   "coldest_c": -70.1,
+   "updraft_xy_km": [
+    -11.0,
+    -22.5
+   ],
+   "updraft_from_radar_core_km": 18.1,
+   "ots": [
+    {
+     "x": -11.020571483114765,
+     "y": -22.457039427483164,
+     "bt_k": 203.0,
+     "depth_k": 13.4,
+     "diam_km": 7.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 4056,
+    "centroid_xy_km": [
+     10.7,
+     -4.5
+    ],
+    "ellipse_major_km": 87.7,
+    "ellipse_minor_km": 60.3,
+    "major_axis_deg": 51,
+    "extent_major_km": 87.9,
+    "extent_minor_km": 60.4,
+    "downstream_to_deg": 51,
+    "updraft_to_centroid_km": 28.2,
+    "downstream_reach_km": 75.6,
+    "backshear_km": 12.3,
+    "upwind_of_radar_core_km": 29.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.27,
+    "connected_shield_km2": 14175,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:11:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.8,
+   "coldest_k": 205.0,
+   "coldest_c": -68.2,
+   "updraft_xy_km": [
+    -11.0,
+    -22.5
+   ],
+   "updraft_from_radar_core_km": 18.1,
+   "ots": [
+    {
+     "x": -11.020571483114765,
+     "y": -22.457039427483164,
+     "bt_k": 205.0,
+     "depth_k": 11.1,
+     "diam_km": 8.9
+    },
+    {
+     "x": 6.463985911449642,
+     "y": -26.244304251386616,
+     "bt_k": 209.5,
+     "depth_k": 6.7,
+     "diam_km": 18.4
+    }
+   ],
+   "anvil": {
+    "area_km2": 4287,
+    "centroid_xy_km": [
+     11.5,
+     -3.6
+    ],
+    "ellipse_major_km": 91.2,
+    "ellipse_minor_km": 61.5,
+    "major_axis_deg": 48,
+    "extent_major_km": 92.1,
+    "extent_minor_km": 59.6,
+    "downstream_to_deg": 50,
+    "updraft_to_centroid_km": 29.4,
+    "downstream_reach_km": 78.6,
+    "backshear_km": 13.5,
+    "upwind_of_radar_core_km": 30.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.26,
+    "connected_shield_km2": 14222,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:12:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.9,
+   "coldest_k": 205.9,
+   "coldest_c": -67.3,
+   "updraft_xy_km": [
+    -7.8,
+    -25.5
+   ],
+   "updraft_from_radar_core_km": 16.6,
+   "ots": [
+    {
+     "x": -7.779912770747325,
+     "y": -25.47597768177085,
+     "bt_k": 205.9,
+     "depth_k": 10.0,
+     "diam_km": 5.9
+    },
+    {
+     "x": 1.0588244047144988,
+     "y": -31.63551703731511,
+     "bt_k": 209.6,
+     "depth_k": 6.8,
+     "diam_km": 18.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 4503,
+    "centroid_xy_km": [
+     12.0,
+     -4.1
+    ],
+    "ellipse_major_km": 93.3,
+    "ellipse_minor_km": 63.1,
+    "major_axis_deg": 49,
+    "extent_major_km": 93.8,
+    "extent_minor_km": 62.8,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 29.1,
+    "downstream_reach_km": 79.6,
+    "backshear_km": 13.7,
+    "upwind_of_radar_core_km": 29.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.26,
+    "connected_shield_km2": 14416,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:13:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.1,
+   "coldest_k": 206.9,
+   "coldest_c": -66.3,
+   "updraft_xy_km": [
+    -7.8,
+    -25.5
+   ],
+   "updraft_from_radar_core_km": 16.6,
+   "ots": [
+    {
+     "x": -7.779912770747325,
+     "y": -25.47597768177085,
+     "bt_k": 206.9,
+     "depth_k": 9.1,
+     "diam_km": 7.8
+    },
+    {
+     "x": 3.4299019759292046,
+     "y": -31.763076064039304,
+     "bt_k": 208.9,
+     "depth_k": 7.3,
+     "diam_km": 13.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 4598,
+    "centroid_xy_km": [
+     12.1,
+     -4.4
+    ],
+    "ellipse_major_km": 94.2,
+    "ellipse_minor_km": 63.8,
+    "major_axis_deg": 50,
+    "extent_major_km": 95.0,
+    "extent_minor_km": 63.9,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 29.0,
+    "downstream_reach_km": 79.6,
+    "backshear_km": 15.3,
+    "upwind_of_radar_core_km": 31.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.26,
+    "connected_shield_km2": 14450,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:14:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.2,
+   "coldest_k": 207.3,
+   "coldest_c": -65.8,
+   "updraft_xy_km": [
+    -9.3,
+    -28.2
+   ],
+   "updraft_from_radar_core_km": 19.4,
+   "ots": [
+    {
+     "x": -9.294338435366802,
+     "y": -28.236350208617722,
+     "bt_k": 207.3,
+     "depth_k": 9.0,
+     "diam_km": 7.8
+    },
+    {
+     "x": 5.8003303964818915,
+     "y": -31.890462569102834,
+     "bt_k": 208.7,
+     "depth_k": 7.4,
+     "diam_km": 15.6
+    }
+   ],
+   "anvil": {
+    "area_km2": 4809,
+    "centroid_xy_km": [
+     12.8,
+     -3.7
+    ],
+    "ellipse_major_km": 97.1,
+    "ellipse_minor_km": 64.8,
+    "major_axis_deg": 48,
+    "extent_major_km": 98.1,
+    "extent_minor_km": 64.1,
+    "downstream_to_deg": 42,
+    "updraft_to_centroid_km": 33.0,
+    "downstream_reach_km": 85.6,
+    "backshear_km": 12.3,
+    "upwind_of_radar_core_km": 31.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.25,
+    "connected_shield_km2": 14538,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:15:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.4,
+   "coldest_k": 202.6,
+   "coldest_c": -70.5,
+   "updraft_xy_km": [
+    -9.3,
+    -28.2
+   ],
+   "updraft_from_radar_core_km": 19.4,
+   "ots": [
+    {
+     "x": -9.294338435366802,
+     "y": -28.236350208617722,
+     "bt_k": 202.6,
+     "depth_k": 13.7,
+     "diam_km": 8.3
+    },
+    {
+     "x": 7.317758809083103,
+     "y": -29.13195680521183,
+     "bt_k": 209.3,
+     "depth_k": 6.8,
+     "diam_km": 17.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 5204,
+    "centroid_xy_km": [
+     13.9,
+     -1.9
+    ],
+    "ellipse_major_km": 102.0,
+    "ellipse_minor_km": 66.9,
+    "major_axis_deg": 42,
+    "extent_major_km": 97.9,
+    "extent_minor_km": 66.8,
+    "downstream_to_deg": 41,
+    "updraft_to_centroid_km": 35.1,
+    "downstream_reach_km": 85.6,
+    "backshear_km": 12.4,
+    "upwind_of_radar_core_km": 31.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.12,
+    "connected_shield_km2": 14578,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:16:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.5,
+   "coldest_k": 201.4,
+   "coldest_c": -71.7,
+   "updraft_xy_km": [
+    -9.3,
+    -28.2
+   ],
+   "updraft_from_radar_core_km": 19.4,
+   "ots": [
+    {
+     "x": -9.294338435366802,
+     "y": -28.236350208617722,
+     "bt_k": 201.4,
+     "depth_k": 15.2,
+     "diam_km": 8.3
+    },
+    {
+     "x": 7.317758809083103,
+     "y": -29.13195680521183,
+     "bt_k": 208.8,
+     "depth_k": 7.6,
+     "diam_km": 19.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 5086,
+    "centroid_xy_km": [
+     13.6,
+     -4.0
+    ],
+    "ellipse_major_km": 100.0,
+    "ellipse_minor_km": 66.6,
+    "major_axis_deg": 50,
+    "extent_major_km": 100.2,
+    "extent_minor_km": 67.6,
+    "downstream_to_deg": 43,
+    "updraft_to_centroid_km": 33.3,
+    "downstream_reach_km": 87.3,
+    "backshear_km": 12.2,
+    "upwind_of_radar_core_km": 31.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.23,
+    "connected_shield_km2": 14653,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:17:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.7,
+   "coldest_k": 202.4,
+   "coldest_c": -70.8,
+   "updraft_xy_km": [
+    -11.7,
+    -28.1
+   ],
+   "updraft_from_radar_core_km": 21.3,
+   "ots": [
+    {
+     "x": -11.670859777534758,
+     "y": -28.107672631470376,
+     "bt_k": 202.4,
+     "depth_k": 14.5,
+     "diam_km": 7.8
+    },
+    {
+     "x": 7.317758809083103,
+     "y": -29.13195680521183,
+     "bt_k": 209.1,
+     "depth_k": 7.0,
+     "diam_km": 18.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 5556,
+    "centroid_xy_km": [
+     14.9,
+     -2.0
+    ],
+    "ellipse_major_km": 106.0,
+    "ellipse_minor_km": 68.4,
+    "major_axis_deg": 42,
+    "extent_major_km": 105.6,
+    "extent_minor_km": 70.1,
+    "downstream_to_deg": 46,
+    "updraft_to_centroid_km": 37.3,
+    "downstream_reach_km": 93.5,
+    "backshear_km": 12.2,
+    "upwind_of_radar_core_km": 33.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 14624,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:18:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.8,
+   "coldest_k": 205.9,
+   "coldest_c": -67.3,
+   "updraft_xy_km": [
+    -10.8,
+    -31.0
+   ],
+   "updraft_from_radar_core_km": 22.4,
+   "ots": [
+    {
+     "x": -10.809036876510703,
+     "y": -30.994983196371845,
+     "bt_k": 205.9,
+     "depth_k": 10.9,
+     "diam_km": 7.8
+    },
+    {
+     "x": 5.8003303964818915,
+     "y": -31.890462569102834,
+     "bt_k": 209.5,
+     "depth_k": 6.7,
+     "diam_km": 19.1
+    }
+   ],
+   "anvil": {
+    "area_km2": 5705,
+    "centroid_xy_km": [
+     15.4,
+     -1.9
+    ],
+    "ellipse_major_km": 107.6,
+    "ellipse_minor_km": 69.3,
+    "major_axis_deg": 42,
+    "extent_major_km": 105.7,
+    "extent_minor_km": 71.3,
+    "downstream_to_deg": 42,
+    "updraft_to_centroid_km": 39.2,
+    "downstream_reach_km": 94.9,
+    "backshear_km": 10.8,
+    "upwind_of_radar_core_km": 33.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 14671,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-05-14T03:19:25",
+   "sector": "M1",
+   "storm_xy_km": [
+    5.9,
+    -16.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 109.0,
+   "coldest_k": 206.1,
+   "coldest_c": -67.1,
+   "updraft_xy_km": [
+    -9.3,
+    -28.2
+   ],
+   "updraft_from_radar_core_km": 19.4,
+   "ots": [
+    {
+     "x": -9.294338435366802,
+     "y": -28.236350208617722,
+     "bt_k": 206.1,
+     "depth_k": 10.4,
+     "diam_km": 8.9
+    },
+    {
+     "x": 8.16979587572925,
+     "y": -32.017659797142755,
+     "bt_k": 209.8,
+     "depth_k": 6.7,
+     "diam_km": 18.7
+    }
+   ],
+   "anvil": {
+    "area_km2": 5861,
+    "centroid_xy_km": [
+     16.3,
+     -1.8
+    ],
+    "ellipse_major_km": 108.8,
+    "ellipse_minor_km": 70.4,
+    "major_axis_deg": 42,
+    "extent_major_km": 107.2,
+    "extent_minor_km": 72.0,
+    "downstream_to_deg": 44,
+    "updraft_to_centroid_km": 36.8,
+    "downstream_reach_km": 93.5,
+    "backshear_km": 13.8,
+    "upwind_of_radar_core_km": 33.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 14655,
+    "edge_of_box": false
+   }
+  }
+ ]
+}

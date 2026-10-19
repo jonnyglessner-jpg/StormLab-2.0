@@ -1,0 +1,10 @@
+{
+  "name": "StormLab.Supercell",
+  "rootNamespace": "StormLab.Supercell",
+  "references": [ "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime" ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": true,
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

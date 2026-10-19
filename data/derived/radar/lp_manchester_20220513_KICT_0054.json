@@ -1,0 +1,59 @@
+{
+ "case": "lp_manchester_20220513",
+ "site": "KICT",
+ "volume_time_utc": "2022-05-14T00:54:03",
+ "file": "KICT20220514_005403_V06",
+ "storm_xy_km_from_radar": [
+  -62.9,
+  -69.3
+ ],
+ "storm_latlon": [
+  37.031,
+  -98.158
+ ],
+ "range_km": 93.6,
+ "max_dbz": 60.3,
+ "max_dbz_height_m": 7500.0,
+ "echo_top_m": {
+  "18dBZ": 15500.0,
+  "30dBZ": 15500.0,
+  "50dBZ": 10000.0
+ },
+ "core_area_km2_at_1000m": {
+  "40dBZ": 108,
+  "50dBZ": 25,
+  "55dBZ": 9,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_4000m": {
+  "40dBZ": 79,
+  "50dBZ": 12,
+  "55dBZ": 2,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_7000m": {
+  "40dBZ": 96,
+  "50dBZ": 33,
+  "55dBZ": 16,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "bwer_vault": {
+  "x_km": -63.9,
+  "y_km": -65.3,
+  "base_m": 3000.0,
+  "top_m": 8000.0,
+  "depth_m": 5000,
+  "cap_dbz": 41.4
+ },
+ "low_level_couplet": {
+  "sweep_elev_deg": 0.48,
+  "vin_ms": -18.5,
+  "vout_ms": 15.5,
+  "rotational_velocity_ms": 17.0,
+  "diameter_m": 7299,
+  "note": "region-based dealiased; max/min within 10 km of the storm, a first look, not a meso detection"
+ }
+}

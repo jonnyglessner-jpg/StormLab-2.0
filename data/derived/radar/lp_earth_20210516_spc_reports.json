@@ -1,0 +1,71 @@
+{
+ "case": "lp_earth_20210516",
+ "radius_km": 50,
+ "window_utc": [
+  "2021-05-16T22:18:14",
+  "2021-05-17T03:06:54"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 1.5,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 1.5,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T00:29:00",
+   "lat": 34.2182,
+   "lon": -102.4105,
+   "state": "TX",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 4.0,
+   "size_in": 1.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-17T00:40:00",
+   "lat": 34.1122,
+   "lon": -102.4394,
+   "state": "TX",
+   "km_from_track": 7.8,
+   "km_from_storm_at_time": 8.3,
+   "ef": "EFU",
+   "length_mi": 0.97,
+   "width_yd": 50.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T00:28:00",
+   "mag": "150",
+   "location": "1 S EARTH, LAMB TX",
+   "lat": 34.22,
+   "lon": -102.41,
+   "comments": "(LUB)",
+   "km_from_track": 4.2,
+   "km_from_storm_at_time": 4.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-17T00:40:00",
+   "mag": "UNK",
+   "location": "5 SSW EARTH, LAMB TX",
+   "lat": 34.17,
+   "lon": -102.44,
+   "comments": "PHOTO OF TORNADO RECEIVED VIA SOCIAL MEDIA NE OF SUDAN. (LUB)",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 4.2
+  }
+ ]
+}

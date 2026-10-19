@@ -1,0 +1,52 @@
+{
+ "case": "lp_manchester_20220513",
+ "site": "KICT",
+ "volume_time_utc": "2022-05-14T00:03:26",
+ "file": "KICT20220514_000326_V06",
+ "storm_xy_km_from_radar": [
+  -63.5,
+  -68.7
+ ],
+ "storm_latlon": [
+  37.036,
+  -98.165
+ ],
+ "range_km": 93.6,
+ "max_dbz": 32.4,
+ "max_dbz_height_m": 2000.0,
+ "echo_top_m": {
+  "18dBZ": 10000.0,
+  "30dBZ": 3000.0,
+  "50dBZ": null
+ },
+ "core_area_km2_at_1000m": {
+  "40dBZ": 0,
+  "50dBZ": 0,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_4000m": {
+  "40dBZ": 0,
+  "50dBZ": 0,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_7000m": {
+  "40dBZ": 0,
+  "50dBZ": 0,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "bwer_vault": null,
+ "low_level_couplet": {
+  "sweep_elev_deg": 0.48,
+  "vin_ms": -6.5,
+  "vout_ms": 3.0,
+  "rotational_velocity_ms": 4.8,
+  "diameter_m": 1838,
+  "note": "region-based dealiased; max/min within 10 km of the storm, a first look, not a meso detection"
+ }
+}

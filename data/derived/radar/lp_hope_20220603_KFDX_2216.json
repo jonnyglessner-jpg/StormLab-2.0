@@ -1,0 +1,52 @@
+{
+ "case": "lp_hope_20220603",
+ "site": "KFDX",
+ "volume_time_utc": "2022-06-03T22:16:21",
+ "file": "KFDX20220603_221621_V06",
+ "storm_xy_km_from_radar": [
+  -115.1,
+  -205.5
+ ],
+ "storm_latlon": [
+  32.786,
+  -104.877
+ ],
+ "range_km": 235.5,
+ "max_dbz": 52.8,
+ "max_dbz_height_m": 1000.0,
+ "echo_top_m": {
+  "18dBZ": 17500.0,
+  "30dBZ": 11500.0,
+  "50dBZ": 1500.0
+ },
+ "core_area_km2_at_1000m": {
+  "40dBZ": 45,
+  "50dBZ": 5,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_4000m": {
+  "40dBZ": 80,
+  "50dBZ": 0,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "core_area_km2_at_7000m": {
+  "40dBZ": 22,
+  "50dBZ": 0,
+  "55dBZ": 0,
+  "60dBZ": 0,
+  "65dBZ": 0
+ },
+ "bwer_vault": null,
+ "low_level_couplet": {
+  "sweep_elev_deg": 0.48,
+  "vin_ms": -19.5,
+  "vout_ms": 3.5,
+  "rotational_velocity_ms": 11.5,
+  "diameter_m": 6879,
+  "note": "region-based dealiased; max/min within 10 km of the storm, a first look, not a meso detection"
+ }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "com.stormlab.supercell",
+  "version": "2.0.0-alpha.0",
+  "displayName": "Supercell Lab 2.0",
+  "description": "Environment-driven supercell simulation: storm-scale dynamics on compute shaders, a designed volumetric skin, and a sub-grid tornado model. Drop into any Unity 6 project (URP; HDRP works for the renderer).",
+  "unity": "6000.0",
+  "license": "MIT",
+  "author": { "name": "Jonny Glessner" },
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "17.0.0"
+  }
+}

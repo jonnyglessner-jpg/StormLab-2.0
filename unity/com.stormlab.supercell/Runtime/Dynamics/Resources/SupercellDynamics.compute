@@ -1,0 +1,1079 @@
+// Supercell Lab 2.0 storm-scale dynamics (DESIGN.md 2.2). HLSL port of StormLab 1.0's WGSL cloud model
+// (src/sim/gpu-kernels.ts + micro.ts), extended with a stretched vertical grid, a surface drag layer and an exact
+// pressure solver (discrete sine transform in x and y, tridiagonal in z). Each kernel mirrors one method of the
+// 1.0 model; the C# driver (SupercellModel.cs) records one time step as a command buffer.
+//
+// Grid: Arakawa C. Scalars NX x NY x NZ at cell centres, u (NX+1) x NY x NZ at x-faces, v NX x (NY+1) x NZ at
+// y-faces, w NX x NY x (NZ+1) at z-faces. x fastest, then y, then z. Heights come from ZTab (cell centres zc,
+// faces zw, cell heights dzc, centre spacing dzw, and tables of fractional level index against height).
+// Base state: Base[f * (NZ+1) + k], f = 0 th0, 1 qv0, 2 pi0, 3 rho0, 4 p0, 5 u0, 6 v0, 7 rhoW.
+
+#pragma kernel Dep
+#pragma kernel Adv1
+#pragma kernel Adv2
+#pragma kernel Micro
+#pragma kernel Sed
+#pragma kernel Buoy
+#pragma kernel LapH
+#pragma kernel DiffRelax
+#pragma kernel Drag
+#pragma kernel NudgeK
+#pragma kernel Div
+#pragma kernel XformX
+#pragma kernel XformY
+#pragma kernel TriZ
+#pragma kernel Grad
+#pragma kernel Clock
+#pragma kernel PackHalf
+#pragma kernel UnpackHalf
+#pragma kernel ColDiag
+#pragma kernel Coarse3D
+#pragma kernel Coarse2D
+#pragma kernel FrameReduce
+#pragma kernel FieldStats
+#pragma kernel MicroOnly
+#pragma kernel Smag
+
+#define MAXNZ 128
+#define ZSTEP 10.0
+#define NC 20
+#define NF3 10
+#define NF2 20
+
+// ---------------------------------------------------------------- constants
+int4 N;        // NX, NY, NZ, NT (length of each z lookup table)
+float4 D;      // dx, dy, dt, depth
+float4 K;      // kdiff, k1, qcCrit, k2
+float4 S;      // spongeCells, spongeTau, dampZ, dampTau
+float4 M;      // cd, rhoSurface, hyper, kh
+float4 Fr;     // cu, cv (grid motion over the ground), 0, 0
+int4 LN;       // layout: nx, ny, nz, baseField+1 (0 = no base state for this field)
+float4 LO;     // layout: ox, oy, face (1 = levels are faces, 0 = centres), isW
+int4 ZO;       // ZTab offsets: zw, dzc, dzw, kOfZc   (zc starts at 0)
+int4 ZO2;      // ZTab offsets: kOfZw, 0, 0, 0
+float4 NH;     // tower count, dt/tau
+float4 TW[16]; // towers: (x, y, z, wmax), (rh, rz, t0, t1)
+int4 XP;       // transform: forward (1) or inverse (0); advection: 1 = compute departures on the fly
+int4 GC;       // gradient / drag component
+int4 CG;       // coarse grid: NCX, NCY, NL, F
+float4 SG;     // Smagorinsky constant cs, horizontal and vertical stability limits (K dt / h^2), enabled
+float4 MX;     // n0rEvap (rain intercept used for evaporation only, 1/m^4), n0rFall (rain intercept for fall speed, 0 = N0R), diagnostic process switches (SimParams.microDiag), hail options (bits: 1 wet-growth limit, 2 vapour exchange of melting hail)
+int4 BC;       // lateral boundary: 0 open (phi = 0 at the walls, DST), 1 closed (no normal flow, DCT)
+
+StructuredBuffer<float> Base;
+StructuredBuffer<float> ZTab;
+
+// velocity (read) and read/write variants
+StructuredBuffer<float> U;
+StructuredBuffer<float> V;
+StructuredBuffer<float> W;
+RWStructuredBuffer<float> RWU;
+RWStructuredBuffer<float> RWV;
+RWStructuredBuffer<float> RWW;
+// generic field passes
+StructuredBuffer<float> SRC;
+RWStructuredBuffer<float> DST;
+RWStructuredBuffer<float> TMP;
+StructuredBuffer<float> TMPR;
+RWStructuredBuffer<float> LAP;
+StructuredBuffer<float> LAPR;
+RWStructuredBuffer<uint> DPH;
+StructuredBuffer<uint> DPHR;
+// scalars
+RWStructuredBuffer<float> TH;
+RWStructuredBuffer<float> QV;
+RWStructuredBuffer<float> QC;
+RWStructuredBuffer<float> QR;
+RWStructuredBuffer<float> QI;
+RWStructuredBuffer<float> QS;
+RWStructuredBuffer<float> QH;
+StructuredBuffer<float> RTH;
+StructuredBuffer<float> RQV;
+StructuredBuffer<float> RQC;
+StructuredBuffer<float> RQR;
+StructuredBuffer<float> RQI;
+StructuredBuffer<float> RQS;
+StructuredBuffer<float> RQH;
+RWStructuredBuffer<float> ACC;
+StructuredBuffer<float> RACC;
+RWStructuredBuffer<float> CLK;
+StructuredBuffer<float> RCLK;
+// pressure solver
+StructuredBuffer<float> SX;
+StructuredBuffer<float> SY;
+StructuredBuffer<float> XSRC;
+RWStructuredBuffer<float> XDST;
+RWStructuredBuffer<float> PHIRW;
+StructuredBuffer<float> PHI;
+// checkpoints
+RWStructuredBuffer<uint> HALF;
+StructuredBuffer<uint> RHALF;
+// diagnostics
+RWStructuredBuffer<float> COL;
+StructuredBuffer<float> RCOL;
+RWStructuredBuffer<float> C3;
+StructuredBuffer<float> RC3;
+RWStructuredBuffer<float> C2;
+StructuredBuffer<float> RC2;
+RWStructuredBuffer<float> SUM;
+RWStructuredBuffer<uint> STAT;
+// sub-grid eddy viscosity at cell centres (horizontal, vertical), m^2/s
+RWStructuredBuffer<float> KHB;
+RWStructuredBuffer<float> KVB;
+StructuredBuffer<float> KHR;
+StructuredBuffer<float> KVR;
+
+// ---------------------------------------------------------------- helpers
+float bs(uint f, uint k) { return Base[f * (uint)(N.z + 1) + k]; }
+float zc(uint k) { return ZTab[k]; }
+float zw(uint k) { return ZTab[ZO.x + k]; }
+float dzc(uint k) { return ZTab[ZO.y + k]; }
+float dzw(uint k) { return ZTab[ZO.z + k]; }
+float LevZ(uint k, bool face) { return face ? zw(k) : zc(k); }
+// fractional level index of height z: the table holds, per 10 m bin, the highest level at or below the bin's floor;
+// levels are at least 100 m apart, so at most one more level can lie inside the bin. Exact at the levels themselves.
+float KOfZ(float z, bool face)
+{
+    uint o = face ? (uint)ZO2.x : (uint)ZO.w;
+    uint lv = face ? (uint)ZO.x : 0u;
+    uint nl = face ? (uint)(N.z + 1) : (uint)N.z;
+    float zz = clamp(z, ZTab[lv], ZTab[lv + nl - 1]);
+    uint n = min((uint)(zz / ZSTEP), (uint)N.w - 1);
+    uint k = (uint)ZTab[o + n];
+    if (k + 1 < nl && ZTab[lv + k + 1] <= zz) k++;
+    if (k + 1 >= nl) return (float)(nl - 1);
+    float z0 = ZTab[lv + k], z1 = ZTab[lv + k + 1];
+    return (float)k + (zz - z0) / (z1 - z0);
+}
+uint CIndex(uint i, uint j, uint k) { return (k * (uint)N.y + j) * (uint)N.x + i; }
+uint UIndex(uint i, uint j, uint k) { return (k * (uint)N.y + j) * (uint)(N.x + 1) + i; }
+uint VIndex(uint i, uint j, uint k) { return (k * (uint)(N.y + 1) + j) * (uint)N.x + i; }
+
+float3 FIdx(float3 p, uint3 dm, float ox, float oy, bool face)
+{
+    return float3(clamp(p.x / D.x - ox, 0.0, (float)dm.x - 1.0001),
+                  clamp(p.y / D.y - oy, 0.0, (float)dm.y - 1.0001),
+                  clamp(KOfZ(p.z, face), 0.0, (float)dm.z - 1.0001));
+}
+
+#define DEF_SAMPLER(NAME, BUF) \
+float NAME(float3 p, uint3 dm, float ox, float oy, bool face) { \
+    float3 f = FIdx(p, dm, ox, oy, face); uint3 ijk = (uint3)f; float3 t = f - (float3)ijk; \
+    uint sy = dm.x, sz = dm.x * dm.y, o = ijk.z * sz + ijk.y * sy + ijk.x; \
+    float c00 = lerp(BUF[o], BUF[o + 1], t.x), c10 = lerp(BUF[o + sy], BUF[o + sy + 1], t.x); \
+    float c01 = lerp(BUF[o + sz], BUF[o + sz + 1], t.x), c11 = lerp(BUF[o + sz + sy], BUF[o + sz + sy + 1], t.x); \
+    return lerp(lerp(c00, c10, t.y), lerp(c01, c11, t.y), t.z); } \
+float2 NAME##Bounds(float3 p, uint3 dm, float ox, float oy, bool face) { \
+    float3 f = FIdx(p, dm, ox, oy, face); uint3 ijk = (uint3)f; \
+    uint sy = dm.x, sz = dm.x * dm.y, o = ijk.z * sz + ijk.y * sy + ijk.x; \
+    float v0 = BUF[o], v1 = BUF[o + 1], v2 = BUF[o + sy], v3 = BUF[o + sy + 1]; \
+    float v4 = BUF[o + sz], v5 = BUF[o + sz + 1], v6 = BUF[o + sz + sy], v7 = BUF[o + sz + sy + 1]; \
+    return float2(min(min(min(v0, v1), min(v2, v3)), min(min(v4, v5), min(v6, v7))), \
+                  max(max(max(v0, v1), max(v2, v3)), max(max(v4, v5), max(v6, v7)))); }
+
+DEF_SAMPLER(sU, U)
+DEF_SAMPLER(sV, V)
+DEF_SAMPLER(sW, W)
+DEF_SAMPLER(sSrc, SRC)
+DEF_SAMPLER(sTmp, TMPR)
+
+uint3 DimU() { return uint3(N.x + 1, N.y, N.z); }
+uint3 DimV() { return uint3(N.x, N.y + 1, N.z); }
+uint3 DimW() { return uint3(N.x, N.y, N.z + 1); }
+uint3 DimL() { return uint3(LN.x, LN.y, LN.z); }
+bool LFace() { return LO.z > 0.5; }
+
+float3 Vel(float3 p)
+{
+    return float3(sU(p, DimU(), 0.0, 0.5, false), sV(p, DimV(), 0.5, 0.0, false), sW(p, DimW(), 0.5, 0.5, true));
+}
+// departure point of a parcel arriving at p after time s (negative s traces forward), RK2 midpoint
+float3 Depart(float3 p, float s)
+{
+    float3 v1 = Vel(p);
+    float3 pm = p - 0.5 * s * v1;
+    float3 v2 = Vel(pm);
+    float3 d = p - s * v2;
+    d.z = clamp(d.z, 0.0, D.w);
+    return d;
+}
+float3 LayPos(uint3 id) { return float3(((float)id.x + LO.x) * D.x, ((float)id.y + LO.y) * D.y, LevZ(id.z, LFace())); }
+uint LayIdx(uint3 id) { return (id.z * (uint)LN.y + id.y) * (uint)LN.x + id.x; }
+bool InLay(uint3 id) { return id.x < (uint)LN.x && id.y < (uint)LN.y && id.z < (uint)LN.z; }
+
+// departure points for the cell-centre layout, stored as fp16 displacements (6 halves in 3 uints per cell)
+void StoreDep(uint c, float3 f, float3 b)
+{
+    DPH[3 * c] = f32tof16(f.x) | (f32tof16(f.y) << 16);
+    DPH[3 * c + 1] = f32tof16(f.z) | (f32tof16(b.x) << 16);
+    DPH[3 * c + 2] = f32tof16(b.y) | (f32tof16(b.z) << 16);
+}
+void LoadDep(uint c, float3 p, out float3 f, out float3 b)
+{
+    uint a0 = DPHR[3 * c], a1 = DPHR[3 * c + 1], a2 = DPHR[3 * c + 2];
+    f = p + float3(f16tof32(a0 & 0xffff), f16tof32(a0 >> 16), f16tof32(a1 & 0xffff));
+    b = p + float3(f16tof32(a1 >> 16), f16tof32(a2 & 0xffff), f16tof32(a2 >> 16));
+}
+// forward departure only (MacCormack pass 1)
+float3 DepartureF(uint3 id)
+{
+    float3 p = LayPos(id);
+    if (XP.y != 0) return Depart(p, D.z);
+    float3 f, b; LoadDep(LayIdx(id), p, f, b); return f;
+}
+void Departures(uint3 id, out float3 f, out float3 b)
+{
+    float3 p = LayPos(id);
+    if (XP.y != 0) { f = Depart(p, D.z); b = Depart(p, -D.z); }
+    else LoadDep(LayIdx(id), p, f, b);
+}
+
+// ---------------------------------------------------------------- microphysics (micro.ts, verbatim)
+static const float T0 = 273.15;
+static const float LV = 2.5e6;
+static const float LF = 3.34e5;
+static const float LS = 2.834e6;
+static const float CPD = 1004.0;
+static const float RV = 461.5;
+static const float CW = 4187.0;
+static const float CI = 2106.0;
+static const float PI_ = 3.14159265;
+static const float RHOW = 1000.0;
+static const float RHOSN = 100.0;
+static const float RHOH = 900.0;
+static const float N0R = 8.0e6;
+static const float N0S = 3.0e6;
+static const float N0H = 4.0e4;
+static const float SA = 11.72;
+static const float SB = 0.41;
+static const float AR = 842.0;
+static const float BR = 0.8;
+static const float KA = 2.43e-2;
+static const float DV = 2.26e-5;
+static const float MU = 1.718e-5;
+static const float SC3 = 0.843433;
+static const float MI = 4.19e-13;
+static const float G3B = 3.013315;
+static const float G4B = 10.275404;
+static const float G5B2 = 1.550861;
+static const float G35 = 3.323351;
+static const float G275 = 1.608359;
+static const float G45 = 11.631728;
+static const float G3BR = 4.694174;
+static const float G6BR = 496.60608;
+static const float G48 = 17.837862;
+static const float G29 = 1.827355;
+static const float HAILN = 1.0e-4;
+
+float qsw(float T, float p) { float es = 610.78 * exp(17.27 * (T - 273.16) / (T - 35.86)); return 0.622 * es / max(p - es, 1.0); }
+float qsi(float T, float p) { float es = 610.78 * exp(21.875 * (T - 273.16) / (T - 7.66)); return 0.622 * es / max(p - es, 1.0); }
+
+// mass-weighted fall speeds of rain, snow and hail (m/s)
+float N0RFall() { return MX.y > 0.0 ? MX.y : N0R; }
+bool MicroDiag(uint bit) { return (((uint)MX.z) & bit) != 0u; }
+float3 vterm(float qr, float qs, float qh, float rho, float rhoS)
+{
+    float vr = 0.0, vs = 0.0, vh = 0.0;
+    if (qr > 1e-9) vr = min(10.0, 842.0 * G48 / 6.0 * pow(PI_ * RHOW * N0RFall() / (rho * qr), -0.2) * sqrt(rhoS / rho));
+    if (qs > 1e-9) vs = SA * G4B / 6.0 * pow(PI_ * RHOSN * N0S / (rho * qs), -0.25 * SB) * sqrt(rhoS / rho);
+    if (qh > 1e-9) vh = sqrt(4.0 * 9.81 * RHOH / (1.8 * rho)) * G45 / 6.0 * pow(PI_ * RHOH * N0H / (rho * qh), -0.125);
+    return float3(vr, vs, vh);
+}
+
+// one cell, one time step: six-class LFO/Gilmore ice microphysics with Kessler warm rain and mixed-phase saturation adjustment
+void MicroStep(inout float th, inout float qv, inout float qc, inout float qr, inout float qi, inout float qs, inout float qh,
+               float pi, float pr, float rho, float rhoS, float dt, float K1, float QCCRIT, float K2, float N0E)
+{
+    qc = max(qc, 0.0); qr = max(qr, 0.0); qi = max(qi, 0.0); qs = max(qs, 0.0); qh = max(qh, 0.0);
+    float T = th * pi;
+    float tc = T - T0;
+    float dens = sqrt(rhoS / rho);
+    float nu = MU / rho;
+    float ah = sqrt(4.0 * 9.81 * RHOH / (1.8 * rho));
+    float lr = pow(PI_ * RHOW * N0R / (rho * max(qr, 1e-12)), 0.25);
+    float ls = pow(PI_ * RHOSN * N0S / (rho * max(qs, 1e-12)), 0.25);
+    float lh = pow(PI_ * RHOH * N0H / (rho * max(qh, 1e-12)), 0.25);
+    float3 vt = vterm(qr, qs, qh, rho, rhoS);
+    float vr = vt.x, vh = vt.z;
+    float praut = K1 * max(qc - QCCRIT, 0.0);
+    float pracw = K2 * qc * pow(max(qr, 1e-12), 0.875);
+    float psacw = PI_ * SA * qc * N0S * G3B / 4.0 * pow(ls, -3.0 - SB) * dens;
+    float pgacw = PI_ / 4.0 * qc * N0H * G35 * ah * pow(lh, -3.5);
+    float psaut = 0.0, psaci = 0.0, pgaut = 0.0, pgaci = 0.0, praci = 0.0, piacr = 0.0, pgacr = 0.0, pgfr = 0.0, psmlt = 0.0, pgmlt = 0.0, pgcnd = 0.0;
+    if (tc < 0.0)
+    {
+        float ei = exp(0.025 * tc);
+        psaut = 1e-3 * ei * max(qi - 1e-3, 0.0);
+        psaci = PI_ * ei * SA * qi * N0S * G3B / 4.0 * pow(ls, -3.0 - SB) * dens;
+        pgaut = 1e-3 * exp(0.09 * tc) * max(qs - 6e-4, 0.0);
+        pgaci = PI_ / 4.0 * 0.1 * qi * N0H * G35 * ah * pow(lh, -3.5);
+        praci = PI_ * AR * qi * N0R * G3BR / 4.0 * pow(lr, -3.0 - BR) * dens;
+        float nci = min(qi / MI, 1.0e-2 * exp(0.6 * min(-tc, 40.0)) / rho);
+        piacr = PI_ * PI_ * AR * N0R * RHOW * nci / 24.0 * G6BR * pow(lr, -6.0 - BR) * dens;
+        pgacr = PI_ * PI_ * N0R * N0H * abs(vh - vr) * (RHOW / rho) * (5.0 * pow(lr, -6.0) / lh + 2.0 * pow(lr, -5.0) / (lh * lh) + 0.5 * pow(lr, -4.0) / (lh * lh * lh));
+        pgfr = 20.0 * PI_ * PI_ * 100.0 * N0R * (RHOW / rho) * (exp(0.66 * min(-tc, 40.0)) - 1.0) * pow(lr, -7.0);
+        if ((((uint)MX.w) & 1u) != 0u && tc > -40.0)
+        {
+            // wet-growth limit (Lin et al. 1983 eq. 43, left out of 1.0's port): a hailstone can freeze only as much
+            // collected water as it can shed the latent heat of, by conduction and evaporation from its surface. Above
+            // that rate its surface is wet, it collects ice with efficiency 1 instead of 0.1, and the water it cannot
+            // freeze is shed as rain (pgacr < 0). Without the limit every drop of supercooled water hail meets freezes
+            // onto it, which overfeeds hail in strong updrafts: too much reflectivity aloft and too much melting below.
+            // Only above -40 C, where there is liquid to collect (the formula's Lf + Cw Tc also vanishes near -80 C).
+            float pgaciW = 10.0 * pgaci;
+            float pgwet = max(0.0, 2.0 * PI_ * N0H * (rho * LV * DV * (qsw(T0, pr) - qv) - KA * tc) / (rho * (LF + CW * tc))
+                                   * (0.78 * pow(lh, -2.0) + 0.31 * SC3 * G275 * sqrt(ah / nu) * pow(lh, -2.75)))
+                        + pgaciW * (1.0 - CI * tc / (LF + CW * tc));
+            pgwet = max(pgwet, pgaciW);
+            if (pgacw + pgaci + pgacr > pgwet)
+            {
+                pgaci = pgaciW;
+                pgacr = pgwet - pgacw - pgaciW;
+            }
+        }
+    }
+    if (tc > 0.0)
+    {
+        float qs0 = qsw(T0, pr);
+        float sdrive = KA * tc - (MicroDiag(8u) ? LV * DV * rho * (qs0 - qv) : 0.0);
+        psmlt = max(0.0, 2.0 * PI_ / (rho * LF) * sdrive * N0S * (0.78 * pow(ls, -2.0) + 0.31 * SC3 * G5B2 * sqrt(SA * dens / nu) * pow(ls, -2.705)) + CW * tc / LF * psacw);
+        float ventH = N0H * (0.78 * pow(lh, -2.0) + 0.31 * SC3 * G275 * sqrt(ah / nu) * pow(lh, -2.75));
+        pgmlt = max(0.0, 2.0 * PI_ / (rho * LF) * (KA * tc - LV * DV * rho * (qs0 - qv)) * ventH + CW * tc / LF * pgacw);
+        // vapour exchange at the melting stone's 0 C surface (Rutledge and Hobbs 1983; Morrison et al. 2009 keep it as
+        // its own process). LFO's rate above includes the latent heat of vapour condensing on the stone (qv > qs0, the
+        // usual case in warm moist low-level air) or evaporating from it (qv < qs0), but 1.0 then took all of the melting
+        // heat from the air's sensible heat and left qv alone. Here that vapour really condenses (or evaporates), so the
+        // air only pays the conduction part: condensation melts hail by drying the air, not by cooling it.
+        if ((((uint)MX.w) & 2u) != 0u && pgmlt > 0.0) pgcnd = 2.0 * PI_ * DV * (qv - qs0) * ventH;
+    }
+    float sc = (praut + pracw + psacw + pgacw) * dt;
+    float cl = 1.0; if (sc > qc) cl = qc / sc;
+    pgacr = max(pgacr, -pgacw * cl);   // wet growth sheds at most the cloud water actually collected
+    float si = (psaut + psaci + pgaci + praci) * dt;
+    float il = 1.0; if (si > qi) il = qi / si;
+    float sr = (pgacr + pgfr + piacr) * dt;
+    float rl = 1.0; if (sr > qr) rl = qr / sr;
+    float ss = (pgaut + psmlt) * dt;
+    float sl = 1.0; if (ss > qs) sl = qs / ss;
+    float sh = pgmlt * dt;
+    float hl = 1.0; if (sh > qh) hl = qh / sh;
+    float mlt = (psmlt * sl + pgmlt * hl) * dt;
+    // diagnostic only (breaks energy conservation): melting without its latent cooling, per class
+    float mltHeat = (MicroDiag(16u) ? 0.0 : psmlt * sl * dt) + (MicroDiag(2u) ? 0.0 : pgmlt * hl * dt);
+    float frz = 0.0;
+    float toR = (praut + pracw) * cl * dt + mlt;
+    float toS = (psaut + psaci) * il * dt - (pgaut + psmlt) * sl * dt;
+    float toH = pgaut * sl * dt + (pgaci + praci) * il * dt + sr * rl - pgmlt * hl * dt;
+    if (tc < 0.0)
+    {
+        toS += psacw * cl * dt;
+        toH += pgacw * cl * dt;
+        frz = (psacw + pgacw) * cl * dt + sr * rl;
+    }
+    else
+    {
+        toR += (psacw + pgacw) * cl * dt;
+    }
+    qc = max(qc - sc * cl, 0.0);
+    qi = max(qi - si * il, 0.0);
+    qr = max(qr + toR - sr * rl, 0.0);
+    {
+        float cnd = pgcnd * hl * dt;                      // + condensed onto melting hail (joins its meltwater), - evaporated from it
+        cnd = clamp(cnd, -qr, max(qv - qsw(T0, pr), 0.0));
+        qv -= cnd; qr += cnd;
+        th += LV * cnd / (CPD * pi);
+    }
+    qs = max(qs + toS, 0.0);
+    qh = max(qh + toH, 0.0);
+    th += LF * (frz - mltHeat) / (CPD * pi);
+    [unroll]
+    for (int it = 0; it < 2; it++)
+    {
+        T = th * pi;
+        float ws = qsw(T, pr);
+        float wi = qsi(T, pr);
+        float fi = clamp((T0 - T) / 40.0, 0.0, 1.0);
+        float qsm = (1.0 - fi) * ws + fi * wi;
+        float lm = LV + fi * LF;
+        float dqdt = ((1.0 - fi) * LV * ws + fi * LS * wi) / (RV * T * T);
+        float dq = (qv - qsm) / (1.0 + lm * dqdt / CPD);
+        float ct = qc + qi;
+        if (dq < 0.0) dq = max(dq, -ct);
+        float cn = ct + dq;
+        float qcn = (1.0 - fi) * cn;
+        float qin = fi * cn;
+        th += (LV * (qcn - qc) + LS * (qin - qi)) / (CPD * pi);
+        qv -= dq;
+        qc = qcn;
+        qi = qin;
+    }
+    T = th * pi;
+    if (qr > 1e-9 && !MicroDiag(1u))
+    {
+        float ws2 = qsw(T, pr);
+        if (qv < ws2)
+        {
+            // rain evaporation (Klemp & Wilhelmson 1978) with its own intercept N0E: a fixed-intercept scheme cannot
+            // size-sort, so it evaporates too many small drops below cloud base and its cold pools run 2-4 K cold
+            // (StormLab 1.0 vs CM1; Dawson et al. 2010). A smaller intercept here stands for the larger drops that
+            // actually reach the sub-cloud layer.
+            float lrn = pow(PI_ * RHOW * N0E / (rho * qr), 0.25);
+            float abw = rho * (LV * LV / (KA * RV * T * T) + 1.0 / (rho * ws2 * DV));
+            float gw = 1.0 + LV * LV * ws2 / (CPD * RV * T * T);
+            float prevp = 2.0 * PI_ * (1.0 - qv / ws2) / abw * N0E * (0.78 * pow(lrn, -2.0) + 0.31 * SC3 * G29 * sqrt(AR * dens / nu) * pow(lrn, -2.9));
+            float ern = min(min(dt * prevp, qr), (ws2 - qv) / gw);
+            qr -= ern;
+            qv += ern;
+            th -= LV / (CPD * pi) * ern;
+        }
+    }
+    T = th * pi;
+    if (T < T0)
+    {
+        float wi2 = qsi(T, pr);
+        float ab = rho * (LS * LS / (KA * RV * T * T) + 1.0 / (rho * wi2 * DV));
+        float gam = 1.0 + LS * LS * wi2 / (CPD * RV * T * T);
+        if (qs > 1e-9)
+        {
+            float lsn = pow(PI_ * RHOSN * N0S / (rho * qs), 0.25);
+            float psdep = 2.0 * PI_ * (qv / wi2 - 1.0) / ab * N0S * (0.78 * pow(lsn, -2.0) + 0.31 * SC3 * G5B2 * sqrt(SA * dens / nu) * pow(lsn, -2.705));
+            float dd = psdep * dt;
+            if (dd > 0.0) dd = min(dd, max(qv - wi2, 0.0) / gam); else dd = max(dd, max(-qs, (qv - wi2) / gam));
+            qs += dd;
+            qv -= dd;
+            th += LS * dd / (CPD * pi);
+        }
+        if (qh > 1e-9 && qv < wi2 && !MicroDiag(4u))
+        {
+            float lhn = pow(PI_ * RHOH * N0H / (rho * qh), 0.25);
+            float pgsub = 2.0 * PI_ * (qv / wi2 - 1.0) / ab * N0H * (0.78 * pow(lhn, -2.0) + 0.31 * SC3 * G275 * sqrt(ah / nu) * pow(lhn, -2.75));
+            float dh = max(pgsub * dt, max(-qh, (qv - wi2) / gam));
+            qh += dh;
+            qv -= dh;
+            th += LS * dh / (CPD * pi);
+        }
+    }
+    qs = max(qs, 0.0);
+    qh = max(qh, 0.0);
+}
+
+// radar reflectivity (dBZ) from rain, snow and hail, exponential size distributions (Smith et al. 1975)
+float Dbz(float qr, float qs, float qh, float rho, float T)
+{
+    float zl = 0.0;
+    float fs = 0.224 * 0.01, fh = 0.224 * 0.81;
+    if (T > T0) { fs = 0.01; fh = 0.81; }
+    if (qr > 1e-8) zl += exp(log(720.0 * N0R) + 41.44653 - 1.75 * log(PI_ * RHOW * N0R / (rho * qr)));
+    if (qs > 1e-8) zl += fs * exp(log(720.0 * N0S) + 41.44653 - 1.75 * log(PI_ * RHOSN * N0S / (rho * qs)));
+    if (qh > 1e-8) zl += fh * exp(log(720.0 * N0H) + 41.44653 - 1.75 * log(PI_ * RHOH * N0H / (rho * qh)));
+    float zdb = -99.0;
+    if (zl > 1e-3) zdb = 10.0 * log(zl) / 2.302585;
+    return zdb;
+}
+// largest hailstone (mm): the size where the number of larger stones falls to HAILN per m^3
+float HailSize(float qh, float rho)
+{
+    float hd = 0.0;
+    if (qh > 1e-6)
+    {
+        float lhd = pow(PI_ * RHOH * N0H / (rho * qh), 0.25);
+        hd = max(0.0, 1000.0 * log(N0H / (lhd * HAILN)) / lhd);
+    }
+    return hd;
+}
+
+// ---------------------------------------------------------------- advection
+[numthreads(8, 8, 4)]
+void Dep(uint3 id : SV_DispatchThreadID)
+{
+    if (!InLay(id)) return;
+    float3 p = LayPos(id);
+    float3 f = Depart(p, D.z) - p;
+    float3 b = Depart(p, -D.z) - p;
+    StoreDep(LayIdx(id), f, b);
+}
+
+// MacCormack pass 1: forward semi-Lagrangian sample of SRC into TMP
+[numthreads(8, 8, 4)]
+void Adv1(uint3 id : SV_DispatchThreadID)
+{
+    if (!InLay(id)) return;
+    TMP[LayIdx(id)] = sSrc(DepartureF(id), DimL(), LO.x, LO.y, LFace());
+}
+
+// MacCormack pass 2: backward sample of TMP, correction, min/max limiter; result into DST
+[numthreads(8, 8, 4)]
+void Adv2(uint3 id : SV_DispatchThreadID)
+{
+    if (!InLay(id)) return;
+    float3 f, b; Departures(id, f, b);
+    uint c = LayIdx(id);
+    float back = sTmp(b, DimL(), LO.x, LO.y, LFace());
+    float v = TMPR[c] + 0.5 * (SRC[c] - back);
+    float2 bd = sSrcBounds(f, DimL(), LO.x, LO.y, LFace());
+    DST[c] = clamp(v, bd.x, bd.y);
+}
+
+// ---------------------------------------------------------------- microphysics and sedimentation
+[numthreads(8, 8, 4)]
+void Micro(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y || id.z >= (uint)N.z) return;
+    uint c = CIndex(id.x, id.y, id.z); uint k = id.z;
+    float th = TH[c], qv = QV[c], qc = QC[c], qr = QR[c], qi = QI[c], qs = QS[c], qh = QH[c];
+    MicroStep(th, qv, qc, qr, qi, qs, qh, bs(2, k), bs(4, k), bs(3, k), M.y, D.z, K.y, K.z, K.w, MX.x);
+    TH[c] = th; QV[c] = qv; QC[c] = qc; QR[c] = qr; QI[c] = qi; QS[c] = qs; QH[c] = qh;
+}
+
+// one thread per column: upwind flux form with Courant-limited sub-steps; ACC = rain (+melted snow) [0, plane), hail [plane, 2 plane), mm
+[numthreads(8, 8, 1)]
+void Sed(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y) return;
+    uint plane = (uint)(N.x * N.y), c2 = id.y * (uint)N.x + id.x, NZ = (uint)N.z; float rhoS = M.y;
+    float cmax = 0.0;
+    for (uint k = 0; k < NZ; k++)
+    {
+        uint c = k * plane + c2;
+        float3 v = vterm(QR[c], QS[c], QH[c], bs(3, k), rhoS);
+        cmax = max(cmax, max(v.x, max(v.y, v.z)) / dzc(k));
+    }
+    uint ns = (uint)max(1.0, ceil(cmax * D.z / 0.8));
+    float h = D.z / (float)ns;
+    for (uint n = 0; n < ns; n++)
+    {
+        float3 fa = 0.0;
+        for (uint kk = 0; kk < NZ; kk++)
+        {
+            uint k = NZ - 1 - kk; uint c = k * plane + c2; float rho = bs(3, k);
+            float3 q = float3(QR[c], QS[c], QH[c]);
+            float3 fk = rho * q * vterm(q.x, q.y, q.z, rho, rhoS);
+            float3 qn = max(0.0, q + h / (rho * dzc(k)) * (fa - fk));
+            QR[c] = qn.x; QS[c] = qn.y; QH[c] = qn.z;
+            fa = fk;
+        }
+        ACC[c2] += (fa.x + fa.y) * h;
+        ACC[plane + c2] += fa.z * h;
+    }
+}
+
+// ---------------------------------------------------------------- forcing
+float Buoyancy(uint c, uint k)
+{
+    float th0 = bs(0, k), qv0 = bs(1, k);
+    return 9.81 * ((RTH[c] - th0) / th0 + 0.608 * (RQV[c] - qv0) - RQC[c] - RQR[c] - RQI[c] - RQS[c] - RQH[c]);
+}
+
+// buoyancy on interior w levels, interpolated from the two cell centres around each face
+[numthreads(8, 8, 4)]
+void Buoy(uint3 id : SV_DispatchThreadID)
+{
+    uint k = id.z + 1;
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y || k >= (uint)N.z) return;
+    uint plane = (uint)(N.x * N.y), c2 = id.y * (uint)N.x + id.x;
+    float t = 0.5 * dzc(k - 1) / dzw(k);
+    float B = lerp(Buoyancy((k - 1) * plane + c2, k - 1), Buoyancy(k * plane + c2, k), t);
+    RWW[k * plane + c2] += D.z * B;
+}
+
+// horizontal 5-point Laplacian (grid units, zero-gradient edges) of SRC into LAP
+[numthreads(8, 8, 4)]
+void LapH(uint3 id : SV_DispatchThreadID)
+{
+    if (!InLay(id)) return;
+    uint c = LayIdx(id), sy = (uint)LN.x; float v = SRC[c];
+    float xm = id.x > 0 ? SRC[c - 1] : v;
+    float xp = id.x < (uint)LN.x - 1 ? SRC[c + 1] : v;
+    float ym = id.y > 0 ? SRC[c - sy] : v;
+    float yp = id.y < (uint)LN.y - 1 ? SRC[c + sy] : v;
+    LAP[c] = xm + xp + ym + yp - 4.0 * v;
+}
+
+float BaseK(uint k)
+{
+    if (LN.w == 0) return 0.0;
+    return bs((uint)(LN.w - 1), min(k, (uint)N.z - 1));
+}
+
+// 4th-order horizontal filter, horizontal eddy diffusion, vertical diffusion of the perturbation on the stretched
+// grid, then lateral sponge and Rayleigh damping toward the base state; w = 0 at the ground and the lid. SRC -> DST
+[numthreads(8, 8, 4)]
+void DiffRelax(uint3 id : SV_DispatchThreadID)
+{
+    if (!InLay(id)) return;
+    uint c = LayIdx(id), sy = (uint)LN.x, sz = (uint)(LN.x * LN.y); float v = SRC[c];
+    float nu = M.z / 64.0;
+    // eddy viscosity at this point: cell value, averaged across the face for staggered layouts
+    uint NXu = (uint)N.x, NYu = (uint)N.y, NZu = (uint)N.z;
+    uint ci = min(id.x, NXu - 1), cj = min(id.y, NYu - 1), ci2 = ci, cj2 = cj;
+    if (LN.x == N.x + 1) ci2 = id.x > 0 ? id.x - 1 : 0;
+    if (LN.y == N.y + 1) cj2 = id.y > 0 ? id.y - 1 : 0;
+    uint kc = min(id.z, NZu - 1);
+    float khere = 0.5 * (KHR[CIndex(ci, cj, kc)] + KHR[CIndex(ci2, cj2, kc)]);
+    if (LFace()) khere = 0.5 * (KHR[CIndex(ci, cj, kc)] + KHR[CIndex(ci, cj, id.z > 0 ? id.z - 1 : 0)]);
+    float ah = khere * D.z / (D.x * D.x);
+    float l = LAPR[c];
+    float xm = id.x > 0 ? LAPR[c - 1] : l;
+    float xp = id.x < (uint)LN.x - 1 ? LAPR[c + 1] : l;
+    float ym = id.y > 0 ? LAPR[c - sy] : l;
+    float yp = id.y < (uint)LN.y - 1 ? LAPR[c + sy] : l;
+    bool face = LFace(); uint k = id.z;
+    float p0 = v - BaseK(k);
+    float zm = k > 0 ? SRC[c - sz] - BaseK(k - 1) : p0;
+    float zp = k < (uint)LN.z - 1 ? SRC[c + sz] - BaseK(k + 1) : p0;
+    // level spacing of this layout: faces are dzc apart, centres dzw apart
+    float hUp, hDn, hC;
+    if (face) { hUp = k < (uint)N.z ? dzc(k) : dzc(k - 1); hDn = k > 0 ? dzc(k - 1) : dzc(0); hC = dzw(k); }
+    else { hUp = dzw(k + 1); hDn = dzw(k); hC = dzc(k); }
+    float fluxUp = k < (uint)LN.z - 1 ? (zp - p0) / hUp : 0.0;
+    float fluxDn = k > 0 ? (p0 - zm) / hDn : 0.0;
+    // vertical eddy viscosity at the interfaces above and below this level
+    float kvUp, kvDn;
+    if (face)
+    {
+        kvUp = KVR[CIndex(ci, cj, min(k, NZu - 1))];
+        kvDn = KVR[CIndex(ci, cj, k > 0 ? k - 1 : 0)];
+    }
+    else
+    {
+        uint kp = min(k + 1, NZu - 1), km = k > 0 ? k - 1 : 0;
+        kvUp = 0.25 * (KVR[CIndex(ci, cj, k)] + KVR[CIndex(ci2, cj2, k)] + KVR[CIndex(ci, cj, kp)] + KVR[CIndex(ci2, cj2, kp)]);
+        kvDn = 0.25 * (KVR[CIndex(ci, cj, k)] + KVR[CIndex(ci2, cj2, k)] + KVR[CIndex(ci, cj, km)] + KVR[CIndex(ci2, cj2, km)]);
+    }
+    float o = v - nu * (xm + xp + ym + yp - 4.0 * l) + ah * l + D.z * (kvUp * fluxUp - kvDn * fluxDn) / hC;
+    // relaxation
+    float z = LevZ(k, face), ztop = D.w;
+    float rz = 0.0;
+    if (z > S.z) { float q = sin(1.5707963 * (z - S.z) / (ztop - S.z)); rz = q * q / S.w; }
+    float xi = (float)id.x + LO.x, yj = (float)id.y + LO.y;
+    float d = min(min(xi, (float)N.x - xi), min(yj, (float)N.y - yj));
+    float rs = 0.0; if (d < S.x) { float q = 1.0 - d / S.x; rs = q * q / S.y; }
+    float r = min(1.0, (rs + rz) * D.z);
+    o += (BaseK(k) - o) * r;
+    if (LO.w > 0.5 && (k == 0 || k == (uint)N.z)) o = 0.0;
+    DST[c] = o;
+}
+
+// surface drag on the ground-relative wind in the lowest layer, minus the drag the base state alone would feel
+// (so a uniform environment stays steady). GC.x = 0 updates u (reading v), 1 updates v (reading u).
+[numthreads(8, 8, 1)]
+void Drag(uint3 id : SV_DispatchThreadID)
+{
+    uint NX = (uint)N.x, NY = (uint)N.y;
+    float cd = M.x; if (cd <= 0.0) return;
+    float ug0 = bs(5, 0) + Fr.x, vg0 = bs(6, 0) + Fr.y, s0 = sqrt(ug0 * ug0 + vg0 * vg0);
+    float a = D.z * cd / dzc(0);
+    if (GC.x == 0)
+    {
+        if (id.x > NX || id.y >= NY) return;
+        uint i = id.x, j = id.y, c = UIndex(i, j, 0);
+        uint il = i > 0 ? i - 1 : 0, ir = i < NX ? i : NX - 1;
+        float vv = 0.25 * (V[VIndex(il, j, 0)] + V[VIndex(il, j + 1, 0)] + V[VIndex(ir, j, 0)] + V[VIndex(ir, j + 1, 0)]);
+        float ug = RWU[c] + Fr.x, vg = vv + Fr.y, sp = sqrt(ug * ug + vg * vg);
+        RWU[c] -= a * (sp * ug - s0 * ug0);
+    }
+    else
+    {
+        if (id.x >= NX || id.y > NY) return;
+        uint i = id.x, j = id.y, c = VIndex(i, j, 0);
+        uint jl = j > 0 ? j - 1 : 0, jr = j < NY ? j : NY - 1;
+        float uu = 0.25 * (U[UIndex(i, jl, 0)] + U[UIndex(i + 1, jl, 0)] + U[UIndex(i, jr, 0)] + U[UIndex(i + 1, jr, 0)]);
+        float ug = uu + Fr.x, vg = RWV[c] + Fr.y, sp = sqrt(ug * ug + vg * vg);
+        RWV[c] -= a * (sp * vg - s0 * vg0);
+    }
+}
+
+// updraft nudging on interior w levels (Naylor & Gilmore 2012); towers switch on and off by the GPU clock
+[numthreads(8, 8, 4)]
+void NudgeK(uint3 id : SV_DispatchThreadID)
+{
+    uint k = id.z + 1;
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y || k >= (uint)N.z) return;
+    float t = RCLK[0], a = NH.y;
+    float x = ((float)id.x + 0.5) * D.x, y = ((float)id.y + 0.5) * D.y, z = zw(k);
+    uint c = (k * (uint)N.y + id.y) * (uint)N.x + id.x;
+    float w = RWW[c];
+    uint nt = (uint)NH.x;
+    for (uint q = 0; q < nt; q++)
+    {
+        float4 A = TW[2 * q], Bq = TW[2 * q + 1];
+        if (t < Bq.z || t >= Bq.w) continue;
+        float r = length(float3((x - A.x) / Bq.x, (y - A.y) / Bq.x, (z - A.z) / Bq.y));
+        if (r >= 1.0) continue;
+        float qq = cos(1.5707963 * r); float sh = qq * qq;
+        w += a * sh * (A.w * sh - w);
+    }
+    RWW[c] = w;
+}
+
+// ---------------------------------------------------------------- pressure projection
+// right-hand side: div(rho0 u*) / dt
+[numthreads(8, 8, 4)]
+void Div(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y || id.z >= (uint)N.z) return;
+    uint i = id.x, j = id.y, k = id.z, plane = (uint)(N.x * N.y);
+    float r = bs(3, k);
+    bool cl = BC.x != 0;
+    float uw = (cl && i == 0) ? 0.0 : U[UIndex(i, j, k)], ue = (cl && i == (uint)N.x - 1) ? 0.0 : U[UIndex(i + 1, j, k)];
+    float vs = (cl && j == 0) ? 0.0 : V[VIndex(i, j, k)], vn = (cl && j == (uint)N.y - 1) ? 0.0 : V[VIndex(i, j + 1, k)];
+    float du = ue - uw;
+    float dv = vn - vs;
+    float dw = bs(7, k + 1) * W[(k + 1) * plane + j * (uint)N.x + i] - bs(7, k) * W[k * plane + j * (uint)N.x + i];
+    XDST[CIndex(i, j, k)] = (r * (du / D.x + dv / D.y) + dw / dzc(k)) / D.z;
+}
+
+// Discrete sine transform (type II: phi = 0 at the lateral boundary faces) along x and along y, as batched dense
+// matrix products with the orthonormal transform matrix S (NX x NX, built on the CPU): forward out = in S^T, inverse
+// out = in S. 16 x 16 tiles through group shared memory.
+groupshared float As[16][16];
+groupshared float Bs[16][16];
+
+// out[k][j][m] = sum_i in[k][j][i] * S(m, i)   (inverse: S(i, m))
+[numthreads(16, 16, 1)]
+void XformX(uint3 gid : SV_GroupID, uint3 tid : SV_GroupThreadID)
+{
+    uint NX = (uint)N.x, NY = (uint)N.y;
+    uint k = gid.z, row = gid.y * 16 + tid.y, col = gid.x * 16 + tid.x;
+    float acc = 0.0;
+    for (uint q0 = 0; q0 < NX; q0 += 16)
+    {
+        uint qa = q0 + tid.x, qb = q0 + tid.y;
+        As[tid.y][tid.x] = (row < NY && qa < NX) ? XSRC[(k * NY + row) * NX + qa] : 0.0;
+        Bs[tid.y][tid.x] = (col < NX && qb < NX) ? (XP.x != 0 ? SX[col * NX + qb] : SX[qb * NX + col]) : 0.0;
+        GroupMemoryBarrierWithGroupSync();
+        [unroll]
+        for (uint t = 0; t < 16; t++) acc += As[tid.y][t] * Bs[t][tid.x];
+        GroupMemoryBarrierWithGroupSync();
+    }
+    if (row < NY && col < NX) XDST[(k * NY + row) * NX + col] = acc;
+}
+
+// out[k][n][m] = sum_j S(n, j) * in[k][j][m]   (inverse: S(j, n))
+[numthreads(16, 16, 1)]
+void XformY(uint3 gid : SV_GroupID, uint3 tid : SV_GroupThreadID)
+{
+    uint NX = (uint)N.x, NY = (uint)N.y;
+    uint k = gid.z, row = gid.y * 16 + tid.y, col = gid.x * 16 + tid.x;
+    float acc = 0.0;
+    for (uint q0 = 0; q0 < NY; q0 += 16)
+    {
+        uint qa = q0 + tid.x, qb = q0 + tid.y;
+        As[tid.y][tid.x] = (row < NY && qa < NY) ? (XP.x != 0 ? SY[row * NY + qa] : SY[qa * NY + row]) : 0.0;
+        Bs[tid.y][tid.x] = (col < NX && qb < NY) ? XSRC[(k * NY + qb) * NX + col] : 0.0;
+        GroupMemoryBarrierWithGroupSync();
+        [unroll]
+        for (uint t = 0; t < 16; t++) acc += As[tid.y][t] * Bs[t][tid.x];
+        GroupMemoryBarrierWithGroupSync();
+    }
+    if (row < NY && col < NX) XDST[(k * NY + row) * NX + col] = acc;
+}
+
+// vertical tridiagonal solve for every horizontal mode (m, n), in place in PHIRW (the transformed divergence)
+[numthreads(8, 8, 1)]
+void TriZ(uint3 id : SV_DispatchThreadID)
+{
+    uint NX = (uint)N.x, NY = (uint)N.y, NZ = (uint)N.z, m = id.x, n = id.y;
+    if (m >= NX || n >= NY) return;
+    uint plane = NX * NY, c2 = n * NX + m;
+    uint sh0 = BC.x != 0 ? 0u : 1u;   // DCT modes start at 0, DST modes at 1
+    float lx = (2.0 * cos(PI_ * (float)(m + sh0) / (float)NX) - 2.0) / (D.x * D.x);
+    float ly = (2.0 * cos(PI_ * (float)(n + sh0) / (float)NY) - 2.0) / (D.y * D.y);
+    bool singular = BC.x != 0 && m == 0 && n == 0;   // closed box: the mean pressure is free; pin phi = 0 at the bottom
+    float bb[MAXNZ], cc[MAXNZ], rr[MAXNZ];
+    for (uint k = 0; k < NZ; k++)
+    {
+        float a = k > 0 ? bs(7, k) / (dzw(k) * dzc(k)) : 0.0;
+        float cu = k < NZ - 1 ? bs(7, k + 1) / (dzw(k + 1) * dzc(k)) : 0.0;
+        float b = -(a + cu) + bs(3, k) * (lx + ly);
+        float rhs = PHIRW[k * plane + c2];
+        if (singular && k == 0) { b = 1.0; cu = 0.0; rhs = 0.0; }
+        if (k > 0) { float mm = a / bb[k - 1]; b -= mm * cc[k - 1]; rhs -= mm * rr[k - 1]; }
+        bb[k] = b; cc[k] = cu; rr[k] = rhs;
+    }
+    float s = rr[NZ - 1] / bb[NZ - 1];
+    PHIRW[(NZ - 1) * plane + c2] = s;
+    for (uint kk = 1; kk < NZ; kk++)
+    {
+        uint k = NZ - 1 - kk;
+        s = (rr[k] - cc[k] * s) / bb[k];
+        PHIRW[k * plane + c2] = s;
+    }
+}
+
+// subtract the pressure gradient; GC.x selects u, v or w. Lateral ghosts: phi = -phi (phi = 0 at the boundary face)
+float PhiAt(int i, int j, int k)
+{
+    int NX = N.x, NY = N.y;
+    float sgn = 1.0, mir = BC.x != 0 ? 1.0 : -1.0;
+    if (i < 0) { i = 0; sgn *= mir; } else if (i >= NX) { i = NX - 1; sgn *= mir; }
+    if (j < 0) { j = 0; sgn *= mir; } else if (j >= NY) { j = NY - 1; sgn *= mir; }
+    return sgn * PHI[CIndex((uint)i, (uint)j, (uint)k)];
+}
+[numthreads(8, 8, 4)]
+void Grad(uint3 id : SV_DispatchThreadID)
+{
+    uint NX = (uint)N.x, NY = (uint)N.y, NZ = (uint)N.z;
+    int i = (int)id.x, j = (int)id.y, k = (int)id.z;
+    if (GC.x == 0)
+    {
+        if (id.x > NX || id.y >= NY || id.z >= NZ) return;
+        uint c = UIndex(id.x, id.y, id.z);
+        if (BC.x != 0 && (id.x == 0 || id.x == NX)) RWU[c] = 0.0;
+        else RWU[c] -= D.z * (PhiAt(i, j, k) - PhiAt(i - 1, j, k)) / D.x;
+    }
+    else if (GC.x == 1)
+    {
+        if (id.x >= NX || id.y > NY || id.z >= NZ) return;
+        uint c = VIndex(id.x, id.y, id.z);
+        if (BC.x != 0 && (id.y == 0 || id.y == NY)) RWV[c] = 0.0;
+        else RWV[c] -= D.z * (PhiAt(i, j, k) - PhiAt(i, j - 1, k)) / D.y;
+    }
+    else
+    {
+        if (id.x >= NX || id.y >= NY || id.z == 0 || id.z >= NZ) return;
+        uint c = (id.z * NY + id.y) * NX + id.x;
+        RWW[c] -= D.z * (PhiAt(i, j, k) - PhiAt(i, j, k - 1)) / dzw(id.z);
+    }
+}
+
+[numthreads(1, 1, 1)]
+void Clock(uint3 id : SV_DispatchThreadID) { CLK[0] += D.z; }
+
+// ---------------------------------------------------------------- checkpoints (fp16 perturbations from the base state)
+[numthreads(256, 1, 1)]
+void PackHalf(uint3 id : SV_DispatchThreadID)
+{
+    uint n = (uint)(LN.x * LN.y * LN.z), i = id.x * 2;
+    if (i >= n) return;
+    uint planeN = (uint)(LN.x * LN.y);
+    float a = SRC[i] - BaseK(i / planeN);
+    float b = i + 1 < n ? SRC[i + 1] - BaseK((i + 1) / planeN) : 0.0;
+    HALF[id.x] = f32tof16(a) | (f32tof16(b) << 16);
+}
+[numthreads(256, 1, 1)]
+void UnpackHalf(uint3 id : SV_DispatchThreadID)
+{
+    uint n = (uint)(LN.x * LN.y * LN.z), i = id.x * 2;
+    if (i >= n) return;
+    uint planeN = (uint)(LN.x * LN.y), h = RHALF[id.x];
+    DST[i] = f16tof32(h & 0xffff) + BaseK(i / planeN);
+    if (i + 1 < n) DST[i + 1] = f16tof32(h >> 16) + BaseK((i + 1) / planeN);
+}
+
+// ---------------------------------------------------------------- diagnostics (timeline recorder, TIMELINE.md)
+// per fine column, NC values:
+//  0 column max w   1 face level of it   2 min w below 3 km   3 theta' at the lowest level   4 u, 5 v at the lowest level (storm-relative)
+//  6 18 dBZ echo top (m)   7 50 dBZ echo top (m)   8 composite dBZ   9 hail size at the ground (mm)   10 rain (mm)   11 hail (mm)
+//  12 anvil u sum, 13 anvil v sum, 14 anvil ice weight (8-14 km)   15 dBZ near 1 km   16 i, 17 j   18 max cloud top (m, qc+qi > 1e-5)  19 spare
+[numthreads(8, 8, 1)]
+void ColDiag(uint3 id : SV_DispatchThreadID)
+{
+    uint NX = (uint)N.x, NY = (uint)N.y, NZ = (uint)N.z, i = id.x, j = id.y;
+    if (i >= NX || j >= NY) return;
+    uint plane = NX * NY, c2 = j * NX + i, o = c2 * NC;
+    float wmax = -1e9, wmin = 1e9, kmax = 0.0, comp = -99.0, top18 = 0.0, top50 = 0.0, ctop = 0.0, au = 0.0, av = 0.0, aw = 0.0, dbz1 = -99.0;
+    uint k1 = (uint)round(KOfZ(1000.0, false));
+    for (uint k = 0; k <= NZ; k++)
+    {
+        float w = W[k * plane + c2];
+        if (w > wmax) { wmax = w; kmax = (float)k; }
+        if (zw(k) < 3000.0) wmin = min(wmin, w);
+        if (k < NZ)
+        {
+            uint c = k * plane + c2;
+            float dbz = Dbz(RQR[c], RQS[c], RQH[c], bs(3, k), RTH[c] * bs(2, k));
+            comp = max(comp, dbz);
+            if (dbz >= 18.0) top18 = zc(k);
+            if (dbz >= 50.0) top50 = zc(k);
+            if (k == k1) dbz1 = dbz;
+            if (RQC[c] + RQI[c] > 1e-5) ctop = zc(k);
+            float z = zc(k);
+            if (z >= 8000.0 && z <= 14000.0)
+            {
+                float wt = RQI[c] + RQS[c];
+                if (wt > 1e-6)
+                {
+                    au += wt * 0.5 * (U[UIndex(i, j, k)] + U[UIndex(i + 1, j, k)]);
+                    av += wt * 0.5 * (V[VIndex(i, j, k)] + V[VIndex(i, j + 1, k)]);
+                    aw += wt;
+                }
+            }
+        }
+    }
+    COL[o + 0] = wmax; COL[o + 1] = kmax; COL[o + 2] = wmin;
+    COL[o + 3] = RTH[c2] - bs(0, 0);
+    COL[o + 4] = 0.5 * (U[UIndex(i, j, 0)] + U[UIndex(i + 1, j, 0)]);
+    COL[o + 5] = 0.5 * (V[VIndex(i, j, 0)] + V[VIndex(i, j + 1, 0)]);
+    COL[o + 6] = top18; COL[o + 7] = top50; COL[o + 8] = comp;
+    COL[o + 9] = HailSize(RQH[c2], bs(3, 0));
+    COL[o + 10] = RACC[c2]; COL[o + 11] = RACC[plane + c2];
+    COL[o + 12] = au; COL[o + 13] = av; COL[o + 14] = aw;
+    COL[o + 15] = dbz1; COL[o + 16] = (float)i; COL[o + 17] = (float)j; COL[o + 18] = ctop; COL[o + 19] = 0.0;
+}
+
+// vertical vorticity at the south-west bottom corner of cell (i, j) on level k (0 on the west and south edges)
+float Zeta(uint i, uint j, uint k)
+{
+    if (i == 0 || j == 0) return 0.0;
+    return (V[VIndex(i, j, k)] - V[VIndex(i - 1, j, k)]) / D.x - (U[UIndex(i, j, k)] - U[UIndex(i, j - 1, k)]) / D.y;
+}
+
+// 1 km blocks (CG.w fine cells across) on 1 km layers centred on whole kilometres (layer L spans L-0.5 .. L+0.5 km,
+// layer 0 spans 0 .. 0.5 km), NF3 values: 0-4 mean qc qr qi qs qh, 5 max w, 6 min w, 7 mean zeta, 8 max zeta, 9 mean theta'
+[numthreads(8, 8, 4)]
+void Coarse3D(uint3 id : SV_DispatchThreadID)
+{
+    uint NCX = (uint)CG.x, NCY = (uint)CG.y, NL = (uint)CG.z, F = (uint)CG.w;
+    if (id.x >= NCX || id.y >= NCY || id.z >= NL) return;
+    uint NX = (uint)N.x, NY = (uint)N.y, NZ = (uint)N.z, plane = NX * NY;
+    uint i0 = id.x * F, i1 = min(i0 + F, NX), j0 = id.y * F, j1 = min(j0 + F, NY);
+    float zlo = max(0.0, (float)id.z * 1000.0 - 500.0), zhi = (float)id.z * 1000.0 + 500.0;
+    float sq0 = 0.0, sq1 = 0.0, sq2 = 0.0, sq3 = 0.0, sq4 = 0.0, sz = 0.0, zmax = -1e9, sth = 0.0, wmax = -1e9, wmin = 1e9; float cnt = 0.0, cntw = 0.0;
+    for (uint k = 0; k <= NZ; k++)
+    {
+        bool inC = k < NZ && zc(k) >= zlo && zc(k) < zhi;
+        bool inW = k > 0 && k < NZ && zw(k) >= zlo && zw(k) < zhi;
+        if (!inC && !inW) continue;
+        for (uint j = j0; j < j1; j++) for (uint i = i0; i < i1; i++)
+        {
+            uint c = k * plane + j * NX + i;
+            if (inC)
+            {
+                sq0 += RQC[c]; sq1 += RQR[c]; sq2 += RQI[c]; sq3 += RQS[c]; sq4 += RQH[c];
+                float ze = Zeta(i, j, k); sz += ze; zmax = max(zmax, ze);
+                sth += RTH[c] - bs(0, k);
+                cnt += 1.0;
+            }
+            if (inW) { float w = W[c]; wmax = max(wmax, w); wmin = min(wmin, w); cntw += 1.0; }
+        }
+    }
+    uint o = ((id.z * NCY + id.y) * NCX + id.x) * NF3;
+    float inv = cnt > 0.0 ? 1.0 / cnt : 0.0;
+    C3[o + 0] = sq0 * inv; C3[o + 1] = sq1 * inv; C3[o + 2] = sq2 * inv; C3[o + 3] = sq3 * inv; C3[o + 4] = sq4 * inv;
+    C3[o + 5] = cntw > 0.0 ? wmax : 0.0; C3[o + 6] = cntw > 0.0 ? wmin : 0.0; C3[o + 7] = sz * inv;
+    C3[o + 8] = cnt > 0.0 ? zmax : 0.0; C3[o + 9] = sth * inv;
+}
+
+// 1 km columns, NF2 values aggregated from COL:
+//  0 max w   1 min w (<3 km)   2 min theta'   3 mean u sfc   4 mean v sfc   5 max 18 dBZ top   6 max 50 dBZ top   7 max composite dBZ
+//  8 max hail size   9 max rain   10 max hail acc   11 anvil u sum   12 anvil v sum   13 anvil weight   14 max dBZ 1 km
+//  15 fine i of max w   16 fine j of max w   17 max cloud top   18 mean theta'   19 spare
+[numthreads(8, 8, 1)]
+void Coarse2D(uint3 id : SV_DispatchThreadID)
+{
+    uint NCX = (uint)CG.x, NCY = (uint)CG.y, F = (uint)CG.w;
+    if (id.x >= NCX || id.y >= NCY) return;
+    uint NX = (uint)N.x, NY = (uint)N.y;
+    uint i0 = id.x * F, i1 = min(i0 + F, NX), j0 = id.y * F, j1 = min(j0 + F, NY);
+    float wmax = -1e9, wmin = 1e9, thmin = 1e9, su = 0.0, sv = 0.0, t18 = 0.0, t50 = 0.0, comp = -99.0, hs = 0.0, rain = 0.0, hail = 0.0;
+    float au = 0.0, av = 0.0, aw = 0.0, dbz1 = -99.0, fi = 0.0, fj = 0.0, ctop = 0.0, sth = 0.0, cnt = 0.0;
+    for (uint j = j0; j < j1; j++) for (uint i = i0; i < i1; i++)
+    {
+        uint o = (j * NX + i) * NC;
+        float w = RCOL[o];
+        if (w > wmax) { wmax = w; fi = (float)i; fj = (float)j; }
+        wmin = min(wmin, RCOL[o + 2]); thmin = min(thmin, RCOL[o + 3]); sth += RCOL[o + 3];
+        su += RCOL[o + 4]; sv += RCOL[o + 5];
+        t18 = max(t18, RCOL[o + 6]); t50 = max(t50, RCOL[o + 7]); comp = max(comp, RCOL[o + 8]);
+        hs = max(hs, RCOL[o + 9]); rain = max(rain, RCOL[o + 10]); hail = max(hail, RCOL[o + 11]);
+        au += RCOL[o + 12]; av += RCOL[o + 13]; aw += RCOL[o + 14];
+        dbz1 = max(dbz1, RCOL[o + 15]); ctop = max(ctop, RCOL[o + 18]);
+        cnt += 1.0;
+    }
+    uint q = (id.y * NCX + id.x) * NF2;
+    float inv = cnt > 0.0 ? 1.0 / cnt : 0.0;
+    C2[q + 0] = wmax; C2[q + 1] = wmin; C2[q + 2] = thmin; C2[q + 3] = su * inv; C2[q + 4] = sv * inv;
+    C2[q + 5] = t18; C2[q + 6] = t50; C2[q + 7] = comp; C2[q + 8] = hs; C2[q + 9] = rain; C2[q + 10] = hail;
+    C2[q + 11] = au; C2[q + 12] = av; C2[q + 13] = aw; C2[q + 14] = dbz1; C2[q + 15] = fi; C2[q + 16] = fj;
+    C2[q + 17] = ctop; C2[q + 18] = sth * inv; C2[q + 19] = 0.0;
+}
+
+// one group: the updraft core (strongest column w) and its full-resolution w(z) column into SUM:
+//  SUM[0] fine i, [1] fine j, [2] wmax, [3] face level of wmax, [4 .. 4+NZ] w at every face level of that column
+groupshared float gBest[256];
+groupshared uint gIdx[256];
+[numthreads(256, 1, 1)]
+void FrameReduce(uint3 tid : SV_GroupThreadID)
+{
+    uint NCX = (uint)CG.x, NCY = (uint)CG.y, n2 = NCX * NCY, NX = (uint)N.x, NY = (uint)N.y, NZ = (uint)N.z;
+    float best = -1e9; uint bi = 0;
+    for (uint q = tid.x; q < n2; q += 256) { float w = RC2[q * NF2]; if (w > best) { best = w; bi = q; } }
+    gBest[tid.x] = best; gIdx[tid.x] = bi;
+    GroupMemoryBarrierWithGroupSync();
+    for (uint s = 128; s > 0; s >>= 1)
+    {
+        if (tid.x < s && gBest[tid.x + s] > gBest[tid.x]) { gBest[tid.x] = gBest[tid.x + s]; gIdx[tid.x] = gIdx[tid.x + s]; }
+        GroupMemoryBarrierWithGroupSync();
+    }
+    uint q0 = gIdx[0] * NF2;
+    uint fi = (uint)RC2[q0 + 15], fj = (uint)RC2[q0 + 16];
+    if (tid.x == 0) { SUM[0] = (float)fi; SUM[1] = (float)fj; SUM[2] = RC2[q0]; SUM[3] = RCOL[(fj * NX + fi) * NC + 1]; }
+    for (uint k = tid.x; k <= NZ; k += 256) SUM[4 + k] = W[k * NX * NY + fj * NX + fi];
+}
+
+// field statistics for tests: STAT[0] = max |v| of SRC (as ordered uint bits), STAT[1] = max of SRC, STAT[2] = min of SRC, STAT[3] = count of NaN
+uint OrderedBits(float v) { uint b = asuint(v); return (b & 0x80000000u) != 0u ? ~b : (b | 0x80000000u); }
+[numthreads(256, 1, 1)]
+void FieldStats(uint3 id : SV_DispatchThreadID)
+{
+    uint n = (uint)(LN.x * LN.y * LN.z);
+    if (id.x >= n) return;
+    float v = SRC[id.x];
+    if (isnan(v) || isinf(v)) { InterlockedAdd(STAT[3], 1u); return; }
+    InterlockedMax(STAT[0], OrderedBits(abs(v)));
+    InterlockedMax(STAT[1], OrderedBits(v));
+    InterlockedMin(STAT[2], OrderedBits(v));
+}
+
+// microphysics alone on the A fields (for the conservation test; no sedimentation)
+[numthreads(8, 8, 4)]
+void MicroOnly(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y || id.z >= (uint)N.z) return;
+    uint c = CIndex(id.x, id.y, id.z); uint k = id.z;
+    float th = TH[c], qv = QV[c], qc = QC[c], qr = QR[c], qi = QI[c], qs = QS[c], qh = QH[c];
+    MicroStep(th, qv, qc, qr, qi, qs, qh, bs(2, k), bs(4, k), bs(3, k), M.y, D.z, K.y, K.z, K.w, MX.x);
+    TH[c] = th; QV[c] = qv; QC[c] = qc; QR[c] = qr; QI[c] = qi; QS[c] = qs; QH[c] = qh;
+}
+
+// Sub-grid eddy viscosity (Smagorinsky 1963 / Lilly 1962, as CM1's sgsmodel = 2): K = (cs h)^2 |S| sqrt(1 - Ri / Pr),
+// Pr = 1/3, from the post-advection wind (B buffers bound as U, V, W). Static stability uses theta in clear air and an
+// equivalent potential temperature in cloud, so saturated updrafts mix as near-neutral air. Horizontal length dx,
+// vertical length dz (anisotropic grid). K never drops below the constant floors (kh, kdiff) and is capped for the
+// explicit scheme's stability. SG.w = 0 gives the constant floors alone (StormLab 1.0's mixing).
+float UC(int i, int j, int k) { return 0.5 * (U[UIndex((uint)i, (uint)j, (uint)k)] + U[UIndex((uint)i + 1, (uint)j, (uint)k)]); }
+float VC(int i, int j, int k) { return 0.5 * (V[VIndex((uint)i, (uint)j, (uint)k)] + V[VIndex((uint)i, (uint)j + 1, (uint)k)]); }
+float WC(int i, int j, int k) { uint plane = (uint)(N.x * N.y), c2 = (uint)j * (uint)N.x + (uint)i; return 0.5 * (W[(uint)k * plane + c2] + W[((uint)k + 1) * plane + c2]); }
+float ThS(int i, int j, int k, bool moist)
+{
+    uint c = CIndex((uint)i, (uint)j, (uint)k); float th = RTH[c];
+    if (moist) th *= exp(LV * RQV[c] / (CPD * th * bs(2, (uint)k)));
+    return th;
+}
+[numthreads(8, 8, 4)]
+void Smag(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)N.x || id.y >= (uint)N.y || id.z >= (uint)N.z) return;
+    int NX = N.x, NY = N.y, NZ = N.z, i = (int)id.x, j = (int)id.y, k = (int)id.z;
+    uint c = CIndex(id.x, id.y, id.z), plane = (uint)(NX * NY);
+    float h2 = dzc(id.z);
+    float kh0 = M.w, kv0 = K.x;
+    float khMax = SG.y * D.x * D.x / D.z, kvMax = SG.z * h2 * h2 / D.z;
+    if (SG.w < 0.5) { KHB[c] = kh0; KVB[c] = min(kv0, kvMax); return; }
+    int im = max(i - 1, 0), ip = min(i + 1, NX - 1), jm = max(j - 1, 0), jp = min(j + 1, NY - 1), km = max(k - 1, 0), kp = min(k + 1, NZ - 1);
+    float dxs = max(1, ip - im) * D.x, dys = max(1, jp - jm) * D.y, dzs = max(1.0, zc((uint)kp) - zc((uint)km));
+    float ux = (U[UIndex(id.x + 1, id.y, id.z)] - U[UIndex(id.x, id.y, id.z)]) / D.x;
+    float vy = (V[VIndex(id.x, id.y + 1, id.z)] - V[VIndex(id.x, id.y, id.z)]) / D.y;
+    float wz = (W[(id.z + 1) * plane + id.y * (uint)NX + id.x] - W[id.z * plane + id.y * (uint)NX + id.x]) / h2;
+    float uy = (UC(i, jp, k) - UC(i, jm, k)) / dys, vx = (VC(ip, j, k) - VC(im, j, k)) / dxs;
+    float uz = (UC(i, j, kp) - UC(i, j, km)) / dzs, wx = (WC(ip, j, k) - WC(im, j, k)) / dxs;
+    float vz = (VC(i, j, kp) - VC(i, j, km)) / dzs, wy = (WC(i, jp, k) - WC(i, jm, k)) / dys;
+    float S2 = 2.0 * (ux * ux + vy * vy + wz * wz) + (uy + vx) * (uy + vx) + (uz + wx) * (uz + wx) + (vz + wy) * (vz + wy);
+    bool moist = RQC[c] + RQI[c] > 1e-5;
+    float n2 = 9.81 * (ThS(i, j, kp, moist) - ThS(i, j, km, moist)) / (dzs * RTH[c]);
+    float s = sqrt(S2) * sqrt(max(0.0, 1.0 - 3.0 * n2 / max(S2, 1e-12)));
+    float cs = SG.x;
+    KHB[c] = min(max(cs * cs * D.x * D.x * s, kh0), khMax);
+    KVB[c] = min(max(cs * cs * h2 * h2 * s, kv0), kvMax);
+}

@@ -1,0 +1,79 @@
+{
+ "case": "lp_hope_20220603",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-06-03T17:56:19",
+  "2022-06-03T23:23:10"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 2,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.0,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 3,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.0,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-06-03T20:50:00",
+   "lat": 32.88,
+   "lon": -105.05,
+   "state": "NM",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 8.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-03T20:59:00",
+   "lat": 32.87,
+   "lon": -105.01,
+   "state": "NM",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 6.5,
+   "size_in": 0.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-03T23:18:00",
+   "lat": 32.58,
+   "lon": -104.47,
+   "state": "NM",
+   "km_from_track": 31.9,
+   "km_from_storm_at_time": 31.9,
+   "size_in": 1.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-06-03T20:55:00",
+   "mag": "100",
+   "location": "10 ENE DUNKEN, CHAVES NM",
+   "lat": 32.88,
+   "lon": -105.05,
+   "comments": "QUARTER SIZE HAIL ALONG U.S. 82. (ABQ)",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 9.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-03T23:18:00",
+   "mag": "100",
+   "location": "3 WSW SEVEN RIVERS, EDDY NM",
+   "lat": 32.58,
+   "lon": -104.47,
+   "comments": "(MAF)",
+   "km_from_track": 31.9,
+   "km_from_storm_at_time": 31.9
+  }
+ ]
+}

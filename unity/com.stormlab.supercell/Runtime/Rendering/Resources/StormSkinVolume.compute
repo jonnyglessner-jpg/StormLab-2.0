@@ -1,0 +1,455 @@
+// The storm volume (DESIGN.md 2.5): BUILD paints the designed storm into a target volume (1.0's BUILD pass),
+// ADVECT carries the live volume with the simulated wind and relaxes it toward the target, LIGHT computes sun and sky
+// light on a coarse grid (1.0's LIGHT pass), WIND reduces the model's C-grid wind to 2 km blocks for the timeline of
+// winds. Volume texel: r = cloud, g = precipitation, b = near-ground features (shadows only), a = material
+// (water 0.3 + 0.7 * turbulence, ice 0.3 * (1 - ice)).
+#pragma kernel Build
+#pragma kernel Advect
+#pragma kernel Light
+#pragma kernel Wind
+
+#include "Packages/com.stormlab.supercell/Runtime/Rendering/Shaders/StormSkinCommon.hlsl"
+
+RWTexture3D<float4> _OutD;
+Texture3D<float4> _DensIn;
+Texture3D<float4> _Target;
+// x: dt s, y: relaxation toward the target 0..1, zw: volume-centre shift since the last frame (km, new - old)
+float4 _AdvP;
+
+float water(float turb) { return 0.3 + 0.7 * saturate(turb); }
+float icy(float ice) { return 0.3 * (1.0 - saturate(ice)); }
+
+// a cumulus congestus tower: centre c, radius R, base zb, top zt. Near-vertical sides, a rounded top
+float congestus(float3 p, float2 c, float R, float zb, float zt, float seed)
+{
+    float r = length(p.xy - c);
+    if (r > R * 2.2 || p.z > zt + R * 1.2 || p.z < zb - 0.3) return 0.0;
+    float3 ps = p / max(R, 0.4) + float3(seed * 3.7, seed * 1.9, seed * 5.3);
+    float n = 0.62 * n3(ps * 0.3) + 0.38 * n3(ps * 0.7 + float3(0.3, 0.6, 0.1)) - 0.5;
+    float hz = saturate((p.z - zb) / max(zt - zb, 0.3));
+    float edge = R * (0.95 - 0.35 * hz * hz) + n * R * 0.8;
+    float top = zt - 1.1 * R * pow(min(r / max(R, 0.1), 1.4), 2.0) + n * R * 1.0;
+    float zbt = zb + 0.15 * clamp(r / max(R, 0.1), 0.0, 1.2) + n * 0.3;
+    return ss(0.45, -0.45, r - edge) * ss(zbt - 0.15, zbt + 0.3, p.z) * ss(top + 0.25, top - 0.45, p.z);
+}
+
+float3 voxelPos(uint3 id)
+{
+    float L = S_grid.z; float ZT = S_grid.w;
+    return float3(-L + (id.x + 0.5) * 2.0 * L / S_grid.x, -L + (id.y + 0.5) * 2.0 * L / S_grid.x, (id.z + 0.5) * ZT / S_grid.y);
+}
+float3 uvwOf(float3 p) { float L = S_grid.z; return float3((p.x + L) / (2.0 * L), (p.y + L) / (2.0 * L), p.z / S_grid.w); }
+
+[numthreads(4, 4, 4)]
+void Build(uint3 gid : SV_DispatchThreadID)
+{
+    uint nv = (uint)S_grid.x; uint nz = (uint)S_grid.y;
+    uint3 id = uint3(gid.x, gid.y, gid.z + (uint)S_slab.x);
+    if (id.x >= nv || id.y >= nv || id.z >= nz) return;
+    float3 p = voxelPos(id);
+    float2 fw = S_f.xy; float2 lf = S_f.zw; float zb = S_base.x; float el = S_base.y; float tmin = S_base.w;
+    float otTop = el + max(S_ot.z, 0.0) + 1.0;
+    if (p.z > max(el + 2.5, otTop)) { _OutD[id] = float4(0.0, 0.0, 0.0, water(1.0)); return; }
+    float cloud = 0.0; float rain = 0.0;
+    float mw = 1e-4; float ms = 1e-4 * water(1.0);
+    float R = S_tower.y; float zt = S_tower.x;
+    float zr = p.z - zb;
+
+    // ---- main updraft: the rotating updraft low down, the convective tower higher up, flaring into the anvil
+    float2 c = mesoCentre(zr);
+    float2 d = p.xy - c; float r = length(d);
+    if (S_tower.z > 0.0 && r < R * 3.5 + 6.0)
+    {
+        float H = max(zt - zb, 0.5);
+        float hz = saturate(zr / H);
+        float lam = saturate(1.7 * S_tower.w) * (1.0 - ss(4.0, 7.5, zr));
+        float young = 1.0 - saturate(S_anvil.w);
+        float flare = (0.55 * S_tower.w + 0.12 * (1.0 - young)) * exp(-max(zr, 0.0) / 1.0);
+        float trumpet = 1.4 * pow(ss(el - 5.0, el - 0.6, p.z), 2.0) * saturate(S_anvil.w);
+        float rad0 = R * lerp(1.0, 0.8, young) * (1.0 + flare - 0.22 * S_tower.w * ss(0.05, 0.35, hz) + lerp(0.25 * ss(0.4, 0.8, hz) + trumpet, -0.3 * hz * hz, young));
+        float rad = rad0 + mesoExtra(zr);
+        float n = fbm(p) - 0.5;
+        float lump = lerp(0.5, 1.7, ss(1.0, 5.0, zr)) * (1.0 - 0.75 * lam);
+        float edge = rad + n * 2.2 * lump;
+        float dome = lerp(0.9 * rad, 2.2, saturate(S_anvil.w));
+        float ztc = zb + (zt - zb) * lerp(1.0, 0.88, young);
+        float top = ztc - dome * pow(min(r / max(rad, 0.1), 1.5), 2.0) + n * lerp(1.1, 2.4, young);
+        float ew = 0.55 + 0.05 * R * (0.9 * S_tower.w + 0.12) * exp(-max(zr, 0.0));
+        float nb = n3(p * 0.45 + float3(0.3, 0.8, 0.5)) - 0.5;
+        // the vault: the base arches up on the inflow side (vaultLift, shared with the near field)
+        float vault = vaultLift(d);
+        float zbase = zb + 0.35 * clamp((r - R * 0.8) / max(R, 0.5), 0.0, 1.5) + vault + nb * 0.3;
+        float tw = ss(ew, -ew, r - edge) * ss(zbase - 0.2, zbase + 0.35, p.z) * ss(top + 0.3, top - 0.6, p.z);
+        // overshooting top: a dome above the anvil whose height follows the simulated cloud top above the anvil
+        float oh = S_ot.z;
+        if (oh > 0.05)
+        {
+            float2 od2 = (p.xy - S_ot.xy) / max(S_ot.w, 0.5);
+            float od = length(float3(od2, (p.z - el) / max(oh, 0.2)));
+            tw = max(tw, ss(1.0, 0.65, od + n * 0.3) * ss(el - 1.5, el - 0.4, p.z));
+        }
+        float tv = S_tower.z * tw;
+        // a young tower is a cluster of turrets, each a towering cumulus of its own, merging into one
+        if (young > 0.02)
+        {
+            for (uint j = 0; j < 3; j++)
+            {
+                float fj = (float)j;
+                float a = 2.1 * fj + 0.7; float2 o = float2(cos(a), sin(a)) * R * (0.62 + 0.1 * fj);
+                float hj = (zt - zb) * (1.02 - 0.2 * fj);
+                tv = max(tv, S_tower.z * young * congestus(p, c + o * (1.0 + 0.08 * max(zr, 0.0)), R * (0.48 - 0.05 * fj), zb, zb + hj, 11.0 + fj * 3.0));
+            }
+        }
+        mw += tv * tv; ms += tv * tv * water(lerp(1.0, 0.12, lam));
+        cloud = max(cloud, tv);
+    }
+
+    // ---- storm body: the deep cloud downstream of the updraft over the forward-flank rain and hail
+    if (S_ffd.w > 0.0 && S_tower.z > 0.0)
+    {
+        float2 ax = normalize(S_ffd.xy - S_up.xy + float2(1e-4, 0.0)); float2 an = float2(-ax.y, ax.x);
+        float g = sqrt(clamp(S_ffd.w, 0.0, 1.6));
+        float Lb = (3.0 + 4.5 * S_ffd.z) * g + R * 0.5; float Wb = (2.5 + 2.0 * S_ffd.z) * (0.5 + 0.5 * g) + R * 0.4;
+        float2 o = S_up.xy + ax * (Lb * 0.75);
+        float u = dot(p.xy - o, ax); float v = dot(p.xy - o, an);
+        if (length(float2(u / Lb, v / Wb)) < 1.7 && p.z < el - 1.0)
+        {
+            float n = fbm(p * 1.15 + float3(5.1, 2.3, 0.7)) - 0.5;
+            float fr = saturate(u / Lb * 0.5 + 0.5);
+            // 2.0: away from the rotating updraft the body's base is raised over the height of the plates, so the barrel
+            // stands free under the wider storm (the LP photos' mothership) instead of being wrapped to the ground
+            float radB = S_tower.y * (1.12 + 0.55 * S_tower.w);
+            float lift = 0.85 * S_plates.z * saturate(0.4 + S_plates.w) * ss(radB * 0.9, radB * 1.3, length(p.xy - mesoCentre(0.0)));
+            float bot = zb + 0.1 + max(2.6 * fr * fr, lift);
+            float topb = el - 3.0 + 1.0 * (1.0 - fr);
+            float hb = saturate((p.z - zb) / max(topb - zb, 1.0));
+            float e = length(float2(u / (Lb * (0.75 + 0.35 * sin(3.1416 * hb))), v / Wb)) + n * 0.6;
+            float bv = 0.8 * ss(1.0, 0.7, e) * ss(-R * 0.3, R * 0.6, dot(p.xy - S_up.xy, ax)) * ss(bot - 0.1, bot + 0.5, p.z + n * 0.9) * ss(topb + 0.6, topb - 0.6, p.z + n * 0.8);
+            mw += bv * bv; ms += bv * bv * water(0.55);
+            cloud = max(cloud, bv);
+        }
+    }
+
+    // ---- the rear-flank downdraft surge eats a notch up the back of the low updraft: the clear slot
+    if (S_rfdb.z > 0.0 && length(p.xy - S_rfdb.xy) < S_rfdb.z * 1.6 + 2.0 && p.z < zb + 9.0)
+    {
+        float2 db = p.xy - S_rfdb.xy; float rb = length(db); float Rs = S_rfdb.z;
+        float th = atan2(dot(db, lf), dot(db, fw));
+        float nsl = n3(float3(p.x * 0.35, p.y * 0.35, p.z * 0.25) + float3(0.7, 0.7, 0.1)) - 0.5;
+        float2 od = cos(2.18) * fw + sin(2.18) * lf;
+        float u = dot(db, od); float vv = abs(dot(db, float2(-od.y, od.x)));
+        float chan = ss(-0.5, 0.5, u) * ss(Rs * (0.85 + 0.08 * u), Rs * (0.55 + 0.08 * u), vv + nsl * Rs * 0.3);
+        float hole = max(ss(Rs * 0.85, Rs * 0.55, rb + nsl * Rs * 0.3), chan);
+        float keep = ss(S_wall.z * 1.35, S_wall.z * 0.95, length(p.xy - S_wall.xy) + nsl * 0.5);
+        // 2.0: a warm, dry RFD (slot2.z near 1) cuts a deeper, cleaner slot than a cold, wet one
+        float dry = S_slot2.w > 0.0 ? S_slot2.z : 1.0;
+        float hgt = zb + (2.5 + 5.5 * S_rfdb.w) * (0.6 + 0.4 * ss(0.3, -0.8, cos(th))) * (0.6 + 0.4 * dry);
+        float slot = saturate(S_rfdb.w * hole * (1.0 - keep) * ss(hgt + 1.0, hgt - 0.9, p.z + nsl * 1.8));
+        cloud *= 1.0 - slot;
+    }
+
+    // ---- inflow: warm, moist air rising as a smooth, banded ramp into the side of the mesocyclone
+    if (S_tail.w > 0.0)
+    {
+        float2 t0 = S_up.xy + S_f.xy * 2.5 + S_f.zw * 0.5;
+        float2 td = S_tail.xy; float2 tn = float2(-td.y, td.x);
+        float sT = dot(p.xy - t0, td) + R * 0.6;
+        float qT = dot(p.xy - t0, tn) - 0.035 * (S_tail.z - sT) * (S_tail.z - sT) * 0.12;
+        if (sT > -1.0 && sT < 9.0 && abs(qT) < 6.0 && p.z < zb + 5.0)
+        {
+            float rise = exp(-max(sT, 0.0) / 3.5);
+            float nI = fbm(p * 1.3 + float3(1.7, 0.4, 2.2)) - 0.5;
+            // 2.0: a low, flat band near base level (the beaver tail), not a ramp up the barrel's side
+            float topI = zb + 0.45 + 0.6 * rise + nI * 0.15;
+            float botI = zb + 0.12 + 0.25 * (1.0 - rise) + nI * 0.15;
+            float wI = (1.0 + 2.2 * rise) * (0.8 + 0.4 * nI);
+            float band = 0.85 + 0.15 * sin(6.2832 * (p.z - zb) / 0.45 + sT * 0.4);
+            float iv = S_tail.w * 0.9 * ss(wI + 0.4, wI - 0.6, abs(qT)) * ss(botI - 0.1, botI + 0.2, p.z) * ss(topI + 0.3, topI - 0.5, p.z)
+                * ss(-1.0, 0.5, sT) * (1.0 - ss(6.0, 9.0, sT)) * band;
+            mw += iv * iv; ms += iv * iv * water(0.15);
+            cloud = max(cloud, iv);
+        }
+    }
+
+    // ---- anvil: an oval canopy of ice drawn out along the storm-relative wind aloft, flat-topped, backsheared upwind,
+    // thinning downstream into streaky cirrus; mammatus hang beneath it downwind
+    if (S_anvil.w > 0.0 && p.z > el - 9.0)
+    {
+        float2 a0 = S_up.xy + S_tilt.xy * (el - zb);
+        float2 ad = S_anvil.xy; float2 an = float2(-ad.y, ad.x);
+        float s = dot(p.xy - a0, ad); float q = dot(p.xy - a0, an);
+        float grow = S_anvil.w; float Lz = max(S_anvil.z, 2.0);
+        float fr = saturate(s / Lz);
+        float back = S_anvil2.w * grow;
+        float nb = max(back + R * 0.5, 0.5);
+        float A = 0.5 * (Lz + nb); float sc = 0.5 * (Lz - nb);
+        float B = R * (1.2 + 0.6 * grow) + A * 0.34 * grow;
+        float su = (s - sc) / A;
+        float Bq = B * (1.0 - 0.18 * su);
+        float e = length(float2(su, q / max(Bq, 0.5)));
+        float outD = min((e - 1.0) * min(Bq, A), length(p.xy - a0) - R * 2.6 * (0.6 + 0.4 * grow));
+        if (outD < 3.5)
+        {
+            float n = fbm(p * 0.5 + float3(3.1, 1.7, 0.0)) - 0.5;
+            float streak = 0.6 * n3(float3(s * 0.022, q * 0.2, p.z * 0.25) + float3(0.2, 0.5, 0.8)) + 0.4 * n3(float3(s * 0.05, q * 0.45, p.z * 0.4) + float3(0.7, 0.1, 0.5)) - 0.5;
+            float inPlan = ss(1.4, -2.0, outD + n * 1.0 + streak * (0.5 + 1.0 * fr));
+            float qe = saturate(e);
+            float lens = lerp(sqrt(max(1.0 - qe * qe, 0.0)), pow(max(1.0 - qe * qe, 0.0), 0.2), ss(-0.3, -0.8, su));
+            float headD = length(float2(max(-s, 0.0) / max(nb, 0.5), q / max(B, 0.5)));
+            float bulge = (1.2 + 0.8 * n) * exp(-max(s, 0.0) / max(R * 2.0, 1.0)) * (1.0 - ss(0.6, 1.0, headD)) * grow;
+            float topz = S_anvil2.y + 0.35 * exp(-max(s, 0.0) / 8.0) - 0.3 * fr + n * 0.06 + bulge;
+            float upw = ss(0.0, -nb, s);
+            float thick = lerp(2.7, 0.3, pow(fr, 0.55)) * lerp(1.0, 0.45, upw) * (0.55 + 0.45 * grow) * (0.2 + 0.8 * lens);
+            float dA = length(p.xy - a0);
+            float skirtA = 2.2 * exp(-dA / max(R * 0.9, 1.0)) * (1.0 - ss(R * 1.2, R * 2.2, dA)) * grow;
+            float botz = topz - thick - skirtA + n * 0.5 * thick + streak * 0.2 * fr;
+            float vert = ss(botz - 0.2, botz + 0.35, p.z) * ss(topz + 0.25, topz - 0.55, p.z + streak * 0.25);
+            float dens = lerp(1.0, 0.3, ss(0.05, 0.9, fr)) * (1.0 - ss(0.7, 1.05, fr + streak * 0.2)) * lerp(0.6, 1.0, lens);
+            float av = inPlan * vert * dens;
+            float knuckle = (1.0 - ss(R * 1.0, R * 1.0 + 0.18 * Lz, s)) * (1.0 - ss(0.35, 0.85, qe));
+            mw += av * av; ms += av * av * lerp(icy(0.35 + 0.65 * ss(0.02, 0.3, fr)), water(0.9), knuckle);
+            cloud = max(cloud, av);
+            // mammatus: rounded pouches on a jittered 2.2 km grid hanging from the anvil's underside downwind. 1.0
+            // switched them off at 350 m voxels; at 150 m they resolve. Depth from the designer (ice at the anvil base)
+            if (S_anvil2.z > 0.0 && fr > 0.03 && fr < 0.7)
+            {
+                float cs = 2.2;
+                float2 gg = p.xy / cs; float2 gi = floor(gg);
+                float dep = 0.0;
+                for (int oy = -1; oy <= 1; oy++)
+                {
+                    for (int ox = -1; ox <= 1; ox++)
+                    {
+                        float2 cc = gi + float2(ox, oy);
+                        float h1 = hash1(cc.x * 17.3 + cc.y * 91.7); float h2 = hash1(cc.x * 43.1 + cc.y * 7.9); float h3 = hash1(cc.x * 5.7 + cc.y * 61.3);
+                        float2 ctr = (cc + float2(0.2 + 0.6 * h1, 0.2 + 0.6 * h2)) * cs;
+                        float rr = cs * (0.34 + 0.2 * h3);
+                        float dd = length(p.xy - ctr) / rr;
+                        dep = max(dep, (1.0 - dd * dd) * step(0.3, h3) * step(dd, 1.0));
+                    }
+                }
+                float bandM = ss(0.03, 0.12, fr) * (1.0 - ss(0.45, 0.7, fr)) * lens;
+                float depth = max(S_mamm.w, 0.2) * 1.4 * S_anvil2.z * bandM * dep;
+                float mv = 0.85 * inPlan * ss(botz - depth - 0.12, botz - depth + 0.15, p.z) * (1.0 - ss(botz + 0.05, botz + 0.3, p.z)) * ss(0.02, 0.1, depth);
+                mw += mv * mv; ms += mv * mv * icy(0.95);
+                cloud = max(cloud, mv);
+            }
+        }
+    }
+
+    // ---- flanking line along the rear-flank gust front, tops stepping down from the main updraft
+    if (S_flank.z > 0.0)
+    {
+        float2 fd = S_flank.xy; float2 rn = float2(fd.y, -fd.x);
+        float reach = 0.0;
+        for (uint k = 0; k < 8; k++)
+        {
+            if ((float)k >= S_flank.w) break;
+            float fk = (float)k;
+            float h1 = hash1(fk * 7.31 + 1.3); float h2 = hash1(fk * 3.97 + 0.4); float h3 = hash1(fk * 5.13 + 2.2);
+            float dist = R * 0.8 + 1.6 + fk * 2.7 + (h1 - 0.5) * 1.4;
+            float2 ctr = S_up.xy + fd * dist + rn * (0.03 * dist * dist + (h2 - 0.5) * 1.3);
+            float grow = saturate(S_flank.z * 1.7 - fk * 0.1);
+            float life = 0.86 + 0.14 * sin(tmin * 0.3 + fk * 1.9);
+            float Hk = (zt - zb) * (0.5 - 0.06 * fk) * (0.55 + 0.8 * h3) * grow * life;
+            if (Hk < 0.25) continue;
+            reach = max(reach, dist);
+            float rk = (2.3 - 0.17 * fk) * (0.75 + 0.45 * h1) * (0.65 + 0.35 * grow);
+            float2 lean = -fd * 0.16 * max(zr, 0.0);
+            float fv = congestus(p, ctr + lean, rk, zb, zb + Hk, fk + 0.37);
+            float2 off = float2(h2 - 0.5, h3 - 0.5) * rk * 1.5;
+            fv = max(fv, congestus(p, ctr + off + lean * 0.8, rk * 0.65, zb, zb + Hk * (0.5 + 0.45 * h1), fk + 4.1));
+            float2 off2 = float2(h1 - 0.5, 0.5 - h2) * rk * 1.6;
+            fv = max(fv, congestus(p, ctr + off2 + lean * 0.9, rk * 0.5, zb, zb + Hk * (0.35 + 0.5 * h2), fk + 8.3));
+            mw += fv * fv; ms += fv * fv * water(1.0);
+            cloud = max(cloud, fv);
+        }
+        float2 rel = p.xy - S_up.xy; float al = dot(rel, fd);
+        float offs = dot(rel, rn) - 0.03 * al * al;
+        if (reach > 0.0 && abs(offs) < 2.5 && al > 0.0 && al < reach + 1.0 && p.z < zb + 1.6)
+        {
+            float nb = n3(p * 0.7 + float3(0.9, 0.3, 0.1)) - 0.5;
+            float sh = ss(1.1, 0.5, abs(offs) + nb * 0.8) * ss(R * 0.5, R + 0.5, al) * ss(reach - 0.5, reach - 2.5, al)
+                * ss(zb - 0.1 + nb * 0.3, zb + 0.3 + nb * 0.3, p.z) * ss(zb + 0.8 + nb * 0.4, zb + 0.35, p.z) * 0.7;
+            mw += sh * sh; ms += sh * sh * water(0.6);
+            cloud = max(cloud, sh);
+        }
+    }
+
+    // ---- towers on the rear-flank gust front: the surge lifts the air at its edge into cumulus
+    if (S_rfdb.w > 0.0 && S_rfdb.z > 0.0)
+    {
+        float2 rc = S_rfdb.xy; float Rs = S_rfdb.z;
+        for (uint k = 0; k < 5; k++)
+        {
+            float fk = (float)k;
+            float th = radians(-165.0 + fk * 52.0);
+            float2 dir = cos(th) * fw + sin(th) * lf;
+            float h1 = hash1(fk * 3.3 + 7.1); float h2 = hash1(fk * 5.9 + 1.7);
+            float2 ctr = rc + dir * Rs * (1.0 + 0.15 * h1);
+            float2 toUp = S_up.xy - ctr; float dU = length(toUp);
+            float Hk = (zt - zb) * (0.28 + 0.3 * h2) * (0.6 + 0.4 * ss(R * 3.0, R * 1.0, dU)) * S_rfdb.w;
+            float2 lean = toUp / max(dU, 0.1) * 0.12 * max(zr, 0.0);
+            float fv = congestus(p, ctr + lean, (1.1 + 0.6 * h1) * (0.6 + 0.4 * S_rfdb.w), zb + 0.05, zb + Hk, 20.0 + fk * 2.3);
+            mw += fv * fv; ms += fv * fv * water(1.0);
+            cloud = max(cloud, fv);
+        }
+    }
+
+    float nearV = nearField(p, 0.0);
+
+    // ---- precipitation: streaky curtains under the forward flank, a hail core next to the updraft, hook rain
+    float below = ss(zb + 1.2, zb - 0.3, p.z);
+    float curt = 0.0;
+    if (below > 0.0)
+    {
+        curt = (0.35 + 0.65 * ss(0.3, 0.7, n3(float3(p.x * 0.11 + p.z * 0.01, p.y * 0.11, p.z * 0.02))))
+            * (0.55 + 0.6 * n3(float3(p.x * 0.45, p.y * 0.45, p.z * 0.04) + float3(0.3, 0.5, 0.1)));
+    }
+    if (S_ffd.w > 0.0 && below > 0.0)
+    {
+        float reachF = zb * (1.0 - saturate(S_ffd.w * 1.6));
+        float2 fq = p.xy - S_ffd.xy;
+        float fa, fb;
+        if (S_ffd2.z > 0.0) { float2 ax = S_ffd2.xy; fa = dot(fq, ax) / S_ffd2.z; fb = dot(fq, float2(-ax.y, ax.x)) / S_ffd2.w; }
+        else { fa = dot(fq, fw) / (6.0 * S_ffd.z); fb = dot(fq, lf) / (4.0 * S_ffd.z); }
+        rain = max(rain, S_ffd.w * exp(-(fa * fa + fb * fb)) * curt * below * ss(reachF - 0.2, reachF + 0.3, p.z));
+    }
+    if (S_hail.w > 0.0 && below > 0.0)
+    {
+        float reachH = zb * (1.0 - saturate(S_hail.w * 1.6));
+        float hq = length(p.xy - S_hail.xy) / S_hail.z; float hh = exp(-hq * hq) * curt * below * ss(reachH - 0.2, reachH + 0.3, p.z);
+        rain = max(rain, S_hail.w * hh * 0.9);
+    }
+    if (S_rfdb.z > 0.0 && below > 0.0)
+    {
+        float2 db = p.xy - S_rfdb.xy; float rb = length(db); float Rs = S_rfdb.z;
+        float th = atan2(dot(db, lf), dot(db, fw));
+        float nsl = n3(float3(p.x * 0.35, p.y * 0.35, p.z * 0.25) + float3(0.7, 0.7, 0.1)) - 0.5;
+        float hook = max(ss(-0.25, 0.55, cos(th - 1.9)), S_rfd.w);
+        float ring = ss(Rs * 0.45, Rs * 0.8, rb + nsl * 0.8) * ss(Rs * 1.15, Rs * 0.92, rb + nsl * 0.6);
+        rain = max(rain, S_rfd.z * ring * hook * curt * below * 0.6);
+    }
+    // 2.0: the simulated hook / RFD rain core
+    if (S_rcore.w > 0.0 && below > 0.0)
+    {
+        float hq = length(p.xy - S_rcore.xy) / max(S_rcore.z, 0.5);
+        float reachR = zb * (1.0 - saturate(S_rcore.w * 1.6));
+        rain = max(rain, S_rcore.w * 0.7 * exp(-hq * hq) * curt * below * ss(reachR - 0.2, reachR + 0.3, p.z));
+    }
+
+    _OutD[id] = float4(sqrt(saturate(cloud)), sqrt(saturate(rain)), sqrt(saturate(nearV)), ms / mw);
+}
+
+// ------------------------------------------------------------------------------------------------ advection
+[numthreads(4, 4, 4)]
+void Advect(uint3 id : SV_DispatchThreadID)
+{
+    uint nv = (uint)S_grid.x; uint nz = (uint)S_grid.y;
+    if (id.x >= nv || id.y >= nv || id.z >= nz) return;
+    float3 p = voxelPos(id);
+    float4 tgt = _Target[id];
+    float3 wind = windAt(p);
+    float dtk = _AdvP.x / 1000.0;
+    float3 shift = float3(_AdvP.zw, 0.0);
+    float3 pc = p - wind * dtk + shift;
+    float3 pr = p - float3(wind.xy, wind.z - _VolC.z) * dtk + shift;
+    float3 uc = uvwOf(pc), ur = uvwOf(pr);
+    bool inC = all(uc >= 0.0) && all(uc <= 1.0);
+    bool inR = all(ur >= 0.0) && all(ur <= 1.0);
+    float4 old = inC ? _DensIn.SampleLevel(sampler_LinearClamp, uc, 0) : tgt;
+    float oldR = inR ? _DensIn.SampleLevel(sampler_LinearClamp, ur, 0).g : tgt.g;
+    float k = _AdvP.y;
+    float4 o;
+    o.r = lerp(old.r, tgt.r, k);
+    o.g = lerp(oldR, tgt.g, k);
+    o.b = tgt.b;
+    o.a = lerp(old.a, tgt.a, k);
+    _OutD[id] = o;
+}
+
+// ------------------------------------------------------------------------------------------------ light
+RWTexture3D<float4> _OutL;
+Texture3D<float4> _Dens;
+// sun.xyz; dims: light-grid N, NZ, L km, ZT km; p: cloud max, rain max, step km, cloud base km; slab: x first z
+float4 _LSun, _LDims, _LP, _LSlab;
+
+float3 luvw(float3 p) { return float3((p.x + _LDims.z) / (2.0 * _LDims.z), (p.y + _LDims.z) / (2.0 * _LDims.z), p.z / _LDims.w); }
+float dr(float3 p) { return _Dens.SampleLevel(sampler_LinearClamp, luvw(p), 0).r; }
+float betaL(float3 p) { float4 d = _Dens.SampleLevel(sampler_LinearClamp, luvw(p), 0); return (d.r * d.r + d.b * d.b) * _LP.x + d.g * d.g * _LP.y; }
+
+[numthreads(4, 4, 4)]
+void Light(uint3 gid : SV_DispatchThreadID)
+{
+    uint nv = (uint)_LDims.x; uint nz = (uint)_LDims.y;
+    uint3 id = uint3(gid.x, gid.y, gid.z + (uint)_LSlab.x);
+    if (id.x >= nv || id.y >= nv || id.z >= nz) return;
+    float dx = 2.0 * _LDims.z / _LDims.x; float dz = _LDims.w / _LDims.y;
+    float3 pos = float3(-_LDims.z + (id.x + 0.5) * dx, -_LDims.z + (id.y + 0.5) * dx, (id.z + 0.5) * dz);
+    float4 here = _Dens.SampleLevel(sampler_LinearClamp, luvw(pos), 0);
+    float ice = 1.0 - saturate(here.a / 0.3);
+    float zb = _LP.w;
+    float st = _LP.z;
+    float tau = 0.0; float3 q = pos + _LSun.xyz * 0.5 * st;
+    for (int i = 0; i < 48; i++)
+    {
+        if (q.z > _LDims.w || abs(q.x) > _LDims.z || abs(q.y) > _LDims.z) break;
+        tau += betaL(q) * st; q += _LSun.xyz * st;
+    }
+    float sun = 0.72 * exp(-0.38 * tau) + 0.28 * exp(-0.07 * tau);
+    if (ice < 0.2) sun *= 1.0 - 0.5 * saturate((dr(pos + _LSun.xyz * 0.9) - 0.3) * 2.0);
+    float up = 0.0; float3 r = pos + float3(0.0, 0.0, dz);
+    for (int k2 = 0; k2 < 24; k2++) { if (r.z > _LDims.w) break; up += betaL(r) * 2.0 * dz; r.z += 2.0 * dz; }
+    float vUp = dr(pos + float3(0.0, 0.0, 0.5));
+    float skyOcc = 1.0 - 0.75 * (1.0 - ss(zb + 2.0, zb + 4.0, pos.z)) * saturate((vUp - 0.3) * 2.2);
+    float iceShade = 1.0;
+    if (ice > 0.05)
+    {
+        float above = saturate((dr(pos + float3(0.0, 0.0, 0.6)) - 0.1) * 3.0) * 0.55 + saturate((dr(pos + float3(0.0, 0.0, 1.5)) - 0.1) * 3.0) * 0.45;
+        float sunward = saturate((dr(pos + _LSun.xyz * 1.2) - 0.1) * 3.0) * 0.55 + saturate((dr(pos + _LSun.xyz * 3.0) - 0.1) * 3.0) * 0.45;
+        float ua = 0.0; float dn = 0.0;
+        for (int k = 0; k < 4; k++)
+        {
+            float3 o = float3(cos(k * 1.571), sin(k * 1.571), 0.0) * 1.2;
+            ua += dr(pos + o + float3(0.0, 0.0, 1.0)); dn += dr(pos + o - float3(0.0, 0.0, 1.0));
+        }
+        float under = ss(0.0, 0.4, (ua - 1.5 * dn) * 0.25);
+        iceShade = (1.0 - 0.8 * sunward) * (1.0 - 0.8 * under) * (1.0 - 0.3 * above);
+    }
+    _OutL[id] = float4(sun, exp(-0.1 * up), skyOcc, iceShade);
+}
+
+// ------------------------------------------------------------------------------------------------ wind reduction
+StructuredBuffer<float> _MU;
+StructuredBuffer<float> _MV;
+StructuredBuffer<float> _MW;
+// per 1 km layer: first and last cell-centre level (inclusive)
+StructuredBuffer<int2> _LayerK;
+RWStructuredBuffer<uint> _WindOut;
+// NX, NY, NZ, block size in cells
+int4 _WN;
+// blocks x, blocks y, layers, 0
+int4 _WB;
+
+uint enc(float v) { return (uint)clamp(round((v + 51.0) / 0.4), 0.0, 255.0); }
+
+[numthreads(8, 8, 1)]
+void Wind(uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x >= _WB.x || (int)id.y >= _WB.y || (int)id.z >= _WB.z) return;
+    int NX = _WN.x, NY = _WN.y, NZ = _WN.z, B = _WN.w;
+    int2 kr = _LayerK[id.z];
+    float su = 0, sv = 0, sw = 0, n = 0;
+    int i0 = id.x * B, j0 = id.y * B;
+    for (int k = kr.x; k <= kr.y; k++)
+        for (int j = j0; j < min(j0 + B, NY); j++)
+            for (int i = i0; i < min(i0 + B, NX); i++)
+            {
+                su += 0.5 * (_MU[(k * NY + j) * (NX + 1) + i] + _MU[(k * NY + j) * (NX + 1) + i + 1]);
+                sv += 0.5 * (_MV[(k * (NY + 1) + j) * NX + i] + _MV[(k * (NY + 1) + j + 1) * NX + i]);
+                sw += 0.5 * (_MW[(k * NY + j) * NX + i] + _MW[((k + 1) * NY + j) * NX + i]);
+                n += 1;
+            }
+    n = max(n, 1);
+    _WindOut[(id.z * _WB.y + id.y) * _WB.x + id.x] = enc(su / n) | (enc(sv / n) << 8) | (enc(sw / n) << 16) | (255u << 24);
+}

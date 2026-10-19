@@ -1,0 +1,153 @@
+// The near-field volume (DESIGN.md 2.5 item 2): a 9.6 x 9.6 x 2.9 km box at 30 m (20 m high tier) that follows the
+// low-level mesocyclone and holds what the 150 m storm volume cannot: the flat, razor-edged cloud base at the
+// simulated LCL, the stacked plates on the rotating updraft barrel, and the wall cloud, tail cloud, scud, horseshoe
+// lip and inflow tail at full detail (1.0's nearField). Inside the box it replaces the storm volume's cloud.
+//
+// BuildNear writes a smooth *field*, not a density: r = 0.5 on the cloud surface, rising 0.5 per 0.25 km inward
+// (falling outward), so trilinear filtering keeps edges exact below the voxel size and the march thresholds it as
+// sharply as the pixel allows. g = material (0 laminar .. 1 turbulent: how soft the edge is), b = plate underside
+// (darker), a = 1. LightNear computes the near cloud's own sun and sky light at half its resolution.
+#pragma kernel BuildNear
+#pragma kernel LightNear
+
+#include "Packages/com.stormlab.supercell/Runtime/Rendering/Shaders/StormSkinCommon.hlsl"
+
+RWTexture3D<float4> _OutN;
+Texture3D<float4> _Dens;      // live storm volume
+Texture3D<float4> _Light;     // storm light grid
+Texture3D<float4> _NearIn;    // near field (LightNear)
+// x cells across, y levels, z cell size km, w box height km
+float4 _NDims;
+// x first z level of this slab
+float4 _NSlab;
+
+float3 stormUvw(float3 p) { float L = S_grid.z; return float3((p.x + L) / (2.0 * L), (p.y + L) / (2.0 * L), p.z / S_grid.w); }
+float3 nearUvw(float3 p) { float h = S_near.w; return float3((p.x - S_near.x + h) / (2.0 * h), (p.y - S_near.y + h) / (2.0 * h), (p.z - S_near.z) / _NDims.w); }
+
+// laminar sheets (stretched along the horizontal) and cauliflower lobes, for the turbulent parts of the coarse cloud
+float lamDetail(float3 q) { return 0.6 * n3(float3(q.xy * 0.7, q.z * 1.6) + float3(0.21, 0.67, 0.43)) + 0.4 * n3(float3(q.xy * 2.1, q.z * 2.5) + float3(0.55, 0.12, 0.81)); }
+float turbDetail(float3 q) { return 0.45 * (1.0 - abs(2.0 * n3(q * 0.55) - 1.0)) + 0.35 * (1.0 - abs(2.0 * n3(q * 1.4 + float3(0.2, 0.6, 0.3)) - 1.0)) + 0.2 * n3(q * 2.6 + float3(0.5, 0.3, 0.9)); }
+
+[numthreads(4, 4, 4)]
+void BuildNear(uint3 gid : SV_DispatchThreadID)
+{
+    uint nv = (uint)_NDims.x; uint nz = (uint)_NDims.y;
+    uint3 id = uint3(gid.x, gid.y, gid.z + (uint)_NSlab.x);
+    if (id.x >= nv || id.y >= nv || id.z >= nz) return;
+    float h = S_near.w; float dx = _NDims.z;
+    float3 p = float3(S_near.x - h + (id.x + 0.5) * dx, S_near.y - h + (id.y + 0.5) * dx, S_near.z + (id.z + 0.5) * dx);
+    float zb = S_base.x; float zr = p.z - zb; float clock = S_base.z;
+    float spinLow = S_mesov.z != 0.0 ? S_mesov.z : S_tilt.w;
+
+    // ---- the base: flat at the simulated LCL, arched up in the inflow vault, with laminar ripples of a few tens of
+    // metres that turn with the low-level rotation
+    float2 uc0 = mesoCentre(0.0);
+    float lift = S_tower.z > 0.0 ? vaultLift(p.xy - uc0) : 0.0;
+    float2 dr0 = rot2(p.xy - uc0, -spinLow * clock);
+    float rip = (n3(float3(dr0 * 0.45, 0.31)) - 0.5) * 0.06 + (n3(float3(dr0 * 1.7, 0.77)) - 0.5) * 0.025;
+    float zbase = zb + lift + rip;
+    float fBase = saturate(0.5 + (p.z - zbase) / 0.5);
+
+    // ---- the stacked plates: the rotating updraft's lower km as a stack of laminar discs, each with a flat,
+    // shadowed underside and a rim that sticks out, wound into a helix that turns at the simulated rotation (low-level
+    // spin at the bottom, mid-level aloft) and dips toward the inflow vault
+    float wB = 0.0; float fBar = 0.0; float under = 0.0;
+    float plAmt = S_plates.w * S_tower.z;
+    float Hb = S_plates.z;
+    if (plAmt > 0.01 && zr > -0.4 && zr < Hb + 0.8)
+    {
+        float2 mc = mesoCentre(zr);
+        float2 d = p.xy - mc; float r = length(d);
+        float mR = max(S_tower.y, 0.5);
+        float radAt = min(mR * (1.0 + (0.55 * S_tower.w + 0.12) * exp(-max(zr, 0.0) / 1.0)) + mesoExtra(zr), h - 0.9);
+        float hz = saturate(zr / max(Hb, 0.3));
+        float spin = lerp(spinLow, S_tilt.w, hz);
+        float2 drr = rot2(d, -spin * clock);
+        float ang = atan2(drr.y, drr.x);
+        float av = vaultAngle(d);
+        float sp = max(S_plates.y, 0.15);
+        float wob = n3(float3(ang * 0.32, r * 0.15, zr * 0.6) + float3(0.6, 0.3, 0.1));
+        float phase = zr / sp + 0.85 * ang / 6.2832 - 0.55 * (1.0 - abs(av) / 3.1416) + 0.6 * (wob - 0.5);
+        float g = frac(phase);
+        float ledge = ss(0.0, 0.1, g) * pow(1.0 - g, 1.3);
+        float A = (0.12 + 0.2 * plAmt) * (0.7 + 0.6 * n3(float3(ang * 0.5, floor(phase) * 0.37, 0.2)));
+        // each plate a little narrower than the one below it: a stack, widest at the saucer at the base
+        float Rb = radAt + A * (ledge - 0.45) - 0.5 * A * max(zr, 0.0) / sp + (n3(float3(drr * 1.3, zr * 2.2) + float3(0.1, 0.4, 0.7)) - 0.5) * 0.08;
+        // the barrel ends where the plates end; above, the tower from the storm volume carries on
+        float top = ss(Hb - 0.15, Hb + 0.35, zr);
+        fBar = saturate(0.5 + (Rb - r) / 0.5) - top;
+        wB = plAmt * ss(Rb + 1.4, Rb + 0.5, r) * (1.0 - ss(Hb + 0.2, Hb + 0.7, zr));
+        under = plAmt * (1.0 - ss(0.02, 0.16, g)) * ss(Rb + 0.4, Rb - 0.1, r) * (1.0 - top);
+    }
+
+    // ---- the storm volume's own cloud, sharpened. Below the base it is read just above the base, so the soft 150 m
+    // underside becomes the flat base above; near the barrel the threshold rises so its soft skirt recedes behind
+    // the plates
+    float4 s = _Dens.SampleLevel(sampler_LinearClamp, stormUvw(float3(p.xy, max(p.z, zbase + 0.35))), 0);
+    float turb = saturate((s.a - 0.3) / 0.7) * ss(zb + 0.4, zb + 1.4, p.z);
+    float dd = 0.0;
+    if (s.r > 0.05)
+    {
+        // fine detail flows with the simulated wind
+        float3 o0, o1; float w0; flowPhases(p, o0, o1, w0);
+        float d0 = lerp(lamDetail(p + o0), turbDetail(p + o0), turb);
+        float d1 = lerp(lamDetail(p + o1), turbDetail(p + o1), turb);
+        dd = (lerp(d1, d0, w0) - 0.5) * lerp(0.1, 0.45, turb);
+    }
+    float thr = lerp(0.3, 0.78, saturate(wB * 1.2));
+    float fC = 0.5 + (s.r - thr) * 1.3 + dd;
+    float f = min(max(fC, fBar), fBase);
+
+    // ---- 1.0's near-ground features at full detail: wall cloud, tail cloud, scud, horseshoe lip, anti-meso, inflow tail
+    float nf = nearField(p, 1.0);
+    float fN = 0.5 + (nf - 0.3) * 1.6;
+    float mat = turb * (1.0 - saturate(wB * 1.5));
+    if (fN > f) { mat = lerp(mat, 0.45, ss(0.3, 0.6, fN)); f = fN; }
+    _OutN[id] = float4(saturate(f), mat, saturate(under), 1.0);
+}
+
+// ------------------------------------------------------------------------------------------------ near light
+RWTexture3D<float4> _OutNL;
+// sun direction (volume frame); x cloud max 1/km
+float4 _LSun, _LP;
+// x cells across, y levels
+float4 _NLDims;
+
+float nearDens(float3 q)
+{
+    float3 u = nearUvw(q);
+    if (any(u < 0.0) || any(u > 1.0)) return 0.0;
+    return ss(0.45, 0.55, _NearIn.SampleLevel(sampler_LinearClamp, u, 0).r);
+}
+
+[numthreads(4, 4, 4)]
+void LightNear(uint3 gid : SV_DispatchThreadID)
+{
+    uint nv = (uint)_NLDims.x; uint nz = (uint)_NLDims.y;
+    uint3 id = uint3(gid.x, gid.y, gid.z + (uint)_NSlab.x);
+    if (id.x >= nv || id.y >= nv || id.z >= nz) return;
+    float h = S_near.w; float dx = 2.0 * h / _NLDims.x; float dz = _NDims.w / _NLDims.y;
+    float3 p = float3(S_near.x - h + (id.x + 0.5) * dx, S_near.y - h + (id.y + 0.5) * dx, S_near.z + (id.z + 0.5) * dz);
+    float3 sun = _LSun.xyz;
+    // sun: the first 0.62 km through the near field (plates shading plates), the rest from the storm light grid
+    float tau = 0.0; float prev = 0.0;
+    float ds[8] = { 0.03, 0.07, 0.12, 0.18, 0.26, 0.36, 0.48, 0.62 };
+    [unroll] for (int i = 0; i < 8; i++) { tau += nearDens(p + sun * ds[i]) * (ds[i] - prev) * _LP.x; prev = ds[i]; }
+    float4 lf = _Light.SampleLevel(sampler_LinearClamp, stormUvw(p + sun * 0.62), 0);
+    float sunL = lf.r * (0.72 * exp(-0.38 * tau) + 0.28 * exp(-0.07 * tau));
+    // sky from above: cloud overhead within 0.5 km, then the storm grid's sky term above that
+    float tu = 0.0; prev = 0.0;
+    float us[5] = { 0.04, 0.1, 0.18, 0.32, 0.5 };
+    [unroll] for (int k = 0; k < 5; k++) { tu += nearDens(p + float3(0, 0, us[k])) * (us[k] - prev) * _LP.x; prev = us[k]; }
+    float4 lu = _Light.SampleLevel(sampler_LinearClamp, stormUvw(p + float3(0, 0, 0.5)), 0);
+    float skyUp = lu.g * lerp(1.0, lu.b, 0.5) * exp(-0.12 * tu);
+    // sky from the side (the horizon light under a base): four directions, 0.35 km out
+    float side = 0.0;
+    [unroll] for (int j = 0; j < 4; j++)
+    {
+        float a = j * 1.5708 + 0.39;
+        float3 o = float3(cos(a), sin(a), 0.0);
+        side += 1.0 - 0.5 * (nearDens(p + o * 0.12) + nearDens(p + o * 0.35));
+    }
+    _OutNL[id] = float4(saturate(sunL), saturate(skyUp), side * 0.25, 1.0);
+}

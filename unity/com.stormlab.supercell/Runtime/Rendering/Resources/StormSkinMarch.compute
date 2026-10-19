@@ -1,0 +1,569 @@
+// Ray-march of the storm volume (1.0's RENDER pass, ported from WGSL), at reduced resolution, plus a temporal
+// resolve that reprojects the previous frame's result. Inside the near-field box (StormSkinNear.compute) the 30 m
+// near field replaces the storm volume's cloud. The tornado is drawn analytically in the march (tornadoField, from the
+// StormLab web Lab's shaders.ts), shaped by the designed storm's Tor slots (13-15, 43-46).
+#pragma kernel March
+#pragma kernel Resolve
+
+#include "Packages/com.stormlab.supercell/Runtime/Rendering/Shaders/StormSkinCommon.hlsl"
+
+Texture3D<float4> _Dens;
+Texture3D<float4> _Light;
+Texture3D<float4> _NearTex;     // near field: r field (0.5 = surface), g material, b plate underside
+Texture3D<float4> _NearLight;   // near light: r sun, g sky from above, b sky from the side
+// x near box height km (0 = no near field)
+float4 _NearP;
+// x: debug switches (1 no flow detail, 2 no near field, 4 no rain streaks, 16 cloud only: no rain, shafts or haze,
+// 32 near field only, 64 step heat map, 128 no tornado)
+float4 _Dbg;
+Texture2D<float> _DepthTex;
+RWTexture2D<float4> _Out;
+RWTexture2D<float> _OutDist;
+
+// camera in the volume frame (km): position, forward, right, up; xy of _CamTan = tan of the half angles
+float4 _CamPos, _CamFwd, _CamRight, _CamUp, _CamTan;
+// x, y: target size; z, w: 1 / size
+float4 _Res;
+// sun direction (volume frame); sun colour; sky colour (w: sky and ambient scale, 1 at 1.0's evening sun)
+float4 _Sun, _SunC, _SkyC;
+// x: cloud extinction max 1/km, y: rain extinction max, z: exposure, w: frame index
+float4 _MP;
+// xy: ground offset km (storm travel, for the field pattern), z: 1 = draw sky and ground behind the storm, w: 1 = tone map
+float4 _Opt;
+// x: 1 = scene depth available, yz: depth texture size, w: max steps
+float4 _DepthP;
+// x, y: linear eye depth = 1 / (x * raw + y) in metres; z: 1 = reversed Z, w: 1 = flip the depth lookup vertically
+float4 _ZB;
+
+float3 uvw(float3 p) { float L = S_grid.z; return float3((p.x + L) / (2.0 * L), (p.y + L) / (2.0 * L), p.z / S_grid.w); }
+float hash(float2 p) { return frac(sin(dot(p, float2(12.9898, 78.233))) * 43758.5453); }
+float ign(float2 p) { return frac(52.9829189 * frac(dot(p, float2(0.06711056, 0.00583715)))); }
+
+// farm fields on a one-mile grid of section roads, faded with distance so they don't shimmer
+float3 groundColor(float2 p, float dist)
+{
+    float sec = 1.609;
+    float2 cell = floor(p / sec);
+    float h1 = hash(cell + float2(0.37, 0.11)); float h2 = hash(cell * 1.7 + float2(5.3, 2.9));
+    float3 field = lerp(float3(0.22, 0.29, 0.14), float3(0.34, 0.32, 0.19), step(0.62, h1));
+    field = lerp(field, float3(0.17, 0.24, 0.11), step(0.85, h2));
+    float2 f = frac(p / sec) * sec;
+    float edge = min(min(f.x, sec - f.x), min(f.y, sec - f.y));
+    float w = max(0.012, dist * 0.0011);
+    float road = 1.0 - ss(w, 2.0 * w, edge);
+    float detail = exp(-dist / 30.0);
+    float3 gc = lerp(float3(0.24, 0.3, 0.16), field, detail);
+    return lerp(gc, float3(0.44, 0.42, 0.37), road * detail);
+}
+
+// sub-grid detail for water cloud: smooth (turb 0) to cauliflower (turb 1). Every octave is filtered to the pixel
+// footprint (g_fp), so distant towers keep their lobes without the sub-pixel sparkle. Coarse octaves (11, 4.8, 1.8 km
+// tiles) and fine ones (0.5-0.3 km tiles) are separate so only the fine ones need to flow
+float detailCoarse(float3 q, float turb, out float soft, out float lobes)
+{
+    soft = 0.5; lobes = 0.5;
+    if (turb < 0.98) soft = 0.55 * n3k(q, 0.21, 0.0) + 0.3 * n3k(q, 0.6, float3(0.31, 0.17, 0.53));
+    if (turb > 0.02) lobes = 0.88 * 0.7 * ridge(q, 0.55, 0.0);
+    return 0.0;
+}
+float detailFine(float3 q, float turb)
+{
+    float f = 0.0;
+    if (turb < 0.98) f += (1.0 - turb) * 0.15 * n3k(q, 1.9, float3(0.11, 0.71, 0.29));
+    if (turb > 0.02) f += turb * (0.88 * 0.3 * ridge(q, 1.4, float3(0.2, 0.6, 0.3)) + 0.12 * n3k(q, 3.5, float3(0.5, 0.3, 0.9)));
+    return f;
+}
+float detail(float3 q, float turb)
+{
+    float soft, lobes; detailCoarse(q, turb, soft, lobes);
+    return lerp(soft, lobes, turb) + detailFine(q, turb);
+}
+// detail carried by the simulated wind: the fine octaves in two cross-faded phases (see flowPhases); the coarse ones
+// and everything beyond 8 km or on smooth cloud in one phase, to keep the march inside its budget
+float flowDetail(float3 q, float3 pw, float turb, float t)
+{
+    if (t > 8.0 || turb < 0.2 || _VolC.w < 0.5 || ((uint)_Dbg.x & 1u)) return detail(q, turb);
+    float soft, lobes; detailCoarse(q, turb, soft, lobes);
+    float3 o0, o1; float w0; flowPhases(pw, o0, o1, w0);
+    return lerp(soft, lobes, turb) + lerp(detailFine(q + o1, turb), detailFine(q + o0, turb), w0);
+}
+// striations: grooves stacked up the side of the rotating updraft, sweeping down toward the inflow vault
+float grooves(float zr, float ang, float w, float av)
+{
+    float ph = zr / 0.8 + 0.2 * sin(ang * 2.0 + w * 4.0) + 1.1 * w + 0.35 * ang / 6.2832 + 1.7 * (1.0 - abs(av) / 3.1416);
+    float g = frac(ph);
+    return pow(g, 1.4) * ss(1.0, 0.72, g);
+}
+float3 toneMap(float3 c) { float3 cc = 1.0 - exp(-_MP.z * c); cc = pow(max(cc, 0.0), 1.0 / 1.1); return pow(cc, 2.2); }   // 1.0's display curve, then to linear
+
+// cauliflower: rounded lobes (inverted ridged noise) at about 2.5 and 1 km, filtered to the footprint
+float billowL(float3 q) { return 0.15 + 0.7 * ridge(q, 0.55, 0.0); }
+
+float3 nearUvw(float3 p) { float h = S_near.w; return float3((p.x - S_near.x + h) / (2.0 * h), (p.y - S_near.y + h) / (2.0 * h), (p.z - S_near.z) / _NearP.x); }
+// how much the near field owns a point: 1 inside the box, fading over its outer 0.5 km and its top 0.3 km
+float nearWeight(float3 p)
+{
+    float2 e = S_near.w - abs(p.xy - S_near.xy);
+    float bot = S_near.z > 0.001 ? ss(0.0, 0.05, p.z - S_near.z) : 1.0;
+    return ss(0.0, 0.5, min(e.x, e.y)) * ss(0.0, 0.3, S_near.z + _NearP.x - p.z) * bot;
+}
+
+// ------------------------------------------------------------------------------------------------ the tornado
+// Drawn analytically from the parameter block (DesignedStorm). x: condensation funnel as a cloud field 0..1; y: dust and
+// debris, extinction 1/km. Everything turns at the real rates in the block: S_tor6.x is the angular speed at the
+// funnel's edge (rad/s), S_base.z the wall clock (s).
+float tornadoAxisAmp(float ztop) { return (0.03 + 0.1 * S_tor2.w + 0.3 * S_tor5.w) * (0.4 + 0.6 * ztop); }
+float tornadoBound() { return max(S_tor2.y * 1.6, S_tor2.x * max(S_tor6.w, 1.0) * 1.3) + tornadoAxisAmp(S_base.x) + 0.35; }
+
+float2 tornadoField(float3 q)
+{
+    float zb = S_base.x;
+    if (S_tor.z <= 0.0 || q.z > zb + 0.15) return 0.0;
+    float ztop = max(zb - 0.6 * S_wall2.x, 0.3);
+    float h = saturate(q.z / ztop);
+    float clock = S_base.z;
+    float spin = clamp(S_tor6.x, 0.02, 2.0);
+    float sinu = S_tor5.w;
+    // axis from the ground position up to the wall cloud. Ropes and elephant trunks snake (the bend drifts over tens of
+    // seconds); everything sways more as it ropes out.
+    float amp = tornadoAxisAmp(ztop);
+    float2 sway = amp * float2(sin(h * (5.0 + 3.0 * sinu) + clock * 0.07), cos(h * (4.0 + 2.0 * sinu) + clock * 0.055)) * sin(3.1416 * h);
+    float2 ax = lerp(S_tor.xy, S_tor3.xy, ss(0.08, 0.8, h)) + sway;
+    float2 dv = q.xy - ax; float d = length(dv);
+    float rad = lerp(S_tor2.x, S_tor2.y, pow(h, lerp(3.0, 0.7, S_tor.w)));
+    // collar: the funnel widens smoothly into a cone-shaped lowering under the wall cloud, so the two are one cloud
+    float collar = ss(ztop - 0.45 * ztop, ztop + 0.1, q.z);
+    rad += collar * collar * (0.25 * S_wall.z + 0.3 * S_tor2.y) * (1.0 - 0.4 * S_tor2.w);
+    // texture in a frame turning with the vortex: vertical striations and a ragged skin, rising at about 20 m/s
+    float2 pr = rot2(dv, -clock * spin) / max(rad, 0.02);
+    float n1 = n3(float3(pr * 0.9, q.z * 1.1 - clock * 0.022));
+    float n2 = n3(float3(pr * 2.6, q.z * 5.0 - clock * 0.1) + float3(0.31, 0.77, 0.13));
+    float rough = (n1 - 0.5) * 0.45 + (n2 - 0.5) * 0.3;
+    // condensation reaches down to condBottom; below it only a faint sheath (a high base leaves a gap, filled by dust)
+    float condBottom = zb * (1.0 - S_tor2.z);
+    float down = ss(condBottom - 0.06, condBottom + 0.12, q.z);
+    float core = ss(1.25, 0.45, d / rad + rough);
+    bool second = S_tor4.w > 0.5;
+    float wedgeAmt = second ? S_tor4.w - 1.0 : 1.0;
+    float breakdown = second ? S_tor4.z : 0.0;
+    // a breaking-down wedge lifts off the ground from below, leaving a collar cloud at its top
+    float wedgeMask = second ? wedgeAmt * lerp(1.0, ss(breakdown * 0.85 - 0.05, breakdown * 0.85 + 0.25, h), ss(0.0, 0.05, breakdown)) : 1.0;
+    float vis = min(S_tor.z * 2.5, 1.0);
+    float funnel = vis * core * lerp(0.12, 1.0, down) * lerp(0.75, 1.0, ss(0.0, 0.35, h)) * wedgeMask;
+    if (second)
+    {
+        // the central vortex: slender, visible all the way down, still there when the envelope breaks down
+        float radc = max(S_tor4.x, 0.02) * lerp(1.0, 1.6, pow(h, 1.5)) * (1.0 - 0.4 * S_tor2.w);
+        float2 prc = rot2(dv, -clock * min(spin * 1.4, 2.5)) / max(radc, 0.03);
+        float roughc = (n3(float3(prc * 0.9, q.z * 1.1 - clock * 0.03)) - 0.5) * 0.45 + (n3(float3(prc * 2.6, q.z * 5.0) + float3(0.62, 0.21, 0.4)) - 0.5) * 0.3;
+        float coreF = vis * step(0.005, S_tor4.x) * ss(1.25, 0.45, d / radc + roughc) * lerp(0.12, 1.0, down) * lerp(0.8, 1.0, ss(0.02, 0.3, q.z));
+        funnel = max(funnel, coreF);
+        // suction vortices orbiting near the envelope's edge, twisting round each other with height; wispy, translucent
+        // and sporadic. They orbit at about half the parent's angular speed and spin fast about their own axes.
+        if (S_tor4.y > 0.0)
+        {
+            float ro = S_tor5.x * rad;
+            float rs = max(S_tor5.y, 0.2 * ro) * lerp(1.0, 1.7, pow(h, 1.2));
+            int nv = (int)clamp(S_tor5.z, 0.0, 6.0);
+            float mv = 0.0;
+            for (int i = 0; i < 6; i++)
+            {
+                if (i >= nv) break;
+                float fi = (float)i;
+                float a = fi * 6.2832 / max(S_tor5.z, 1.0) + clock * 0.55 * spin + 1.2 * h;
+                float2 ci = ax + ro * float2(cos(a), sin(a));
+                float2 dvi = q.xy - ci; float di = length(dvi) / rs;
+                float pulse = ss(0.3, 0.7, 0.5 + 0.5 * sin(clock * 0.12 + fi * 2.3 + 1.7 * sin(clock * 0.05 + fi * 1.9)));
+                float gaps = ss(0.25, 0.65, n3(float3(fi * 3.1, q.z * 1.6 - clock * 0.04, 0.37)));
+                float wisp = saturate(0.55 + 0.9 * (n3(float3(rot2(dvi, -clock * min(3.0 * spin, 3.0)) / rs * 1.6, q.z * 3.0 + fi)) - 0.5));
+                mv = max(mv, ss(1.3, 0.2, di + rough) * pulse * gaps * wisp);
+            }
+            funnel = max(funnel, vis * S_tor4.y * 0.55 * mv * lerp(0.4, 1.0, down) * lerp(0.75, 1.0, ss(0.0, 0.3, h)));
+        }
+        // collar cloud: what is left of the envelope's upper part, wide and short, under the wall cloud
+        if (breakdown > 0.0)
+        {
+            float rcol = S_tor2.y * lerp(0.85, 1.2, h) + 0.1;
+            float cl = ss(0.4, 0.62, h) * ss(1.2, 0.5, d / rcol + rough * 0.8);
+            funnel = max(funnel, vis * breakdown * cl * (1.0 - 0.5 * S_tor2.w));
+        }
+    }
+    // dust and debris: a low whirl wider than the funnel, rising as a sheath round its lower part. A wide envelope's
+    // cloud hugs it (S_tor6.w 1.35) and is torn into wisps spiralling in with the inflow; a narrow funnel's is a broader
+    // skirt (2.4), less broken up. It shrinks back toward the central vortex as a wedge breaks down.
+    float dust = 1.0 - 0.7 * breakdown;
+    float wedgeD = S_tor6.w < 2.0 ? 1.0 : 0.0;
+    float dr = S_tor2.x * S_tor6.w * dust + 0.06;
+    float dh = 0.08 + lerp(0.22, 0.16, wedgeD) * S_tor.w * (1.0 - S_tor2.w) + 0.12 * (1.0 - S_tor2.z);   // taller where the funnel does not reach down
+    float dn = n3(float3(pr * 0.7 * rad / dr, q.z * 2.5) + float3(0.3, 0.1, 0.7));
+    float whirl = ss(dr, dr * 0.3, d + (dn - 0.5) * dr * 0.8) * ss(dh, dh * 0.15, q.z);
+    float rsh = rad * dust;
+    float sheath = ss(rsh * lerp(1.9, 1.3, wedgeD), rsh, d + (dn - 0.5) * rsh * 0.6) * ss(0.35 * zb, 0.0, q.z) * 0.35;
+    float ang = atan2(pr.y, pr.x);
+    float arms = 0.5 + 0.5 * sin(ang * 4.0 + log(max(d, 0.01) / dr) * 6.0 + q.z * 9.0);
+    float fine = n3(float3(pr * 2.4 * rad / dr, q.z * 8.0 - clock * 0.05) + float3(0.62, 0.18, 0.41));
+    float wisp = lerp(1.0, ss(0.42, 0.85, 0.5 * arms + 0.5 * fine + (dn - 0.5) * 0.35), lerp(0.35, 1.0, wedgeD));
+    float debris = S_tor3.z * (whirl + sheath) * wisp * 7.0;
+    return float2(funnel, debris);
+}
+
+// the anticyclonic tornado at the southern curl of the surge: slender, turning clockwise
+float2 antiTornadoField(float3 q)
+{
+    float zb = S_base.x;
+    if (S_anti.w <= 0.0 || q.z > zb + 0.1) return 0.0;
+    float clock = S_base.z;
+    float ztop = max(zb - 0.1, 0.3);
+    float h = saturate(q.z / ztop);
+    float2 sway = 0.06 * float2(sin(h * 5.0 + clock * 0.06), cos(h * 4.0 + clock * 0.05)) * sin(3.1416 * h);
+    float2 dv = q.xy - (S_anti.xy - S_f.xy * 0.25 * (1.0 - h) + sway); float d = length(dv);
+    float rad = lerp(0.025, 0.06, pow(h, 1.5)) * (0.6 + 0.4 * min(S_anti.w * 2.0, 1.0));
+    rad += pow(ss(ztop * 0.6, ztop + 0.08, q.z), 2.0) * 0.25;
+    float2 pr = rot2(dv, clock * 0.8) / max(rad, 0.03);
+    float rough = (n3(float3(pr * 0.9, q.z * 1.3)) - 0.5) * 0.45 + (n3(float3(pr * 2.6, q.z * 5.0) + float3(0.5, 0.2, 0.9)) - 0.5) * 0.3;
+    float funnel = min(S_anti.w * 2.5, 1.0) * ss(1.25, 0.45, d / rad + rough) * ss(zb * 0.25, zb * 0.45, q.z);
+    float dn = n3(float3(pr * 0.25, q.z * 2.5) + float3(0.3, 0.1, 0.7));
+    float debris = S_anti.w * ss(0.12, 0.04, d + (dn - 0.5) * 0.08) * ss(0.1, 0.02, q.z) * 6.0;
+    return float2(funnel, debris);
+}
+
+[numthreads(8, 8, 1)]
+void March(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_Res.x || id.y >= (uint)_Res.y) return;
+    float2 uv = (float2(id.xy) + 0.5) * _Res.zw;
+    float2 ndc = uv * 2.0 - 1.0;
+    float3 rd = normalize(_CamFwd.xyz + ndc.x * _CamTan.x * _CamRight.xyz + ndc.y * _CamTan.y * _CamUp.xyz);
+    float3 cp = _CamPos.xyz; float L = S_grid.z; float ZT = S_grid.w;
+    float3 inv = 1.0 / (abs(rd) > 1e-6 ? rd : 1e-6);
+    float3 b0 = float3(-L, -L, 0.0); float3 b1 = float3(L, L, ZT);
+    float3 t0 = (b0 - cp) * inv; float3 t1 = (b1 - cp) * inv; float3 tmn = min(t0, t1); float3 tmx = max(t0, t1);
+    float ta = max(max(tmn.x, tmn.y), max(tmn.z, 0.0)); float tb = min(min(tmx.x, tmx.y), tmx.z);
+    if (rd.z < 0.0) tb = min(tb, -cp.z / rd.z);
+    // scene geometry: stop at it
+    float tScene = 1e9;
+    if (_DepthP.x > 0.5)
+    {
+        float2 duv = _ZB.w > 0.5 ? float2(uv.x, 1.0 - uv.y) : uv;
+        uint2 dp = min((uint2)(duv * _DepthP.yz), (uint2)_DepthP.yz - 1);
+        float raw = _DepthTex[dp];
+        float eye = 1.0 / (_ZB.x * raw + _ZB.y);
+        bool sky = _ZB.z > 0.5 ? raw <= 1e-7 : raw >= 0.9999999;
+        if (!sky) tScene = eye / max(dot(rd, _CamFwd.xyz), 1e-3) / 1000.0;
+        tb = min(tb, tScene);
+    }
+    float cosg = dot(rd, _Sun.xyz);
+    // sun and sky colour follow the sun's height (StormSkin.SunColours); 1.0's evening sun gives 1.0's colours
+    float3 sunc = _SunC.rgb; float3 skyc = _SkyC.rgb; float skyK = _SkyC.w;
+    float3 hazec = float3(0.68, 0.68, 0.7) * lerp(0.55, 1.0, saturate(skyK));
+    hazec = lerp(hazec, sunc * 0.75, 0.5 * saturate(1.0 - skyK) * pow(max(cosg, 0.0), 3.0));
+    float3 bounceC = float3(0.27, 0.29, 0.3) * skyK;
+    float pixA = 2.0 * _CamTan.y * _Res.w;   // radians per march pixel
+    // the near-field box along this ray
+    float tn0 = 1e9, tn1 = -1e9;
+    if (_NearP.x > 0.0 && !((uint)_Dbg.x & 2u))
+    {
+        float3 n0 = float3(S_near.xy - S_near.w, S_near.z), n1 = float3(S_near.xy + S_near.w, S_near.z + _NearP.x);
+        float3 a0 = (n0 - cp) * inv, a1 = (n1 - cp) * inv;
+        float3 amn = min(a0, a1), amx = max(a0, a1);
+        float ea = max(max(amn.x, amn.y), max(amn.z, 0.0)), eb = min(min(amx.x, amx.y), amx.z);
+        if (eb > ea) { tn0 = ea; tn1 = eb; }
+    }
+    float3 col = 0.0; float T = 1.0; float dsum = 0.0, wsum = 0.0; int nSteps = 0, nDetail = 0;
+    if (tb > ta)
+    {
+        float dt0 = 0.1;
+        float t = ta + dt0 * ign(float2(id.xy) + 5.588238 * fmod(_MP.w, 64.0));
+        float ph = 0.45 + 1.2 * pow(max(cosg, 0.0), 8.0);
+        bool surf = false; float prevBe = 0.0;
+        float spinA = -S_tilt.w * S_base.z; float2 spinCS = float2(cos(spinA), sin(spinA));   // the meso frame's turn, once per pixel
+        // the tornado's bounding cylinder (centred between its ground and top positions)
+        bool torOn = (S_tor.z > 0.0 || S_anti.w > 0.0) && !((uint)_Dbg.x & 128u);
+        float2 torMid = 0.5 * (S_tor.xy + S_tor3.xy); float torR = tornadoBound();
+        float2 antiP = S_anti.xy; float torTop = S_base.x + 0.2;
+        int maxSteps = (int)_DepthP.w;
+        for (int i = 0; i < maxSteps; i++)
+        {
+            if (t > tb || T < 0.015) break;
+            float3 q = cp + rd * t; nSteps++;
+            g_fp = t * pixA;
+            float dt = dt0 * (1.0 + t / 50.0);
+            float3 tc = uvw(q);
+            float4 s = _Dens.SampleLevel(sampler_LinearClamp, tc, 0);
+            // the near field owns the cloud inside its box; the storm volume keeps it outside
+            float wN = 0.0; float4 nv = 0.0;
+            if (t > tn0 - 0.01 && t < tn1 + 0.01) { wN = nearWeight(q); if (wN > 0.0) nv = _NearTex.SampleLevel(sampler_LinearClamp, nearUvw(q), 0); }
+            float keepS = 1.0 - wN;
+            bool nearOn = keepS > 0.01 && s.b > 0.05 && q.z < S_base.x + 1.2;
+            if (surf) dt = min(dt, 0.03 + t * 0.002);
+            // 2.0: in thin cloud the step follows the optical depth (about 0.15 per step), so a soft underside costs a
+            // few steps instead of a hundred; edges are still found at the fine step
+            if (prevBe > 0.3) dt = max(dt, min(0.2 / prevBe, 0.12 + t * 0.004));
+            if (nearOn) dt = min(dt, 0.035 + t * 0.003);
+            else if (s.r <= 0.004 && s.g <= 0.2 && s.b <= 0.004 && wN <= 0.0) dt = max(dt, 0.45 * (1.0 + t / 40.0));   // rain below 0.2 is not drawn
+            // 2.0: thin anvil ice and faint cloud far off are smooth; long steps there (the temporal resolve hides the jitter)
+            else if (!surf && wN <= 0.0 && s.b <= 0.05 && (s.a < 0.12 || s.r < 0.12)) dt = max(dt, 0.12 + t * 0.008);
+            // in the box: fine steps near a surface, long ones where the field says the nearest cloud is far
+            if (wN > 0.0) dt = min(dt, max(0.03 + t * 0.0025, (0.47 - nv.r) * 0.35));
+            if (t < tn0) dt = min(dt, tn0 - t + 0.005);
+            // near the tornado: fine steps inside its cylinder, and never step over it
+            bool inTor = false;
+            if (torOn && q.z < torTop)
+            {
+                float dc = S_tor.z > 0.0 ? length(q.xy - torMid) - torR : 1e9;
+                float da = S_anti.w > 0.0 ? length(q.xy - antiP) - 0.4 : 1e9;
+                float dmin = min(dc, da);
+                if (dmin < 0.0) { inTor = true; dt = min(dt, 0.006 + t * 0.0012); }
+                else dt = min(dt, max(dmin, 0.006) + 0.004);
+            }
+            float be = 0.0; float3 Lc = 0.0;
+            bool lowQ = q.z < S_base.x + 0.3;
+            float4 lt = (s.r > 0.004 || s.g > 0.2 || nearOn || lowQ) ? _Light.SampleLevel(sampler_LinearClamp, tc, 0) : float4(1, 1, 1, 1);
+            if ((uint)_Dbg.x & 32u) keepS = 0.0;
+            if (s.r > 0.004 && keepS > 0.01)
+            {
+                float ice = 1.0 - saturate(s.a / 0.3);
+                float turb = saturate((s.a - 0.3) / 0.7);
+                // near the updraft, detail is sampled in a frame turning with the simulated mesocyclone
+                float zr = q.z - S_base.x;
+                float2 uc = mesoCentre(zr);
+                float2 ud = q.xy - uc; float ur = length(ud);
+                float mR = max(S_tower.y, 0.5);
+                float radAt = mR * (1.0 + (0.55 * S_tower.w + 0.12) * exp(-max(zr, 0.0) / 1.0)) + mesoExtra(zr);
+                float m = S_tilt.w > 0.0 ? (1.0 - ss(1.25 * radAt, 2.0 * radAt, ur)) * (1.0 - ss(6.0, 9.0, zr)) * ss(-0.6, -0.1, zr) : 0.0;
+                float nn = 0.5; float stri = 0.0;
+                float lod = ss(3.0, 18.0, t);
+                if (ice < 0.99)
+                {
+                    float3 qr = q; float2 udr = ud;
+                    if (m > 0.01) { udr = float2(spinCS.x * ud.x - spinCS.y * ud.y, spinCS.y * ud.x + spinCS.x * ud.y); qr = float3(lerp(q.xy, uc + udr, m), q.z); }
+                    // 2.0: the detail also flows with the simulated wind
+                    if (s.r < 0.78) { nn = flowDetail(qr, q, turb, t); nDetail++; }   // deep inside, detail can't show
+                    if (m > 0.01)
+                    {
+                        float lam = saturate(1.7 * S_tower.w) * (1.0 - ss(4.0, 7.5, zr)) * ss(0.15, 0.7, zr);
+                        float own = 1.0 - ss(0.75 * radAt, 1.05 * radAt, ur);
+                        if (lam * own > 0.01) stri = m * own * lam * grooves(zr, atan2(udr.y, udr.x), n3(qr * 0.18 + float3(0.4, 0.8, 0.2)), vaultAngle(ud));
+                    }
+                }
+                float v = s.r + (nn - 0.5) * lerp(0.2, 0.5, turb) - 0.25 * stri;
+                float lowSoft = 1.0 - ss(S_base.x + 0.2, S_base.x + 0.8, q.z);
+                float ddW = lerp(ss(0.26, 0.4, v), ss(0.18, 0.55, v), lowSoft) * (0.4 + 0.6 * ss(0.4, 0.75, v));
+                // ice (the anvil): thin warped sheets drawn out along the wind aloft, translucent, fading into wisps
+                float ddI = 0.0;
+                if (ice > 0.01)
+                {
+                    float2 ad = S_anvil.xy; float2 an = float2(-ad.y, ad.x);
+                    float ua = dot(q.xy, ad); float va = dot(q.xy, an);
+                    float warp = n3(float3(ua * 0.012, va * 0.05, 0.37));
+                    float layers = 0.5 + 0.5 * cos(6.2832 * (q.z / 0.42 + 2.2 * warp));
+                    float streak = n3(float3(ua * 0.01, va * 0.22, q.z * 0.5) + float3(0.6, 0.2, 0.9));
+                    float fine = 0.5;
+                    if (lod < 0.98) fine = lerp(n3(float3(ua * 0.04, va * 0.8, q.z * 1.6) + float3(0.1, 0.5, 0.3)), 0.5, lod);
+                    float iceTex = 0.3 + 0.7 * saturate(0.45 * layers + 0.35 * streak + 0.2 * fine + 0.1);
+                    float vI = s.r * iceTex;
+                    ddI = ss(0.04, 0.8, vI) * 0.55;
+                }
+                float dd = lerp(ddW, ddI, ss(0.0, 1.0, ice)) * keepS;
+                surf = T > 0.25 && v > 0.15 && keepS > 0.5;
+                if (dd > 0.0)
+                {
+                    float bc = dd * _MP.x;
+                    float selfSh = 1.0;
+                    if (turb > 0.4 && ice < 0.2 && t < 25.0)
+                    {
+                        float3 q1 = q + _Sun.xyz * 0.3;
+                        float v1 = _Dens.SampleLevel(sampler_LinearClamp, uvw(q1), 0).r + (billowL(q1) - 0.5) * 0.7 * turb;
+                        selfSh = 1.0 - 0.75 * turb * saturate((v1 - 0.3) * 2.2);
+                    }
+                    float skyOcc = lerp(lt.b, 1.0, ice);
+                    float baseShade = ss(S_base.x - 0.4, S_base.x + 1.5, q.z);
+                    float3 bounce = bounceC * (1.0 - baseShade) * 0.55;
+                    float iceSun = lerp(1.0, lt.a, ice); float iceSky = lerp(1.0, 0.3 + 0.7 * lt.a, ice);
+                    float3 c = sunc * (lt.r * ph * 1.9 * selfSh * iceSun) + skyc * (0.24 + 0.6 * lt.g) * (0.75 + 0.25 * baseShade) * (0.8 + 0.2 * selfSh) * skyOcc * iceSky + bounce;
+                    c *= 1.0 - 0.38 * stri;
+                    be += bc; Lc += c * bc;
+                }
+            }
+            if (s.r <= 0.004 || keepS <= 0.5) surf = false;
+            if (nearOn)
+            {
+                float nv0 = nearField(q, 1.0);
+                float lowN = 1.0 - ss(S_base.x - 0.1, S_base.x + 0.3, q.z);
+                float bn = lerp(ss(0.22, 0.38, nv0), ss(0.14, 0.55, nv0), 0.6 * lowN) * _MP.x * 0.8 * keepS;
+                if (bn > 0.0)
+                {
+                    float under0 = 0.6 + 0.4 * ss(S_base.x - 0.5, S_base.x + 0.1, q.z);
+                    float under = under0 * (0.2 + 0.8 * lt.b);
+                    float3 c = (sunc * (lt.r * ph * 1.4) + skyc * (0.2 + 0.55 * lt.g)) * under + bounceC * 0.45;
+                    be += bn; Lc += c * float3(0.72, 0.76, 0.82) * bn;
+                }
+            }
+            // the near field: a sharp threshold on the stored field (edges as fine as the pixel), its own sun and sky light
+            if (wN > 0.0)
+            {
+                float e = lerp(0.035, 0.14, nv.g) + 1.5 * g_fp;
+                float dN = ss(0.5 - e, 0.5 + e, nv.r) * wN;
+                if (dN > 0.002)
+                {
+                    float4 nl = _NearLight.SampleLevel(sampler_LinearClamp, nearUvw(q), 0);
+                    float lowN = 1.0 - ss(S_base.x - 0.1, S_base.x + 0.6, q.z);
+                    // sky from above, plus the horizon light that reaches under the base from the side
+                    float skyN = 0.08 + 0.6 * nl.g + 0.12 * nl.b * lowN;
+                    float3 c = sunc * (nl.r * ph * 1.9) + skyc * skyN + bounceC * 0.55 * lowN;
+                    c *= 1.0 - 0.4 * nv.b;   // plate undersides
+                    float bn = dN * _MP.x;
+                    be += bn; Lc += c * bn;
+                }
+            }
+            if (s.g > 0.2 && !((uint)_Dbg.x & 16u))
+            {
+                // precipitation: a translucent curtain with fall streaks, thin for LP and dense for HP (designer), glowing
+                // when back-lit (rain and hail scatter strongly forward)
+                float cop = S_curt.x > 0.0 ? S_curt.x : 1.0;
+                float st = ((uint)_Dbg.x & 4u) ? 0.5 : n3k(float3(q.xy, q.z * 0.07 + S_base.z * 0.0005), 2.4, float3(0.3, 0.8, 0.1));
+                float mS = max(1.0 + S_curt.y * (st - 0.5) * 2.6, 0.05);
+                // the faint tails of the painted rain ellipses are dropped: a curtain is a shaft with clear air round it,
+                // not a 20 km veil (visibility under a light-rain edge is tens of km)
+                float br = s.g * s.g * ss(0.2, 0.5, s.g) * _MP.y * cop * mS;
+                float hq = length(q.xy - S_hail.xy) / max(S_hail.z, 0.5);
+                float hw = S_hail.w * exp(-hq * hq);
+                float fwdS = 1.0 + (1.5 + 5.0 * S_curt.z) * pow(max(cosg, 0.0), 6.0) + 0.5 * S_curt.z * pow(max(cosg, 0.0), 1.5);
+                float3 pc = lerp(float3(0.55, 0.6, 0.66), float3(0.8, 0.88, 0.86), saturate(hw)) * (sunc * lt.r * 0.9 * fwdS + skyc * (0.35 + 0.5 * lt.g));
+                be += br; Lc += pc * br;
+            }
+            // light shafts: haze under the storm, lit where sunlight gets through (the clear slot)
+            if (lowQ && lt.g < 0.9 && !((uint)_Dbg.x & 16u))
+            {
+                // 2.0: a fifth of 1.0's haze (the Plains air under these storms is clear for 50+ miles), with the forward
+                // peak kept so crepuscular rays still show toward a low sun
+                float ks = 0.01 * (1.0 - lt.g) * (1.0 + 4.0 * pow(max(cosg, 0.0), 6.0));
+                float3 sc = sunc * lt.r * (0.25 + 2.4 * pow(max(cosg, 0.0), 6.0)) * 0.9;
+                float ah = 1.0 - exp(-ks * dt);
+                col += T * ah * sc; T *= 1.0 - ah;
+            }
+            if (inTor)
+            {
+                float2 tv = tornadoField(q); float2 av = antiTornadoField(q);
+                tv = float2(max(tv.x, av.x), tv.y + av.y);
+                if (tv.x > 0.0)
+                {
+                    // the funnel: a cloud surface (sharp threshold), lit like the cloud base it hangs from, darker low down
+                    float e = 0.06 + 1.5 * g_fp;
+                    float bf = ss(0.3 - e, 0.3 + e, tv.x) * _MP.x * 1.3;
+                    float hz = saturate(q.z / max(S_base.x, 0.3));
+                    float3 c = (sunc * (lt.r * ph * 1.2) + skyc * (0.18 + 0.45 * lt.g)) * lerp(0.55, 0.9, hz) + bounceC * 0.4;
+                    be += bf; Lc += c * float3(0.78, 0.8, 0.84) * bf;
+                }
+                if (tv.y > 0.0)
+                {
+                    // dust and debris: lit like the ground beneath
+                    float3 tl = sunc * lt.r * 0.8 + skyc * (0.3 + 0.5 * lt.g) + bounceC * 0.3;
+                    be += tv.y; Lc += tl * float3(0.5, 0.44, 0.37) * tv.y;
+                }
+            }
+            prevBe = be;
+            if (be > 0.0005)
+            {
+                float a = 1.0 - exp(-be * dt);
+                float haze = 1.0 - exp(-t / 110.0);
+                float3 c = lerp(Lc / be, hazec, ((uint)_Dbg.x & 16u) ? 0.0 : haze * 0.9);
+                col += T * a * c;
+                dsum += T * a * t; wsum += T * a;
+                T *= 1.0 - a;
+            }
+            t += dt;
+        }
+    }
+    float dist = wsum > 1e-3 ? dsum / wsum : min(tb, 60.0);
+    _OutDist[id.xy] = dist;
+    if ((uint)_Dbg.x & 64u) { _Out[id.xy] = float4(nSteps / _DepthP.w, nDetail / _DepthP.w, T, 0.0); return; }
+
+    bool sceneHit = tScene < 1e8;
+    if (_Opt.z > 0.5 && !sceneHit)
+    {
+        // 1.0's backdrop: farm fields under the storm's shadow, and a sky with a warm horizon toward the sun. 2.0: both
+        // follow the sun's colour and height (1.0's colours at its evening sun)
+        float3 sunRel = sunc / float3(0.95, 0.779, 0.57);
+        float3 warm = float3(0.95, 0.82, 0.66) * (sunc / max(sunc.r, 1e-3)) / float3(1.0, 0.82, 0.6);
+        float3 bg;
+        if (rd.z < 0.0)
+        {
+            float tg = -cp.z / rd.z; float3 g = cp + rd * tg;
+            float sh = 1.0;
+            // the storm's shadow: inside the volume from the light grid; outside it, from where the ray toward the sun
+            // enters the volume (the evening sun throws the shadow far beyond the volume's edge)
+            float3 gs = float3(g.xy, 0.0);
+            if (abs(g.x) >= L || abs(g.y) >= L)
+            {
+                float3 sinv = 1.0 / (abs(_Sun.xyz) > 1e-5 ? _Sun.xyz : 1e-5);
+                float3 s0 = (float3(-L, -L, 0.0) - gs) * sinv, s1 = (float3(L, L, ZT) - gs) * sinv;
+                float3 smn = min(s0, s1), smx = max(s0, s1);
+                float sa = max(max(smn.x, smn.y), max(smn.z, 0.0)), sb = min(min(smx.x, smx.y), smx.z);
+                gs = sb > sa ? gs + _Sun.xyz * (sa + 0.05) : float3(1e9, 1e9, 0.0);
+            }
+            if (abs(gs.x) < L && abs(gs.y) < L) sh = _Light.SampleLevel(sampler_LinearClamp, float3((gs.x + L) / (2.0 * L), (gs.y + L) / (2.0 * L), max(gs.z / ZT, 0.01)), 0).r;
+            float hz = 1.0 - exp(-tg / 70.0);
+            float2 gp = g.xy + _Opt.xy;
+            bg = groundColor(gp, tg) * (0.4 * skyK + 0.42 * sh * float3(1.05, 0.95, 0.82) * sunRel) * (1.0 - hz) + hazec * hz * 0.85;
+        }
+        else
+        {
+            float el = saturate(rd.z);
+            float spread = lerp(2.0, 3.0, saturate(skyK));
+            float3 hz = lerp(float3(0.78, 0.8, 0.84) * lerp(0.6, 1.0, saturate(skyK)), warm, pow(max(cosg, 0.0), spread) * 0.8);
+            bg = hz * pow(1.0 - el, 3.0) + float3(0.33, 0.47, 0.72) * skyK * (1.0 - pow(1.0 - el, 3.0)) + 0.5 * pow(max(cosg, 0.0), 24.0) * warm / float3(0.95, 0.82, 0.66) * float3(1.0, 0.85, 0.6);
+        }
+        float3 cc = col + T * bg;
+        _Out[id.xy] = float4(_Opt.w > 0.5 ? toneMap(cc) : cc * _MP.z, 0.0);
+    }
+    else
+    {
+        _Out[id.xy] = float4(_Opt.w > 0.5 ? toneMap(col) : col * _MP.z, T);
+    }
+}
+
+// ------------------------------------------------------------------------------------------------ temporal resolve
+Texture2D<float4> _Cur;
+Texture2D<float> _CurDist;
+Texture2D<float4> _Hist;
+RWTexture2D<float4> _ResolveOut;
+// previous camera in the current volume frame
+float4 _PrevPos, _PrevFwd, _PrevRight, _PrevUp;
+// x: blend weight of the new frame (1 = no history)
+float4 _TP;
+
+[numthreads(8, 8, 1)]
+void Resolve(uint3 id : SV_DispatchThreadID)
+{
+    if (id.x >= (uint)_Res.x || id.y >= (uint)_Res.y) return;
+    float4 cur = _Cur[id.xy];
+    float4 mn = cur, mx = cur;
+    for (int dy = -1; dy <= 1; dy++)
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            int2 q = clamp(int2(id.xy) + int2(dx, dy), int2(0, 0), int2(_Res.xy) - 1);
+            float4 c = _Cur[q]; mn = min(mn, c); mx = max(mx, c);
+        }
+    float a = _TP.x;
+    if (a < 0.999)
+    {
+        float2 uv = (float2(id.xy) + 0.5) * _Res.zw;
+        float2 ndc = uv * 2.0 - 1.0;
+        float3 rd = normalize(_CamFwd.xyz + ndc.x * _CamTan.x * _CamRight.xyz + ndc.y * _CamTan.y * _CamUp.xyz);
+        float3 P = _CamPos.xyz + rd * _CurDist[id.xy];
+        float3 v = P - _PrevPos.xyz; float z = dot(v, _PrevFwd.xyz);
+        if (z > 1e-3)
+        {
+            float2 pn = float2(dot(v, _PrevRight.xyz) / (z * _CamTan.x), dot(v, _PrevUp.xyz) / (z * _CamTan.y));
+            float2 puv = pn * 0.5 + 0.5;
+            if (all(puv > 0.0) && all(puv < 1.0))
+            {
+                float4 h = _Hist.SampleLevel(sampler_LinearClamp, puv, 0);
+                h = clamp(h, mn, mx);
+                cur = lerp(h, cur, a);
+            }
+        }
+    }
+    _ResolveOut[id.xy] = cur;
+}

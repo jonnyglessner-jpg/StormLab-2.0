@@ -511,7 +511,9 @@ namespace StormLab.Supercell
                 Set(Slot.Tor7, gn.rainWrap, (int)tor.phaseShape, tor.ef, tor.lifeFrac);
                 Set(Slot.Tor8, gn.albedo, gn.roughness, gn.ghost, gn.striation);
                 Set(Slot.Tor9, gn.soilR, gn.soilG, gn.soilB, gn.dirt * Ramp(tor.lifeFrac, 0.02, 0.15));
-                Set(Slot.Tor10, tor.sideDir.x, tor.sideDir.y, tor.sideKm, 0);
+                // the plane the funnel bends in: across the lean, so a rope's S curve and its lean are not the same bend
+                double bendA = Math.Atan2(fwd.y, fwd.x) + gn.leanAngle + Math.PI / 2;
+                Set(Slot.Tor10, tor.sideDir.x, tor.sideDir.y, tor.sideKm, bendA);
                 if (tor.satOn) SetP(Slot.Tor11, tor.satPos, tor.satAmount, tor.satRadKm);
                 P.fromFallback |= Feature.Tornado;
             }

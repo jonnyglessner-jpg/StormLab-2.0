@@ -115,7 +115,7 @@ namespace StormLab.Supercell.Designer
         Tor8 = 47,
         /// <summary>xyz colour of the soil it lofts (linear albedo; 0 = default), w how far that dirt stains the funnel's lower part 0..1</summary>
         Tor9 = 48,
-        /// <summary>sidewinder: xy direction its lower end is dragged in (unit), z drag km</summary>
+        /// <summary>sidewinder: xy direction its lower end is dragged in (unit), z drag km; w angle of the plane the funnel bends in, radians from +x</summary>
         Tor10 = 49,
         /// <summary>satellite tornado: xy position, z amount 0..1, w visible radius km</summary>
         Tor11 = 50,

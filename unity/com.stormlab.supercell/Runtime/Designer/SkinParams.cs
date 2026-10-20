@@ -1,5 +1,5 @@
 // The skin's parameter block (DESIGN.md 2.3): StormLab 1.0's 21-slot block (design.ts, StormDesign.cs), grown to 47
-// slots. Every slot is a float4. Slots 0-20 keep 1.0's meaning so the ported shaders read them unchanged; 21-39 are new
+// slots, then 51. Every slot is a float4. Slots 0-20 keep 1.0's meaning so the ported shaders read them unchanged; 21-39 are new
 // and carry what the simulation can see that 1.0 had to invent; 40-42 drive the close-range look (near-field volume). Positions are km in the skin's volume frame (origin at
 // the volume centre, x east, y north), heights are km above ground, winds m/s, rotation rad/s (counter-clockwise > 0).
 // Shader twin: Runtime/Rendering/Shaders/StormSkinCommon.hlsl (the S_* defines).
@@ -109,8 +109,16 @@ namespace StormLab.Supercell.Designer
         Tor5 = 44,
         /// <summary>x spin at the funnel's edge rad/s (counter-clockwise > 0), y peak wind m/s, z radius of maximum wind km, w dust-cloud radius / ground radius</summary>
         Tor6 = 45,
-        /// <summary>x rain wrap 0..1, y shape (TornadoShape), z EF rating, w fraction of its life gone</summary>
+        /// <summary>x rain wrap 0..1, y shape now (TornadoShape), z EF rating, w fraction of its life gone</summary>
         Tor7 = 46,
+        /// <summary>the funnel's look: x brightness (0.55 grey .. 1.2 white; 0 = default), y skin roughness (0.2 laminar .. 1.5 torn), z translucency 0..1, w helical striations 0..1</summary>
+        Tor8 = 47,
+        /// <summary>xyz colour of the soil it lofts (linear albedo; 0 = default), w how far that dirt stains the funnel's lower part 0..1</summary>
+        Tor9 = 48,
+        /// <summary>sidewinder: xy direction its lower end is dragged in (unit), z drag km</summary>
+        Tor10 = 49,
+        /// <summary>satellite tornado: xy position, z amount 0..1, w visible radius km</summary>
+        Tor11 = 50,
     }
 
     /// <summary>Feature groups, for the Source slot (which ones the sim drove and which fell back to 1.0's script).</summary>
@@ -125,7 +133,7 @@ namespace StormLab.Supercell.Designer
 
     public sealed class SkinParams
     {
-        public const int NSLOT = 47;
+        public const int NSLOT = 51;
         public readonly Vector4[] v = new Vector4[NSLOT];
         public string stage = "", caption = "";
         /// <summary>suggested volume centre (grid metres): the updraft, moved downwind so the anvil fits</summary>

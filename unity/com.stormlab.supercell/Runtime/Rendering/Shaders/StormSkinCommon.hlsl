@@ -1,10 +1,10 @@
-// Shared by the skin's compute passes: the parameter block (SkinParams.cs, 43 float4 slots), noise, and the
+// Shared by the skin's compute passes: the parameter block (SkinParams.cs, 51 float4 slots), noise, and the
 // near-ground features. Ported from StormLab 1.0's src/storm3d/shaders.ts (WGSL, MIT). Lengths are km in the volume
 // frame (origin at the volume centre, x east, y north, z up above ground).
 #ifndef STORM_SKIN_COMMON
 #define STORM_SKIN_COMMON
 
-float4 _SP[47];
+float4 _SP[51];
 #define S_f      _SP[0]
 #define S_base   _SP[1]
 #define S_tower  _SP[2]
@@ -47,6 +47,10 @@ float4 _SP[47];
 #define S_tor5   _SP[44]
 #define S_tor6   _SP[45]
 #define S_tor7   _SP[46]
+#define S_tor8   _SP[47]
+#define S_tor9   _SP[48]
+#define S_tor10  _SP[49]
+#define S_tor11  _SP[50]
 
 Texture3D<float> _Noise;
 SamplerState sampler_LinearRepeat;
@@ -181,6 +185,10 @@ float nearField(float3 p, float fine)
             float nl = 0.6 * n3(float3(dl * 0.6, p.z * 1.2) + float3(0.2, 0.4, 0.9)) + 0.4 * lerp(0.5, n3(float3(dl * 2.2, p.z * 2.6) + float3(0.8, 0.1, 0.3)), fine);
             float north = ss(0.3, 1.0, cos(th - 0.9)); float south = ss(0.5, 1.0, cos(th + 2.97));
             float D = (0.3 + 0.15 * south + 0.25 * north + 0.4 * S_wall2.x * north) * (0.75 + 0.5 * nl);
+            // no deeper than about a third of the base height, and lifted clear over a tornado on the northern arm, so the
+            // funnel hangs exposed below the base as in the photos (data/reference/tornadoes) instead of inside the lip
+            D = min(D, 0.33 * zb + 0.05);
+            if (S_tor.z > 0.0) D *= lerp(0.25, 1.0, ss(S_tor2.y * 2.5 + 0.25, S_tor2.y * 4.0 + 1.0, length(p.xy - S_tor3.xy)));
             float x = rb - Rs + (nl - 0.5) * 0.7;
             float prof = saturate(1.0 - max(-x, 0.0) / 1.1 - max(x, 0.0) / 0.9);
             float bot = zb - D * prof * prof * (3.0 - 2.0 * prof) - (nl - 0.5) * 0.2;

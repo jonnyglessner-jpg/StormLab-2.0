@@ -49,6 +49,12 @@ namespace StormLab.Supercell
         public double coreKm;
         public double condReach, dust, spin, lifeFrac;
         public TornadoGene gene;
+        /// <summary>the shape it has now (its life's phases blended), and while it changes, from and to which shape and how far 0..1</summary>
+        public TornadoShape phaseShape, morphFrom, morphTo; public double morph;
+        /// <summary>profile and sinuosity now; sidewinder drag of the lower end, km, and its direction over the ground</summary>
+        public double profile, sinuosity, sideKm; public Vec2 sideDir;
+        /// <summary>satellite tornado: on, where (km over the ground), 0..1 amount, visible radius km, peak wind m/s</summary>
+        public bool satOn; public Vec2 satPos; public double satAmount, satRadKm, satVmax;
     }
 
     public sealed class DesignedStorm
@@ -238,6 +244,25 @@ namespace StormLab.Supercell
             double form = Ramp(tau, 0, formT), die = Ramp(tau, L - fadeT, L);
             o.amount = form * (1 - die); o.on = o.amount > 0.02;
             o.lifeFrac = tau / L;
+            // its life story: the phases blended in turn, each over MorphFrac of the life
+            double pg = tg.groundKm, pt = tg.topKm, pc = 1, psd = 0;
+            o.profile = tg.profile; o.sinuosity = tg.sinuosity; o.phaseShape = o.morphFrom = o.morphTo = tg.shape;
+            var ph = tg.phases;
+            if (ph != null && ph.Length > 0)
+            {
+                pg = ph[0].groundKm; pt = ph[0].topKm; o.profile = ph[0].profile; o.sinuosity = ph[0].sinuosity; pc = ph[0].cond; psd = ph[0].sideKm;
+                o.phaseShape = ph[0].shape;
+                for (int i = 1; i < ph.Length; i++)
+                {
+                    double w = Ramp(o.lifeFrac, ph[i].startFrac, ph[i].startFrac + TornadoGene.MorphFrac);
+                    if (w <= 0) continue;
+                    pg = C.Lerp(pg, ph[i].groundKm, w); pt = C.Lerp(pt, ph[i].topKm, w);
+                    o.profile = C.Lerp(o.profile, ph[i].profile, w); o.sinuosity = C.Lerp(o.sinuosity, ph[i].sinuosity, w);
+                    pc = C.Lerp(pc, ph[i].cond, w); psd = C.Lerp(psd, ph[i].sideKm, w);
+                    if (w < 1) { o.morphFrom = ph[i - 1].shape; o.morphTo = ph[i].shape; o.morph = w; }
+                    if (w >= 0.5) o.phaseShape = ph[i].shape;
+                }
+            }
             // rope-out takes its fraction of the life, but no more than 12 min
             double ropeS = Math.Min(tg.ropeFrac * L, 720);
             o.rope = Ramp(tau, L - ropeS, L - 0.15 * ropeS);
@@ -246,15 +271,15 @@ namespace StormLab.Supercell
             bool big = tg.shape == TornadoShape.Wedge || tg.shape == TornadoShape.MultiVortex || tg.multiFrac > 0;
             double takeover = tg.shape == TornadoShape.MultiVortex ? 0.35 : Ramp(tau, 0.12 * L, Math.Max(0.45, tg.multiFrac + 0.15) * L);
             double grow = big ? (0.3 + 0.7 * takeover) : (0.6 + 0.4 * form);
-            o.groundKm = tg.groundKm * grow * (1 - 0.75 * o.rope);
-            o.topKm = (tg.topKm * (big ? (0.5 + 0.5 * takeover) : 1)) * (1 - 0.6 * o.rope);
+            o.groundKm = pg * grow * (1 - 0.75 * o.rope);
+            o.topKm = (pt * (big ? (0.5 + 0.5 * takeover) : 1)) * (1 - 0.6 * o.rope);
             o.multi = tg.subVortices > 0 ? Ramp(tau, 0.02 * L, 0.06 * L) * (1 - Ramp(tau, tg.multiFrac * L * 0.75, tg.multiFrac * L)) : 0;
             o.breakdown = tg.collar ? Ramp(tau, 0.68 * L, 0.78 * L) : 0;
             o.envelope = big ? (tg.shape == TornadoShape.MultiVortex ? 0.35 + 0.25 * takeover : takeover) : 0;
             o.coreKm = big ? Math.Max(tg.rcKm * 1.6, 0.04) * Ramp(tau, 0.05 * L, 0.2 * L) * (1 - 0.5 * o.rope) : 0;
             o.rcKm = tg.rcKm * (1 - 0.5 * o.rope);
             o.vmax = tg.vmax * (0.55 + 0.45 * form) * (1 - 0.5 * o.rope) * (1 - 0.4 * o.breakdown);
-            o.condReach = tg.condReach * Ramp(tau, 0, formT * 1.4) * (1 - 0.45 * Ramp(tau, L - 2 * fadeT, L));
+            o.condReach = Math.Min(tg.condReach * pc, 1) * Ramp(tau, 0, formT * 1.4) * (1 - 0.45 * Ramp(tau, L - 2 * fadeT, L));
             o.dust = tg.dust * Ramp(tau, 20, 100) * (1 - Ramp(tau, L - 0.3 * ropeS, L)) * (1 - 0.35 * o.breakdown);
             // The funnel's surface turns at the wind there: v(r) / r. Inside the core (r < rc) that is vmax / rc; outside,
             // vmax rc / r^2. Capped so the striations do not alias at 60 frames a second.
@@ -263,7 +288,23 @@ namespace StormLab.Supercell
             // the tornado hangs from the northern curl; as it ropes out it is left behind the occluding storm
             o.top = g.curlN;
             double drift = tg.driftKm * o.rope;
-            o.ground = new Vec2(o.top.x + (-fwd.x * 0.8 - lft.x * 0.6) * drift, o.top.y + (-fwd.y * 0.8 - lft.y * 0.6) * drift);
+            // its lean (fixed relative to the storm's motion, more as it ropes out), then the rope-out drift
+            Vec2 Dir(double a) => new Vec2(Math.Cos(a) * fwd.x + Math.Sin(a) * lft.x, Math.Cos(a) * fwd.y + Math.Sin(a) * lft.y);
+            var ld = Dir(tg.leanAngle); double lean = tg.leanKm * (1 + 0.8 * o.rope);
+            o.ground = new Vec2(o.top.x + (-fwd.x * 0.8 - lft.x * 0.6) * drift + ld.x * lean, o.top.y + (-fwd.y * 0.8 - lft.y * 0.6) * drift + ld.y * lean);
+            o.sideKm = psd; o.sideDir = Dir(tg.sideAngle);
+            // satellite: forms at satFrac of the parent's life, orbits it counter-clockwise at about 15 m/s, lives a few minutes
+            if (tg.satellite)
+            {
+                double ts = tau - tg.satFrac * L;
+                double sa = Ramp(ts, 0, 25) * (1 - Ramp(ts, tg.satLifeS - 40, tg.satLifeS)) * (1 - o.rope);
+                if (ts >= 0 && ts <= tg.satLifeS && sa > 0.02)
+                {
+                    double ang = tg.satAngle + ts * 15 / (tg.satOrbitKm * 1000);
+                    o.satOn = true; o.satAmount = sa * o.amount; o.satRadKm = tg.satRadKm; o.satVmax = tg.satVmax * sa;
+                    o.satPos = new Vec2(o.ground.x + tg.satOrbitKm * Math.Cos(ang), o.ground.y + tg.satOrbitKm * Math.Sin(ang));
+                }
+            }
             return o;
         }
 
@@ -288,11 +329,19 @@ namespace StormLab.Supercell
             var o = TornadoAt(t); var m = MotionAt(t);
             if (!o.on) return Vector2.zero;
             double dx = pKm.x - o.ground.x, dy = pKm.y - o.ground.y, r = Math.Sqrt(dx * dx + dy * dy);
-            if (r > 5 * Math.Max(o.groundKm, o.rcKm) + 0.3) return Vector2.zero;
+            if (r > 5 * Math.Max(o.groundKm, o.rcKm) + 0.3 + (o.satOn ? o.gene.satOrbitKm : 0)) return Vector2.zero;
             double v = o.amount * (r <= o.rcKm ? o.vmax * r / Math.Max(o.rcKm, 1e-3) : o.vmax * o.rcKm / r);
             double s = r > 1e-6 ? v / r : 0;
             // swirl plus the inflow spiralling in (about a third of the swirl near the ground)
-            return new Vector2((float)(-dy * s - 0.33 * dx * s + m.x * o.amount), (float)(dx * s - 0.33 * dy * s + m.y * o.amount));
+            double wx = -dy * s - 0.33 * dx * s + m.x * o.amount, wy = dx * s - 0.33 * dy * s + m.y * o.amount;
+            if (o.satOn)
+            {
+                // the satellite's own swirl (its radius of maximum wind about its visible radius)
+                double sx = pKm.x - o.satPos.x, sy = pKm.y - o.satPos.y, sr = Math.Sqrt(sx * sx + sy * sy), rc = Math.Max(o.satRadKm, 0.01);
+                double sv = sr <= rc ? o.satVmax * sr / rc : o.satVmax * rc / sr, ss = sr > 1e-6 ? sv / sr : 0;
+                wx += -sy * ss; wy += sx * ss;
+            }
+            return new Vector2((float)wx, (float)wy);
         }
 
         void Frame(double t, out StormCharacter ch, out Vec2 up, out Vec2 fwd, out Vec2 lft, out double towerR)
@@ -452,14 +501,18 @@ namespace StormLab.Supercell
             if (tor.on)
             {
                 var gn = tor.gene;
-                SetP(Slot.Tor, tor.ground, tor.amount, gn.profile);
+                SetP(Slot.Tor, tor.ground, tor.amount, tor.profile);
                 Set(Slot.Tor2, Math.Max(tor.groundKm, 0.008), Math.Max(tor.topKm, tor.groundKm), tor.condReach, tor.rope);
                 SetP(Slot.Tor3, tor.top, tor.dust, tor.ef);
                 bool plain = tor.envelope <= 0 && tor.multi <= 0;
                 Set(Slot.Tor4, tor.coreKm, tor.multi, tor.breakdown, plain ? 0 : 1 + tor.envelope);
-                Set(Slot.Tor5, 0.9, Math.Max(0.07 * tor.groundKm / 0.8, 0.025), gn.subVortices, gn.sinuosity);
+                Set(Slot.Tor5, 0.9, Math.Max(0.07 * tor.groundKm / 0.8, 0.025), gn.subVortices, tor.sinuosity);
                 Set(Slot.Tor6, tor.spin, tor.vmax, tor.rcKm, tor.envelope > 0.3 ? 1.35 : 2.4);
-                Set(Slot.Tor7, gn.rainWrap, (int)gn.shape, tor.ef, tor.lifeFrac);
+                Set(Slot.Tor7, gn.rainWrap, (int)tor.phaseShape, tor.ef, tor.lifeFrac);
+                Set(Slot.Tor8, gn.albedo, gn.roughness, gn.ghost, gn.striation);
+                Set(Slot.Tor9, gn.soilR, gn.soilG, gn.soilB, gn.dirt * Ramp(tor.lifeFrac, 0.02, 0.15));
+                Set(Slot.Tor10, tor.sideDir.x, tor.sideDir.y, tor.sideKm, 0);
+                if (tor.satOn) SetP(Slot.Tor11, tor.satPos, tor.satAmount, tor.satRadKm);
                 P.fromFallback |= Feature.Tornado;
             }
 
@@ -469,7 +522,12 @@ namespace StormLab.Supercell
 
         static Vec2 Unit(double x, double y) { double m = Math.Sqrt(x * x + y * y); return m > 0 ? new Vec2(x / m, y / m) : new Vec2(1, 0); }
 
-        static readonly string[] ShapeName = { "Rope tornado", "Cone tornado", "Stovepipe tornado", "Wedge tornado", "Multiple-vortex tornado", "Drillbit tornado", "Elephant-trunk tornado", "Dust whirl under the wall cloud" };
+        static readonly string[] ShapeName = { "Rope tornado", "Cone tornado", "Stovepipe tornado", "Wedge tornado", "Multiple-vortex tornado", "Drillbit tornado", "Elephant-trunk tornado", "Dust whirl under the wall cloud", "Sidewinder tornado" };
+        static readonly string[] ShapeNoun = { "rope", "cone", "stovepipe", "wedge", "multiple-vortex tornado", "drillbit", "elephant trunk", "dust whirl", "sidewinder" };
+        static string A(string n) => ("aeiou".IndexOf(n[0]) >= 0 ? "an " : "a ") + n;
+        static string Cap1(string n) => char.ToUpperInvariant(n[0]) + n.Substring(1);
+
+        static double ShapeWidth(TornadoShape s) => s switch { TornadoShape.Wedge => 0.85, TornadoShape.MultiVortex => 0.75, TornadoShape.Stovepipe => 0.6, TornadoShape.ElephantTrunk => 0.5, TornadoShape.DustWhirl => 0.5, TornadoShape.Cone => 0.45, TornadoShape.Drillbit => 0.4, TornadoShape.Rope => 0.35, _ => 0.3 };
 
         void Stage(SkinParams P, double t, double tm, in StormCharacter ch, CycleGene wallC, in CycleGeom g, in TornadoNow tor, double antiTor, double live)
         {
@@ -482,12 +540,33 @@ namespace StormLab.Supercell
                 var gn = tor.gene;
                 if (tor.rope > 0.4) { stage = "Tornado roping out"; cap = "The rear-flank downdraft has wrapped around the circulation and cut off its warm inflow. The tornado thins into a rope and is left behind as the storm occludes."; }
                 else if (tor.breakdown > 0.4) { stage = "Tornado breaking down"; cap = "The wide funnel lifts from below into a collar cloud under the wall cloud, exposing the narrower vortex inside it."; }
+                else if (tor.satOn && tor.satAmount > 0.4) { stage = "Satellite tornado"; cap = "A smaller tornado has formed beside the main one and orbits it counter-clockwise, inside the same broad circulation."; }
                 else if (tor.multi > 0.5) { stage = "Multiple-vortex tornado"; cap = "Several suction vortices orbit inside a wider circulation, each one a narrow swath of the strongest winds."; }
+                else if (tor.morph > 0.15 && tor.morph < 0.85)
+                {
+                    string a = ShapeNoun[(int)tor.morphFrom], b = ShapeNoun[(int)tor.morphTo];
+                    if (tor.morphFrom == TornadoShape.DustWhirl) { stage = "Funnel coming down"; cap = "The vortex tightens and its condensation funnel lowers from the wall cloud to meet the dust whirl at the ground."; }
+                    else if (tor.morphTo == TornadoShape.Sidewinder) { stage = "Rope starting to sidewind"; cap = "Outflow drags the rope's lower end sideways along the ground while its top stays under the wall cloud."; }
+                    else
+                    {
+                        bool wider = ShapeWidth(tor.morphTo) > ShapeWidth(tor.morphFrom);
+                        stage = $"{Cap1(a)} {(wider ? "widening" : "narrowing")} into {A(b)}";
+                        cap = wider ? "The vortex is strengthening and broadening: its condensation funnel widens as the pressure drop deepens over a wider core."
+                                    : "The circulation is tightening: the funnel narrows as the vortex contracts.";
+                    }
+                }
                 else
                 {
-                    stage = ShapeName[(int)gn.shape];
-                    cap = $"EF{tor.ef} tornado, about {Math.Round(gn.widthM / 0.9144 / 10) * 10:0} yards wide, moving with the storm at {Mag(ch.motion) / C.MPH:0} mph."
-                        + (gn.rainWrap > 0.5 ? " It is wrapped in rain: hard to see until it is close." : gn.condReach < 0.5 ? " The cloud base is high: the condensation funnel hangs only part way down, and a dust whirl marks it at the ground." : "");
+                    var sh = tor.phaseShape;
+                    stage = ShapeName[(int)sh];
+                    cap = sh == TornadoShape.Sidewinder
+                        ? "A sidewinder: the rope's lower end is dragged along the ground by the outflow, snaking sideways while its top stays under the wall cloud."
+                        : $"EF{tor.ef} tornado, about {Math.Round(gn.widthM / 0.9144 / 10) * 10:0} yards wide, moving with the storm at {Mag(ch.motion) / C.MPH:0} mph.";
+                    cap += gn.rainWrap > 0.5 ? " It is wrapped in rain: hard to see until it is close." : gn.condReach < 0.5 ? " The cloud base is high: the condensation funnel hangs only part way down, and a dust whirl marks it at the ground." : "";
+                    if (gn.skin == FunnelSkin.Laminar) cap += " Its condensation is smooth and laminar, with fine helical striations.";
+                    else if (gn.skin == FunnelSkin.Ghost) cap += " A thin, translucent funnel, hard to pick out against the sky.";
+                    if (tor.dust > 0.6 && gn.soilName != null && (gn.soilName.StartsWith("red") || gn.soilName == "pale tan"))
+                        cap += gn.soilName == "pale tan" ? " It raises pale dust off the dry ground." : $" It is lofting {gn.soilName} into its debris cloud.";
                 }
             }
             else if (wallC != null && g.wallAmt > 0.2)

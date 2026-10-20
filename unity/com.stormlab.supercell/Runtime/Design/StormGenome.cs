@@ -9,7 +9,23 @@ using System.Collections.Generic;
 
 namespace StormLab.Supercell
 {
-    public enum TornadoShape { Rope, Cone, Stovepipe, Wedge, MultiVortex, Drillbit, ElephantTrunk, DustWhirl }
+    public enum TornadoShape { Rope, Cone, Stovepipe, Wedge, MultiVortex, Drillbit, ElephantTrunk, DustWhirl, Sidewinder }
+
+    /// <summary>The funnel's surface: torn and ragged (most), smooth and laminar with fine striations, or thin and translucent.</summary>
+    public enum FunnelSkin { Ragged, Laminar, Ghost }
+
+    /// <summary>One stage of a tornado's life: the shape it takes from startFrac of its life on, and its visible funnel then.</summary>
+    public struct TornadoPhase
+    {
+        public TornadoShape shape;
+        public double startFrac;
+        /// <summary>visible radius at the ground and the top, km; profile and sinuosity as on TornadoGene</summary>
+        public double groundKm, topKm, profile, sinuosity;
+        /// <summary>condensation reach relative to the gene's (a dust whirl whose funnel comes down later is below 1 first)</summary>
+        public double cond;
+        /// <summary>sidewinder: how far the lower end is dragged sideways along the ground, km</summary>
+        public double sideKm;
+    }
 
     /// <summary>What the environment at one place and time says about a storm there. All lengths km, winds m/s.</summary>
     public struct StormCharacter
@@ -100,6 +116,25 @@ namespace StormLab.Supercell
         public double dust, driftKm;
         /// <summary>0 in the open .. 1 wrapped in rain (HP)</summary>
         public double rainWrap;
+
+        // ---- what makes this tornado itself (StormGenome.Individualise)
+        /// <summary>its life story: phases[0] from formation, later ones blended in over MorphFrac of the life; shape is the main one</summary>
+        public TornadoPhase[] phases;
+        /// <summary>lean: the ground end sits this far from the top, km, toward leanAngle (radians from the storm's motion, + to its left)</summary>
+        public double leanKm, leanAngle;
+        /// <summary>sidewinder drag direction, radians from the storm's motion</summary>
+        public double sideAngle;
+        /// <summary>the funnel's surface; its brightness (0.55 dark, rain-laden .. 1.2 bright white); roughness of its skin (0.2 laminar ..
+        /// 1.5 torn); helical striations 0..1; translucency 0..1</summary>
+        public FunnelSkin skin; public double albedo, roughness, striation, ghost;
+        /// <summary>colour of the soil it lofts (linear albedo), and how far that dirt stains the funnel's lower part 0..1</summary>
+        public double soilR, soilG, soilB, dirt; public string soilName;
+        /// <summary>satellite tornado: when it forms (fraction of the parent's life), how long it lasts (s), its orbit and visible radius (km),
+        /// peak wind (m/s), start angle (radians)</summary>
+        public bool satellite; public double satFrac, satLifeS, satOrbitKm, satRadKm, satVmax, satAngle;
+
+        /// <summary>fraction of the life a change of shape takes</summary>
+        public const double MorphFrac = 0.1;
 
         public double EndS => formS + lifeS;
         /// <summary>wind at radius r (km) from the centre, m/s: Rankine vortex with the peak at rc</summary>
@@ -194,6 +229,9 @@ namespace StormLab.Supercell
             PickShape(t, ch, ref r, uShape);
             t.rainWrap = C.Clamp((ch.hpness - 0.2) / 0.6, 0, 1) * r.Range(0.6, 1.0);
             t.driftKm = r.Range(0.4, 1.4);
+            // its own stream, so the draws above (and the storms they give) stay what they were
+            var ri = new StormRng(seed, 300 + k);
+            Individualise(t, ch, region, ref ri);
             cyc.tornado = t;
             cyc.antiTornado = k >= 1 && ch.stp >= 4 && t.ef >= 2 && uAnti < 0.25;
             // the gust front wraps round as the tornado ropes out; the wall cloud goes a few minutes after it lifts
@@ -226,7 +264,7 @@ namespace StormLab.Supercell
             // shape weights by width, rating and base height
             double wide = C.Clamp((W - 500) / 700, 0, 1), narrow = C.Clamp((250 - W) / 200, 0, 1), mid = Math.Max(0, 1 - wide - narrow);
             double strong = C.Clamp((t.ef - 1) / 3.0, 0, 1), dry = C.Clamp((ch.lclM - 1300) / 900, 0, 1);
-            var wts = new double[8];
+            var wts = new double[9];
             wts[(int)TornadoShape.Rope] = 1.0 * narrow;
             wts[(int)TornadoShape.Drillbit] = 0.7 * narrow + 0.3 * mid * dry;
             wts[(int)TornadoShape.ElephantTrunk] = 0.6 * narrow + 0.25 * mid;
@@ -235,19 +273,42 @@ namespace StormLab.Supercell
             wts[(int)TornadoShape.Wedge] = 1.4 * wide * (1 - 0.5 * dry);
             wts[(int)TornadoShape.MultiVortex] = 0.5 * wide * (0.3 + strong) + 0.35 * mid * strong + 0.3 * dry * strong;
             wts[(int)TornadoShape.DustWhirl] = 0.8 * C.Clamp((0.45 - t.condReach) / 0.25, 0, 1) * (1 - wide);
+            // a rope whose lower end is dragged sideways along the ground by the outflow: rare, narrow, weak
+            wts[(int)TornadoShape.Sidewinder] = 0.18 * narrow * (1 - strong);
             double sum = 0; foreach (var x in wts) sum += x;
             double acc = 0; t.shape = TornadoShape.Cone;
-            for (int i = 0; i < 8; i++) { acc += wts[i] / sum; if (u < acc) { t.shape = (TornadoShape)i; break; } }
+            for (int i = 0; i < wts.Length; i++) { acc += wts[i] / sum; if (u < acc) { t.shape = (TornadoShape)i; break; } }
             ApplyShape(t, ch, ref r);
         }
 
         /// <summary>Give a tornado another shape (tools, tests and scripted scenarios): its size, profile, suction vortices and dust follow.</summary>
-        public static void Reshape(TornadoGene t, TornadoShape shape, in StormCharacter ch, int seed)
+        public static void Reshape(TornadoGene t, TornadoShape shape, in StormCharacter ch, int seed, ClimoRegion region = ClimoRegion.Plains)
         {
             var r = new StormRng(seed, 900);
             t.shape = shape;
             t.condReach = C.Clamp((C.Clamp(1.3 - (ch.lclM - 700) / 1300, 0.2, 1) + 0.25 * C.Clamp((t.vmax - 45) / 50, 0, 1)), 0.15, 1);
             ApplyShape(t, ch, ref r);
+            Individualise(t, ch, region, ref r);
+        }
+
+        /// <summary>A shape's visible funnel for a damage path W m wide; u (0..1) picks the bend within the shape's range.</summary>
+        static void BaseGeometry(TornadoShape shape, double W, double u, out double g, out double top, out double profile, out double sinu)
+        {
+            double half = 0.5 * W / 1000;
+            switch (shape)
+            {
+                case TornadoShape.Rope:          g = 0.35 * half; top = 2.8 * g + 0.05;  profile = 0.08; sinu = C.Lerp(0.5, 0.8, u); break;
+                case TornadoShape.Drillbit:      g = 0.4 * half;  top = 4.0 * g + 0.08;  profile = 0.22; sinu = C.Lerp(0.05, 0.25, u); break;
+                case TornadoShape.ElephantTrunk: g = 0.5 * half;  top = 2.6 * g + 0.08;  profile = 0.18; sinu = C.Lerp(0.7, 1.0, u); break;
+                case TornadoShape.Cone:          g = 0.45 * half; top = 3.4 * g + 0.1;   profile = 0.6;  sinu = C.Lerp(0.05, 0.2, u); break;
+                case TornadoShape.Stovepipe:     g = 0.6 * half;  top = 1.45 * g + 0.06; profile = 0.85; sinu = C.Lerp(0.0, 0.1, u); break;
+                case TornadoShape.Wedge:         g = 0.85 * half; top = 1.25 * g + 0.1;  profile = 0.95; sinu = 0.03; break;
+                case TornadoShape.MultiVortex:   g = 0.75 * half; top = 1.35 * g + 0.1;  profile = 0.9;  sinu = 0.05; break;
+                case TornadoShape.Sidewinder:    g = 0.3 * half;  top = 3.0 * g + 0.05;  profile = 0.1;  sinu = C.Lerp(0.6, 0.9, u); break;
+                default:                         g = 0.5 * half;  top = 3.0 * g + 0.08;  profile = 0.4;  sinu = C.Lerp(0.1, 0.35, u); break;   // dust whirl
+            }
+            g = C.Clamp(g, 0.012, 0.95);
+            top = C.Clamp(top, g, 1.4);
         }
 
         static void ApplyShape(TornadoGene t, in StormCharacter ch, ref StormRng r)
@@ -255,20 +316,7 @@ namespace StormLab.Supercell
             double W = t.widthM, dry = C.Clamp((ch.lclM - 1300) / 900, 0, 1);
             // visible funnel size: a fraction of the damage-path half-width, by shape (a wedge's condensation is nearly
             // as wide as its damage; a rope's is a thin tube inside it)
-            double half = 0.5 * W / 1000;
-            switch (t.shape)
-            {
-                case TornadoShape.Rope:          t.groundKm = 0.35 * half; t.topKm = 2.8 * t.groundKm + 0.05; t.profile = 0.08; t.sinuosity = r.Range(0.5, 0.8); break;
-                case TornadoShape.Drillbit:      t.groundKm = 0.4 * half;  t.topKm = 4.0 * t.groundKm + 0.08; t.profile = 0.22; t.sinuosity = r.Range(0.05, 0.25); break;
-                case TornadoShape.ElephantTrunk: t.groundKm = 0.5 * half;  t.topKm = 2.6 * t.groundKm + 0.08; t.profile = 0.18; t.sinuosity = r.Range(0.7, 1.0); break;
-                case TornadoShape.Cone:          t.groundKm = 0.45 * half; t.topKm = 3.4 * t.groundKm + 0.1;  t.profile = 0.6;  t.sinuosity = r.Range(0.05, 0.2); break;
-                case TornadoShape.Stovepipe:     t.groundKm = 0.6 * half;  t.topKm = 1.45 * t.groundKm + 0.06; t.profile = 0.85; t.sinuosity = r.Range(0.0, 0.1); break;
-                case TornadoShape.Wedge:         t.groundKm = 0.85 * half; t.topKm = 1.25 * t.groundKm + 0.1; t.profile = 0.95; t.sinuosity = 0.03; break;
-                case TornadoShape.MultiVortex:   t.groundKm = 0.75 * half; t.topKm = 1.35 * t.groundKm + 0.1; t.profile = 0.9;  t.sinuosity = 0.05; break;
-                default:                         t.groundKm = 0.5 * half;  t.topKm = 3.0 * t.groundKm + 0.08; t.profile = 0.4;  t.sinuosity = r.Range(0.1, 0.35); break;   // dust whirl
-            }
-            t.groundKm = C.Clamp(t.groundKm, 0.012, 0.95);
-            t.topKm = C.Clamp(t.topKm, t.groundKm, 1.4);
+            BaseGeometry(t.shape, W, t.shape == TornadoShape.Wedge || t.shape == TornadoShape.MultiVortex ? 0.5 : r.U(), out t.groundKm, out t.topKm, out t.profile, out t.sinuosity);
             if (t.shape == TornadoShape.DustWhirl) t.condReach = Math.Min(t.condReach, 0.3);
 
             // suction vortices: the multi-vortex shape keeps them most of its life; big, strong wedges and stovepipes
@@ -279,6 +327,120 @@ namespace StormLab.Supercell
             t.ropeFrac = t.shape == TornadoShape.Rope ? r.Range(0.3, 0.5) : r.Range(0.15, 0.32);
             // dust and debris: more with stronger winds and dry ground (high bases)
             t.dust = C.Clamp((0.45 + 0.2 * t.ef) * (0.8 + 0.5 * dry) * r.Range(0.8, 1.15), 0.2, 1.6);
+        }
+
+        // ------------------------------------------------------------------ what makes one tornado itself
+        static TornadoPhase PhaseOf(TornadoGene t, TornadoShape shape, double startFrac, double gS, double tS, double pJ, double u)
+        {
+            BaseGeometry(shape, t.widthM, u, out double g, out double top, out double prof, out double sinu);
+            var p = new TornadoPhase { shape = shape, startFrac = startFrac, cond = 1, sinuosity = sinu };
+            p.groundKm = C.Clamp(g * gS, 0.012, 0.95);
+            p.topKm = C.Clamp(top * tS, p.groundKm, 1.4);
+            p.profile = C.Clamp(prof + pJ, 0.03, 1);
+            return p;
+        }
+
+        static bool Slender(TornadoShape s) => s == TornadoShape.Rope || s == TornadoShape.ElephantTrunk || s == TornadoShape.Sidewinder;
+
+        /// <summary>
+        /// The draws that make a tornado look like itself rather than its shape's average: its proportions and lean, the shapes it
+        /// passes through, its skin and brightness, the soil it lofts, and a satellite tornado.
+        /// </summary>
+        static void Individualise(TornadoGene t, in StormCharacter ch, ClimoRegion region, ref StormRng r)
+        {
+            double dry = C.Clamp((ch.lclM - 1300) / 900, 0, 1), hp = ch.hpness, wetHp = C.Clamp(hp, 0, 1);
+            // proportions: the same shape comes fatter or thinner, more or less flared (about +-20 %)
+            double gS = Math.Exp(0.18 * r.N()), tS = Math.Exp(0.15 * r.N()), pJ = 0.08 * r.N();
+            t.groundKm = C.Clamp(t.groundKm * gS, 0.012, 0.95);
+            t.topKm = C.Clamp(t.topKm * tS, t.groundKm, 1.4);
+            t.profile = C.Clamp(t.profile + pJ, 0.03, 1);
+
+            // its life: many tornadoes change shape. Strong ones often start as a cone and grow into a stovepipe or wedge; a
+            // wedge can narrow again before it ropes out; drillbits fill out into cones; elephant trunks thin into ropes, and
+            // a rope can start to sidewind; a high-based dust whirl's funnel can finally come down.
+            TornadoShape? pre = null, post = null;
+            double u1 = r.U(), u2 = r.U(), u3 = r.U(), u4 = r.U();
+            switch (t.shape)
+            {
+                case TornadoShape.Wedge:         if (u1 < 0.55) pre = u2 < 0.5 ? TornadoShape.Cone : TornadoShape.Stovepipe; if (!t.collar && u3 < 0.35) post = TornadoShape.Stovepipe; break;
+                case TornadoShape.MultiVortex:   if (u1 < 0.4) pre = TornadoShape.Cone; break;
+                case TornadoShape.Stovepipe:     if (u1 < 0.35) pre = TornadoShape.Cone; if (u3 < 0.3) post = u4 < 0.5 ? TornadoShape.Cone : TornadoShape.ElephantTrunk; break;
+                case TornadoShape.Cone:          if (u1 < 0.25) pre = TornadoShape.Drillbit; if (t.ef >= 2 && u3 < 0.3) post = TornadoShape.Stovepipe; else if (u3 < 0.25) post = TornadoShape.ElephantTrunk; break;
+                case TornadoShape.Drillbit:      if (t.ef >= 1 && u1 < 0.3) post = TornadoShape.Cone; break;
+                case TornadoShape.ElephantTrunk: if (u1 < 0.35) post = TornadoShape.Rope; break;
+                case TornadoShape.Rope:          if (u1 < 0.25) pre = TornadoShape.ElephantTrunk; if (u3 < 0.3) post = TornadoShape.Sidewinder; break;
+                case TornadoShape.DustWhirl:     if (u1 < 0.3) post = TornadoShape.Drillbit; break;
+                case TornadoShape.Sidewinder:    pre = u1 < 0.6 ? TornadoShape.Rope : TornadoShape.ElephantTrunk; break;
+            }
+            double s1 = r.Range(0.12, 0.3), s2 = Math.Min(r.Range(0.55, 0.75), 1 - t.ropeFrac - TornadoGene.MorphFrac);
+            if (s2 < s1 + 2 * TornadoGene.MorphFrac) post = null;
+            double side = C.Clamp(r.Range(0.35, 0.75) * ch.zb, 0.2, 1.0);
+            var ph = new System.Collections.Generic.List<TornadoPhase>(3);
+            if (pre.HasValue) ph.Add(PhaseOf(t, pre.Value, 0, gS, tS, pJ, r.U()));
+            ph.Add(new TornadoPhase { shape = t.shape, startFrac = pre.HasValue ? s1 : 0, groundKm = t.groundKm, topKm = t.topKm, profile = t.profile, sinuosity = t.sinuosity, cond = 1 });
+            if (post.HasValue)
+            {
+                var p = PhaseOf(t, post.Value, s2, gS, tS, pJ, r.U());
+                // the dust whirl's condensation lowers most of the way to the ground
+                if (t.shape == TornadoShape.DustWhirl) p.cond = Math.Min(0.8 / Math.Max(t.condReach, 0.1), 3);
+                ph.Add(p);
+            }
+            for (int i = 0; i < ph.Count; i++) { var p = ph[i]; if (p.shape == TornadoShape.Sidewinder) { p.sideKm = side; ph[i] = p; } }
+            t.phases = ph.ToArray();
+            t.sideAngle = Math.PI + r.Range(-1.1, 1.1);
+
+            // lean: most trail their ground end behind the storm, a few lead it; wedges stand nearly upright
+            double ul = r.U();
+            t.leanKm = ch.zb * r.Range(0.0, 0.3) * (1 - 0.7 * t.profile);
+            t.leanAngle = ul < 0.7 ? Math.PI + r.Range(-1.2, 1.2) : r.Range(-1.0, 1.0);
+
+            // skin: most funnels are torn and ragged; some cones, stovepipes and drillbits are smooth and laminar with fine
+            // striations (less so in rain-laden HP air); weak funnels under a high, dry base are often thin and translucent
+            bool mid = t.shape == TornadoShape.Cone || t.shape == TornadoShape.Stovepipe || t.shape == TornadoShape.Drillbit;
+            bool big = t.shape == TornadoShape.Wedge || t.shape == TornadoShape.MultiVortex;
+            double pLam = (mid ? 0.2 : Slender(t.shape) ? 0.12 : 0.04) * (1 - 0.6 * wetHp);
+            double pGhost = (t.ef <= 1 ? 0.18 : 0.05) * (0.6 + 0.8 * dry) * (big ? 0.2 : 1);
+            double uSkin = r.U();
+            t.skin = uSkin < pLam ? FunnelSkin.Laminar : uSkin < pLam + pGhost ? FunnelSkin.Ghost : FunnelSkin.Ragged;
+            switch (t.skin)
+            {
+                case FunnelSkin.Laminar: t.roughness = r.Range(0.18, 0.35); t.striation = r.Range(0.6, 1.0); t.ghost = 0; break;
+                case FunnelSkin.Ghost:   t.roughness = r.Range(0.9, 1.3);   t.striation = 0.1;               t.ghost = r.Range(0.55, 0.85); break;
+                default:                 t.roughness = r.Range(0.8, 1.5);   t.striation = r.Range(0.0, 0.35); t.ghost = 0; break;
+            }
+            // brightness: condensation under a high, dry base is bright white in the sun; rain-laden HP funnels are grey
+            // wedges and multiple-vortex tornadoes are dark masses, loaded with rain and debris
+            t.albedo = C.Clamp((0.9 + 0.15 * dry - 0.22 * wetHp + 0.08 * C.Clamp(-hp, 0, 1)) * (big ? 0.72 : 1) * Math.Exp(0.1 * r.N()), 0.5, 1.2);
+
+            // the soil it lofts: Plains red beds (western Oklahoma, south-central Kansas) or tan loam, pale dust on the dry High
+            // Plains, Dixie red clay or dark loam, dark Midwest prairie soil. Wet ground under an HP storm lofts less, and darker.
+            double us = r.U();
+            (string n, double R, double G, double B) soil;
+            if (dry > 0.4) soil = us < 0.25 ? ("red", 0.64, 0.38, 0.26) : ("pale tan", 0.68, 0.6, 0.47);
+            else switch (region)
+            {
+                case ClimoRegion.Dixie:   soil = us < 0.55 ? ("red clay", 0.56, 0.31, 0.21) : ("dark", 0.4, 0.33, 0.27); break;
+                case ClimoRegion.Midwest: soil = us < 0.8 ? ("dark", 0.36, 0.3, 0.25) : ("tan", 0.56, 0.47, 0.36); break;
+                default:                  soil = us < 0.4 ? ("red", 0.62, 0.35, 0.23) : ("tan", 0.56, 0.47, 0.36); break;
+            }
+            double wet = C.Clamp((hp - 0.2) / 0.6, 0, 1) * r.Range(0.5, 1.0);
+            t.soilName = soil.n; t.soilR = soil.R * (1 - 0.3 * wet); t.soilG = soil.G * (1 - 0.3 * wet); t.soilB = soil.B * (1 - 0.3 * wet);
+            t.dust *= 1 - 0.4 * wet;
+            // a strong tornado's funnel is stained low down by what it lofts
+            t.dirt = C.Clamp((0.15 + 0.12 * t.ef) * t.dust * r.Range(0.5, 1.3), 0, 0.85);
+
+            // satellite: a smaller tornado orbiting a strong, wide one inside the same broad circulation, for a few minutes
+            double pSat = t.ef >= 2 && t.groundKm > 0.1 ? 0.18 + 0.08 * (t.ef - 2) : 0;
+            t.satellite = r.U() < pSat && t.lifeS > 360;
+            if (t.satellite)
+            {
+                t.satFrac = r.Range(0.25, 0.6);
+                t.satLifeS = Math.Min(r.Range(60, 240), 0.3 * t.lifeS);
+                t.satOrbitKm = Math.Max(t.groundKm * r.Range(1.8, 3.5), 0.25) + r.Range(0.2, 0.8);
+                t.satRadKm = r.Range(0.012, 0.035);
+                t.satVmax = r.Range(32, 55);
+                t.satAngle = r.Range(0, 2 * Math.PI);
+            }
         }
     }
 }

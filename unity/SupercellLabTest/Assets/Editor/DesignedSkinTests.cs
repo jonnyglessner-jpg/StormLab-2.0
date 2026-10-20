@@ -1,10 +1,14 @@
 // Designed-storm render test: the skin drawing a DesignedStorm (no brain). Writes
 //   Screenshots/designed_tornado_<shape>.png  one ground view per tornado shape, mid-life
-//   Screenshots/designed_tornado_sheet.png    all eight, 4 x 2
+//   Screenshots/designed_tornado_sheet.png    all nine, 3 x 3
+//   Screenshots/designed_tornado_close.png    six shapes from 1-3 km, the sun to the side: the funnel's surface
+//   Screenshots/designed_tornado_variety.png  first tornadoes of unforced storms across presets and regions, as drawn
+//   Screenshots/designed_tornado_variety_sunlit.png  the same tornadoes from the sun's side: the light on the funnel
+//   Screenshots/designed_tornado_life.png     one tornado that changes shape, through its life
 //   Screenshots/designed_timelapse.png        one multi-cycle storm every 10 min from a chaser following it
 // and Validation/DesignedSkinReport.md. Batch (never -nographics):
 //   Unity.exe -batchmode -projectPath <SupercellLabTest> -executeMethod DesignedSkinTests.RunFromCommandLine -logFile designed.log
-//   [-designedOnly sheet|timelapse]
+//   [-designedOnly sheet|variety|life|timelapse]
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -90,6 +94,32 @@ public static class DesignedSkinTests
     static Vector3 KmToWorld(StormSkin skin, Vec2 p, float zM = 0) =>
         new Vector3((float)(p.x - skin.DesignedOriginKm.x) * 1000f + skin.groundOrigin.x, zM, (float)(p.y - skin.DesignedOriginKm.y) * 1000f + skin.groundOrigin.y);
 
+    static string Life(TornadoGene tg) => (tg.phases == null ? tg.shape.ToString() : string.Join(" > ", tg.phases.Select(p => p.shape.ToString())))
+        + (tg.satellite ? $", satellite at {tg.satFrac:0.00}" : "");
+    static string Look(TornadoGene tg) => $"{tg.skin}, brightness {tg.albedo:0.00}, {tg.soilName} soil, dirt {tg.dirt:0.00}, lean {tg.leanKm * 1000:0} m";
+
+    /// <summary>
+    /// Shoot cycle cyc's tornado at frac of its life from a chaser 3-6 km south-east of it, its later cycles moved out of the
+    /// way. frame: the tornado whose size sets the framing (default: itself at the shot time); the chaser follows it.
+    /// bearing: where the chaser stands, compass degrees from the tornado (140: south-east, in the inflow).
+    /// </summary>
+    static Texture2D ShootTornado(StormSkin skin, Camera cam, DesignedStorm st, CycleGene cyc, double frac, int w, int h, out TornadoNow tor, TornadoNow? frame = null, float bearing = 140f)
+    {
+        var tg = cyc.tornado;
+        foreach (var c in st.cycles.Where(c => c.index > cyc.index && c.wallS < 9000)) { c.wallS += 9000; c.occludeS += 9000; c.endS += 9000; if (c.tornado != null) c.tornado.formS += 9000; }
+        float T = (float)(tg.formS + frac * tg.lifeS);
+        Settle(skin, T);
+        tor = st.TornadoAt(T);
+        var fr = frame ?? tor;
+        var g = KmToWorld(skin, tor.ground);
+        double zb = st.CharacterAt(T).zb;
+        float D = Mathf.Clamp((float)(Math.Max(tg.groundKm, fr.groundKm) * 9000), 3000f, 6000f) + (tg.satellite ? 1500f : 0f);
+        Pose(cam, g + Bearing(bearing) * D + Vector3.up * 2f, g + Vector3.up * (float)(zb * 450), 2f * Mathf.Atan((float)(zb * 1000 * 1.25) / D) * Mathf.Rad2Deg);
+        skin.ResetHistory(cam);
+        Debug.Log($"[Designed] shot at {frac:0.00} of life (cycle {cyc.index}, T {T:0} s): {skin.Params.stage}; on {tor.on} cycle {tor.cycle} ground km {tor.ground.x:0.00},{tor.ground.y:0.00} frame km {fr.ground.x:0.00},{fr.ground.y:0.00} updraft km {st.UpdraftAt(T).x:0.00},{st.UpdraftAt(T).y:0.00} world {g} cam {cam.transform.position} origin {skin.DesignedOriginKm}; radius {tor.groundKm:0.000}/{tor.topKm:0.000} side {tor.sideKm:0.00} sat {tor.satAmount:0.00}");
+        return Shot(cam, w, h);
+    }
+
     public static bool Run(string only)
     {
         if (!File.Exists(Path.Combine(ProjectDir, SkinTests.ScenePath))) SkinTests.BuildScene();
@@ -116,11 +146,14 @@ public static class DesignedSkinTests
         if (only == null || only == "sheet")
         {
             rep.AppendLine("## Tornado shapes").AppendLine().AppendLine("| Shape | EF | Width | Funnel radius ground / top | Condensation reach | Shot |").AppendLine("| --- | --- | --- | --- | --- | --- |");
-            var tiles = new List<Texture2D>();
+            var tiles = new List<Texture2D>(); var close = new List<Texture2D>();
+            var sv0 = skin.SunDirVol; float sunAz0 = Mathf.Atan2(sv0.x, sv0.y) * Mathf.Rad2Deg;
+            var closeShapes = new[] { TornadoShape.Rope, TornadoShape.Cone, TornadoShape.Stovepipe, TornadoShape.Wedge, TornadoShape.MultiVortex, TornadoShape.ElephantTrunk };
             var widths = new Dictionary<TornadoShape, (double w, int ef)>
             {
                 { TornadoShape.Rope, (90, 1) }, { TornadoShape.Cone, (350, 2) }, { TornadoShape.Stovepipe, (450, 3) }, { TornadoShape.Wedge, (1400, 4) },
                 { TornadoShape.MultiVortex, (900, 3) }, { TornadoShape.Drillbit, (140, 1) }, { TornadoShape.ElephantTrunk, (220, 2) }, { TornadoShape.DustWhirl, (180, 1) },
+                { TornadoShape.Sidewinder, (110, 1) },
             };
             foreach (TornadoShape shape in Enum.GetValues(typeof(TornadoShape)))
             {
@@ -135,6 +168,9 @@ public static class DesignedSkinTests
                 tg.ef = ef; tg.widthM = w; tg.vmax = TornadoClimatology.SampleVmax(ef, 0.5); tg.rcKm = C.Clamp(0.5 * w / 1000 * 29.0 / tg.vmax, 0.012, 0.6);
                 tg.lifeS = 1500; tg.rainWrap = 0;
                 StormGenome.Reshape(tg, shape, st.CharacterAt(tg.formS), 7);
+                // the sheet shows each shape itself: no change of shape, satellite or lean
+                tg.phases = null; tg.satellite = false; tg.leanKm = 0;
+                if (shape == TornadoShape.Sidewinder) tg.phases = new[] { new TornadoPhase { shape = shape, groundKm = tg.groundKm, topKm = tg.topKm, profile = tg.profile, sinuosity = tg.sinuosity, cond = 1, sideKm = 0.6 } };
                 cyc.occludeS = tg.formS + tg.lifeS * (1 - 0.6 * tg.ropeFrac); cyc.endS = tg.EndS + 300;
                 // later cycles out of the way, so this tornado is the one on the ground
                 foreach (var c in st.cycles.Where(c => c.index > cyc.index)) { c.wallS += 5000; c.occludeS += 5000; c.endS += 5000; if (c.tornado != null) c.tornado.formS += 5000; }
@@ -153,12 +189,85 @@ public static class DesignedSkinTests
                 var tex = Shot(cam, 960, 540);
                 Save(tex, $"designed_tornado_{shape}");
                 tiles.Add(tex);
+                if (closeShapes.Contains(shape))
+                {
+                    // close, with the sun 60 degrees to the viewer's side, so the lit side and the shading across it show
+                    float Dc = Mathf.Clamp((float)(tor.topKm * 5000), 900f, 3500f);
+                    Pose(cam, g + Bearing(sunAz0 + 60f) * Dc + Vector3.up * 2f, g + Vector3.up * (float)(zb * 420), 2f * Mathf.Atan((float)(zb * 1000 * 1.1) / Dc) * Mathf.Rad2Deg);
+                    skin.ResetHistory(cam);
+                    close.Add(Shot(cam, 960, 540));
+                }
                 Debug.Log($"[Designed] {shape}: EF{tor.ef} amount {tor.amount:0.00} ground {tor.groundKm:0.000} top {tor.topKm:0.000} cond {tor.condReach:0.00} multi {tor.multi:0.00} envelope {tor.envelope:0.00} spin {tor.spin:0.00} stage {skin.Params.stage}");
                 if (!tor.on) { ok = false; Debug.LogError($"[Designed] {shape}: no tornado at the shot time"); }
                 rep.AppendLine($"| {shape} | EF{tor.ef} | {w:0} m | {tor.groundKm * 1000:0} / {tor.topKm * 1000:0} m | {tor.condReach:0.00} | `designed_tornado_{shape}.png` |");
             }
-            if (tiles.Count > 0) { Save(Sheet(tiles, 4), "designed_tornado_sheet"); foreach (var t in tiles) Object.DestroyImmediate(t); }
-            rep.AppendLine().AppendLine("Sheet: `designed_tornado_sheet.png`, in the order Rope, Cone, Stovepipe, Wedge / MultiVortex, Drillbit, ElephantTrunk, DustWhirl.").AppendLine();
+            if (tiles.Count > 0) { Save(Sheet(tiles, 3), "designed_tornado_sheet"); foreach (var t in tiles) Object.DestroyImmediate(t); }
+            if (close.Count > 0) { Save(Sheet(close, 3), "designed_tornado_close"); foreach (var t in close) Object.DestroyImmediate(t); }
+            rep.AppendLine().AppendLine("Sheet: `designed_tornado_sheet.png`, in the order Rope, Cone, Stovepipe / Wedge, MultiVortex, Drillbit / ElephantTrunk, DustWhirl, Sidewinder.").AppendLine();
+        }
+
+        if (only == null || only == "variety")
+        {
+            // unforced storms: whatever the genome draws, from presets and regions that differ
+            rep.AppendLine("## Variety").AppendLine().AppendLine("| Tile | Preset / region | Seed | Tornado | Life | Look | Shot at |").AppendLine("| --- | --- | --- | --- | --- | --- | --- |");
+            var tiles = new List<Texture2D>(); var lit = new List<Texture2D>();
+            // the sun's compass bearing: a chaser standing toward it sees the funnel front-lit
+            var sv = skin.SunDirVol; float sunAz = Mathf.Atan2(sv.x, sv.y) * Mathf.Rad2Deg;
+            var cases = new (string key, ClimoRegion reg)[] { ("plains", ClimoRegion.Plains), ("plains", ClimoRegion.Plains), ("plains", ClimoRegion.Plains), ("ohio", ClimoRegion.Midwest), ("dixie", ClimoRegion.Dixie), ("dryline", ClimoRegion.Plains) };
+            int seed = 10;
+            foreach (var (key, reg) in cases)
+            {
+                var env = key == "dryline" ? dryline : SEnv.Make(StormPreset.All.First(p => p.key == key).ToEnv());
+                DesignedStorm st = null; CycleGene cyc = null;
+                for (int k = 0; k < 600 && cyc == null; k++, seed++)
+                {
+                    var probe = new DesignedStorm(new FixedEnvironment(env), new Vec2(0, 0), seed, reg);
+                    var c = probe.cycles.FirstOrDefault(x => x.tornado != null && x.tornado.lifeS > 240);
+                    if (c != null) { st = runner.Spawn(new FixedEnvironment(env), Vector2.zero, seed, reg); cyc = st.cycles.First(x => x.index == c.index); }
+                }
+                if (cyc == null) { Debug.LogWarning($"[Designed] variety: no tornadic {key} storm"); continue; }
+                var tg = cyc.tornado;
+                double frac = tg.satellite ? tg.satFrac + 0.5 * tg.satLifeS / tg.lifeS : 0.45;
+                var tex = ShootTornado(skin, cam, st, cyc, frac, 960, 540, out var tor);
+                tiles.Add(tex);
+                lit.Add(ShootTornado(skin, cam, st, cyc, frac, 960, 540, out _, null, sunAz));
+                rep.AppendLine($"| {tiles.Count} | {key} / {reg} | {st.genome.seed} | EF{tg.ef} {tg.shape} {tg.widthM:0} m | {Life(tg)} | {Look(tg)} | {frac:0.00} of its life, {skin.Params.stage} |");
+                seed += 17;
+            }
+            if (tiles.Count > 0) { Save(Sheet(tiles, 3), "designed_tornado_variety"); foreach (var t in tiles) Object.DestroyImmediate(t); }
+            if (lit.Count > 0) { Save(Sheet(lit, 3), "designed_tornado_variety_sunlit"); foreach (var t in lit) Object.DestroyImmediate(t); }
+            rep.AppendLine().AppendLine($"Sheets: `designed_tornado_variety.png` (chaser south-east, in the inflow, looking into the storm) and `designed_tornado_variety_sunlit.png` (chaser toward the sun, bearing {sunAz:0}), left to right, top to bottom.").AppendLine();
+        }
+
+        if (only == null || only == "life")
+        {
+            // a long-lived tornado that passes through three shapes
+            var env = plains; DesignedStorm st = null; CycleGene cyc = null;
+            for (int seed = 1; seed < 3000 && cyc == null; seed++)
+            {
+                var probe = new DesignedStorm(new FixedEnvironment(env), new Vec2(0, 0), seed, ClimoRegion.Plains);
+                var c = probe.cycles.FirstOrDefault(x => x.tornado != null && x.tornado.phases != null && x.tornado.phases.Length >= 3 && x.tornado.lifeS > 720);
+                if (c != null) { st = runner.Spawn(new FixedEnvironment(env), Vector2.zero, seed, ClimoRegion.Plains); cyc = st.cycles.First(x => x.index == c.index); }
+            }
+            if (cyc == null) { ok = false; Debug.LogError("[Designed] life: no tornado with three phases"); }
+            else
+            {
+                var tg = cyc.tornado;
+                rep.AppendLine("## Life of one tornado").AppendLine().AppendLine($"Seed {st.genome.seed}, EF{tg.ef} {tg.widthM:0} m, {tg.lifeS / 60:0} min: {Life(tg)}; {Look(tg)}.").AppendLine();
+                rep.AppendLine("| Tile | Fraction of life | Stage | Funnel radius ground / top |").AppendLine("| --- | --- | --- | --- |");
+                var tiles = new List<Texture2D>();
+                // the chaser keeps pace with it, framed for its mid-life size, so the change of shape shows against a fixed frame
+                double[] fr = { 0.06, 0.2, 0.4, 0.62, 0.78, 0.93 };
+                var mid = st.TornadoAt(tg.formS + 0.5 * tg.lifeS);
+                foreach (var f in fr)
+                {
+                    var tex = ShootTornado(skin, cam, st, cyc, f, 640, 360, out var tor, mid);
+                    tiles.Add(tex);
+                    rep.AppendLine($"| {tiles.Count} | {f:0.00} | {skin.Params.stage} | {tor.groundKm * 1000:0} / {tor.topKm * 1000:0} m |");
+                }
+                Save(Sheet(tiles, 3), "designed_tornado_life"); foreach (var t in tiles) Object.DestroyImmediate(t);
+                rep.AppendLine().AppendLine("Sheet: `designed_tornado_life.png`, left to right, top to bottom.").AppendLine();
+            }
         }
 
         if (only == null || only == "timelapse")

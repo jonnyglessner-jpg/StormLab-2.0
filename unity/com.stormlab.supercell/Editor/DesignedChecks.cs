@@ -26,6 +26,7 @@ namespace StormLab.Supercell.EditorTools
             ("climatology: higher STP shifts the mix toward strong tornadoes", StpShift),
             ("cycles: 1-4 per storm, tornado count and gaps near the record, later cycles both weaker and stronger", Cycles),
             ("geometry: clear slot and horseshoe grow with tornado size", Geometry),
+            ("variety: one shape comes in many proportions; tornadoes change shape, skin and soil; satellites are rare", Variety),
             ("real time: storm and tornado move at the storm motion, wall cloud turns at v/r", RealTime),
             ("along-track environment: richer air turns an LP storm classic; a cap kills it early", AlongTrack),
             ("kinematic wind: inflow below the base, updraft, counter-clockwise mesocyclone, outflow aloft", KinematicWind),
@@ -33,6 +34,52 @@ namespace StormLab.Supercell.EditorTools
         };
 
         // ------------------------------------------------------------------
+        static string Variety()
+        {
+            int n = 0, morph = 0, sat = 0, side = 0, lam = 0, ghost = 0, lean = 0;
+            var flare = new List<double>(); var albedo = new List<double>();
+            var soils = new Dictionary<ClimoRegion, HashSet<string>>();
+            foreach (var (key, reg) in new[] { ("plains", ClimoRegion.Plains), ("dixie", ClimoRegion.Dixie), ("ohio", ClimoRegion.Midwest) })
+            {
+                var src = new FixedEnvironment(Preset(key)); soils[reg] = new HashSet<string>();
+                for (int seed = 1; seed <= 300; seed++)
+                {
+                    var st = new DesignedStorm(src, new Vec2(0, 0), seed, reg);
+                    foreach (var c in st.cycles)
+                    {
+                        var t = c.tornado; if (t == null) continue; n++;
+                        if (t.phases.Length > 1) morph++;
+                        if (t.satellite) sat++;
+                        if (t.phases.Any(q => q.shape == TornadoShape.Sidewinder)) side++;
+                        if (t.skin == FunnelSkin.Laminar) lam++;
+                        if (t.skin == FunnelSkin.Ghost) ghost++;
+                        if (t.leanKm > 0.1) lean++;
+                        soils[reg].Add(t.soilName);
+                        if (t.shape == TornadoShape.Cone) flare.Add(t.topKm / t.groundKm);
+                        albedo.Add(t.albedo);
+                        // the shape it has now always comes from its phases, and its funnel stays finite
+                        for (double f = 0.01; f < 1; f += 0.07)
+                        {
+                            var o = st.TornadoAt(t.formS + f * t.lifeS);
+                            if (double.IsNaN(o.groundKm) || double.IsNaN(o.topKm) || double.IsNaN(o.ground.x)) return $"FAIL NaN in tornado of seed {seed} at {F(f)} of its life";
+                        }
+                    }
+                }
+            }
+            if (n < 100) return $"FAIL only {n} tornadoes";
+            double Sh(int k) => k / (double)n;
+            double Cv(List<double> xs) { double m = xs.Average(); return Math.Sqrt(xs.Sum(x => (x - m) * (x - m)) / xs.Count) / m; }
+            string d = $"{n} tornadoes: change shape {F(Sh(morph))}, satellite {F(Sh(sat))}, sidewind {F(Sh(side))}, laminar {F(Sh(lam))}, translucent {F(Sh(ghost))}, lean > 100 m {F(Sh(lean))}; "
+                + $"cone flare spread (cv) {F(flare.Count > 1 ? Cv(flare) : 0)}, brightness {F(albedo.Min())}-{F(albedo.Max())}; soils "
+                + string.Join(", ", soils.Select(kv => $"{kv.Key}: {string.Join("/", kv.Value)}"));
+            if (Sh(morph) < 0.15 || Sh(morph) > 0.65) return "FAIL share changing shape out of range; " + d;
+            if (sat == 0 || Sh(sat) > 0.15) return "FAIL satellites missing or too common; " + d;
+            if (lam == 0 || ghost == 0 || side == 0) return "FAIL a skin or the sidewinder never appears; " + d;
+            if (flare.Count > 5 && Cv(flare) < 0.1) return "FAIL cones all have the same proportions; " + d;
+            if (!soils[ClimoRegion.Plains].Contains("red") || soils.Values.Any(v => v.Count < 2)) return "FAIL soil colours do not vary by region; " + d;
+            return d;
+        }
+
         static string Determinism()
         {
             var src = new FixedEnvironment(Preset("plains"));

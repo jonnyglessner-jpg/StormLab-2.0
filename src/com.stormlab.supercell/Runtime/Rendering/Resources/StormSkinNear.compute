@@ -39,10 +39,11 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
     float zb = S_base.x; float zr = p.z - zb; float clock = S_base.z;
     float spinLow = S_mesov.z != 0.0 ? S_mesov.z : S_tilt.w;
 
-    // ---- the base: flat at the simulated LCL, arched up in the inflow vault, with laminar ripples of a few tens of
-    // metres that turn with the low-level rotation
+    // ---- the base: at the simulated LCL, lifted a little under the rotating updraft and rolling up toward its rim (the
+    // same underside as the storm volume, baseLift and underbellyRise), with laminar ripples of a few tens of metres
+    // that turn with the low-level rotation
     float2 uc0 = mesoCentre(0.0);
-    float lift = S_tower.z > 0.0 ? vaultLift(p.xy - uc0) : 0.0;
+    float lift = S_tower.z > 0.0 ? baseLift() + underbellyRise(p.xy - uc0) : 0.0;
     float2 dr0 = rot2(p.xy - uc0, -spinLow * clock);
     float rip = (n3(float3(dr0 * 0.45, 0.31)) - 0.5) * 0.06 + (n3(float3(dr0 * 1.7, 0.77)) - 0.5) * 0.025;
     float zbase = zb + lift + rip;
@@ -59,7 +60,7 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
         float2 mc = mesoCentre(zr);
         float2 d = p.xy - mc; float r = length(d);
         float mR = max(S_tower.y, 0.5);
-        float radAt = min(mR * (1.0 + (0.55 * S_tower.w + 0.12) * exp(-max(zr, 0.0) / 1.0)) + mesoExtra(zr), h - 0.9);
+        float radAt = min(mR * (1.0 + baseFlare(zr)) + mesoExtra(zr) + mesoShoulder(d, zr), h - 0.9);
         float hz = saturate(zr / max(Hb, 0.3));
         float spin = lerp(spinLow, S_tilt.w, hz);
         float2 drr = rot2(d, -spin * clock);
@@ -97,6 +98,8 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
     float thr = lerp(0.3, 0.78, saturate(wB * 1.2));
     float fC = 0.5 + (s.r - thr) * 1.3 + dd;
     float f = min(max(fC, fBar), fBase);
+    // the clear slot cuts the plates and the sharpened cloud too
+    f -= 0.8 * clearSlot(p);
 
     // ---- 1.0's near-ground features at full detail: wall cloud, tail cloud, scud, horseshoe lip, anti-meso, inflow tail
     float nf = nearField(p, 1.0);
@@ -134,7 +137,7 @@ void LightNear(uint3 gid : SV_DispatchThreadID)
     float ds[8] = { 0.03, 0.07, 0.12, 0.18, 0.26, 0.36, 0.48, 0.62 };
     [unroll] for (int i = 0; i < 8; i++) { tau += nearDens(p + sun * ds[i]) * (ds[i] - prev) * _LP.x; prev = ds[i]; }
     float4 lf = _Light.SampleLevel(sampler_LinearClamp, stormUvw(p + sun * 0.62), 0);
-    float sunL = lf.r * (0.72 * exp(-0.38 * tau) + 0.28 * exp(-0.07 * tau));
+    float sunL = lf.r + tau;   // optical depth, as the storm grid stores it
     // sky from above: cloud overhead within 0.5 km, then the storm grid's sky term above that
     float tu = 0.0; prev = 0.0;
     float us[5] = { 0.04, 0.1, 0.18, 0.32, 0.5 };
@@ -149,5 +152,5 @@ void LightNear(uint3 gid : SV_DispatchThreadID)
         float3 o = float3(cos(a), sin(a), 0.0);
         side += 1.0 - 0.5 * (nearDens(p + o * 0.12) + nearDens(p + o * 0.35));
     }
-    _OutNL[id] = float4(saturate(sunL), saturate(skyUp), side * 0.25, 1.0);
+    _OutNL[id] = float4(sunL, saturate(skyUp), side * 0.25, 1.0);
 }

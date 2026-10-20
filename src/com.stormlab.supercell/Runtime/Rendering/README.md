@@ -25,13 +25,14 @@ on the storm (`WorldToVol`, `VolToWorld`).
 | Designer | `FeatureDesigner.Evaluate` (CPU) | parameter block at the playback time ([../Designer/README.md](../Designer/README.md)) |
 | Paint | `StormSkinVolume.compute` `Build` | 1.0's BUILD: the designed storm into the **target** volume, 1/`buildSlabs` of it per frame (default 4) |
 | Advect | `Advect` | the **live** volume is carried by the simulated wind for the playback dt (semi-Lagrangian; rain also falls at 7 m/s), then relaxed toward the target with time constant `relaxSeconds` (60 s) |
-| Light | `Light` | 1.0's LIGHT on a 1/3-resolution grid (sun transmittance, sky, base shade, anvil ice shade), 1/`lightSlabs` per frame |
+| Light | `Light` | 1.0's LIGHT on a 1/3-resolution grid (sun optical depth, sky, base shade, anvil ice shade), 1/`lightSlabs` per frame |
 | March | `StormSkinMarch.compute` `March` | 1.0's RENDER at `renderScale` (0.5): sub-grid billows, striations in a frame turning at the simulated meso spin, the anvil's ice sheets, near-ground features at full detail, rain shafts, light shafts; stops at scene depth |
 | Resolve | `Resolve` | temporal accumulation: reprojects the previous frame by the march's mean hit distance, clamped to the current 3 x 3 neighbourhood |
+| (checkerboard) | `March`, `Resolve` | with `checkerboard` on, the march runs at half width on alternating pixels each frame; the resolve fills the rest from fresh neighbours and history (about half the cost) |
 | Composite | `StormSkinComposite.shader` | `colour = storm.rgb + storm.a × scene` over the camera colour (`BeforeRenderingTransparents`) |
 
 **Volume**: 400 x 400 x 120 at 150 m (60 x 60 x 18 km), RGBA8 (r cloud, g precipitation, b near-ground features for
-shadows, a material from cauliflower water to smooth ice). Three copies (target and two live) = 231 MB, plus a 2 MB
+shadows, a material from cauliflower water to smooth ice). Three copies (target and two live) = 231 MB, plus a 6 MB
 light grid. `tier = High` is 512 x 512 x 160 (117 m); `Low` is 288 x 288 x 96. The volume follows the storm in
 whole-voxel steps when the suggested centre drifts more than 4 km, so the advected cloud shifts exactly.
 
@@ -49,6 +50,35 @@ rotating frame for the detail noise, as in 1.0.
 fixed in the volume frame apart from the meso rotation).
 
 ## Look settings
+
+**Sunlight on cloud** (`physicalLighting`, on by default). The light grids store the sun's optical depth (half floats),
+and the march lights cloud from it with Wrenninge et al.'s (2013) multiple-scattering octaves: `scatterOctaves` terms,
+each with half the extinction, energy and phase anisotropy of the one before. The phase function for water cloud is
+Jendersie and d'Eon's (2023) fit to Mie theory for `dropletDiameter` (16 µm), which gives silver linings when back-lit,
+and anvil ice uses Henyey-Greenstein with g = 0.75. `sunScale` sets their brightness against 1.0's calibration. Rain,
+light shafts, the ground shadow and the tornado still use 1.0's two-lobe transmittance of the same depth (`sunT`).
+`octaveExtinction` (0.7) is each octave's extinction relative to the one before; Wrenninge's 0.5 carried orange low-sun
+light so deep into the core that it turned muddy brown.
+
+**Sky and ground light** (physical lighting). `SkyVis` traces 19 cones from each point of a half-resolution sky grid
+(1/`skySlabs` of it per frame) and stores how much of the zenith cap, the mid sky, the horizon ring and the horizon toward
+the sun or moon each point sees. `SkyLighting.Bands` integrates the sky's radiance over the same four parts once a frame on
+the CPU (constants, so they cost the march no registers), and the march multiplies the two: an underside sees only the
+horizon, a shadowed side the open sky beside it. `GroundLight` maps how lit the ground is over the 4 km under each point,
+and the march bounces it onto undersides (Plains albedo ~0.12, plus town light at night). `skyDiffuse` (0.2) is sky light
+that diffused through the cloud to points that cannot see the sky; `skyScale` and `bounceScale` scale the rest.
+
+**Night** (`SkyLighting.cs`, Night settings). The key light (light grids, phase, shadows) is the sun until it is 6
+degrees down, then the moon (`moonPhase`; with TimeOfDay it is also placed in the sky). Cloud high enough to see over the
+earth's curve keeps the sun after ground sunset, so anvils glow pink. The sky falls through twilight as measured (1/10 by
+6 degrees down, starlight by 18), and moonlight is physical (a full moon is ~5e-6 of the evening sun). Below sunset levels
+an adaptation gain (`nightAdaptation`) shows a moonlit night at `nightBrightness` (0.08 of day) and never below
+`nightFloor`, with a blue shift (`purkinje`), a fill under the base (`nightFill`) and town light on the haze and cloud bases
+(`lightPollution`). With `toneMap` off and a game exposure that adapts itself, turn `nightAdaptation` off.
+
+Off, the cloud is lit as in 1.0 (the night model still applies). Skin test flags: `-skinAB` also renders every shot with
+1.0's lighting as `*_legacy.png`; `-skinNight` adds dusk, moonlit and moonless views; `-skinSet field=value,...` sets any
+`StormSkin` field for look tuning; `-skinLegacyLight` uses 1.0's lighting throughout.
 
 `exposure` (1.7, as 1.0) and `toneMap` (on: 1.0's display curve, for standalone use; off: linear radiance, for a game
 with its own HDR tone mapping). `drawBackdrop` draws 1.0's sky and section-road fields wherever the camera sees no

@@ -319,3 +319,48 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   wet-growth limit made cold pools colder and stays off. (3) Vertical spacing: 250 m aloft needs 85 levels, not 81
   (81 give 268 m). 85 cost 22 % more per step and 18 % more VRAM, and push the WK updraft to 70.1 m/s, so the average
   tier stays at 72.
+- **2026-10-20** Skin lighting, step 1 of the path to photoreal (physically based sunlight on cloud). The light grids
+  now store the sun's optical depth (half floats, +4 MB) instead of 1.0's transmittance. The march lights cloud with
+  Wrenninge et al.'s (2013) four multiple-scattering octaves and, for water cloud, Jendersie and d'Eon's (2023) Mie
+  phase fit (16 µm droplets; anvil ice HG g = 0.75). Rain, shafts, ground shadow and tornado keep 1.0's two-lobe
+  transmittance of the same depth. `StormSkin.physicalLighting` switches back to 1.0's lighting; `sunScale` 1.26 keeps
+  the chaser view at 1.0's brightness (mean luminance within 5 %). Cost: +0.13 ms on the 70 min chaser view (3.73 vs
+  3.60 ms on the RX 7900 XT). That view was already over the 3060 budget (10.8 ms estimated, against the committed
+  report's 8.7 ms) before this change; the rise is in the uncommitted base / wall-cloud edits or the storm itself, not
+  the lighting. Next: sky light from all directions in the light grid, then species-resolved density from the brain.
+- **2026-10-20** Skin lighting, step 2: sky light from all directions, ground bounce and night. A half-resolution sky
+  visibility grid (19 cone traces a point, 1/8 per frame) times the sky's radiance in the same four parts (zenith, mid,
+  horizon, horizon toward the key light; integrated on the CPU once a frame) replaces the "sky overhead" term; a 2D
+  ground-light map bounces light onto undersides. Night: the key light becomes the moon once the sun is 6 degrees down,
+  cloud aloft keeps the sun past ground sunset, the sky follows measured twilight, and an adaptation gain shows a
+  moonlit night at 8 % of day with a blue shift, a fill under the base and town light (`SkyLighting.cs`). Tuning from
+  A/B renders: octave extinction 0.7 (Wrenninge's 0.5 turned the low-sun core muddy brown), diffuse sky 0.2. Cost on the
+  RX 7900 XT, 70 min chaser view: march 4.17 ms (legacy lighting in the same build 3.88), sky grid 0.15 ms a frame. A
+  first version that integrated the sky per pixel slowed the whole march kernel 50 % (registers); the bands are now
+  constants. Next: species-resolved density from the brain; lightning for night.
+
+- **2026-10-20** Ported live StormLab 1.0's feature shapes (website `2030265`, the 2026-10-19 fixes) into the skin. 2.0 had
+  been ported from the version before `b5a4358`. New shared shape functions in `StormSkinCommon.hlsl` (`baseFlare`,
+  `mesoShoulder`, `underbellyRise`, `baseLift`, `horseshoeArc`, `clearSlot`) drive the volume, the near field and the
+  march; the storm body and gust-front towers are gone and the apron replaces them; wall cloud, horseshoe, inflow tail,
+  anvil, flanking line and rain take the live shapes. 2.0 keeps what the simulation supplies (LCL base, simulated
+  forward-flank ellipse and hook rain, overshooting top, RFD dryness, inflow bands, mammatus) and its photo-matched
+  tornado. Not ported: forward-flank rain rising into the anvil (the brain's larger core made it a grey wall).
+  New values: `Up.z` mid-level widening, `Up.w` late thin anvil, slot 39 `Late.x` flanking-line maturity, keyed to the
+  simulated storm's age. The anvil is now `anvilAt` (shared); the march draws it analytically beyond the 60 km volume
+  (`farAnvil`), the light grid traces sunlight through it so a late canopy shades the storm, anvil ice relaxes quickly
+  toward its painted shape (advection had smeared the thin veil away), and canopy ice ages with distance from the root.
+  The brain's anvil length takes the larger of its measured ice and the ice advected by the anvil-level wind, up to
+  ~95 km late; in the Dodge City run the anvil-level storm-relative wind is only ~10 m/s, so its anvil stays ~36 km.
+  Open: a faint seam where the far anvil meets the volume, clear-slot size in brain mode, the wall-cloud / slot / tornado
+  ordering rules, and a performance pass (3060 estimate well over 8 ms).
+- **2026-10-20** Slot, ordering and cost. Brain mode: the clear slot's radius in the base is live 1.0's compact rim (a
+  little under half the updraft radius, growing with the slot; it was the 4 km distance to the simulated surge) and its
+  centre is kept under the updraft; the slot opens only once low-level rotation is established and the horseshoe lags
+  the slot (live 1.0's order: wall cloud, then slot, then horseshoe; Phase 3's tornado must wait for Rfd.x > ~0.3).
+  Rotation: the shaders turn features by rate x clock, so a changing simulated rate made textures jump or stall; each
+  angle (wall cloud, mid-level meso, low-level spin, tornado) is now integrated over the wall clock in StormSkin and the
+  GPU gets phase / clock (`GpuBlock`). Checkerboard march (`checkerboard`, default on): half-width dispatch, the resolve
+  fills the other parity from fresh neighbours and history; converged frames differ by 0.2/255 and the 70 min chaser
+  march fell from 6.4 to 3.6 ms on the RX 7900 XT. The skin test passes (its budget is measured at the last time,
+  100 min: 7.6 ms on a 3060); the 70 min chaser view is the worst seen, 11.3 ms at 1440p (about 7.6 ms at 1080p).

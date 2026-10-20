@@ -396,6 +396,15 @@ namespace StormLab.Supercell.Designer
             if (m4f > 0.05f) sim |= Feature.Striation | Feature.Meso; else if (age > 20) { strat = Fb(Slot.Tower, false).w; fb |= Feature.Striation; }
             P.Set(Slot.Tower, Mathf.Min(towerTop, el + 0.4f), R, towerAmt, strat);
             sim |= Feature.Tower;
+            // ---- the storm's look as it matures (live 1.0's timings, on the simulated storm's age): the barrel widens at
+            // mid levels once it rotates there, the anvil thins to a wide veil of ice late on, and the flanking line matures
+            {
+                var u = P[Slot.Up];
+                u.z = Ramp(age, 12f, 44f) * Mathf.Clamp01(m4f * 1.5f);
+                u.w = anvilSim ? Ramp(age, 68f, 93f) : 0f;
+                P[Slot.Up] = u;
+                P.Set(Slot.Late, Ramp(age, 68f, 90f), 0, 0, 0);
+            }
             // ---- stacked plates on the low barrel (near field): 3-7 laminar discs over its lowest 1.2-1.75 km, more and
             // stronger as the striation (the simulated mid-level rotation x 1.0's LP/classic/HP factor) grows. They turn at
             // the simulated rotation (MesoV.z low down, Tilt.w aloft). The LP photos show 3-8 over 2-3 km; the near box
@@ -431,8 +440,14 @@ namespace StormLab.Supercell.Designer
                 float growth = Mathf.Clamp01(aArea.X / 250f) * anv.Frac;
                 float down = aDown.X / 1000f;
                 float srs = slowAnv.magnitude;
-                float len = clip.X > 0.3f ? Mathf.Max(down, Mathf.Min(srs * anvilAge * 60f / 1000f * 0.7f, (float)plan.anvilLen)) : down;
-                len = Mathf.Clamp(len, 4f, 52f);
+                // The model counts ice above a threshold, and the far anvil thins below it (or runs off the domain) while it
+                // is still visible cirrus: the anvil reaches at least as far as the ice the storm-relative anvil wind has
+                // carried downwind since it began spreading (x 0.7: ice falls out on the way). Late in the storm (Up.w) up
+                // to about 95 km, as live 1.0 draws it; the march draws it beyond the skin's 60 km volume
+                float thinA = P[Slot.Up].w;
+                float lenMax = 52f + 43f * thinA;
+                float len = Mathf.Max(down, Mathf.Min(srs * anvilAge * 60f / 1000f * 0.7f, (float)plan.anvilLen + 43f * thinA));
+                len = Mathf.Clamp(len, 4f, lenMax);
                 float back = Mathf.Clamp(aUp.X / 1000f, 1f, 12f);
                 float bottom = Mathf.Clamp(aBot.X / 1000f, el - 4f, el - 1f);
                 // mammatus: ice at the anvil's base downwind, once the anvil has spread for a while
@@ -466,6 +481,7 @@ namespace StormLab.Supercell.Designer
 
             // ---- wall cloud, tail cloud, scud (low-level meso, not undercut by the cold pool)
             float Rw = (float)plan.Rw;
+            float lowRot = 0f;   // how established the low-level rotation (and so the wall cloud) is, 0..1
             if (m1f > 0.05f)
             {
                 float zeta1 = m1z.X;
@@ -478,6 +494,7 @@ namespace StormLab.Supercell.Designer
                 float meso = Mathf.Clamp(zeta1 / 0.015f, 0.3f, 1.2f);
                 float lower = Mathf.Clamp(0.25f + 0.3f * meso, 0.2f, 0.6f) * Mathf.Clamp(1.6f - zb / 2f, 0.6f, 1.3f);
                 float ffdNear = Mathf.Clamp01(ffd.Frac) * Mathf.Clamp01((ffdZ.X - 30f) / 15f);
+                lowRot = m1f * Ramp(zeta1, 0.004f, 0.012f);
                 P.Set(Slot.Wall, m1Pos.x, m1Pos.y, Rw, amt);
                 P.Set(Slot.Wall2, lower, 0.5f * zeta1, amt * ffdNear, amt * 0.8f);
                 sim |= Feature.Wall;
@@ -543,10 +560,24 @@ namespace StormLab.Supercell.Designer
                 Vector2 c = V(rfdC.V); float reach = rfdR.X / 1000f;
                 float dry = Mathf.Clamp01(1f + rfdT.X / 4f);   // mean surface theta' 0 K = 1 (warm), -4 K = 0 (cold)
                 float slot = rfd.Frac * (0.4f + 0.6f * dry) * (1f - 0.5f * wrapAmt);
-                float Rs = Mathf.Clamp((c - m1Pos).magnitude * 1.1f, 1.2f, 4f);
+                // the order of events (live 1.0): the wall cloud forms under the low-level rotation first, and only then
+                // does the RFD carve a clear slot beside it; the horseshoe follows the slot as it widens
+                slot *= Ramp(lowRot, 0.05f, 0.35f);
+                float horse = slot * Ramp(slot, 0.1f, 0.45f);
+                // The slot as the cloud base shows it: live 1.0's compact rim, a little under half the updraft's radius,
+                // growing with the slot, whatever the size of the simulated outflow surge beneath it (that is the gust
+                // front, which reaches much further than the notch in the base)
+                float Rtow = P[Slot.Tower].y;
+                float Rs = Mathf.Min(Mathf.Clamp((c - m1Pos).magnitude * 1.1f, 1.2f, 4f), Mathf.Min(Rtow * 0.462f, Mathf.Max(Rtow * 0.9f - 0.85f, 0.3f)))
+                           * (0.2f + 0.8f * Ramp(slot, 0f, 0.6f));
+                // and the whole rim, lip included, stays under the updraft: the surge's centre is pulled in toward the
+                // updraft if the simulated one lies further out
+                Vector2 dU = c - up; float fitReach = Mathf.Max(Rtow * 0.9f - Rs - 0.65f, 0.15f);
+                if (dU.magnitude > fitReach) c = up + dU.normalized * fitReach;
                 float rainAmt = rc.Frac * Mathf.Clamp((rcZ.X - 30f) / 20f, 0f, 1.4f);
                 P.Set(Slot.Rfd, slot, Mathf.Clamp(reach * 0.7f, Rw + 0.8f, Rw + 3f), rainAmt, wrapAmt);
-                P.Set(Slot.Rfdb, c.x, c.y, Rs, slot);
+                P.Set(Slot.Rfdb, c.x, c.y, Rs, horse);
+                // (a tornado, when Phase 3 adds one, forms only once this slot is open: Rfd.x past ~0.3)
                 P.Set(Slot.Slot2, c.x, c.y, dry, reach);
                 sim |= Feature.Rfd;
             }

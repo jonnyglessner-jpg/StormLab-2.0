@@ -102,3 +102,16 @@ Reference speeds: storm motion 10–25 m/s (Dixie 40–55 mph); low-level storm-
 - Clear-air returns and dust show boundaries; for visuals, a dryline or outflow boundary can be marked by a change
   in haze, dust and cumulus.
 - Altitude matters for colour: sunlit anvil tops stay bright after sunset at the ground.
+
+## Night
+
+- **What lights a storm at night:** the moon (a full moon is about 1/200,000 of the sun, slightly redder), the moonlit
+  sky, starlight and airglow, town light (sodium and LED glow on the haze and on low cloud bases, often brighter than
+  moonlight under cloud), and lightning, which is how storms are mostly seen at night.
+- **Twilight:** the sky falls about tenfold by 6 degrees below the horizon and reaches starlight by 18. Cloud high up
+  sees the sun for longer: the horizon dips by sqrt(2z/R), 3.5 degrees at 12 km, so anvils glow pink after ground sunset.
+- **Seeing in the dark:** below about 0.01 lux the eye's rods take over: no colour, a blue-green bias (Purkinje shift),
+  less detail. A game shows night far brighter than physical (the skin's default is 8 % of day for a moonlit night) and
+  keeps it blue-grey, with the deepest shadows lifted.
+- Lightning (in-cloud flashes lighting the storm from inside, cloud-to-ground strikes) is not in the skin yet.
+

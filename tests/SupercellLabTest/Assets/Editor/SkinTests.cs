@@ -62,7 +62,7 @@ public static class SkinTests
     }
 
     // ================================================================== scene and pipeline
-    static void EnsureFolder(string path)
+    internal static void EnsureFolder(string path)
     {
         if (AssetDatabase.IsValidFolder(path)) return;
         string parent = Path.GetDirectoryName(path).Replace('\\', '/');
@@ -70,7 +70,7 @@ public static class SkinTests
         AssetDatabase.CreateFolder(parent, Path.GetFileName(path));
     }
 
-    static UniversalRenderPipelineAsset EnsurePipeline()
+    internal static UniversalRenderPipelineAsset EnsurePipeline()
     {
         if (PlayerSettings.colorSpace != ColorSpace.Linear) PlayerSettings.colorSpace = ColorSpace.Linear;
         EnsureFolder("Assets/Settings");
@@ -159,9 +159,17 @@ public static class SkinTests
     // ================================================================== screenshots
     static void Sync() { var b = new ComputeBuffer(1, 4); var a = new int[1]; b.GetData(a); b.Release(); }
 
-    // 12 frames: the temporal resolve (new-frame weight 0.25) has converged, as it has after 0.2 s in a game
+    // 12 frames: the temporal resolve (new-frame weight 0.25) has converged, as it has after 0.2 s in a game.
+    // -skinAB: every named shot is also rendered with 1.0's lighting, as name_legacy.png
     static Texture2D Shot(Camera cam, string name, int w = 1920, int h = 1080, int frames = 12)
     {
+        var skin = StormSkin.Active;
+        if (name != null && skin && skin.physicalLighting && System.Environment.GetCommandLineArgs().Contains("-skinAB"))
+        {
+            skin.physicalLighting = false;
+            try { Object.DestroyImmediate(Shot(cam, name + "_legacy", w, h, frames)); }
+            finally { skin.physicalLighting = true; }
+        }
         var rt = new RenderTexture(w, h, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB) { antiAliasing = 1 };
         rt.Create();
         for (int f = 0; f < frames; f++)
@@ -314,6 +322,11 @@ public static class SkinTests
         if (low) { skin.sunSource = SunSource.TimeOfDay; skin.solarHour = LowSunHour; skin.exposure = exposure * LowSunExposure; }
         else { skin.sunSource = SunSource.Light; if (skin.sun) skin.sun.transform.rotation = lightRot; skin.exposure = exposure; }
     }
+    /// <summary>
+    /// -skinNight: Dodge City, 24 May. Dusk: the sun 1-2 degrees down, the ground in shadow and the anvil still sunlit. Night: a
+    /// full moon in the south-east, 2 h after sunset. Moonless: the same hour at new moon, lit by sky, stars and town light.
+    /// </summary>
+    static readonly (string name, float hour, float phase)[] NightViews = { ("dusk", 19.25f, 0.5f), ("night", 21.2f, 0.5f), ("moonless", 21.2f, 0.0f) };
     /// <summary>the low-sun variant: 18.8 h local solar time at Dodge City on 24 May (about 8:30 pm CDT): sun 3-4 degrees up in the WNW</summary>
     const float LowSunHour = 18.8f;
     /// <summary>the photographer's exposure for sunset light (the sun is 4x dimmer than 1.0's evening sun at this height)</summary>
@@ -369,6 +382,17 @@ public static class SkinTests
             var cl = System.Environment.GetCommandLineArgs();
             int dbg0 = (cl.Contains("-skinCloudOnly") ? 16 : 0) | (cl.Contains("-skinNearOnly") ? 48 : 0);
             skin.debugFlags = dbg0;
+            if (cl.Contains("-skinLegacyLight")) skin.physicalLighting = false;   // 1.0's lighting throughout (cost comparison)
+            // -skinSet field=value,field=value: any public number or bool on StormSkin (look tuning)
+            int si = Array.IndexOf(cl, "-skinSet");
+            if (si >= 0 && si + 1 < cl.Length)
+                foreach (var kv in cl[si + 1].Split(','))
+                {
+                    var parts = kv.Split('='); var f = typeof(StormSkin).GetField(parts[0]);
+                    if (f == null) { Debug.LogError($"[Skin] -skinSet: no field {parts[0]}"); continue; }
+                    f.SetValue(skin, f.FieldType == typeof(bool) ? (object)bool.Parse(parts[1]) : f.FieldType == typeof(int) ? int.Parse(parts[1]) : (object)float.Parse(parts[1], System.Globalization.CultureInfo.InvariantCulture));
+                    Debug.Log($"[Skin] set {parts[0]} = {parts[1]}");
+                }
             float exposure0 = skin.exposure; var lightRot = skin.sun ? skin.sun.transform.rotation : Quaternion.identity;
             var photoTimes = new HashSet<float> { 2700f, 4200f, 6000f };
             var compares = new List<string>();
@@ -377,11 +401,15 @@ public static class SkinTests
             {
                 bool doPhotos = photos && !quick && photoTimes.Contains(T);
                 // the photo framings get the 1.0 sun and, at 70 min, the low sunset sun as well
-                var suns = new List<bool> { false };
-                if (doPhotos && T == 4200f) suns.Add(true);
-                foreach (bool low in suns)
+                // (low sun, night variant): 1.0's sun; the photos' sunset sun; and with -skinNight dusk, a moonlit and a moonless night
+                var suns = new List<(bool low, string night)> { (false, null) };
+                if (doPhotos && T == 4200f) suns.Add((true, null));
+                if (cl.Contains("-skinNight")) foreach (var nv in NightViews) suns.Add((false, nv.name));
+                foreach (var (low, night) in suns)
                 {
                     SetSun(skin, low, lightRot, exposure0);
+                    float phase0 = skin.moonPhase;
+                    if (night != null) { var nv = NightViews.First(x => x.name == night); skin.sunSource = SunSource.TimeOfDay; skin.solarHour = nv.hour; skin.moonPhase = nv.phase; }
                     skin.ResetVolume();
                     float t0 = Mathf.Max(0, T - 90f);
                     skin.StepTo(t0, t0);
@@ -391,10 +419,17 @@ public static class SkinTests
                     var up = P[Slot.Up]; var fw = P[Slot.F];
                     Vector3 U = skin.VolToWorld(new Vector3(up.x, up.y, 0));
                     Vector3 fwd = new Vector3(fw.x, 0, fw.y).normalized, right = new Vector3(fw.y, 0, -fw.x).normalized;   // right of the motion
-                    Debug.Log($"[Skin] t={T / 60:0} min{(low ? " low sun" : "")}: {P.stage}; sim [{P.fromSim}] fallback [{P.fromFallback}]; tower {P[Slot.Tower]}, anvil {P[Slot.Anvil]}, wall {P[Slot.Wall]}, " +
+                    Debug.Log($"[Skin] t={T / 60:0} min{(low ? " low sun" : "")}: {P.stage}; sim [{P.fromSim}] fallback [{P.fromFallback}]; tower {P[Slot.Tower]}, anvil {P[Slot.Anvil]} anvil3 {P[Slot.Anvil3]} up {P[Slot.Up]}, wall {P[Slot.Wall]}, " +
                               $"rfdb {P[Slot.Rfdb]}, ffd {P[Slot.Ffd]}, plates {P[Slot.Plates]}, curtain {P[Slot.Curtain]}, near {P[Slot.Near]} (active {skin.NearActive}), sun {skin.SunDirVol}, volume centre {skin.Centre} suggested {P.suggestedCentre}, wind snapshot ok {skin.Wind.Upload(T)}");
                     if (!warmed) { Pose(cam, U + Bearing(160f) * 24000f + Vector3.up * 3f, U + Vector3.up * 2500f, 60f); Shot(cam, null); warmed = true; }
                     string tag = $"{T / 60:000}min";
+                    if (night != null)
+                    {
+                        var L = skin.Lighting;
+                        Debug.Log($"[Skin] {night}: sun {StormSkin.SolarPosition(skin.solarHour, skin.latitude, skin.dayOfYear)}, moon {StormSkin.MoonPosition(skin.solarHour, skin.latitude, skin.dayOfYear, skin.moonPhase)}, " +
+                                  $"key {(L.keyIsMoon ? "moon" : "sun")} {L.keyC}, sky {L.skyC.w:G3}, level {L.level:G3}, gain {L.gain:G3}, night {L.night:0.00}");
+                        tag += "_" + night;
+                    }
                     if (!low && System.Environment.GetCommandLineArgs().Contains("-skinMap")) DebugMap(skin, $"debug_map_{tag}", U);
                 if (!low && System.Environment.GetCommandLineArgs().Contains("-skinProfile"))
                 {
@@ -412,7 +447,8 @@ public static class SkinTests
                         var tex = Shot(cam, nm, w, h);
                         float c = Contrast(tex);
                         names.Add(nm);
-                        if (c < 4f) { ok = false; Debug.LogError($"[Skin] {tag} {view}: flat image (contrast {c:0.0})"); }
+                        if (c < 4f && night == null) { ok = false; Debug.LogError($"[Skin] {tag} {view}: flat image (contrast {c:0.0})"); }
+                        else if (c < 4f) Debug.Log($"[Skin] {tag} {view}: low contrast {c:0.0} (night)");
                         if (!keep) { Object.DestroyImmediate(tex); return null; }
                         return tex;
                     }
@@ -422,13 +458,13 @@ public static class SkinTests
                         // anvil, looking north-north-west at the base), the whole storm from the south, a close look at the base
                         if (Want("chaser")) { Pose(cam, U + Bearing(160f) * 24000f + Vector3.up * 3f, U + Vector3.up * 2500f, 60f); Take("chaser"); }
                         if (Want("wide")) { Pose(cam, U + Bearing(185f) * 60000f + Vector3.up * 3f, U + Bearing(90f) * 8000f + Vector3.up * 6000f, 55f); Take("wide"); }
-                        if (!quick)
+                        if (!quick || night != null)
                         {
                             if (Want("close")) { Pose(cam, U + Bearing(150f) * 12000f + Vector3.up * 3f, U + Vector3.up * 1200f, 70f); Take("close"); }
                             if (Want("aerial")) { Pose(cam, U - fwd * 10000f + right * 38000f + Vector3.up * 22000f, U + Vector3.up * 7000f + fwd * 8000f, 55f); Take("aerial"); }
                         }
                     }
-                    if (doPhotos)
+                    if (doPhotos && night == null)
                     {
                         // ground cameras in the reference photos' framings (data/reference/plains_lp/NOTES.md)
                         foreach (var v in PhotoViews)
@@ -442,7 +478,8 @@ public static class SkinTests
                         }
                     }
                     var pl = P[Slot.Plates]; var cu = P[Slot.Curtain];
-                    rep.AppendLine($"| {T / 60:0} min{(low ? ", low sun" : "")} | {P.stage} | {P.fromSim} | {P.fromFallback} | base {P[Slot.Base].x:0.00} km, {pl.x:0} plates over {pl.z:0.0} km (amount {pl.w:0.00}), curtain x{cu.x:0.00} (hpness {cu.w:0.00}) | {string.Join(", ", names)} |");
+                    skin.moonPhase = phase0;
+                    rep.AppendLine($"| {T / 60:0} min{(low ? ", low sun" : "")}{(night != null ? ", " + night : "")} | {P.stage} | {P.fromSim} | {P.fromFallback} | base {P[Slot.Base].x:0.00} km, {pl.x:0} plates over {pl.z:0.0} km (amount {pl.w:0.00}), curtain x{cu.x:0.00} (hpness {cu.w:0.00}) | {string.Join(", ", names)} |");
                 }
             }
             SetSun(skin, false, lightRot, exposure0);
@@ -511,9 +548,13 @@ public static class SkinTests
         double light = Time(() => { cmd.Clear(); vol.Light(cmd, skin.SunDirVol, P[Slot.Base].x, 0, vol.LZ); Graphics.ExecuteCommandBuffer(cmd); }, 10) - empty;
         d["storm volume: full target paint (BUILD, whole volume)"] = build;
         d["storm volume: advection (whole volume)"] = adv;
+        double sky = Time(() => { cmd.Clear(); vol.SkyVis(cmd, skin.KeyDirVol, 0, vol.SZ); Graphics.ExecuteCommandBuffer(cmd); }, 10) - empty;
+        double gnd = Time(() => { cmd.Clear(); vol.GroundLight(cmd); Graphics.ExecuteCommandBuffer(cmd); }, 20) - empty;
         d["storm volume: light grid (whole grid)"] = light;
-        double frameVol = build / Math.Max(1, skin.buildSlabs) + adv / Math.Max(1, vol.advectEvery) + light / Math.Max(1, skin.lightSlabs);
-        d[$"storm volume work per frame (1/{skin.buildSlabs} paint + 1/{vol.advectEvery} advection + 1/{skin.lightSlabs} light)"] = frameVol;
+        d["storm volume: sky visibility (whole grid)"] = sky;
+        d["storm volume: ground light"] = gnd;
+        double frameVol = build / Math.Max(1, skin.buildSlabs) + adv / Math.Max(1, vol.advectEvery) + light / Math.Max(1, skin.lightSlabs) + sky / Math.Max(1, vol.skySlabs) + gnd;
+        d[$"storm volume work per frame (1/{skin.buildSlabs} paint + 1/{vol.advectEvery} advection + 1/{skin.lightSlabs} light + 1/{vol.skySlabs} sky + ground)"] = frameVol;
         double frameNear = 0;
         if (skin.NearActive)
         {
@@ -543,7 +584,7 @@ public static class SkinTests
             if (m > worst) { worst = m; worstName = name; }
         }
         if (System.Environment.GetCommandLineArgs().Contains("-skinProfile"))
-            foreach (int fl in new[] { 1, 2, 4, 7 })
+            foreach (int fl in new[] { 1, 2, 4, 16, 128, 256, 23 })
             {
                 poses[0].Item2(); skin.ResetHistory(cam); skin.debugFlags = fl;
                 double mm = Time(() => { cmd.Clear(); skin.RecordMarch(cmd, cam, null, 2560, 1440); Graphics.ExecuteCommandBuffer(cmd); }, 20) - empty;

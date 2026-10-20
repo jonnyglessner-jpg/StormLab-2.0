@@ -44,12 +44,12 @@ namespace StormLab.Supercell.Rendering
             HalfW = 4.8f; Dx = 2f * HalfW / NV; H = NZ * Dx;
             LN = NV / 2; LZ = NZ / 2;
             field = Vol(NV, NZ, "storm near field");
-            light = Vol(LN, LZ, "storm near light");
+            light = Vol(LN, LZ, "storm near light", RenderTextureFormat.ARGBHalf);   // r: sun optical depth
         }
 
-        static RenderTexture Vol(int n, int nz, string name)
+        static RenderTexture Vol(int n, int nz, string name, RenderTextureFormat format = RenderTextureFormat.ARGB32)
         {
-            var rt = new RenderTexture(n, n, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear)
+            var rt = new RenderTexture(n, n, 0, format, RenderTextureReadWrite.Linear)
             {
                 dimension = TextureDimension.Tex3D, volumeDepth = nz, enableRandomWrite = true, useMipMap = false,
                 wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear, name = name, hideFlags = HideFlags.DontSave
@@ -58,7 +58,7 @@ namespace StormLab.Supercell.Rendering
             return rt;
         }
 
-        public long VramBytes => 4L * ((long)NV * NV * NZ + (long)LN * LN * LZ);
+        public long VramBytes => 4L * NV * NV * NZ + 8L * LN * LN * LZ;
 
         /// <summary>
         /// Place the box for this frame: follows the target (grid m) once it drifts more than followKm, and keeps its

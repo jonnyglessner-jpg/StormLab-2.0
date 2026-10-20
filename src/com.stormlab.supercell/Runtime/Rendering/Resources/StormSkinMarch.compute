@@ -10,11 +10,15 @@
 Texture3D<float4> _Dens;
 Texture3D<float4> _Light;
 Texture3D<float4> _NearTex;     // near field: r field (0.5 = surface), g material, b plate underside
-Texture3D<float4> _NearLight;   // near light: r sun, g sky from above, b sky from the side
+Texture3D<float4> _NearLight;   // near light: r sun optical depth, g sky from above, b sky from the side
+Texture3D<float4> _SkyVis;      // sky visibility on the light grid: zenith cap, mid ring, horizon, horizon toward the key light
+Texture2D<float2> _Ground;      // how lit the ground is: r key light, g sky
 // x near box height km (0 = no near field)
 float4 _NearP;
+// x: blend weight of the new frame (1 = no history), y: 1 = checkerboard (each frame marches half the pixels)
+float4 _TP;
 // x: debug switches (1 no flow detail, 2 no near field, 4 no rain streaks, 16 cloud only: no rain, shafts or haze,
-// 32 near field only, 64 step heat map, 128 no tornado)
+// 32 near field only, 64 step heat map, 128 no tornado, 256 no far anvil)
 float4 _Dbg;
 Texture2D<float> _DepthTex;
 RWTexture2D<float4> _Out;
@@ -24,8 +28,17 @@ RWTexture2D<float> _OutDist;
 float4 _CamPos, _CamFwd, _CamRight, _CamUp, _CamTan;
 // x, y: target size; z, w: 1 / size
 float4 _Res;
-// sun direction (volume frame); sun colour; sky colour (w: sky and ambient scale, 1 at 1.0's evening sun)
+// The key light: the sun, or the moon at night (StormSkin.Lighting). _Sun: its direction (volume frame); _SunC: its colour
+// before the horizon cuts it off (rgb) and its elevation in degrees (w); _SkyC: sky colour (rgb) and level (w, 1 at 1.0's
+// evening sun)
 float4 _Sun, _SunC, _SkyC;
+// x: the sky dome's dimming below 1.0's twilight floor (1 by day), y: town light from the ground (radiance), z: 1 = the key
+// light is the moon
+float4 _SkyP;
+// x: exposure gain of night adaptation (1 by day), y: the night blue shift 0..1, z: night fill (a floor on sky visibility)
+float4 _Night;
+// x: sky light scale, y: ground bounce scale, z: diffuse sky light, w: extinction ratio between octaves (physical lighting)
+float4 _PL2;
 // x: cloud extinction max 1/km, y: rain extinction max, z: exposure, w: frame index
 float4 _MP;
 // xy: ground offset km (storm travel, for the field pattern), z: 1 = draw sky and ground behind the storm, w: 1 = tone map
@@ -34,6 +47,8 @@ float4 _Opt;
 float4 _DepthP;
 // x, y: linear eye depth = 1 / (x * raw + y) in metres; z: 1 = reversed Z, w: 1 = flip the depth lookup vertically
 float4 _ZB;
+// x: 1 = physical sunlight on cloud (octaves and Mie phase), 0 = 1.0's; y: droplet diameter um; z: sun scale; w: octaves
+float4 _PL;
 
 float3 uvw(float3 p) { float L = S_grid.z; return float3((p.x + L) / (2.0 * L), (p.y + L) / (2.0 * L), p.z / S_grid.w); }
 float hash(float2 p) { return frac(sin(dot(p, float2(12.9898, 78.233))) * 43758.5453); }
@@ -94,6 +109,99 @@ float grooves(float zr, float ang, float w, float av)
     float g = frac(ph);
     return pow(g, 1.4) * ss(1.0, 0.72, g);
 }
+// ------------------------------------------------------------------------------------------------ sunlight on cloud
+// Phase functions normalised so isotropic scattering is 1 (divide by 4 pi for per steradian). c = cos(view, sun).
+float hg4(float g, float c) { float g2 = g * g; return (1.0 - g2) / pow(max(1.0 + g2 - 2.0 * g * c, 1e-6), 1.5); }
+float draine4(float g, float a, float c) { return hg4(g, c) * (1.0 + a * c * c) / (1.0 + a * (1.0 + 2.0 * g * g) / 3.0); }
+// Cloud droplets of diameter d um (5-50): Jendersie and d'Eon's 2023 fit to Mie theory, a Henyey-Greenstein lobe for
+// the diffraction peak (the silver lining) blended with a Draine lobe for the side and back (the fogbow and glory).
+// The peak is capped at its value about 2.5 degrees from the sun: the sun is a disc and the march is half resolution.
+float miePhase(float c, float d)
+{
+    float gH = exp(-0.0990567 / (d - 1.67154));
+    float gD = exp(-2.20679 / (d + 3.91029) - 0.428934);
+    float aD = exp(3.62489 - 8.29288 / (d + 5.52825));
+    float wD = exp(-0.599085 / (d - 0.641583) - 0.665888);
+    return min(lerp(hg4(gH, c), draine4(gD, aD, c), wD), 64.0);
+}
+// per pixel: the sun direction is fixed along a ray, so the phase is too (1.0's lobe, water droplets, anvil ice)
+static float g_ph1 = 1.0, g_phW = 1.0, g_phI = 1.0;
+// Sunlight scattered toward the eye by cloud whose sun optical depth is tau (light-grid units), times the sun colour.
+// Physical: Wrenninge et al. (2013)'s octaves. Light scattered many times inside a tower is approximated by a few
+// single-scattering terms, each with less extinction (x _PL2.w), half the energy and a phase half as peaked as the one
+// before: the glow deep in sunlit towers, light through thin edges, and a silver lining when back-lit. The first
+// octave keeps 1.0's main-lobe extinction (0.38 x the grid's), which its renders were calibrated to. selfSh is the
+// sub-grid self-shadow; it darkens the single scattering and fades out of the higher octaves, which fill shadows in.
+// 1.0's: its two-lobe transmittance and forward lobe.
+float cloudSun(float tau, float ice, float selfSh)
+{
+    if (_PL.x < 0.5) return sunT(tau) * g_ph1 * 1.9 * selfSh;
+    float p0 = lerp(g_phW, g_phI, ice);
+    float s = 0.0, b = 1.0, k = 0.38, c = 1.0;
+    int n = (int)_PL.w;
+    [unroll] for (int i = 0; i < 4; i++)
+    {
+        if (i >= n) break;
+        s += b * exp(-k * tau) * lerp(1.0, p0, c) * lerp(1.0, selfSh, c);
+        b *= 0.5; k *= _PL2.w; c *= 0.5;
+    }
+    return s * _PL.z;
+}
+
+// The key light at height z km: a sun below the horizon still lights cloud high enough to see over the earth's curve
+// (the horizon dips by sqrt(2 z / R) radians), so anvils glow after sunset at the ground. At z = 0 this is 1.0's cut-off.
+float3 sunAt(float z) { return _SunC.rgb * ss(-1.0, 1.5, _SunC.w + 57.2958 * sqrt(2.0 * max(z, 0.0) / 6371.0)); }
+
+// Sky radiance in direction d (d.z >= 0): 1.0's sky (a blue dome, a pale horizon warming toward the key light, a glow round
+// it), dimmed with the sky's level at night, plus town light scattered by the haze low on the horizon. warm: the key
+// light's colour normalised (1.0's evening sun gives 1.0's); glowK: how much of the warm horizon and glow is left (it
+// fades over civil twilight); aur: the glow round the key light (1 drawn; less when integrated, because the 8 horizon
+// directions oversample a peak about 15 degrees wide). The backdrop draws it; SkyLighting.Bands (C#) integrates it for the light on cloud.
+float3 skyRad(float3 d, float3 warm, float glowK, float skyK, float aur = 1.0)
+{
+    float el = saturate(d.z); float cg = dot(d, _Sun.xyz);
+    float spread = lerp(2.0, 3.0, saturate(skyK));
+    float3 hz = lerp(float3(0.78, 0.8, 0.84) * lerp(0.6, 1.0, saturate(skyK)) * _SkyP.x, warm * glowK, pow(max(cg, 0.0), spread) * 0.8);
+    float up = 1.0 - pow(1.0 - el, 3.0);
+    return hz * (1.0 - up) + float3(0.33, 0.47, 0.72) * skyK * up + 0.5 * aur * pow(max(cg, 0.0), 24.0) * glowK * warm / float3(0.95, 0.82, 0.66) * float3(1.0, 0.85, 0.6)
+         + _SkyP.y * 0.5 * pow(1.0 - el, 6.0) * float3(1.0, 0.75, 0.5);
+}
+// The sky in the four parts SkyVis (StormSkinVolume.compute) measures the visibility of, in its directions, integrated
+// once a frame on the CPU from the same sky (SkyLighting.Bands; constants keep them out of the march's registers)
+float4 _SkyZen, _SkyMid, _SkyHor, _SkyHorK;
+#define g_zen _SkyZen.rgb
+#define g_mid _SkyMid.rgb
+#define g_hor _SkyHor.rgb
+#define g_horK _SkyHorK.rgb
+// The horizon light a point gets: its visibility of the whole ring (sv.b) times the ring's mean, plus the brighter part
+// toward the key light by the visibility weighted that way (sv.a; the cos^2 weights over 8 directions sum to 2 of 8)
+float3 horLight(float4 sv) { return g_hor * sv.b + 0.25 * sv.a * (g_horK - g_hor); }
+// the sky's mean radiance over the hemisphere (cap, ring and horizon by their solid angles, 0.18, 0.477, 0.342)
+float3 skyMean() { return 0.18 * g_zen + 0.477 * g_mid + 0.342 * g_hor; }
+// Sky light that reaches every point indirectly: sky light that entered the cloud's lit surfaces and diffused through it
+// (_PL2.z, what keeps a shadowed base blue-grey rather than black), and at night the fill that stands in for the eye's
+// local adaptation in deep shadow (_Night.z)
+float3 skyFill() { return 0.5 * skyMean() * (_PL2.z + _Night.z) * _PL2.x; }
+// Sky light scattered toward the eye (isotropic: half the sphere is sky): the cap, the ring and the horizon by their
+// solid angles and visibilities, plus the fill
+float3 skyLight(float4 sv) { return 0.5 * (0.18 * g_zen * sv.r + 0.477 * g_mid * sv.g + 0.342 * horLight(sv)) * _PL2.x + skyFill(); }
+// Light bounced up from the ground below (the other half of the sphere): Plains grass and wheat (albedo ~0.12) lit by the
+// key light (a horizontal surface takes 4 sin(el) times the light a cloud particle does from it, in these units) and the
+// sky, both averaged over the 4 km under the point, plus town light at night. Well above the base the ground seen is
+// mostly beyond the storm's shadow, and the map is not sampled
+float3 groundLight(float3 q, float3 sunc0)
+{
+    float2 g = q.z < S_base.x + 2.0 ? _Ground.SampleLevel(sampler_LinearClamp, uvw(q).xy, 0) : float2(0.6, 0.8);
+    float3 E = sunc0 * (4.0 * max(_Sun.z, 0.0) * g.x) + skyMean() * g.y;
+    return 0.5 * (float3(0.12, 0.14, 0.1) * E + _SkyP.y * float3(1.0, 0.75, 0.5)) * _PL2.y;
+}
+// Night: the eye's adaptation (a gain) and its blue shift (rods see no colour and are most sensitive to blue-green)
+float3 nightGrade(float3 c)
+{
+    float l = dot(c, float3(0.2126, 0.7152, 0.0722));
+    return lerp(c, l * float3(0.81, 1.03, 1.47), _Night.y) * _Night.x;
+}
+
 float3 toneMap(float3 c) { float3 cc = 1.0 - exp(-_MP.z * c); cc = pow(max(cc, 0.0), 1.0 / 1.1); return pow(cc, 2.2); }   // 1.0's display curve, then to linear
 
 // cauliflower: rounded lobes (inverted ridged noise) at about 2.5 and 1 km, filtered to the footprint
@@ -315,9 +423,78 @@ float2 antiTornadoField(float3 q)
     return float2(funnel, debris);
 }
 
-[numthreads(8, 8, 1)]
-void March(uint3 id : SV_DispatchThreadID)
+// ------------------------------------------------------------------------------------------------ the far anvil
+// The anvil beyond the volume's 60 km: anvilAt evaluated analytically over [t0, t1] of the ray, wherever it is outside
+// the volume box (inside, the volume drew it). Lit without the light grids: the sun's optical depth is the ice between
+// the point and the anvil's top along the sun direction, the sky's the ice above it; its underside sees the horizon.
+// Thin ice, so long steps (0.2 km + 0.8 % of the distance) suffice.
+void farAnvil(float3 cp, float3 rd, float t0, float t1, float3 skyc, float3 hazec, bool phys,
+              inout float3 col, inout float T, inout float dsum, inout float wsum)
 {
+    if (t1 <= t0 || S_anvil.w <= 0.0) return;
+    float L = S_grid.z; float ZT = S_grid.w;
+    float t = t0 + 0.2 * ign(rd.xy * 913.7 + 5.588238 * fmod(_MP.w, 64.0));
+    float2 ad = S_anvil.xy; float2 an = float2(-ad.y, ad.x);
+    [loop] for (int i = 0; i < 240; i++)
+    {
+        if (t > t1 || T < 0.015) break;
+        float dt = 0.2 + t * 0.008;
+        float3 q = cp + rd * t;
+        if (abs(q.x) < L && abs(q.y) < L && q.z < ZT) { t += dt; continue; }
+        AnvilS a = anvilAt(q);
+        if (a.av > 0.004)
+        {
+            // the march's ice texture: warped sheets drawn out along the wind aloft (far away, without the fine octave)
+            float ua = dot(q.xy, ad); float va = dot(q.xy, an);
+            float warp = n3(float3(ua * 0.012, va * 0.05, 0.37));
+            float layers = 0.5 + 0.5 * cos(6.2832 * (q.z / 0.42 + 2.2 * warp));
+            float streak = n3(float3(ua * 0.01, va * 0.22, q.z * 0.5) + float3(0.6, 0.2, 0.9));
+            float iceTex = 0.3 + 0.7 * saturate(0.45 * layers + 0.35 * streak + 0.2);
+            // the same material blend as the volume's: fresh ice near the head is drawn with water cloud's threshold
+            float sr = sqrt(a.av);
+            float ice = 1.0 - saturate(a.mat / 0.3);
+            float ddW = ss(0.26, 0.4, sr) * (0.4 + 0.6 * ss(0.4, 0.75, sr));
+            float bc = lerp(ddW, ss(0.04, 0.8, sr * iceTex) * 0.55, ss(0.0, 1.0, ice)) * _MP.x;
+            if (bc > 0.0)
+            {
+                float k = a.av * _MP.x;
+                float depthUp = max(a.topz - q.z, 0.0);
+                float tauS = k * min(depthUp / max(_Sun.z, 0.08), 25.0) * 0.5;
+                float tauU = k * depthUp * 0.5;
+                // continuous with the volume: the light grids' values at its edge (clamped lookups), blending into the
+                // estimate above over the first 20 km beyond it
+                float3 tcE = uvw(q);
+                float4 ltE = _Light.SampleLevel(sampler_LinearClamp, tcE, 0);
+                float4 svE = _SkyVis.SampleLevel(sampler_LinearClamp, tcE, 0);
+                float wE = ss(0.0, 20.0, max(abs(q.x), abs(q.y)) - L);
+                float tau = lerp(ltE.r, tauS, wE);
+                float iceShade = lerp(ltE.a, 1.0, wE);
+                float4 sv = lerp(svE, float4(exp(-0.1 * tauU), lerp(0.6, 1.0, exp(-0.1 * tauU)), 1.0, 1.0), wE);
+                float skyUp = lerp(ltE.g, exp(-0.1 * tauU), wE);
+                float3 sunz = sunAt(q.z);
+                float3 c;
+                // lit as the volume lights its ice (iceSun = the shade term, iceSky = 0.3 + 0.7 x it)
+                if (phys) c = sunz * (cloudSun(tau, 1.0, 1.0) * iceShade) + skyLight(sv) * (0.3 + 0.7 * iceShade) + groundLight(q, sunAt(0.0)) * 0.3;
+                else c = sunz * (sunT(tau) * g_ph1 * 1.9 * iceShade) + skyc * (0.24 + 0.6 * skyUp) * 0.8 * (0.3 + 0.7 * iceShade);
+                float al = 1.0 - exp(-bc * dt);
+                float haze = 1.0 - exp(-t / 110.0);
+                c = lerp(c, hazec, ((uint)_Dbg.x & 16u) ? 0.0 : haze * 0.9);
+                col += T * al * c;
+                dsum += T * al * t; wsum += T * al;
+                T *= 1.0 - al;
+            }
+        }
+        t += dt;
+    }
+}
+
+[numthreads(8, 8, 1)]
+void March(uint3 gid : SV_DispatchThreadID)
+{
+    // checkerboard: dispatched at half width, each thread marches the pixel of this frame's parity in its row (the
+    // resolve fills the others from their freshly marched neighbours and the history), so no lanes sit idle
+    uint3 id = gid;
+    if (_TP.y > 0.5) id.x = gid.x * 2u + ((gid.y + (uint)_MP.w) & 1u);
     if (id.x >= (uint)_Res.x || id.y >= (uint)_Res.y) return;
     float2 uv = (float2(id.xy) + 0.5) * _Res.zw;
     float2 ndc = uv * 2.0 - 1.0;
@@ -327,6 +504,8 @@ void March(uint3 id : SV_DispatchThreadID)
     float3 b0 = float3(-L, -L, 0.0); float3 b1 = float3(L, L, ZT);
     float3 t0 = (b0 - cp) * inv; float3 t1 = (b1 - cp) * inv; float3 tmn = min(t0, t1); float3 tmx = max(t0, t1);
     float ta = max(max(tmn.x, tmn.y), max(tmn.z, 0.0)); float tb = min(min(tmx.x, tmx.y), tmx.z);
+    bool boxHit = tb > ta; float tBox = tb;   // the volume box, before the ground and scene cut the ray
+    float tStop = rd.z < 0.0 ? -cp.z / rd.z : 1e9;
     if (rd.z < 0.0) tb = min(tb, -cp.z / rd.z);
     // scene geometry: stop at it
     float tScene = 1e9;
@@ -339,12 +518,17 @@ void March(uint3 id : SV_DispatchThreadID)
         bool sky = _ZB.z > 0.5 ? raw <= 1e-7 : raw >= 0.9999999;
         if (!sky) tScene = eye / max(dot(rd, _CamFwd.xyz), 1e-3) / 1000.0;
         tb = min(tb, tScene);
+        tStop = min(tStop, tScene);
     }
     float cosg = dot(rd, _Sun.xyz);
     // sun and sky colour follow the sun's height (StormSkin.SunColours); 1.0's evening sun gives 1.0's colours
-    float3 sunc = _SunC.rgb; float3 skyc = _SkyC.rgb; float skyK = _SkyC.w;
-    float3 hazec = float3(0.68, 0.68, 0.7) * lerp(0.55, 1.0, saturate(skyK));
+    float3 sunc = sunAt(0.0); float3 skyc = _SkyC.rgb; float skyK = _SkyC.w;
+    float3 hazec = float3(0.68, 0.68, 0.7) * lerp(0.55, 1.0, saturate(skyK)) * _SkyP.x + _SkyP.y * 0.3 * float3(1.0, 0.75, 0.5);
     hazec = lerp(hazec, sunc * 0.75, 0.5 * saturate(1.0 - skyK) * pow(max(cosg, 0.0), 3.0));
+    // the key light's colour, normalised as 1.0's warm horizon was, and its glow, which outlasts it into civil twilight
+    float3 warm = float3(0.95, 0.82, 0.66) * (_SunC.rgb / max(_SunC.r, 1e-20)) / float3(1.0, 0.82, 0.6);
+    float glowK = ss(-6.0, 1.5, _SunC.w) * _SkyP.x;
+    bool phys = _PL.x > 0.5;
     float3 bounceC = float3(0.27, 0.29, 0.3) * skyK;
     float pixA = 2.0 * _CamTan.y * _Res.w;   // radians per march pixel
     // the near-field box along this ray
@@ -358,11 +542,23 @@ void March(uint3 id : SV_DispatchThreadID)
         if (eb > ea) { tn0 = ea; tn1 = eb; }
     }
     float3 col = 0.0; float T = 1.0; float dsum = 0.0, wsum = 0.0; int nSteps = 0, nDetail = 0;
+    g_ph1 = 0.45 + 1.2 * pow(max(cosg, 0.0), 8.0); g_phW = miePhase(cosg, clamp(_PL.y, 5.0, 50.0)); g_phI = hg4(0.75, cosg);
+    // the far anvil's slab: the anvil's height band, 90 km beyond the volume on every side
+    float fa0 = -1.0, fa1 = -2.0;
+    if (S_anvil.w > 0.0 && !((uint)_Dbg.x & 288u))
+    {
+        float Lf = L + 90.0;
+        float3 f0 = (float3(-Lf, -Lf, max(S_anvil2.y - 4.0, 0.0)) - cp) * inv, f1 = (float3(Lf, Lf, S_anvil2.y + 1.5) - cp) * inv;
+        float3 fmn = min(f0, f1), fmx = max(f0, f1);
+        fa0 = max(max(fmn.x, fmn.y), max(fmn.z, 0.0)); fa1 = min(min(min(fmx.x, fmx.y), fmx.z), tStop);
+    }
+    // in front of the volume (a camera outside it, looking in)
+    if (fa1 > fa0) farAnvil(cp, rd, fa0, boxHit ? min(fa1, ta) : fa1, skyc, hazec, phys, col, T, dsum, wsum);
     if (tb > ta)
     {
         float dt0 = 0.1;
         float t = ta + dt0 * ign(float2(id.xy) + 5.588238 * fmod(_MP.w, 64.0));
-        float ph = 0.45 + 1.2 * pow(max(cosg, 0.0), 8.0);
+        float ph = g_ph1;
         bool surf = false; float prevBe = 0.0;
         float spinA = -S_tilt.w * S_base.z; float2 spinCS = float2(cos(spinA), sin(spinA));   // the meso frame's turn, once per pixel
         // the tornado's bounding cylinder (centred between its ground and top positions)
@@ -383,7 +579,10 @@ void March(uint3 id : SV_DispatchThreadID)
             float wN = 0.0; float4 nv = 0.0;
             if (t > tn0 - 0.01 && t < tn1 + 0.01) { wN = nearWeight(q); if (wN > 0.0) nv = _NearTex.SampleLevel(sampler_LinearClamp, nearUvw(q), 0); }
             float keepS = 1.0 - wN;
-            bool nearOn = keepS > 0.01 && s.b > 0.05 && q.z < S_base.x + 1.2;
+            // the rotating wall cloud's rim can move beyond its last coarse copy in the volume: evaluate its whole live region
+            // (live 1.0), so the volume's snapshot cannot freeze its outline
+            bool wallOn = S_wall.w > 0.0 && length(q.xy - S_wall.xy) < S_wall.z * 1.3 + 0.3 && q.z > S_base.x - S_wall2.x - 0.4 && q.z < S_base.x + 1.8;
+            bool nearOn = keepS > 0.01 && ((s.b > 0.05 && q.z < S_base.x + 1.2) || wallOn);
             if (surf) dt = min(dt, 0.03 + t * 0.002);
             // 2.0: in thin cloud the step follows the optical depth (about 0.15 per step), so a soft underside costs a
             // few steps instead of a hundred; edges are still found at the fine step
@@ -408,18 +607,23 @@ void March(uint3 id : SV_DispatchThreadID)
             }
             float be = 0.0; float3 Lc = 0.0;
             bool lowQ = q.z < S_base.x + 0.3;
-            float4 lt = (s.r > 0.004 || s.g > 0.2 || nearOn || lowQ) ? _Light.SampleLevel(sampler_LinearClamp, tc, 0) : float4(1, 1, 1, 1);
+            float4 lt = (s.r > 0.004 || s.g > 0.2 || nearOn || lowQ) ? _Light.SampleLevel(sampler_LinearClamp, tc, 0) : float4(0, 1, 1, 1);
+            float sunL = sunT(lt.r);
+            float3 sunz = sunAt(q.z);
+            float4 sv = phys && (s.r > 0.004 || nearOn || wN > 0.0) ? _SkyVis.SampleLevel(sampler_LinearClamp, tc, 0) : float4(1, 1, 1, 1);
             if ((uint)_Dbg.x & 32u) keepS = 0.0;
             if (s.r > 0.004 && keepS > 0.01)
             {
                 float ice = 1.0 - saturate(s.a / 0.3);
-                float turb = saturate((s.a - 0.3) / 0.7);
+                // inside the clear slot the exposed wall keeps the updraft's billows (a little more of them), not a polished cut
+                float interior = ss(0.005, 0.12, clearSlot(q));
+                float turb = lerp(saturate((s.a - 0.3) / 0.7), max(saturate((s.a - 0.3) / 0.7), 0.35), interior);
                 // near the updraft, detail is sampled in a frame turning with the simulated mesocyclone
                 float zr = q.z - S_base.x;
                 float2 uc = mesoCentre(zr);
                 float2 ud = q.xy - uc; float ur = length(ud);
                 float mR = max(S_tower.y, 0.5);
-                float radAt = mR * (1.0 + (0.55 * S_tower.w + 0.12) * exp(-max(zr, 0.0) / 1.0)) + mesoExtra(zr);
+                float radAt = mR * (1.0 + baseFlare(zr)) + mesoExtra(zr) + mesoShoulder(ud, zr);
                 float m = S_tilt.w > 0.0 ? (1.0 - ss(1.25 * radAt, 2.0 * radAt, ur)) * (1.0 - ss(6.0, 9.0, zr)) * ss(-0.6, -0.1, zr) : 0.0;
                 float nn = 0.5; float stri = 0.0;
                 float lod = ss(3.0, 18.0, t);
@@ -436,9 +640,13 @@ void March(uint3 id : SV_DispatchThreadID)
                         if (lam * own > 0.01) stri = m * own * lam * grooves(zr, atan2(udr.y, udr.x), n3(qr * 0.18 + float3(0.4, 0.8, 0.2)), vaultAngle(ud));
                     }
                 }
-                float v = s.r + (nn - 0.5) * lerp(0.2, 0.5, turb) - 0.25 * stri;
+                // the slot's wall keeps its billows but not the rotating striation bands
+                stri *= 1.0 - interior;
+                // at the base the underside is smooth and crisp (photos: a dark, flat base), the detail fading out below
+                // about 0.6 km above it
                 float lowSoft = 1.0 - ss(S_base.x + 0.2, S_base.x + 0.8, q.z);
-                float ddW = lerp(ss(0.26, 0.4, v), ss(0.18, 0.55, v), lowSoft) * (0.4 + 0.6 * ss(0.4, 0.75, v));
+                float v = s.r + (nn - 0.5) * lerp(0.2, 0.5, turb) * lerp(1.0, 0.35, lowSoft) - 0.25 * stri;
+                float ddW = lerp(ss(0.26, 0.4, v), ss(0.18, 0.55, v), 0.35 * interior) * (0.4 + 0.6 * ss(0.4, 0.75, v));
                 // ice (the anvil): thin warped sheets drawn out along the wind aloft, translucent, fading into wisps
                 float ddI = 0.0;
                 if (ice > 0.01)
@@ -470,8 +678,26 @@ void March(uint3 id : SV_DispatchThreadID)
                     float baseShade = ss(S_base.x - 0.4, S_base.x + 1.5, q.z);
                     float3 bounce = bounceC * (1.0 - baseShade) * 0.55;
                     float iceSun = lerp(1.0, lt.a, ice); float iceSky = lerp(1.0, 0.3 + 0.7 * lt.a, ice);
-                    float3 c = sunc * (lt.r * ph * 1.9 * selfSh * iceSun) + skyc * (0.24 + 0.6 * lt.g) * (0.75 + 0.25 * baseShade) * (0.8 + 0.2 * selfSh) * skyOcc * iceSky + bounce;
+                    float3 c;
+                    // physical: the sky by what each point sees of it, and the ground's bounce, which reaches the sides and
+                    // underside of the cloud (cloud below hides it from the rest). 1.0's: its sky term and base shading
+                    if (phys) c = sunz * (cloudSun(lt.r, ice, selfSh) * iceSun) + skyLight(sv) * (0.8 + 0.2 * selfSh) * iceSky + groundLight(q, sunc) * lerp(1.0, 0.3, baseShade);
+                    else
+                    {
+                        c = sunz * (cloudSun(lt.r, ice, selfSh) * iceSun) + skyc * (0.24 + 0.6 * lt.g) * (0.75 + 0.25 * baseShade) * (0.8 + 0.2 * selfSh) * skyOcc * iceSky + bounce;
+                        c *= lerp(1.0, 0.62, ss(S_base.x + 0.35, S_base.x - 0.05, q.z));   // the underside of the base: dark
+                        // live 1.0: the main underside takes the lowered cloud's light, so the lifted base and the lowerings
+                        // match where they meet (physical lighting gets this from lighting both alike)
+                        float liftedBase = S_base.x + baseLift() + underbellyRise(q.xy - mesoCentre(0.0));
+                        float darkBase = (1.0 - ss(liftedBase + 0.1, liftedBase + 0.95, q.z)) * (1.0 - ss(radAt * 1.1, radAt * 1.45, ur))
+                            * ss(0.0, 0.02, S_tilt.w) * (1.0 - ice);
+                        float3 lowerC = ((sunz * (cloudSun(lt.r, 0.0, 1.0) * (1.4 / 1.9)) + skyc * (0.2 + 0.55 * lt.g)) * (0.2 + 0.8 * lt.b) + bounceC * 0.34 * (0.65 + 0.35 * lt.b)) * 0.73;
+                        c = lerp(c, lowerC, darkBase);
+                    }
                     c *= 1.0 - 0.38 * stri;
+                    // the rolled horseshoe underside shares the barrel's colours but takes a little less light, fading upward
+                    float rimH = S_rfdb.w * (1.0 - ss(0.4, 1.4, q.z - S_base.x)) * (1.0 - ss(0.45, 1.1, abs(length(q.xy - S_rfdb.xy) - S_rfdb.z))) * (1.0 - ice);
+                    c *= 1.0 - 0.1 * rimH;
                     be += bc; Lc += c * bc;
                 }
             }
@@ -485,7 +711,8 @@ void March(uint3 id : SV_DispatchThreadID)
                 {
                     float under0 = 0.6 + 0.4 * ss(S_base.x - 0.5, S_base.x + 0.1, q.z);
                     float under = under0 * (0.2 + 0.8 * lt.b);
-                    float3 c = (sunc * (lt.r * ph * 1.4) + skyc * (0.2 + 0.55 * lt.g)) * under + bounceC * 0.45;
+                    float3 c = phys ? sunz * (cloudSun(lt.r, 0.0, 1.0) * (1.4 / 1.9)) + skyLight(sv) + groundLight(q, sunc)
+                                    : ((sunz * (cloudSun(lt.r, 0.0, 1.0) * (1.4 / 1.9)) + skyc * (0.2 + 0.55 * lt.g)) * under + bounceC * 0.45) * lerp(1.0, 0.7, ss(S_base.x + 0.2, S_base.x - 0.05, q.z));
                     be += bn; Lc += c * float3(0.72, 0.76, 0.82) * bn;
                 }
             }
@@ -500,7 +727,16 @@ void March(uint3 id : SV_DispatchThreadID)
                     float lowN = 1.0 - ss(S_base.x - 0.1, S_base.x + 0.6, q.z);
                     // sky from above, plus the horizon light that reaches under the base from the side
                     float skyN = 0.08 + 0.6 * nl.g + 0.12 * nl.b * lowN;
-                    float3 c = sunc * (nl.r * ph * 1.9) + skyc * skyN + bounceC * 0.55 * lowN;
+                    float3 c;
+                    // physical: the near field's own sky from above (nl.g) and from the side (nl.b), with the storm grid's
+                    // visibility of the ring and horizon beyond it
+                    if (phys) c = sunz * cloudSun(nl.r, 0.0, 1.0) + 0.5 * (0.18 * g_zen * nl.g + 0.477 * g_mid * sv.g * nl.b + 0.342 * horLight(sv) * nl.b) * _PL2.x
+                                  + skyFill() + groundLight(q, sunc) * lerp(0.3, 1.0, lowN);
+                    else
+                    {
+                        c = sunz * cloudSun(nl.r, 0.0, 1.0) + skyc * skyN + bounceC * 0.55 * lowN;
+                        c *= lerp(1.0, 0.62, ss(S_base.x + 0.2, S_base.x - 0.05, q.z));   // the underside of the base and the wall cloud: dark
+                    }
                     c *= 1.0 - 0.4 * nv.b;   // plate undersides
                     float bn = dN * _MP.x;
                     be += bn; Lc += c * bn;
@@ -519,18 +755,20 @@ void March(uint3 id : SV_DispatchThreadID)
                 float hq = length(q.xy - S_hail.xy) / max(S_hail.z, 0.5);
                 float hw = S_hail.w * exp(-hq * hq);
                 float fwdS = 1.0 + (1.5 + 5.0 * S_curt.z) * pow(max(cosg, 0.0), 6.0) + 0.5 * S_curt.z * pow(max(cosg, 0.0), 1.5);
-                float3 pc = lerp(float3(0.55, 0.6, 0.66), float3(0.8, 0.88, 0.86), saturate(hw)) * (sunc * lt.r * 0.9 * fwdS + skyc * (0.35 + 0.5 * lt.g));
+                float3 pc = lerp(float3(0.55, 0.6, 0.66), float3(0.8, 0.88, 0.86), saturate(hw)) * (sunz * sunL * 0.9 * fwdS + skyc * (0.35 + 0.5 * lt.g));
                 be += br; Lc += pc * br;
             }
-            // light shafts: haze under the storm, lit where sunlight gets through (the clear slot)
-            if (lowQ && lt.g < 0.9 && !((uint)_Dbg.x & 16u))
+            // light shafts: haze under the storm lit where sunlight gets through (the clear slot). Live 1.0: it only adds light,
+            // never darkens what is behind it (that painted a dark haze with a hard edge under the anvil), and both ends of its
+            // extent fade out smoothly
+            float shaftFade = (1.0 - ss(0.55, 0.9, lt.g)) * (1.0 - ss(S_base.x - 0.3, S_base.x + 0.5, q.z));
+            if (shaftFade > 0.0 && !((uint)_Dbg.x & 16u))
             {
                 // 2.0: a fifth of 1.0's haze (the Plains air under these storms is clear for 50+ miles), with the forward
                 // peak kept so crepuscular rays still show toward a low sun
-                float ks = 0.01 * (1.0 - lt.g) * (1.0 + 4.0 * pow(max(cosg, 0.0), 6.0));
-                float3 sc = sunc * lt.r * (0.25 + 2.4 * pow(max(cosg, 0.0), 6.0)) * 0.9;
-                float ah = 1.0 - exp(-ks * dt);
-                col += T * ah * sc; T *= 1.0 - ah;
+                float ks = 0.01 * (1.0 - lt.g) * (1.0 + 4.0 * pow(max(cosg, 0.0), 6.0)) * shaftFade;
+                float3 sc = sunz * sunL * (0.25 + 2.4 * pow(max(cosg, 0.0), 6.0)) * 0.9;
+                col += T * (1.0 - exp(-ks * dt)) * sc;
             }
             if (inTor)
             {
@@ -540,7 +778,7 @@ void March(uint3 id : SV_DispatchThreadID)
                 float3 soil = S_tor9.x + S_tor9.y + S_tor9.z > 0.0 ? S_tor9.xyz : float3(0.5, 0.44, 0.37);
                 // its own sun test, and the bright horizon it sees all round from under the base (the light grid's sky
                 // term is the sky overhead, which the base hides)
-                float tsun = (tv.x > 0.0 || tv.y > 0.0) ? max(lt.r, tornadoSun(q)) : 0.0;
+                float tsun = (tv.x > 0.0 || tv.y > 0.0) ? max(sunL, tornadoSun(q)) : 0.0;
                 float3 hzLight = skyc * 0.2 + hazec * 0.08;
                 // the funnel's vertical sides see the whole bright horizon under the base, which the base's underside does
                 // not: in the photos a funnel in shadow is still about twice as bright as the base above it
@@ -567,14 +805,14 @@ void March(uint3 id : SV_DispatchThreadID)
                     // the side light fades out up the flare, so the funnel blends into the base's tone where they join;
                     // a wedge's or multiple-vortex envelope is a dark, rain- and debris-laden mass and takes less of it
                     float sideK = lerp(1.0, 0.3, ss(0.62, 0.86, hz)) * (S_tor4.w > 0.5 ? 0.45 : 1.0);
-                    float3 c = (sunc * (tsun * (0.2 + 1.35 * lit + 0.35 * (ph - 0.45) * (1.0 - facing))) + (skyc * (0.18 + 0.45 * lt.g) + sideLight * sideK) * limb) * lerp(0.78, 1.0, hz) + bounceC * 0.4;
+                    float3 c = (sunz * (tsun * (0.2 + 1.35 * lit + 0.35 * (ph - 0.45) * (1.0 - facing))) + (skyc * (0.18 + 0.45 * lt.g) + sideLight * sideK) * limb) * lerp(0.78, 1.0, hz) + bounceC * 0.4;
                     float3 cc = lerp(float3(0.78, 0.8, 0.84) * alb, soil * 0.85, S_tor9.w * pow(saturate(1.0 - hz / 0.45), 2.0)) * tone;
                     be += bf; Lc += c * cc * bf;
                 }
                 if (tv.y > 0.0)
                 {
                     // dust and debris: lit like the ground beneath
-                    float3 tl = sunc * tsun * 0.9 + skyc * (0.3 + 0.5 * lt.g) + hzLight * 0.8 + bounceC * 0.3;
+                    float3 tl = sunz * tsun * 0.9 + skyc * (0.3 + 0.5 * lt.g) + hzLight * 0.8 + bounceC * 0.3;
                     be += tv.y; Lc += tl * soil * tv.y;
                 }
             }
@@ -591,6 +829,8 @@ void March(uint3 id : SV_DispatchThreadID)
             t += dt;
         }
     }
+    // beyond the volume
+    if (fa1 > fa0 && boxHit && tBox < tStop) farAnvil(cp, rd, max(fa0, tBox), fa1, skyc, hazec, phys, col, T, dsum, wsum);
     float dist = wsum > 1e-3 ? dsum / wsum : min(tb, 60.0);
     _OutDist[id.xy] = dist;
     if ((uint)_Dbg.x & 64u) { _Out[id.xy] = float4(nSteps / _DepthP.w, nDetail / _DepthP.w, T, 0.0); return; }
@@ -601,7 +841,6 @@ void March(uint3 id : SV_DispatchThreadID)
         // 1.0's backdrop: farm fields under the storm's shadow, and a sky with a warm horizon toward the sun. 2.0: both
         // follow the sun's colour and height (1.0's colours at its evening sun)
         float3 sunRel = sunc / float3(0.95, 0.779, 0.57);
-        float3 warm = float3(0.95, 0.82, 0.66) * (sunc / max(sunc.r, 1e-3)) / float3(1.0, 0.82, 0.6);
         float3 bg;
         if (rd.z < 0.0)
         {
@@ -618,23 +857,21 @@ void March(uint3 id : SV_DispatchThreadID)
                 float sa = max(max(smn.x, smn.y), max(smn.z, 0.0)), sb = min(min(smx.x, smx.y), smx.z);
                 gs = sb > sa ? gs + _Sun.xyz * (sa + 0.05) : float3(1e9, 1e9, 0.0);
             }
-            if (abs(gs.x) < L && abs(gs.y) < L) sh = _Light.SampleLevel(sampler_LinearClamp, float3((gs.x + L) / (2.0 * L), (gs.y + L) / (2.0 * L), max(gs.z / ZT, 0.01)), 0).r;
+            if (abs(gs.x) < L && abs(gs.y) < L) sh = sunT(_Light.SampleLevel(sampler_LinearClamp, float3((gs.x + L) / (2.0 * L), (gs.y + L) / (2.0 * L), max(gs.z / ZT, 0.01)), 0).r);
             float hz = 1.0 - exp(-tg / 70.0);
             float2 gp = g.xy + _Opt.xy;
             bg = groundColor(gp, tg) * (0.4 * skyK + 0.42 * sh * float3(1.05, 0.95, 0.82) * sunRel) * (1.0 - hz) + hazec * hz * 0.85;
         }
         else
         {
-            float el = saturate(rd.z);
-            float spread = lerp(2.0, 3.0, saturate(skyK));
-            float3 hz = lerp(float3(0.78, 0.8, 0.84) * lerp(0.6, 1.0, saturate(skyK)), warm, pow(max(cosg, 0.0), spread) * 0.8);
-            bg = hz * pow(1.0 - el, 3.0) + float3(0.33, 0.47, 0.72) * skyK * (1.0 - pow(1.0 - el, 3.0)) + 0.5 * pow(max(cosg, 0.0), 24.0) * warm / float3(0.95, 0.82, 0.66) * float3(1.0, 0.85, 0.6);
+            bg = skyRad(rd, warm, glowK, skyK);
         }
-        float3 cc = col + T * bg;
+        float3 cc = nightGrade(col + T * bg);
         _Out[id.xy] = float4(_Opt.w > 0.5 ? toneMap(cc) : cc * _MP.z, 0.0);
     }
     else
     {
+        col = nightGrade(col);
         _Out[id.xy] = float4(_Opt.w > 0.5 ? toneMap(col) : col * _MP.z, T);
     }
 }
@@ -646,28 +883,54 @@ Texture2D<float4> _Hist;
 RWTexture2D<float4> _ResolveOut;
 // previous camera in the current volume frame
 float4 _PrevPos, _PrevFwd, _PrevRight, _PrevUp;
-// x: blend weight of the new frame (1 = no history)
-float4 _TP;
 
 [numthreads(8, 8, 1)]
 void Resolve(uint3 id : SV_DispatchThreadID)
 {
     if (id.x >= (uint)_Res.x || id.y >= (uint)_Res.y) return;
-    float4 cur = _Cur[id.xy];
-    float4 mn = cur, mx = cur;
-    for (int dy = -1; dy <= 1; dy++)
-        for (int dx = -1; dx <= 1; dx++)
+    int2 hi = int2(_Res.xy) - 1;
+    float4 cur, mn, mx; float curD;
+    bool cb = _TP.y > 0.5;
+    bool marched = !cb || ((id.x + id.y + (uint)_MP.w) & 1u) == 0u;
+    if (!cb)
+    {
+        cur = _Cur[id.xy]; curD = _CurDist[id.xy]; mn = cur; mx = cur;
+        for (int dy = -1; dy <= 1; dy++)
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                float4 c = _Cur[clamp(int2(id.xy) + int2(dx, dy), 0, hi)]; mn = min(mn, c); mx = max(mx, c);
+            }
+    }
+    else
+    {
+        // checkerboard: only this frame's parity is fresh. A marched pixel clamps against itself and its diagonals; a
+        // skipped one is the mean of its four marched neighbours, clamped against them
+        int2 o4[4] = { int2(1, 0), int2(-1, 0), int2(0, 1), int2(0, -1) };
+        int2 d4[4] = { int2(1, 1), int2(-1, 1), int2(1, -1), int2(-1, -1) };
+        if (marched)
         {
-            int2 q = clamp(int2(id.xy) + int2(dx, dy), int2(0, 0), int2(_Res.xy) - 1);
-            float4 c = _Cur[q]; mn = min(mn, c); mx = max(mx, c);
+            cur = _Cur[id.xy]; curD = _CurDist[id.xy]; mn = cur; mx = cur;
+            [unroll] for (int k = 0; k < 4; k++) { float4 c = _Cur[clamp(int2(id.xy) + d4[k], 0, hi)]; mn = min(mn, c); mx = max(mx, c); }
         }
-    float a = _TP.x;
+        else
+        {
+            cur = 0.0; curD = 0.0; mn = 1e9; mx = -1e9;
+            [unroll] for (int k = 0; k < 4; k++)
+            {
+                int2 q = clamp(int2(id.xy) + o4[k], 0, hi);
+                float4 c = _Cur[q]; cur += c; curD += _CurDist[q]; mn = min(mn, c); mx = max(mx, c);
+            }
+            cur *= 0.25; curD *= 0.25;
+        }
+    }
+    // a skipped pixel trusts its history more: its new value is only an interpolation
+    float a = marched ? _TP.x : (_TP.x < 0.999 ? _TP.x * 0.5 : 1.0);
     if (a < 0.999)
     {
         float2 uv = (float2(id.xy) + 0.5) * _Res.zw;
         float2 ndc = uv * 2.0 - 1.0;
         float3 rd = normalize(_CamFwd.xyz + ndc.x * _CamTan.x * _CamRight.xyz + ndc.y * _CamTan.y * _CamUp.xyz);
-        float3 P = _CamPos.xyz + rd * _CurDist[id.xy];
+        float3 P = _CamPos.xyz + rd * curD;
         float3 v = P - _PrevPos.xyz; float z = dot(v, _PrevFwd.xyz);
         if (z > 1e-3)
         {

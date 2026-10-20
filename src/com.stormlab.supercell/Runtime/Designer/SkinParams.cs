@@ -43,7 +43,7 @@ namespace StormLab.Supercell.Designer
         Tor2 = 14,
         /// <summary>Phase 3: xy tornado top, z debris</summary>
         Tor3 = 15,
-        /// <summary>xy updraft centre at cloud base</summary>
+        /// <summary>xy updraft centre at cloud base, z middle-level widening of the barrel 0..1, w late thin anvil 0..1 (live 1.0)</summary>
         Up = 16,
         /// <summary>renderer: x cells across, y levels, z half-width km, w top km</summary>
         Grid = 17,
@@ -91,8 +91,8 @@ namespace StormLab.Supercell.Designer
         Time = 37,
         /// <summary>x features from the simulation (bit mask, Feature), y features from 1.0's fallback, z smoothing s, w frames blended</summary>
         Source = 38,
-        /// <summary>reserved for the Phase 3 tornado model</summary>
-        Reserved = 39,
+        /// <summary>late-storm look (live 1.0): x flanking-line maturity 0..1 (bigger, thicker, wider-spaced towers), yzw spare</summary>
+        Late = 39,
 
         // ---- the close-range look (near-field volume)
         /// <summary>stacked plates on the low updraft barrel: x count (0-8), y spacing km, z barrel height above base km, w amount 0..1</summary>

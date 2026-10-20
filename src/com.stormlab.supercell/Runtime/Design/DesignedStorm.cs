@@ -425,7 +425,10 @@ namespace StormLab.Supercell
             Set(Slot.Tilt, ch.tilt.x, ch.tilt.y, overshoot, mesoSpin);
             Set(Slot.Anvil, adir.x, adir.y, anvilLen, anvilAmt);
             Set(Slot.Anvil2, ch.el - 2.4, ch.el + 0.25, mamm, back);
-            SetP(Slot.Up, up, 0, 0);
+            // live 1.0: the barrel widens at mid levels as the storm organises, the anvil thins to a wide veil of ice after the
+            // first cycle, and the flanking line matures into bigger towers
+            SetP(Slot.Up, up, Ramp(tm, 12, 44), Ramp(tm, 68, 93) * anvilAmt);
+            Set(Slot.Late, Ramp(tm, 68, 90) * live, 0, 0, 0);
             var otC = new Vec2(up.x + ch.tilt.x * (ch.el - ch.zb), up.y + ch.tilt.y * (ch.el - ch.zb));
             SetP(Slot.Ot, otC, overshoot * 1.4, towerR * 0.75);
             double anvilAge = Math.Max(0, tm - 14);

@@ -1,6 +1,6 @@
 # Designed storm render test
 
-2026-10-20 00:06, AMD Radeon RX 7900 XT, Unity 6000.6.6f1.
+2026-10-20 00:24, AMD Radeon RX 7900 XT, Unity 6000.6.6f1.
 
 ## Tornado shapes
 

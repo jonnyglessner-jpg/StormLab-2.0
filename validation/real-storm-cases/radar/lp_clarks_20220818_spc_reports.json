@@ -1,0 +1,142 @@
+{
+ "case": "lp_clarks_20220818",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-08-18T21:02:17",
+  "2022-08-19T01:00:55"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 6,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 2.75,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 6,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 2.75,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T22:40:00",
+   "lat": 41.63,
+   "lon": -97.76,
+   "state": "NE",
+   "km_from_track": 0.2,
+   "km_from_storm_at_time": 0.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T22:56:00",
+   "lat": 41.58,
+   "lon": -97.71,
+   "state": "NE",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 6.8,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T22:56:00",
+   "lat": 41.57,
+   "lon": -97.74,
+   "state": "NE",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 4.0,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T23:05:00",
+   "lat": 41.5,
+   "lon": -97.73,
+   "state": "NE",
+   "km_from_track": 3.2,
+   "km_from_storm_at_time": 4.1,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T23:40:00",
+   "lat": 41.35,
+   "lon": -97.75,
+   "state": "NE",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 2.0,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-19T00:12:00",
+   "lat": 41.18,
+   "lon": -97.66,
+   "state": "NE",
+   "km_from_track": 3.0,
+   "km_from_storm_at_time": 3.2,
+   "size_in": 1.5
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T22:40:00",
+   "mag": "100",
+   "location": "6 SW LINDSAY, PLATTE NE",
+   "lat": 41.63,
+   "lon": -97.76,
+   "comments": "HAIL UP TO AROUND ONE INCH DIAMETER OR A LITTLE LARGER. HAILED OFF AND ON FOR OVER 15 MINUTES WITH VARIABLE SIZE. THERE WAS NOT A LOT OF THE LARGEST SIZE HAIL BUT THE L (OAX)",
+   "km_from_track": 0.2,
+   "km_from_storm_at_time": 0.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T22:56:00",
+   "mag": "275",
+   "location": "6 E SAINT EDWARD, PLATTE NE",
+   "lat": 41.57,
+   "lon": -97.74,
+   "comments": "(OAX)",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 4.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T23:09:00",
+   "mag": "275",
+   "location": "2 N GENOA, NANCE NE",
+   "lat": 41.48,
+   "lon": -97.73,
+   "comments": "(GID)",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 3.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-18T23:40:00",
+   "mag": "125",
+   "location": "5 WNW SILVER CREEK, NANCE NE",
+   "lat": 41.35,
+   "lon": -97.75,
+   "comments": "FACEBOOK REPORT. (GID)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-08-19T00:12:00",
+   "mag": "150",
+   "location": "6 W OSCEOLA, POLK NE",
+   "lat": 41.18,
+   "lon": -97.66,
+   "comments": "(GID)",
+   "km_from_track": 3.0,
+   "km_from_storm_at_time": 3.2
+  }
+ ]
+}

@@ -1,0 +1,151 @@
+{
+ "case": "null_sterling_20240601",
+ "radius_km": 50,
+ "window_utc": [
+  "2024-06-01T21:21:40",
+  "2024-06-02T01:39:54"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 6,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 8,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:27:00",
+   "lat": 40.63,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 4.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:27:00",
+   "lat": 40.62,
+   "lon": -103.24,
+   "state": "CO",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 2.0,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:27:00",
+   "lat": 40.63,
+   "lon": -103.24,
+   "state": "CO",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 3.1,
+   "size_in": 0.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:27:00",
+   "lat": 40.63,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 4.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:27:00",
+   "lat": 40.62,
+   "lon": -103.22,
+   "state": "CO",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 2.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:35:00",
+   "lat": 40.65,
+   "lon": -103.22,
+   "state": "CO",
+   "km_from_track": 4.7,
+   "km_from_storm_at_time": 4.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:54:00",
+   "lat": 40.65,
+   "lon": -102.67,
+   "state": "CO",
+   "km_from_track": 15.4,
+   "km_from_storm_at_time": 35.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-02T00:03:00",
+   "lat": 40.6399,
+   "lon": -102.6328,
+   "state": "CO",
+   "km_from_track": 14.4,
+   "km_from_storm_at_time": 31.2,
+   "size_in": 1.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:30:00",
+   "mag": "175",
+   "location": "Sterling, Logan CO",
+   "lat": 40.62,
+   "lon": -103.22,
+   "comments": "(BOU)",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 3.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:46:00",
+   "mag": "175",
+   "location": "1 N Sterling, Logan CO",
+   "lat": 40.65,
+   "lon": -103.22,
+   "comments": "Also 55 to 60 mph winds. (BOU)",
+   "km_from_track": 4.7,
+   "km_from_storm_at_time": 10.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-01T23:54:00",
+   "mag": "100",
+   "location": "2 W Haxtun, Logan CO",
+   "lat": 40.65,
+   "lon": -102.67,
+   "comments": "Report from mPING: Quarter (1.00 in.). (BOU)",
+   "km_from_track": 15.4,
+   "km_from_storm_at_time": 35.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-02T00:03:00",
+   "mag": "100",
+   "location": "Haxtun, Logan CO",
+   "lat": 40.63,
+   "lon": -103.21,
+   "comments": "(BOU)",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 21.7
+  }
+ ]
+}

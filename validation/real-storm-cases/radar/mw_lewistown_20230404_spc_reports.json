@@ -1,0 +1,631 @@
+{
+ "case": "mw_lewistown_20230404",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-04-04T21:15:36",
+  "2023-04-05T02:20:05"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 12,
+  "wind_reports": 8,
+  "tornado_reports": 5,
+  "largest_hail_in": 4.0,
+  "strongest_gust_kt": 70.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 17,
+  "wind_reports": 8,
+  "tornado_reports": 5,
+  "largest_hail_in": 4.0,
+  "strongest_gust_kt": 70.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T21:50:00",
+   "lat": 39.73,
+   "lon": -92.308,
+   "state": "MO",
+   "km_from_track": 18.3,
+   "km_from_storm_at_time": 23.7,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T21:53:00",
+   "lat": 39.7424,
+   "lon": -92.2613,
+   "state": "MO",
+   "km_from_track": 16.0,
+   "km_from_storm_at_time": 25.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:12:00",
+   "lat": 40.1145,
+   "lon": -91.9188,
+   "state": "MO",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 7.7,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:19:00",
+   "lat": 39.97,
+   "lon": -91.88,
+   "state": "MO",
+   "km_from_track": 17.8,
+   "km_from_storm_at_time": 19.0,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:34:00",
+   "lat": 39.9921,
+   "lon": -91.9785,
+   "state": "MO",
+   "km_from_track": 9.6,
+   "km_from_storm_at_time": 33.8,
+   "size_in": 3.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:49:00",
+   "lat": 39.9288,
+   "lon": -91.6221,
+   "state": "MO",
+   "km_from_track": 24.1,
+   "km_from_storm_at_time": 34.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:58:00",
+   "lat": 39.9351,
+   "lon": -91.4148,
+   "state": "IL",
+   "km_from_track": 25.8,
+   "km_from_storm_at_time": 33.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T23:00:00",
+   "lat": 40.1,
+   "lon": -90.49,
+   "state": "IL",
+   "km_from_track": 28.2,
+   "km_from_storm_at_time": 70.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T23:52:00",
+   "lat": 40.3,
+   "lon": -90.61,
+   "state": "IL",
+   "km_from_track": 6.5,
+   "km_from_storm_at_time": 6.8,
+   "size_in": 2.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-04T23:52:00",
+   "lat": 40.31,
+   "lon": -90.6,
+   "state": "IL",
+   "km_from_track": 5.5,
+   "km_from_storm_at_time": 5.5,
+   "ef": 1,
+   "length_mi": 8.31,
+   "width_yd": 350.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T23:56:00",
+   "lat": 40.37,
+   "lon": -90.55,
+   "state": "IL",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 4.4,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T23:56:00",
+   "lat": 40.37,
+   "lon": -90.67,
+   "state": "IL",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 14.5,
+   "size_in": 0.88
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:02:00",
+   "lat": 40.35,
+   "lon": -90.42,
+   "state": "IL",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 6.1,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:02:00",
+   "lat": 40.3631,
+   "lon": -90.4329,
+   "state": "IL",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 5.0,
+   "ef": 1,
+   "length_mi": 1.93,
+   "width_yd": 200.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:03:00",
+   "lat": 40.37,
+   "lon": -90.37,
+   "state": "IL",
+   "km_from_track": 6.2,
+   "km_from_storm_at_time": 4.3,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:04:00",
+   "lat": 40.36,
+   "lon": -90.4,
+   "state": "IL",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 5.9,
+   "size_in": 3.25
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:04:00",
+   "lat": 40.3,
+   "lon": -90.43,
+   "state": "IL",
+   "km_from_track": 8.9,
+   "km_from_storm_at_time": 13.0,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:05:00",
+   "lat": 40.3,
+   "lon": -90.43,
+   "state": "IL",
+   "km_from_track": 8.9,
+   "km_from_storm_at_time": 13.9,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:09:00",
+   "lat": 40.4,
+   "lon": -90.32,
+   "state": "IL",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 2.2,
+   "size_in": 4.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:09:00",
+   "lat": 40.3484,
+   "lon": -90.3773,
+   "state": "IL",
+   "km_from_track": 7.4,
+   "km_from_storm_at_time": 8.0,
+   "ef": "EFU",
+   "length_mi": 0.75,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:11:00",
+   "lat": 40.3308,
+   "lon": -90.3233,
+   "state": "IL",
+   "km_from_track": 6.0,
+   "km_from_storm_at_time": 5.5,
+   "ef": 3,
+   "length_mi": 19.92,
+   "width_yd": 600.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:14:00",
+   "lat": 40.347,
+   "lon": -90.2735,
+   "state": "IL",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 3.0,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:20:00",
+   "lat": 40.3987,
+   "lon": -90.16,
+   "state": "IL",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 1.1,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:26:00",
+   "lat": 40.42,
+   "lon": -90.13,
+   "state": "IL",
+   "km_from_track": 6.1,
+   "km_from_storm_at_time": 9.1,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:27:00",
+   "lat": 40.4596,
+   "lon": -90.0963,
+   "state": "IL",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 4.9,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:29:00",
+   "lat": 40.44,
+   "lon": -90.16,
+   "state": "IL",
+   "km_from_track": 6.9,
+   "km_from_storm_at_time": 12.8,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:29:00",
+   "lat": 40.4622,
+   "lon": -90.0931,
+   "state": "IL",
+   "km_from_track": 2.0,
+   "km_from_storm_at_time": 6.7,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:29:00",
+   "lat": 40.405,
+   "lon": -90.0777,
+   "state": "IL",
+   "km_from_track": 8.4,
+   "km_from_storm_at_time": 10.9,
+   "ef": "EFU",
+   "length_mi": 0.18,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:41:00",
+   "lat": 40.5098,
+   "lon": -89.9135,
+   "state": "IL",
+   "km_from_track": 1.4,
+   "km_from_storm_at_time": 5.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T01:08:00",
+   "lat": 40.68,
+   "lon": -89.68,
+   "state": "IL",
+   "km_from_track": 4.2,
+   "km_from_storm_at_time": 10.0,
+   "size_in": 1.5
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T21:50:00",
+   "mag": "125",
+   "location": "8 E MACON, MACON MO",
+   "lat": 39.73,
+   "lon": -92.32,
+   "comments": "REPORTED ON MACON AND SHELBY COUNTY LINE. (EAX)",
+   "km_from_track": 18.7,
+   "km_from_storm_at_time": 24.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T21:53:00",
+   "mag": "175",
+   "location": "CLARENCE, SHELBY MO",
+   "lat": 39.74,
+   "lon": -92.26,
+   "comments": "GOLFBALL SIZE AND SMALLER IN TOWN. (LSX)",
+   "km_from_track": 16.3,
+   "km_from_storm_at_time": 25.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:12:00",
+   "mag": "150",
+   "location": "LA BELLE, LEWIS MO",
+   "lat": 40.12,
+   "lon": -91.91,
+   "comments": "(LSX)",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 8.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:14:00",
+   "mag": "150",
+   "location": "4 S NEWARK, SHELBY MO",
+   "lat": 39.94,
+   "lon": -91.97,
+   "comments": "REPORT FROM MPING: PING PONG BALL (1.50 IN.). (LSX)",
+   "km_from_track": 14.6,
+   "km_from_storm_at_time": 20.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:25:00",
+   "mag": "300",
+   "location": "NEWARK, KNOX MO",
+   "lat": 39.99,
+   "lon": -91.97,
+   "comments": "ACTUAL MEASUREMENT WAS 3.25IN. (LSX)",
+   "km_from_track": 10.2,
+   "km_from_storm_at_time": 22.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:34:00",
+   "mag": "250",
+   "location": "LEWISTOWN, LEWIS MO",
+   "lat": 40.08,
+   "lon": -91.81,
+   "comments": "(LSX)",
+   "km_from_track": 5.6,
+   "km_from_storm_at_time": 16.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:41:00",
+   "mag": "200",
+   "location": "CANTON, LEWIS MO",
+   "lat": 40.13,
+   "lon": -91.52,
+   "comments": "(LSX)",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 3.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:49:00",
+   "mag": "100",
+   "location": "2 SW MAYWOOD, MARION MO",
+   "lat": 39.94,
+   "lon": -91.63,
+   "comments": "(LSX)",
+   "km_from_track": 22.7,
+   "km_from_storm_at_time": 33.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T22:58:00",
+   "mag": "100",
+   "location": "1 NNW QUINCY, ADAMS IL",
+   "lat": 39.95,
+   "lon": -91.4,
+   "comments": "(LSX)",
+   "km_from_track": 24.1,
+   "km_from_storm_at_time": 31.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T23:00:00",
+   "mag": "100",
+   "location": "4 ESE RUSHVILLE, SCHUYLER IL",
+   "lat": 40.1,
+   "lon": -90.49,
+   "comments": "(ILX)",
+   "km_from_track": 28.2,
+   "km_from_storm_at_time": 70.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-04T23:10:00",
+   "mag": "UNK",
+   "location": "BOWEN, HANCOCK IL",
+   "lat": 40.23,
+   "lon": -91.06,
+   "comments": "POWER LINE REPORTED DOWN IN BOWEN. (DVN)",
+   "km_from_track": 9.7,
+   "km_from_storm_at_time": 15.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-04T23:49:00",
+   "mag": "UNK",
+   "location": "5 ENE FANDON, MCDONOUGH IL",
+   "lat": 40.38,
+   "lon": -90.68,
+   "comments": "ALSO QUARTER SIZED HAIL. (DVN)",
+   "km_from_track": 6.0,
+   "km_from_storm_at_time": 5.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-04T23:52:00",
+   "mag": "UNK",
+   "location": "1 SSE INDUSTRY, MCDONOUGH IL",
+   "lat": 40.31,
+   "lon": -90.6,
+   "comments": "EF-1 RATED TORNADO WITH PEAK WIND GUST OF 105 MPH. A TORNADO TOUCHED DOWN SOUTH OF INDUSTRY... IL NEAR HWY 67 DAMAGING BARNS... OUTBUILDINGS... AND SNAPPING MANY LARGE (DVN)",
+   "km_from_track": 5.5,
+   "km_from_storm_at_time": 5.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-04T23:56:00",
+   "mag": "250",
+   "location": "4 NE INDUSTRY, MCDONOUGH IL",
+   "lat": 40.37,
+   "lon": -90.55,
+   "comments": "(DVN)",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 4.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-04T23:57:00",
+   "mag": "UNK",
+   "location": "4 E INDUSTRY, MCDONOUGH IL",
+   "lat": 40.32,
+   "lon": -90.53,
+   "comments": "(DVN)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 6.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:02:00",
+   "mag": "UNK",
+   "location": "1 SSE TABLE GROVE, FULTON IL",
+   "lat": 40.35,
+   "lon": -90.42,
+   "comments": "3 POWER POLES DOWN ALONG COUNTY HIGHWAY 13 SOUTH OF US-136. (ILX)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 6.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:03:00",
+   "mag": "UNK",
+   "location": "TABLE GROVE, FULTON IL",
+   "lat": 40.37,
+   "lon": -90.42,
+   "comments": "CORRECTS PREVIOUS TORNADO REPORT FROM TABLE GROVE. PATH LENGTH 1.9 MILES... MAX WIND SPEED 110 MPH... MAX WIDTH 200 YARDS. TOUCHED DOWN ON THE WEST EDGE OF TABLE GROVE (ILX)",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 4.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:09:00",
+   "mag": "UNK",
+   "location": "3 W IPAVA, FULTON IL",
+   "lat": 40.35,
+   "lon": -90.38,
+   "comments": "STORM CHASERS REPORTED A BRIEF TORNADO TOUCHDOWN BETWEEN TABLE GROVE AND IPAVA. (ILX)",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 8.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:09:00",
+   "mag": "400",
+   "location": "BERNADOTTE, FULTON IL",
+   "lat": 40.4,
+   "lon": -90.32,
+   "comments": "DIAMETER 4 INCHES... CIRCUMFERENCE 12 INCHES. (ILX)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 2.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:14:00",
+   "mag": "UNK",
+   "location": "1 NE IPAVA, FULTON IL",
+   "lat": 40.36,
+   "lon": -90.31,
+   "comments": "(ILX)",
+   "km_from_track": 5.0,
+   "km_from_storm_at_time": 6.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:18:00",
+   "mag": "UNK",
+   "location": "3 NW DUNCAN MILLS, FULTON IL",
+   "lat": 40.35,
+   "lon": -90.21,
+   "comments": "CORRECTS PREVIOUS TORNADO REPORT FROM 1 NW DUNCAN MILLS. (ILX)",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 3.7
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-04-05T00:20:00",
+   "mag": "UNK",
+   "location": "LEWISTOWN, FULTON IL",
+   "lat": 40.4,
+   "lon": -90.16,
+   "comments": "TREE UPROOTED ALONG W. MILTON AVE. (ILX)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 0.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:24:00",
+   "mag": "UNK",
+   "location": "1 N LEWISTOWN, FULTON IL",
+   "lat": 40.41,
+   "lon": -90.16,
+   "comments": "(ILX)",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 9.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-04-05T00:29:00",
+   "mag": "UNK",
+   "location": "2 W LITTLE AMERICA, FULTON IL",
+   "lat": 40.41,
+   "lon": -90.07,
+   "comments": "A STORM CHASER REPORTED A BRIEF TORNADO TOUCHDOWN SOUTHEAST OF THE LONG-TRACK LEWISTOWN/BRYANT TORNADO. (ILX)",
+   "km_from_track": 8.0,
+   "km_from_storm_at_time": 10.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T00:41:00",
+   "mag": "175",
+   "location": "1 SW BANNER, FULTON IL",
+   "lat": 40.5,
+   "lon": -89.92,
+   "comments": "(ILX)",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 6.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-04-05T01:08:00",
+   "mag": "150",
+   "location": "BELLEVUE, PEORIA IL",
+   "lat": 40.69,
+   "lon": -89.68,
+   "comments": "(ILX)",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 9.8
+  }
+ ]
+}

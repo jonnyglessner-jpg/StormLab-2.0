@@ -1,0 +1,361 @@
+{
+ "case": "classic_akron_20250523",
+ "radius_km": 50,
+ "window_utc": [
+  "2025-05-23T21:18:19",
+  "2025-05-24T01:41:01"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 20,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 3.1,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 20,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 3.1,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:22:00",
+   "lat": 40.79,
+   "lon": -103.69,
+   "state": "CO",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 3.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:26:00",
+   "lat": 40.84,
+   "lon": -103.69,
+   "state": "CO",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 3.9,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:27:00",
+   "lat": 40.79,
+   "lon": -103.69,
+   "state": "CO",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 1.4,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:43:00",
+   "lat": 40.72,
+   "lon": -103.69,
+   "state": "CO",
+   "km_from_track": 7.3,
+   "km_from_storm_at_time": 10.3,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:55:00",
+   "lat": 40.62,
+   "lon": -103.45,
+   "state": "CO",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 8.9,
+   "size_in": 3.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:57:00",
+   "lat": 40.61,
+   "lon": -103.5,
+   "state": "CO",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 5.8,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:57:00",
+   "lat": 40.62,
+   "lon": -103.46,
+   "state": "CO",
+   "km_from_track": 5.6,
+   "km_from_storm_at_time": 7.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:58:00",
+   "lat": 40.62,
+   "lon": -103.49,
+   "state": "CO",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 4.6,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2025-05-23T23:09:00",
+   "lat": 40.55,
+   "lon": -103.48,
+   "state": "CO",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 0.1,
+   "ef": 1,
+   "length_mi": 11.2,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:15:00",
+   "lat": 40.57,
+   "lon": -103.35,
+   "state": "CO",
+   "km_from_track": 10.4,
+   "km_from_storm_at_time": 11.0,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:20:00",
+   "lat": 40.55,
+   "lon": -103.34,
+   "state": "CO",
+   "km_from_track": 10.0,
+   "km_from_storm_at_time": 11.1,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:30:00",
+   "lat": 40.48,
+   "lon": -103.35,
+   "state": "CO",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 10.5,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:30:00",
+   "lat": 40.54,
+   "lon": -103.27,
+   "state": "CO",
+   "km_from_track": 11.4,
+   "km_from_storm_at_time": 15.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:31:00",
+   "lat": 40.43,
+   "lon": -103.37,
+   "state": "CO",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 9.2,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2025-05-23T23:37:00",
+   "lat": 40.38,
+   "lon": -103.27,
+   "state": "CO",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 2.5,
+   "ef": 2,
+   "length_mi": 8.36,
+   "width_yd": 400.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:50:00",
+   "lat": 40.36,
+   "lon": -103.22,
+   "state": "CO",
+   "km_from_track": 0.9,
+   "km_from_storm_at_time": 1.4,
+   "size_in": 3.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:55:00",
+   "lat": 40.32,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 3.2,
+   "km_from_storm_at_time": 3.8,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-24T00:02:00",
+   "lat": 40.18,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 11.8,
+   "km_from_storm_at_time": 17.1,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-24T00:02:00",
+   "lat": 40.17,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 12.3,
+   "km_from_storm_at_time": 18.2,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-24T00:02:00",
+   "lat": 40.17,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 12.3,
+   "km_from_storm_at_time": 18.2,
+   "size_in": 2.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-24T00:03:00",
+   "lat": 40.16,
+   "lon": -103.21,
+   "state": "CO",
+   "km_from_track": 12.9,
+   "km_from_storm_at_time": 18.9,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-24T00:51:00",
+   "lat": 40.15,
+   "lon": -102.99,
+   "state": "CO",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 5.5,
+   "size_in": 0.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T22:27:00",
+   "mag": "250",
+   "location": "11 W Westplains, Weld CO",
+   "lat": 40.79,
+   "lon": -103.69,
+   "comments": "Report from mPING: Tennis Ball (2.50 in.). (BOU)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 1.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2025-05-23T23:09:00",
+   "mag": "UNK",
+   "location": "1 SE Willard, Logan CO",
+   "lat": 40.54,
+   "lon": -103.46,
+   "comments": "Broadcast Media and Storm Chaser footage of a tornado. Lasted approximately 5 minutes. Location estimated. (BOU)",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 2.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:09:00",
+   "mag": "300",
+   "location": "2 E Pawnee Pass, Logan CO",
+   "lat": 40.62,
+   "lon": -103.45,
+   "comments": "Report from mPING: Tea Cup (3.00 in.). (BOU)",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 8.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2025-05-23T23:25:00",
+   "mag": "UNK",
+   "location": "2 SSE Messex, Washington CO",
+   "lat": 40.4,
+   "lon": -103.41,
+   "comments": "Trained spotter reported damage to two silos and a few trees near Highway 6 and County Road R. Time and location estimated. (BOU)",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 9.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:25:00",
+   "mag": "250",
+   "location": "4 W Atwood, Logan CO",
+   "lat": 40.55,
+   "lon": -103.34,
+   "comments": "Report from mPING: Tennis Ball (2.50 in.). (BOU)",
+   "km_from_track": 10.0,
+   "km_from_storm_at_time": 12.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:28:00",
+   "mag": "175",
+   "location": "Prewitt Reservoir, Washington CO",
+   "lat": 40.43,
+   "lon": -103.37,
+   "comments": "CPW employee reported golf ball sized hail at Prewitt Reservoir. Relayed by county dispatch. (BOU)",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 7.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-23T23:50:00",
+   "mag": "310",
+   "location": "9 ESE Prewitt Reservoir, Washington CO",
+   "lat": 40.36,
+   "lon": -103.22,
+   "comments": "ICECHIP report. Time estimated. (BOU)",
+   "km_from_track": 0.9,
+   "km_from_storm_at_time": 1.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2025-05-23T23:52:00",
+   "mag": "UNK",
+   "location": "4 NE Fremont Butte, Washington CO",
+   "lat": 40.29,
+   "lon": -103.25,
+   "comments": "Report of power lines down at County Road AA and County Road 40. Time estimated. (BOU)",
+   "km_from_track": 7.9,
+   "km_from_storm_at_time": 9.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2025-05-24T00:08:00",
+   "mag": "225",
+   "location": "Akron, Washington CO",
+   "lat": 40.17,
+   "lon": -103.21,
+   "comments": "Report from mPING: Hen Egg+ (2.25 in.). (BOU)",
+   "km_from_track": 12.3,
+   "km_from_storm_at_time": 16.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2025-05-24T00:11:00",
+   "mag": "UNK",
+   "location": "2 SE Akron, Washington CO",
+   "lat": 40.13,
+   "lon": -103.19,
+   "comments": "Storm chaser video documented a brief tornado. Occurred in open fields with no visible damage noted. Location estimated. (BOU)",
+   "km_from_track": 13.8,
+   "km_from_storm_at_time": 20.6
+  }
+ ]
+}

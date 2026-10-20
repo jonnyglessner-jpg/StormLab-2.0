@@ -1,0 +1,372 @@
+{
+ "case": "mw_washington_20131117",
+ "radius_km": 50,
+ "window_utc": [
+  "2013-11-17T14:35:12",
+  "2013-11-17T17:33:14"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 1.0,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 9,
+  "wind_reports": 5,
+  "tornado_reports": 2,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": 61.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T16:07:00",
+   "lat": 40.48,
+   "lon": -90.47,
+   "state": "IL",
+   "km_from_track": 32.1,
+   "km_from_storm_at_time": 32.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T16:10:00",
+   "lat": 40.42,
+   "lon": -90.5,
+   "state": "IL",
+   "km_from_track": 29.5,
+   "km_from_storm_at_time": 30.9,
+   "size_in": 0.88
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T16:25:00",
+   "lat": 40.9011,
+   "lon": -89.75,
+   "state": "IL",
+   "km_from_track": 29.9,
+   "km_from_storm_at_time": 51.7,
+   "size_in": 0.88
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T16:38:00",
+   "lat": 41.16,
+   "lon": -89.26,
+   "state": "IL",
+   "km_from_track": 48.6,
+   "km_from_storm_at_time": 81.8,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T16:45:00",
+   "lat": 40.87,
+   "lon": -89.67,
+   "state": "IL",
+   "km_from_track": 23.0,
+   "km_from_storm_at_time": 29.5,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T16:52:00",
+   "lat": 40.5756,
+   "lon": -89.6569,
+   "state": "IL",
+   "km_from_track": 4.6,
+   "km_from_storm_at_time": 14.3,
+   "ef": 2,
+   "length_mi": 2.26,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T16:59:00",
+   "lat": 40.622,
+   "lon": -89.5678,
+   "state": "IL",
+   "km_from_track": 6.2,
+   "km_from_storm_at_time": 10.7,
+   "ef": 4,
+   "length_mi": 46.36,
+   "width_yd": 880.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:09:00",
+   "lat": 39.89,
+   "lon": -90.12,
+   "state": "IL",
+   "km_from_track": 32.9,
+   "km_from_storm_at_time": 111.1,
+   "size_in": 0.88
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:10:00",
+   "lat": 40.78,
+   "lon": -89.3691,
+   "state": "IL",
+   "km_from_track": 7.3,
+   "km_from_storm_at_time": 7.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:10:00",
+   "lat": 41.12,
+   "lon": -89.37,
+   "state": "IL",
+   "km_from_track": 42.1,
+   "km_from_storm_at_time": 42.1,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:17:00",
+   "lat": 40.25,
+   "lon": -89.43,
+   "state": "IL",
+   "km_from_track": 44.3,
+   "km_from_storm_at_time": 55.1,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:22:00",
+   "lat": 40.02,
+   "lon": -89.85,
+   "state": "IL",
+   "km_from_track": 41.4,
+   "km_from_storm_at_time": 87.7,
+   "gust_kt": 52.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:25:00",
+   "lat": 40.0345,
+   "lon": -89.85,
+   "state": "IL",
+   "km_from_track": 40.4,
+   "km_from_storm_at_time": 86.2,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:26:00",
+   "lat": 40.02,
+   "lon": -89.85,
+   "state": "IL",
+   "km_from_track": 41.4,
+   "km_from_storm_at_time": 87.7,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:28:00",
+   "lat": 40.3505,
+   "lon": -89.3269,
+   "state": "IL",
+   "km_from_track": 41.6,
+   "km_from_storm_at_time": 44.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:30:00",
+   "lat": 40.0813,
+   "lon": -89.7348,
+   "state": "IL",
+   "km_from_track": 44.3,
+   "km_from_storm_at_time": 77.9,
+   "gust_kt": 61.0,
+   "measured": false
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T16:07:00",
+   "mag": "100",
+   "location": "NEW PHILADELPHIA, MCDONOUGH IL",
+   "lat": 40.48,
+   "lon": -90.47,
+   "comments": "REPORT RECEIVED VIA NWS LINCOLN. (DVN)",
+   "km_from_track": 32.1,
+   "km_from_storm_at_time": 32.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T16:45:00",
+   "mag": "70",
+   "location": "PEORIA INTERNATIONAL AI, PEORIA IL",
+   "lat": 40.67,
+   "lon": -89.68,
+   "comments": "(ILX)",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 7.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T16:55:00",
+   "mag": "UNK",
+   "location": "3 N PEKIN, TAZEWELL IL",
+   "lat": 40.61,
+   "lon": -89.63,
+   "comments": "BRIEF TOUCHDOWN NEAR INTERSECTION OF ROUTE 29 AND 98. FROM TRAINED SPOTTER VIA EMERGENCY MANAGER. (ILX)",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 14.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T16:59:00",
+   "mag": "UNK",
+   "location": "WASHINGTON, TAZEWELL IL",
+   "lat": 40.7,
+   "lon": -89.44,
+   "comments": "*** 1 FATAL",
+   "km_from_track": 5.0,
+   "km_from_storm_at_time": 5.6
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T17:04:00",
+   "mag": "UNK",
+   "location": "3 NW MORTON, TAZEWELL IL",
+   "lat": 40.64,
+   "lon": -89.51,
+   "comments": "AT INTERSECTION OF I-74 AND I-474 (ILX)",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 13.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T17:05:00",
+   "mag": "UNK",
+   "location": "WASHINGTON, TAZEWELL IL",
+   "lat": 40.7,
+   "lon": -89.44,
+   "comments": "NUMEROUS HOMES DAMAGED (ILX)",
+   "km_from_track": 5.0,
+   "km_from_storm_at_time": 5.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:10:00",
+   "mag": "UNK",
+   "location": "HENRY, MARSHALL IL",
+   "lat": 41.11,
+   "lon": -89.36,
+   "comments": "ONE TREE UPROOTED AND TEN INCH DIAMETER PINE TREE SNAPPED OFF AND BLOWN AGAINST A HOUSE. DELAYED REPORT. (ILX)",
+   "km_from_track": 41.2,
+   "km_from_storm_at_time": 41.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:10:00",
+   "mag": "100",
+   "location": "1 W METAMORA, WOODFORD IL",
+   "lat": 40.79,
+   "lon": -89.38,
+   "comments": "(ILX)",
+   "km_from_track": 7.2,
+   "km_from_storm_at_time": 7.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T17:11:00",
+   "mag": "UNK",
+   "location": "4 S METAMORA, TAZEWELL IL",
+   "lat": 40.73,
+   "lon": -89.36,
+   "comments": "LARGE TORNADO (ILX)",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 7.1
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:17:00",
+   "mag": "UNK",
+   "location": "HARTSBURG, LOGAN IL",
+   "lat": 40.25,
+   "lon": -89.44,
+   "comments": "SEMI BLOWN OVER ON I-155. TIME ESTIMATED. (ILX)",
+   "km_from_track": 43.8,
+   "km_from_storm_at_time": 55.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T17:25:00",
+   "mag": "UNK",
+   "location": "BENSON, WOODFORD IL",
+   "lat": 40.85,
+   "lon": -89.12,
+   "comments": "300 FOOT COMMUNICATIONS TOWER BLOWN DOWN. WEST OF I-39. RELAYED BY NWS LOT. (ILX)",
+   "km_from_track": 29.5,
+   "km_from_storm_at_time": 29.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:25:00",
+   "mag": "175",
+   "location": "1 N PETERSBURG, MENARD IL",
+   "lat": 40.03,
+   "lon": -89.85,
+   "comments": "(ILX)",
+   "km_from_track": 40.7,
+   "km_from_storm_at_time": 86.7
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:28:00",
+   "mag": "70",
+   "location": "2 NW ARMINGTON, TAZEWELL IL",
+   "lat": 40.36,
+   "lon": -89.34,
+   "comments": "(ILX)",
+   "km_from_track": 40.1,
+   "km_from_storm_at_time": 43.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-11-17T17:28:00",
+   "mag": "100",
+   "location": "2 NW ARMINGTON, TAZEWELL IL",
+   "lat": 40.36,
+   "lon": -89.34,
+   "comments": "(ILX)",
+   "km_from_track": 40.1,
+   "km_from_storm_at_time": 43.7
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-11-17T17:30:00",
+   "mag": "UNK",
+   "location": "GREENVIEW, MENARD IL",
+   "lat": 40.08,
+   "lon": -89.74,
+   "comments": "LARGE TREES DOWN ON RT. 29 AND POWERLINES DOWN. (ILX)",
+   "km_from_track": 44.0,
+   "km_from_storm_at_time": 78.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-11-17T17:32:00",
+   "mag": "UNK",
+   "location": "2 E METAMORA, WOODFORD IL",
+   "lat": 40.79,
+   "lon": -89.33,
+   "comments": "CELL TOWER DOWN (ILX)",
+   "km_from_track": 10.7,
+   "km_from_storm_at_time": 10.7
+  }
+ ]
+}

@@ -1,0 +1,210 @@
+{
+ "case": "hp_moore_20130520",
+ "radius_km": 50,
+ "window_utc": [
+  "2013-05-20T18:17:42",
+  "2013-05-20T23:19:52"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 2,
+  "wind_reports": 2,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": 78.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 6,
+  "wind_reports": 2,
+  "tornado_reports": 2,
+  "largest_hail_in": 3.25,
+  "strongest_gust_kt": 78.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T18:54:00",
+   "lat": 34.73,
+   "lon": -97.96,
+   "state": "OK",
+   "km_from_track": 44.7,
+   "km_from_storm_at_time": 49.3,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T18:56:00",
+   "lat": 34.76,
+   "lon": -97.96,
+   "state": "OK",
+   "km_from_track": 41.4,
+   "km_from_storm_at_time": 47.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T19:27:00",
+   "lat": 35.51,
+   "lon": -97.75,
+   "state": "OK",
+   "km_from_track": 26.5,
+   "km_from_storm_at_time": 30.1,
+   "size_in": 3.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T19:28:00",
+   "lat": 35.39,
+   "lon": -97.6,
+   "state": "OK",
+   "km_from_track": 9.1,
+   "km_from_storm_at_time": 19.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-05-20T19:45:00",
+   "lat": 35.258,
+   "lon": -97.678,
+   "state": "OK",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 17.0,
+   "gust_kt": 65.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-05-20T19:47:00",
+   "lat": 35.261,
+   "lon": -97.671,
+   "state": "OK",
+   "km_from_track": 3.3,
+   "km_from_storm_at_time": 18.7,
+   "gust_kt": 78.0,
+   "measured": false
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-20T19:56:00",
+   "lat": 35.284,
+   "lon": -97.628,
+   "state": "OK",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 9.0,
+   "ef": 5,
+   "length_mi": 13.85,
+   "width_yd": 1900.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T20:06:00",
+   "lat": 35.38,
+   "lon": -97.5,
+   "state": "OK",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 2.7,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T21:12:00",
+   "lat": 35.39,
+   "lon": -97.6,
+   "state": "OK",
+   "km_from_track": 9.1,
+   "km_from_storm_at_time": 51.5,
+   "size_in": 2.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-20T21:40:00",
+   "lat": 35.5614,
+   "lon": -96.8146,
+   "state": "OK",
+   "km_from_track": 7.4,
+   "km_from_storm_at_time": 8.3,
+   "ef": 0,
+   "length_mi": 1.21,
+   "width_yd": 100.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T18:54:00",
+   "mag": "175",
+   "location": "6 N MARLOW, GRADY OK",
+   "lat": 34.73,
+   "lon": -97.96,
+   "comments": "(OUN)",
+   "km_from_track": 44.7,
+   "km_from_storm_at_time": 49.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T19:27:00",
+   "mag": "325",
+   "location": "YUKON, CANADIAN OK",
+   "lat": 35.51,
+   "lon": -97.75,
+   "comments": "(OUN)",
+   "km_from_track": 26.5,
+   "km_from_storm_at_time": 30.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T19:28:00",
+   "mag": "100",
+   "location": "WILL ROGERS AIRPORT, OKLAHOMA OK",
+   "lat": 35.39,
+   "lon": -97.6,
+   "comments": "(OUN)",
+   "km_from_track": 9.1,
+   "km_from_storm_at_time": 19.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-20T19:56:00",
+   "mag": "UNK",
+   "location": "NEWCASTLE, MCCLAIN OK",
+   "lat": 35.25,
+   "lon": -97.6,
+   "comments": "LIFTED AROUND 336 PM. ESTIMATED PATH LENGTH OF 20 MILES THRU NEWCASTLE",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 9.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T20:06:00",
+   "mag": "250",
+   "location": "3 NNW MOORE, OKLAHOMA OK",
+   "lat": 35.38,
+   "lon": -97.5,
+   "comments": "(OUN)",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 2.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-20T21:12:00",
+   "mag": "200",
+   "location": "WILL ROGERS AIRPORT, OKLAHOMA OK",
+   "lat": 35.39,
+   "lon": -97.6,
+   "comments": "(OUN)",
+   "km_from_track": 9.1,
+   "km_from_storm_at_time": 51.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-20T21:30:00",
+   "mag": "UNK",
+   "location": "1 W MEEKER, LINCOLN OK",
+   "lat": 35.5,
+   "lon": -96.91,
+   "comments": "REPORTED BY KWTV (OUN)",
+   "km_from_track": 7.9,
+   "km_from_storm_at_time": 9.7
+  }
+ ]
+}

@@ -1,0 +1,249 @@
+{
+ "case": "null_sanjon_20230525",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-05-25T23:59:35",
+  "2023-05-26T04:21:49"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 4,
+  "wind_reports": 2,
+  "tornado_reports": 0,
+  "largest_hail_in": 3.5,
+  "strongest_gust_kt": 71.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 9,
+  "wind_reports": 3,
+  "tornado_reports": 0,
+  "largest_hail_in": 3.5,
+  "strongest_gust_kt": 71.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T00:49:00",
+   "lat": 35.57,
+   "lon": -103.66,
+   "state": "NM",
+   "km_from_track": 33.0,
+   "km_from_storm_at_time": 35.3,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:20:00",
+   "lat": 35.53,
+   "lon": -103.56,
+   "state": "NM",
+   "km_from_track": 31.7,
+   "km_from_storm_at_time": 32.1,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:25:00",
+   "lat": 35.23,
+   "lon": -103.73,
+   "state": "NM",
+   "km_from_track": 4.3,
+   "km_from_storm_at_time": 4.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:43:00",
+   "lat": 35.17,
+   "lon": -103.62,
+   "state": "NM",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 5.5,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:45:00",
+   "lat": 35.21,
+   "lon": -103.65,
+   "state": "NM",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 1.7,
+   "size_in": 3.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:52:00",
+   "lat": 35.44,
+   "lon": -103.5,
+   "state": "NM",
+   "km_from_track": 26.2,
+   "km_from_storm_at_time": 27.8,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T02:20:00",
+   "lat": 35.17,
+   "lon": -103.6,
+   "state": "NM",
+   "km_from_track": 3.0,
+   "km_from_storm_at_time": 5.4,
+   "size_in": 2.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-26T02:42:00",
+   "lat": 35.18,
+   "lon": -103.6,
+   "state": "NM",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 9.7,
+   "gust_kt": 65.0,
+   "measured": true
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-26T02:56:00",
+   "lat": 35.08,
+   "lon": -103.61,
+   "state": "NM",
+   "km_from_track": 9.7,
+   "km_from_storm_at_time": 10.6,
+   "gust_kt": 71.0,
+   "measured": true
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-26T03:17:00",
+   "lat": 35.1,
+   "lon": -103.61,
+   "state": "NM",
+   "km_from_track": 9.0,
+   "km_from_storm_at_time": 26.1,
+   "gust_kt": 71.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T03:56:00",
+   "lat": 35.16,
+   "lon": -103.72,
+   "state": "NM",
+   "km_from_track": 9.2,
+   "km_from_storm_at_time": 34.5,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T04:04:00",
+   "lat": 35.17,
+   "lon": -103.71,
+   "state": "NM",
+   "km_from_track": 7.7,
+   "km_from_storm_at_time": 34.2,
+   "size_in": 1.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T00:58:00",
+   "mag": "175",
+   "location": "17 NW UTE LAKE STATE PA, HARDING NM",
+   "lat": 35.57,
+   "lon": -103.66,
+   "comments": "(ABQ)",
+   "km_from_track": 33.0,
+   "km_from_storm_at_time": 33.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:25:00",
+   "mag": "100",
+   "location": "4 N TUCUMCARI, QUAY NM",
+   "lat": 35.23,
+   "lon": -103.73,
+   "comments": "(ABQ)",
+   "km_from_track": 4.3,
+   "km_from_storm_at_time": 4.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:35:00",
+   "mag": "175",
+   "location": "12 NNW UTE LAKE STATE P, HARDING NM",
+   "lat": 35.53,
+   "lon": -103.56,
+   "comments": "REPORT FROM TWITTER. (ABQ)",
+   "km_from_track": 31.7,
+   "km_from_storm_at_time": 34.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:52:00",
+   "mag": "350",
+   "location": "5 ENE TUCUMCARI, QUAY NM",
+   "lat": 35.21,
+   "lon": -103.65,
+   "comments": "CORRECTS PREVIOUS HAIL REPORT FROM 5 ENE TUCUMCARI. REPORT FROM MPING 3.50 IN. (ABQ)",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 3.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T01:52:00",
+   "mag": "100",
+   "location": "5 N UTE LAKE STATE PARK, HARDING NM",
+   "lat": 35.44,
+   "lon": -103.5,
+   "comments": "TWITTER VIDEO SHOWING ESTIMATED QUARTER SIZE HAIL NORTHWEST OF LOGAN. (ABQ)",
+   "km_from_track": 26.2,
+   "km_from_storm_at_time": 27.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T02:27:00",
+   "mag": "200",
+   "location": "7 E TUCUMCARI, QUAY NM",
+   "lat": 35.17,
+   "lon": -103.6,
+   "comments": "(ABQ)",
+   "km_from_track": 3.0,
+   "km_from_storm_at_time": 7.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-26T02:56:00",
+   "mag": "82",
+   "location": "9 SE TUCUMCARI, QUAY NM",
+   "lat": 35.08,
+   "lon": -103.61,
+   "comments": "WIND GUST TO 81.5 MPH MEASURED ON CAR ROOF ANEMOMETER AT THIS LOCATION ON HIGHWAY 278 SOUTHEAST OF TUCUMCARI. OFF-DUTY NWS EMPLOYEE REPORT. (ABQ)",
+   "km_from_track": 9.7,
+   "km_from_storm_at_time": 10.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-26T03:17:00",
+   "mag": "UNK",
+   "location": "8 SE TUCUMCARI, QUAY NM",
+   "lat": 35.1,
+   "lon": -103.61,
+   "comments": "REPORT FROM MPING: 1-INCH TREE LIMBS BROKEN; SHINGLES BLOWN OFF. (ABQ)",
+   "km_from_track": 9.0,
+   "km_from_storm_at_time": 26.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-26T04:04:00",
+   "mag": "175",
+   "location": "1 E TUCUMCARI, QUAY NM",
+   "lat": 35.17,
+   "lon": -103.71,
+   "comments": "(ABQ)",
+   "km_from_track": 7.7,
+   "km_from_storm_at_time": 34.2
+  }
+ ]
+}

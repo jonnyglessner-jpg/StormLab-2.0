@@ -1,0 +1,173 @@
+{
+ "case": "lp_rushcenter_20220421",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-04-21T22:53:09",
+  "2022-04-22T02:29:12"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 0.75,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 8,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 2.0,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T00:34:00",
+   "lat": 37.77,
+   "lon": -99.64,
+   "state": "KS",
+   "km_from_track": 36.9,
+   "km_from_storm_at_time": 72.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T00:35:00",
+   "lat": 37.77,
+   "lon": -99.63,
+   "state": "KS",
+   "km_from_track": 37.3,
+   "km_from_storm_at_time": 72.5,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T00:54:00",
+   "lat": 37.67,
+   "lon": -99.64,
+   "state": "KS",
+   "km_from_track": 47.3,
+   "km_from_storm_at_time": 85.5,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:12:00",
+   "lat": 38.25,
+   "lon": -99.18,
+   "state": "KS",
+   "km_from_track": 26.1,
+   "km_from_storm_at_time": 26.2,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:16:00",
+   "lat": 38.48,
+   "lon": -99.42,
+   "state": "KS",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 6.9,
+   "size_in": 0.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:27:00",
+   "lat": 38.27,
+   "lon": -98.98,
+   "state": "KS",
+   "km_from_track": 37.3,
+   "km_from_storm_at_time": 37.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:36:00",
+   "lat": 37.77,
+   "lon": -99.41,
+   "state": "KS",
+   "km_from_track": 48.7,
+   "km_from_storm_at_time": 84.5,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:55:00",
+   "lat": 37.93,
+   "lon": -99.39,
+   "state": "KS",
+   "km_from_track": 39.9,
+   "km_from_storm_at_time": 78.8,
+   "size_in": 1.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T00:34:00",
+   "mag": "175",
+   "location": "1 S WINDHORST, FORD KS",
+   "lat": 37.77,
+   "lon": -99.64,
+   "comments": "(DDC)",
+   "km_from_track": 36.9,
+   "km_from_storm_at_time": 72.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T00:54:00",
+   "mag": "200",
+   "location": "7 ENE FORD, FORD KS",
+   "lat": 37.67,
+   "lon": -99.64,
+   "comments": "(DDC)",
+   "km_from_track": 47.3,
+   "km_from_storm_at_time": 85.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:12:00",
+   "mag": "150",
+   "location": "4 SSE ASH VALLEY, PAWNEE KS",
+   "lat": 38.25,
+   "lon": -99.18,
+   "comments": "(DDC)",
+   "km_from_track": 26.1,
+   "km_from_storm_at_time": 26.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:27:00",
+   "mag": "175",
+   "location": "PAWNEE ROCK, BARTON KS",
+   "lat": 38.27,
+   "lon": -98.98,
+   "comments": "BARTON COUNTY LAW ENFORCEMENT RELAYED A 3RD PARTY REPORT OF GOLF BALL SIZED HAIL NEAR PAWNEE ROCK. (ICT)",
+   "km_from_track": 37.3,
+   "km_from_storm_at_time": 37.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:36:00",
+   "mag": "100",
+   "location": "8 WSW CENTERVIEW, EDWARDS KS",
+   "lat": 37.77,
+   "lon": -99.41,
+   "comments": "(DDC)",
+   "km_from_track": 48.7,
+   "km_from_storm_at_time": 84.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-22T01:55:00",
+   "mag": "100",
+   "location": "1 ENE KINSLEY, EDWARDS KS",
+   "lat": 37.93,
+   "lon": -99.39,
+   "comments": "(DDC)",
+   "km_from_track": 39.9,
+   "km_from_storm_at_time": 78.8
+  }
+ ]
+}

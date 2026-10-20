@@ -1,0 +1,399 @@
+{
+ "case": "dixiehp_moundville_20210317",
+ "radius_km": 50,
+ "window_utc": [
+  "2021-03-17T15:42:16",
+  "2021-03-17T22:25:05"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 7,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 10,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T17:31:00",
+   "lat": 32.4134,
+   "lon": -88.2421,
+   "state": "AL",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 5.3,
+   "ef": 0,
+   "length_mi": 0.35,
+   "width_yd": 70.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T17:57:00",
+   "lat": 32.539,
+   "lon": -88.1341,
+   "state": "AL",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 6.9,
+   "ef": 1,
+   "length_mi": 9.78,
+   "width_yd": 475.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-03-17T18:55:00",
+   "lat": 33.32,
+   "lon": -87.9,
+   "state": "AL",
+   "km_from_track": 39.2,
+   "km_from_storm_at_time": 49.0,
+   "size_in": 2.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:03:00",
+   "lat": 32.5117,
+   "lon": -87.8866,
+   "state": "AL",
+   "km_from_track": 21.0,
+   "km_from_storm_at_time": 50.1,
+   "ef": 0,
+   "length_mi": 0.83,
+   "width_yd": 175.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:12:00",
+   "lat": 32.9081,
+   "lon": -87.7584,
+   "state": "AL",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 8.3,
+   "ef": 1,
+   "length_mi": 22.03,
+   "width_yd": 550.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:09:00",
+   "lat": 33.1907,
+   "lon": -87.3795,
+   "state": "AL",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 7.7,
+   "ef": 1,
+   "length_mi": 0.53,
+   "width_yd": 150.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:25:00",
+   "lat": 33.2887,
+   "lon": -87.2997,
+   "state": "AL",
+   "km_from_track": 1.5,
+   "km_from_storm_at_time": 8.0,
+   "ef": 1,
+   "length_mi": 3.51,
+   "width_yd": 650.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:44:00",
+   "lat": 31.6842,
+   "lon": -88.4855,
+   "state": "MS",
+   "km_from_track": 44.1,
+   "km_from_storm_at_time": 233.9,
+   "ef": 2,
+   "length_mi": 36.59,
+   "width_yd": 500.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:54:00",
+   "lat": 33.336,
+   "lon": -87.3097,
+   "state": "AL",
+   "km_from_track": 4.6,
+   "km_from_storm_at_time": 29.6,
+   "ef": 1,
+   "length_mi": 5.81,
+   "width_yd": 650.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T21:30:00",
+   "lat": 33.5371,
+   "lon": -87.0217,
+   "state": "AL",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 5.6,
+   "ef": 1,
+   "length_mi": 2.77,
+   "width_yd": 650.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T21:56:00",
+   "lat": 33.6619,
+   "lon": -86.8534,
+   "state": "AL",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 5.2,
+   "ef": 0,
+   "length_mi": 3.46,
+   "width_yd": 660.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T17:07:00",
+   "mag": "UNK",
+   "location": "4 WSW WHISTLER, WAYNE MS",
+   "lat": 31.68,
+   "lon": -88.87,
+   "comments": "REPORT OF HOMES DAMAGED NEAR STRENGTHFORD COOLEY ROAD. NO DETAILS AT THIS TIME. (MOB)",
+   "km_from_track": 46.8,
+   "km_from_storm_at_time": 90.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T17:31:00",
+   "mag": "UNK",
+   "location": "4 NNE WARD, SUMTER AL",
+   "lat": 32.41,
+   "lon": -88.24,
+   "comments": "A NWS SURVEY TEAM CONFIRMED DAMAGE FROM A BRIEF EF-0 TORNADO IN SOUTHERN SUMTER COUNTY. THE TORNADO BEGAN AND ENDED NEAR THE INTERSECTION OF WALKER ROAD AND HIGHWAY 17. (BMX)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 5.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2021-03-17T17:37:00",
+   "mag": "UNK",
+   "location": "4 NNE WARD, SUMTER AL",
+   "lat": 32.42,
+   "lon": -88.24,
+   "comments": "CORRECTS PREVIOUS TSTM WND DMG REPORT FROM 4 NNE WARD. 20 TO 30 TREES BLOWN DOWN AND MINOR STRUCTURAL DAMAGE NEAR HIGHWAY 17 AND WALKER ROAD. POSSIBLE TORNADO. (BMX)",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 8.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T17:57:00",
+   "mag": "UNK",
+   "location": "4 N LILITA, SUMTER AL",
+   "lat": 32.54,
+   "lon": -88.13,
+   "comments": "A NWS SURVEY TEAM CONFIRMED DAMAGE FROM AN EF1 TORNADO THAT BEGAN ON THE SOUTH SIDE OF HIGHWAY 28E JUST EAST OF LIVINGSTON AND ENDED NEAR PORT OF EPES HIGHWAY ON APPROA (BMX)",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 6.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2021-03-17T18:02:00",
+   "mag": "UNK",
+   "location": "BLUFFPORT, SUMTER AL",
+   "lat": 32.59,
+   "lon": -88.12,
+   "comments": "SEVERAL TREES WERE BLOWN DOWN AND AT LEAST 4 STRUCTURES WERE DAMAGED IN BLUFFPORT. DAMAGE WAS REPORTED AT HIGHWAY 21 AND VALLEY ROAD. POSSIBLE TORNADO. (BMX)",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 5.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-03-17T18:57:00",
+   "mag": "275",
+   "location": "GORDO, PICKENS AL",
+   "lat": 33.32,
+   "lon": -87.9,
+   "comments": "BASEBALL AND GOLFBALL SIZE HAIL IN GORDO. RELAYED THROUGH SOCIAL MEDIA PICTURES. (BMX)",
+   "km_from_track": 39.2,
+   "km_from_storm_at_time": 48.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:03:00",
+   "mag": "UNK",
+   "location": "2 ESE MCDOWELL, MARENGO AL",
+   "lat": 32.51,
+   "lon": -87.89,
+   "comments": "A NWS SURVEY TEAM CONFIRMED A BRIEF EF0 TORNADO THAT CROSSED LOCK AND DAM ROAD JUST WEST OF FOSCUE PARK... OUTSIDE OF THE CITY OF DEMOPOLIS. DAMAGE CONSISTED OF UPROOTE (BMX)",
+   "km_from_track": 20.8,
+   "km_from_storm_at_time": 50.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:05:00",
+   "mag": "UNK",
+   "location": "2 WNW DEMOPOLIS, SUMTER AL",
+   "lat": 32.53,
+   "lon": -87.87,
+   "comments": "TORNADO OBSERVED VIA TV STATION WEBCAM BROADCAST WITH POWER FLASH AND STORM CHASER DRONE VIDEO. (BMX)",
+   "km_from_track": 21.4,
+   "km_from_storm_at_time": 48.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:12:00",
+   "mag": "UNK",
+   "location": "1 E MOUND STATE PARK, HALE AL",
+   "lat": 33.0,
+   "lon": -87.62,
+   "comments": "AN EF1 TORNADO PRODUCED DAMAGE FOR 22.03 MILES AND WAS 550 YARDS WIDE AT ITS WIDEST POINT. THE TORNADO STARTED IN MARTIN SLOUGH EAST OF THE WARRIOR RIVER AND LIFTED NNW (BMX)",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 10.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:29:00",
+   "mag": "UNK",
+   "location": "1 E MOUND STATE PARK, HALE AL",
+   "lat": 33.0,
+   "lon": -87.62,
+   "comments": "ROOF DAMAGE TO A NUMBER OF HOUSES IN THE CITY ON BOTH SIDES OF THE COUNTY LINE. SEVERAL BUSINESSES DAMAGED IN MOUNDVILLE. (BMX)",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 6.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:29:00",
+   "mag": "UNK",
+   "location": "3 WSW MILLER STEAM PLAN, JEFFERSON AL",
+   "lat": 33.62,
+   "lon": -87.11,
+   "comments": "TORNADO REPORTED BY EMERGENCY MANAGEMENT NEAR BIRMINGPORT. (BMX)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 78.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T19:31:00",
+   "mag": "UNK",
+   "location": "2 ENE MOUND STATE PARK, TUSCALOOSA AL",
+   "lat": 33.01,
+   "lon": -87.61,
+   "comments": "MULTIPLE HOMES DAMAGED IN THE WATERBURY SUBDIVISION. (BMX)",
+   "km_from_track": 4.6,
+   "km_from_storm_at_time": 6.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:09:00",
+   "mag": "UNK",
+   "location": "LAKE WILDWOOD, TUSCALOOSA AL",
+   "lat": 33.19,
+   "lon": -87.37,
+   "comments": "AN EF1 TORNADO PRODUCED DAMAGE FOR 0.53 MILES AND WAS 150 YARDS WIDE AT ITS WIDEST POINT. MINOR STRUCTURE AND TIMBER DAMAGE OCCURRED ALONG THE PATH. (BMX)",
+   "km_from_track": 3.8,
+   "km_from_storm_at_time": 7.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:25:00",
+   "mag": "UNK",
+   "location": "1 NW EAST BROOKWOOD, TUSCALOOSA AL",
+   "lat": 33.29,
+   "lon": -87.3,
+   "comments": "THE TORNADO PRODUCED DAMAGE FOR 3.51 MILES AND WAS 650 YARDS WIDE AT ITS WIDEST POINT. THE TORNADO PRODUCED SIGNIFICANT TIMBER DAMAGE ... SOME STRUCTURE DAMAGE AND DAMA (BMX)",
+   "km_from_track": 1.4,
+   "km_from_storm_at_time": 7.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:47:00",
+   "mag": "UNK",
+   "location": "4 SSE GRETNA, WAYNE MS",
+   "lat": 31.71,
+   "lon": -88.47,
+   "comments": "THREE STRUCTURES DAMAGED. REPORT VIA EMA. (MOB)",
+   "km_from_track": 41.9,
+   "km_from_storm_at_time": 233.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T20:56:00",
+   "mag": "UNK",
+   "location": "4 W SILAS, CHOCTAW AL",
+   "lat": 31.76,
+   "lon": -88.39,
+   "comments": "INCREASING DEBRIS SIGNATURE ON RADAR. CONFIRMED VIA DRONE FOOTAGE AND SEVERAL PHOTOS/VIDEOS OF A TORNADO MOVING THROUGH THE SILAS COMMUNITY ON SOCIAL MEDIA. (MOB)",
+   "km_from_track": 40.9,
+   "km_from_storm_at_time": 233.1
+  },
+  {
+   "kind": "wind",
+   "utc": "2021-03-17T21:00:00",
+   "mag": "UNK",
+   "location": "SILAS, CHOCTAW AL",
+   "lat": 31.78,
+   "lon": -88.32,
+   "comments": "FOUR HOMES DAMAGED AND TREES DOWN ON SILAS BRANCH RD IN THE SILAS COMMUNITY. (MOB)",
+   "km_from_track": 43.5,
+   "km_from_storm_at_time": 229.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T21:07:00",
+   "mag": "UNK",
+   "location": "1 SE BULL CITY, JEFFERSON AL",
+   "lat": 33.41,
+   "lon": -87.25,
+   "comments": "REPORTED BY SPOTTER WHO WAS SE OF THIS LOCATION... LOOKING NW. (BMX)",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 27.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T21:30:00",
+   "mag": "UNK",
+   "location": "CAMPBELL LANDING RD., CLARKE AL",
+   "lat": 31.96,
+   "lon": -88.07,
+   "comments": "*** 2 INJ *** CAMPBELL LANDING RD. IN CLARKE COUNTY... ALABAMA. TORNADO DAMAGE TO FOUR HOMES... ONE HOME IS DESTROYED... TWO PEOPLE INJURED. TORNADO ESTIMATED AT 4:30PM (MOB)",
+   "km_from_track": 48.8,
+   "km_from_storm_at_time": 206.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T21:30:00",
+   "mag": "UNK",
+   "location": "1 W MAYTOWN, JEFFERSON AL",
+   "lat": 33.54,
+   "lon": -87.02,
+   "comments": "CORRECTS PREVIOUS TORNADO REPORT FROM 1 W MAYTOWN. A NWS SURVEY TEAM CONFIRMED EF-1 TORNADO DAMAGE IN THE MAYTOWN AREA OF JEFFERSON COUNTY. TREES WERE SNAPPED AND UPROO (BMX)",
+   "km_from_track": 5.0,
+   "km_from_storm_at_time": 5.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-03-17T21:56:00",
+   "mag": "UNK",
+   "location": "1 SSE MOUNT OLIVE, JEFFERSON AL",
+   "lat": 33.66,
+   "lon": -86.85,
+   "comments": "*** 1 INJ *** CORRECTS PREVIOUS TORNADO REPORT FROM 1 SSE MOUNT OLIVE. A NWS SURVEY TEAM CONFIRMED EF-0 TORNADO DAMAGE IN THE MOUNT OLIVE AREA OF JEFFERSON COUNTY. DAMA (BMX)",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 5.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2021-03-17T22:05:00",
+   "mag": "UNK",
+   "location": "2 N GARDENDALE, JEFFERSON AL",
+   "lat": 33.69,
+   "lon": -86.82,
+   "comments": "DAMAGE REPORTED ALONG HWY 31. POSSIBLE TORNADO. (BMX)",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 3.1
+  }
+ ]
+}

@@ -1,0 +1,284 @@
+{
+ "case": "dixiehp_bassfield_20200412",
+ "radius_km": 50,
+ "window_utc": [
+  "2020-04-12T18:05:24",
+  "2020-04-12T22:22:55"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 4,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T20:38:00",
+   "lat": 31.2662,
+   "lon": -90.1832,
+   "state": "MS",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 2.8,
+   "ef": 4,
+   "length_mi": 22.12,
+   "width_yd": 1936.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:12:00",
+   "lat": 31.4641,
+   "lon": -89.7579,
+   "state": "MS",
+   "km_from_track": 10.4,
+   "km_from_storm_at_time": 17.2,
+   "ef": 4,
+   "length_mi": 67.43,
+   "width_yd": 3960.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:36:00",
+   "lat": 31.3712,
+   "lon": -90.1101,
+   "state": "MS",
+   "km_from_track": 4.5,
+   "km_from_storm_at_time": 79.9,
+   "ef": 3,
+   "length_mi": 83.22,
+   "width_yd": 2041.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T22:22:00",
+   "lat": 32.0015,
+   "lon": -88.8943,
+   "state": "MS",
+   "km_from_track": 30.0,
+   "km_from_storm_at_time": 30.0,
+   "ef": 2,
+   "length_mi": 14.29,
+   "width_yd": 300.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T20:39:00",
+   "mag": "UNK",
+   "location": "5 NW SALEM, WALTHALL MS",
+   "lat": 31.28,
+   "lon": -90.17,
+   "comments": "*** 2 FATAL *** LSR TIME/LOCATION IS FOR START POINT OF TORNADO. LSR COVERS WALTHALL CO. SEGMENT. TORNADO TOUCHED DOWN ON JEFFERSON RD. MOVED NE CROSSING HWY 27... CONT (LIX)",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 4.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T20:40:00",
+   "mag": "UNK",
+   "location": "4 N SALEM, WALTHALL MS",
+   "lat": 31.29,
+   "lon": -90.12,
+   "comments": "TDS BEGAN IN NORTHERN WALTHALL COUNTY AT 2040Z. (LIX)",
+   "km_from_track": 4.7,
+   "km_from_storm_at_time": 7.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T20:42:00",
+   "mag": "UNK",
+   "location": "1 WSW SOSO, JONES MS",
+   "lat": 31.75,
+   "lon": -89.28,
+   "comments": "MAJOR STRUCTURAL DAMAGE TO THE SOSO FIRST BAPTIST CHURCH ON FROSTY HINTON RD. (JAN)",
+   "km_from_track": 6.0,
+   "km_from_storm_at_time": 99.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T20:46:00",
+   "mag": "UNK",
+   "location": "7 SSW TILTON, LAWRENCE MS",
+   "lat": 31.33,
+   "lon": -90.08,
+   "comments": "*** 2 FATAL *** THIS TORNADO BEGAN IN FAR NORTHEAST WALTHALL COUNTY AND QUICKLY MOVED ACROSS FAR SOUTHEAST LAWRENCE COUNTY... WHERE IT BEGAN SNAPPING LARGE HARDWOOD BRA (JAN)",
+   "km_from_track": 2.5,
+   "km_from_storm_at_time": 5.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T20:57:00",
+   "mag": "UNK",
+   "location": "10 N SALEM, LAWRENCE MS",
+   "lat": 31.37,
+   "lon": -90.12,
+   "comments": "EMERGENCY MANAGER REPORTED 2 HOUSES DESTROYED IN NORTHERN WALTHALL COUNTY. (JAN)",
+   "km_from_track": 4.5,
+   "km_from_storm_at_time": 19.6
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:14:00",
+   "mag": "UNK",
+   "location": "1 ENE BASSFIELD, JEFFERSON DAVIS MS",
+   "lat": 31.5,
+   "lon": -89.72,
+   "comments": "TREES AND STRUCTURES DAMAGES. (JAN)",
+   "km_from_track": 11.0,
+   "km_from_storm_at_time": 14.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:21:00",
+   "mag": "UNK",
+   "location": "4 SSW COLLINS, COVINGTON MS",
+   "lat": 31.58,
+   "lon": -89.58,
+   "comments": "DAMAGE TO HOMES AND POWER POLES. (JAN)",
+   "km_from_track": 8.1,
+   "km_from_storm_at_time": 10.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:30:00",
+   "mag": "UNK",
+   "location": "7 NW SALEM, WALTHALL MS",
+   "lat": 31.3,
+   "lon": -90.2,
+   "comments": "EMERGENCY MANAGER REPORTED QUITE A FEW HOMES DAMAMGED IN NORTHERN WALTHALL COUNTY NORTH OF HWY 44. (LIX)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 83.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:32:00",
+   "mag": "UNK",
+   "location": "5 NNE SEMINARY, COVINGTON MS",
+   "lat": 31.62,
+   "lon": -89.46,
+   "comments": "DAMAGE TO HOMES AND POWER POLES. (JAN)",
+   "km_from_track": 10.2,
+   "km_from_storm_at_time": 10.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:45:00",
+   "mag": "UNK",
+   "location": "1 NNW OAK VALE, LAWRENCE MS",
+   "lat": 31.45,
+   "lon": -89.97,
+   "comments": "SEVERAL TREES DOWN AND DAMAGE TO SHED IN THE BACKYARD OF A HOME IN OAKVALE JUST OFF HIGHWAY 43. (JAN)",
+   "km_from_track": 16.5,
+   "km_from_storm_at_time": 79.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:49:00",
+   "mag": "UNK",
+   "location": "5 SW SOSO, JONES MS",
+   "lat": 31.7,
+   "lon": -89.34,
+   "comments": "PARTIAL ROOF DAMAGE... MULT TREES SNAPPED. (JAN)",
+   "km_from_track": 7.7,
+   "km_from_storm_at_time": 21.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:50:00",
+   "mag": "UNK",
+   "location": "SOSO, JONES MS",
+   "lat": 31.75,
+   "lon": -89.27,
+   "comments": "EXTENSIVE ROOF DAMAGE TO STORE. (JAN)",
+   "km_from_track": 6.9,
+   "km_from_storm_at_time": 13.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:56:00",
+   "mag": "UNK",
+   "location": "2 NW SHADY GROVE, JONES MS",
+   "lat": 31.78,
+   "lon": -89.18,
+   "comments": "MAJOR DAMAGE TREES... BLDGS.... VEHICLES. (JAN)",
+   "km_from_track": 9.0,
+   "km_from_storm_at_time": 10.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T21:57:00",
+   "mag": "UNK",
+   "location": "1 SSE PRENTISS, JEFFERSON DAVIS MS",
+   "lat": 31.58,
+   "lon": -89.87,
+   "comments": "TREES DOWN ON BUS. (JAN)",
+   "km_from_track": 6.3,
+   "km_from_storm_at_time": 73.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T22:03:00",
+   "mag": "UNK",
+   "location": "4 SSW LONE STAR, JEFFERSON DAVIS MS",
+   "lat": 31.58,
+   "lon": -89.75,
+   "comments": "LOTS OF TREE DAMAGE ON GRANBY RD AND HOMES DAMAGED. (JAN)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 63.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T22:10:00",
+   "mag": "UNK",
+   "location": "3 W VOSSBURG, JASPER MS",
+   "lat": 31.94,
+   "lon": -88.99,
+   "comments": "MANY TREES DOWN ACROSS I-59. (JAN)",
+   "km_from_track": 18.9,
+   "km_from_storm_at_time": 18.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T22:14:00",
+   "mag": "UNK",
+   "location": "2 NW COLLINS, COVINGTON MS",
+   "lat": 31.66,
+   "lon": -89.59,
+   "comments": "SEVERAL TREES SNAPPED WITH DEBRIS SCATTERED ALL OVER THE AREA ON BUTLER LANE. (JAN)",
+   "km_from_track": 0.9,
+   "km_from_storm_at_time": 46.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T22:15:00",
+   "mag": "UNK",
+   "location": "3 W ENTERPRISE, CLARKE MS",
+   "lat": 32.18,
+   "lon": -88.86,
+   "comments": "CAR FLIPPED OVER ON I-59 WEST OF ENTERPRISE. (JAN)",
+   "km_from_track": 45.0,
+   "km_from_storm_at_time": 45.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2020-04-12T22:22:00",
+   "mag": "UNK",
+   "location": "1 NNE BARNETT, CLARKE MS",
+   "lat": 32.0,
+   "lon": -88.89,
+   "comments": "THIS TORNADO BEGAN ALONG CR 286 SOUTH OF PACHUTA AND TRACKED NORTH NORTHEASTWARD ACROSS CR 289... CR 288... MS 18/512... CR 310... CR 3102... AND CR 130 BEFORE ENDING A (JAN)",
+   "km_from_track": 30.3,
+   "km_from_storm_at_time": 30.3
+  }
+ ]
+}

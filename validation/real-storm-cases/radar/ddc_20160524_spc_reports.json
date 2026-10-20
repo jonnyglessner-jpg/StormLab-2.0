@@ -1,0 +1,461 @@
+{
+ "case": "ddc_20160524",
+ "radius_km": 50,
+ "window_utc": [
+  "2016-05-24T21:24:02",
+  "2016-05-25T00:25:24"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 8,
+  "wind_reports": 0,
+  "tornado_reports": 11,
+  "largest_hail_in": 5.0,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 9,
+  "wind_reports": 0,
+  "tornado_reports": 14,
+  "largest_hail_in": 5.0,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T22:40:00",
+   "lat": 37.48,
+   "lon": -100.05,
+   "state": "KS",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 13.9,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T22:52:00",
+   "lat": 37.47,
+   "lon": -100.05,
+   "state": "KS",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 17.6,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T22:55:00",
+   "lat": 37.5031,
+   "lon": -100.1355,
+   "state": "KS",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 14.3,
+   "ef": 3,
+   "length_mi": 14.7,
+   "width_yd": 675.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T22:59:00",
+   "lat": 37.5342,
+   "lon": -100.0931,
+   "state": "KS",
+   "km_from_track": 3.3,
+   "km_from_storm_at_time": 11.5,
+   "ef": 0,
+   "length_mi": 0.7,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:09:00",
+   "lat": 38.0,
+   "lon": -100.15,
+   "state": "KS",
+   "km_from_track": 15.6,
+   "km_from_storm_at_time": 36.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:12:00",
+   "lat": 38.237,
+   "lon": -100.1663,
+   "state": "KS",
+   "km_from_track": 41.7,
+   "km_from_storm_at_time": 62.0,
+   "ef": 3,
+   "length_mi": 11.02,
+   "width_yd": 300.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:14:00",
+   "lat": 37.6182,
+   "lon": -100.091,
+   "state": "KS",
+   "km_from_track": 0.5,
+   "km_from_storm_at_time": 7.8,
+   "ef": 1,
+   "length_mi": 1.4,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:20:00",
+   "lat": 37.6281,
+   "lon": -100.1146,
+   "state": "KS",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 9.4,
+   "ef": 0,
+   "length_mi": 0.2,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:22:00",
+   "lat": 37.646,
+   "lon": -100.0988,
+   "state": "KS",
+   "km_from_track": 2.4,
+   "km_from_storm_at_time": 8.0,
+   "ef": 2,
+   "length_mi": 5.0,
+   "width_yd": 550.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:26:00",
+   "lat": 37.73,
+   "lon": -100.05,
+   "state": "KS",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 2.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:28:00",
+   "lat": 37.6601,
+   "lon": -100.0816,
+   "state": "KS",
+   "km_from_track": 3.2,
+   "km_from_storm_at_time": 9.2,
+   "ef": 0,
+   "length_mi": 2.7,
+   "width_yd": 90.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:30:00",
+   "lat": 37.76,
+   "lon": -100.03,
+   "state": "KS",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 3.6,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:30:00",
+   "lat": 37.69,
+   "lon": -100.05,
+   "state": "KS",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 7.1,
+   "size_in": 5.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:32:00",
+   "lat": 37.7003,
+   "lon": -100.0855,
+   "state": "KS",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 7.0,
+   "ef": 1,
+   "length_mi": 2.9,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:35:00",
+   "lat": 37.79,
+   "lon": -100.02,
+   "state": "KS",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 5.8,
+   "size_in": 3.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:40:00",
+   "lat": 37.77,
+   "lon": -100.03,
+   "state": "KS",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 4.9,
+   "size_in": 3.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:52:00",
+   "lat": 37.6999,
+   "lon": -100.0935,
+   "state": "KS",
+   "km_from_track": 0.8,
+   "km_from_storm_at_time": 17.0,
+   "ef": 2,
+   "length_mi": 16.7,
+   "width_yd": 1800.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:55:00",
+   "lat": 37.7922,
+   "lon": -100.0695,
+   "state": "KS",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 8.4,
+   "ef": 0,
+   "length_mi": 0.1,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:03:00",
+   "lat": 38.1651,
+   "lon": -100.0395,
+   "state": "KS",
+   "km_from_track": 33.5,
+   "km_from_storm_at_time": 33.5,
+   "ef": 0,
+   "length_mi": 0.6,
+   "width_yd": 150.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:07:00",
+   "lat": 37.8614,
+   "lon": -100.0489,
+   "state": "KS",
+   "km_from_track": 3.8,
+   "km_from_storm_at_time": 3.8,
+   "ef": 3,
+   "length_mi": 1.9,
+   "width_yd": 150.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:11:00",
+   "lat": 38.1961,
+   "lon": -100.0382,
+   "state": "KS",
+   "km_from_track": 36.9,
+   "km_from_storm_at_time": 36.9,
+   "ef": 3,
+   "length_mi": 7.7,
+   "width_yd": 700.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:15:00",
+   "lat": 37.906,
+   "lon": -100.0252,
+   "state": "KS",
+   "km_from_track": 7.3,
+   "km_from_storm_at_time": 7.3,
+   "ef": 1,
+   "length_mi": 2.7,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-25T00:25:00",
+   "lat": 37.73,
+   "lon": -100.05,
+   "state": "KS",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 15.7,
+   "size_in": 2.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T22:40:00",
+   "mag": "175",
+   "location": "3 NW MINNEOLA, FORD KS",
+   "lat": 37.48,
+   "lon": -100.05,
+   "comments": "(DDC)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 13.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T22:54:00",
+   "mag": "UNK",
+   "location": "9 NW MINNEOLA, FORD KS",
+   "lat": 37.54,
+   "lon": -100.12,
+   "comments": "BRIEF TORNADO TOUCHDOWN REPORTED. (DDC)",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 9.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:04:00",
+   "mag": "UNK",
+   "location": "7 ESE ENSIGN, FORD KS",
+   "lat": 37.61,
+   "lon": -100.11,
+   "comments": "CONE TORNADO ON THE GROUND (DDC)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 4.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:09:00",
+   "mag": "175",
+   "location": "9 ESE KALVESTA, HODGEMAN KS",
+   "lat": 38.0,
+   "lon": -100.15,
+   "comments": "(DDC)",
+   "km_from_track": 15.6,
+   "km_from_storm_at_time": 36.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:10:00",
+   "mag": "UNK",
+   "location": "8 ESE ENSIGN, FORD KS",
+   "lat": 37.6,
+   "lon": -100.1,
+   "comments": "(DDC)",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 8.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:11:00",
+   "mag": "UNK",
+   "location": "12 S BEELER, NESS KS",
+   "lat": 38.27,
+   "lon": -100.15,
+   "comments": "BRIEF TORNADO ON THE GROUND. LOCATION ESTIMATED FROM RADAR. (DDC)",
+   "km_from_track": 45.1,
+   "km_from_storm_at_time": 66.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:17:00",
+   "mag": "UNK",
+   "location": "11 SSE BEELER, NESS KS",
+   "lat": 38.3,
+   "lon": -100.1,
+   "comments": "TORNADO ON THE GROUND. LOCATION ESTIMATED BY RADAR (DDC)",
+   "km_from_track": 48.2,
+   "km_from_storm_at_time": 66.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:30:00",
+   "mag": "UNK",
+   "location": "7 SW DODGE CITY, FORD KS",
+   "lat": 37.69,
+   "lon": -100.11,
+   "comments": "LAW ENFORCEMENT REPORTED TWO TORNADOES 6 TO 8 MILES SOUTHWEST OF DODGE CITY. (DDC)",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 7.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-24T23:30:00",
+   "mag": "500",
+   "location": "5 SSW DODGE CITY, FORD KS",
+   "lat": 37.69,
+   "lon": -100.05,
+   "comments": "A PICTURE OF THE HAILSTONE WAS PROVIDED TO THE NWS. (DDC)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 7.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:35:00",
+   "mag": "UNK",
+   "location": "6 SW DODGE CITY, FORD KS",
+   "lat": 37.71,
+   "lon": -100.1,
+   "comments": "HOMES WERE REPORTED TO BE DESTROYED. (DDC)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 7.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-24T23:45:00",
+   "mag": "UNK",
+   "location": "7 SW FT. DODGE, FORD KS",
+   "lat": 37.65,
+   "lon": -100.02,
+   "comments": "A MULTIPLE VORTEX TORNADO WAS REPORTED WEST OF 117232 US 283... APPROXIMATELY 7 MILES SOUTH OF DODGE CITY... KS. (DDC)",
+   "km_from_track": 6.7,
+   "km_from_storm_at_time": 19.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:09:00",
+   "mag": "UNK",
+   "location": "6 NNE HOWELL, FORD KS",
+   "lat": 37.86,
+   "lon": -100.15,
+   "comments": "(DDC)",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 5.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:10:00",
+   "mag": "UNK",
+   "location": "5 ESE ENSIGN, FORD KS",
+   "lat": 37.62,
+   "lon": -100.14,
+   "comments": "A BUILDING WAS DAMAGED AND THERE WERE POWER POLES DOWN. THE TIME WAS ESTIMATED USING RADAR. THE INFORMATION WAS RECEIVED THROUGH COMMUNICATIONS RADIO. (DDC)",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 27.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:10:00",
+   "mag": "UNK",
+   "location": "6 NNW DODGE CITY, FORD KS",
+   "lat": 37.84,
+   "lon": -100.05,
+   "comments": "SPOTTER REPORTED A STRUCTURE DESTROYED ALONG 110TH ROAD. (DDC)",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 4.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2016-05-25T00:20:00",
+   "mag": "UNK",
+   "location": "7 N DODGE CITY, FORD KS",
+   "lat": 37.87,
+   "lon": -100.02,
+   "comments": "(DDC)",
+   "km_from_track": 6.3,
+   "km_from_storm_at_time": 6.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2016-05-25T00:25:00",
+   "mag": "275",
+   "location": "3 SW DODGE CITY, FORD KS",
+   "lat": 37.73,
+   "lon": -100.05,
+   "comments": "(DDC)",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 15.7
+  }
+ ]
+}

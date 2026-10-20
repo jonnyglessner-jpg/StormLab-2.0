@@ -1,0 +1,245 @@
+{
+ "case": "classic_rozel_20130518",
+ "radius_km": 50,
+ "window_utc": [
+  "2013-05-18T21:15:53",
+  "2013-05-19T00:52:44"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 3,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.0,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 4,
+  "wind_reports": 1,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.0,
+  "strongest_gust_kt": 65.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2013-05-18T23:25:00",
+   "lat": 38.06,
+   "lon": -99.63,
+   "state": "KS",
+   "km_from_track": 2.5,
+   "km_from_storm_at_time": 3.5,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-18T23:45:00",
+   "lat": 38.19,
+   "lon": -99.34,
+   "state": "KS",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 14.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:18:00",
+   "lat": 38.1429,
+   "lon": -99.4706,
+   "state": "KS",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 5.4,
+   "ef": 4,
+   "length_mi": 7.0,
+   "width_yd": 1100.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-19T00:27:00",
+   "lat": 38.2,
+   "lon": -99.4,
+   "state": "KS",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 2.8,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-19T00:40:00",
+   "lat": 37.2,
+   "lon": -99.5,
+   "state": "KS",
+   "km_from_track": 41.9,
+   "km_from_storm_at_time": 109.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-05-19T00:45:00",
+   "lat": 37.92,
+   "lon": -99.31,
+   "state": "KS",
+   "km_from_track": 28.9,
+   "km_from_storm_at_time": 30.6,
+   "gust_kt": 65.0,
+   "measured": false
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:49:00",
+   "lat": 38.2011,
+   "lon": -99.2768,
+   "state": "KS",
+   "km_from_track": 12.8,
+   "km_from_storm_at_time": 12.8,
+   "ef": 1,
+   "length_mi": 4.0,
+   "width_yd": 100.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2013-05-18T23:25:00",
+   "mag": "UNK",
+   "location": "2 NW SANFORD, PAWNEE KS",
+   "lat": 38.19,
+   "lon": -99.34,
+   "comments": "(DDC)",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 25.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-18T23:25:00",
+   "mag": "200",
+   "location": "6 S GRAY, HODGEMAN KS",
+   "lat": 38.06,
+   "lon": -99.63,
+   "comments": "(DDC)",
+   "km_from_track": 2.5,
+   "km_from_storm_at_time": 3.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-18T23:45:00",
+   "mag": "UNK",
+   "location": "ROZEL, PAWNEE KS",
+   "lat": 38.2,
+   "lon": -99.4,
+   "comments": "(DDC)",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 9.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-18T23:45:00",
+   "mag": "100",
+   "location": "2 NW SANFORD, PAWNEE KS",
+   "lat": 38.19,
+   "lon": -99.34,
+   "comments": "(DDC)",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 14.6
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:24:00",
+   "mag": "UNK",
+   "location": "5 SSW ROZEL, PAWNEE KS",
+   "lat": 38.13,
+   "lon": -99.42,
+   "comments": "(DDC)",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 5.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:25:00",
+   "mag": "UNK",
+   "location": "2 NW SANFORD, PAWNEE KS",
+   "lat": 38.19,
+   "lon": -99.34,
+   "comments": "A STORM CHASER REPORTED A TORNADO 2 MILES NORTHWEST OF SANFORD. (DDC)",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 7.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:27:00",
+   "mag": "UNK",
+   "location": "7 N GARFIELD, PAWNEE KS",
+   "lat": 38.18,
+   "lon": -99.24,
+   "comments": "(DDC)",
+   "km_from_track": 15.8,
+   "km_from_storm_at_time": 15.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-19T00:27:00",
+   "mag": "100",
+   "location": "ROZEL, PAWNEE KS",
+   "lat": 38.2,
+   "lon": -99.4,
+   "comments": "(DDC)",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 2.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:31:00",
+   "mag": "UNK",
+   "location": "6 N SANFORD, PAWNEE KS",
+   "lat": 38.26,
+   "lon": -99.31,
+   "comments": "THIS TORNADO WAS REPORTED AS A LARGE STOVEPIPE TORNADO. (DDC)",
+   "km_from_track": 13.1,
+   "km_from_storm_at_time": 13.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:40:00",
+   "mag": "UNK",
+   "location": "1 W ROZEL, PAWNEE KS",
+   "lat": 38.2,
+   "lon": -99.42,
+   "comments": "THE TORNADO WAS JUST BEGINNING TO ROPE OUT",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 2.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2013-05-19T00:40:00",
+   "mag": "100",
+   "location": "1 W PROTECTION, COMANCHE KS",
+   "lat": 37.2,
+   "lon": -99.5,
+   "comments": "THE DISPATCH SAID THERE WERE NUMEROUS REPORTS FROM AROUND THE COUNTY OF HEAVY RAIN AND NICKEL TO QUARTER SIZE HAIL. (DDC)",
+   "km_from_track": 41.9,
+   "km_from_storm_at_time": 109.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2013-05-19T00:48:00",
+   "mag": "UNK",
+   "location": "2 W ROZEL, PAWNEE KS",
+   "lat": 38.2,
+   "lon": -99.44,
+   "comments": "TORNADO DAMAGE. ONE HOUSE NEARLY DESTROYED",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 2.7
+  },
+  {
+   "kind": "wind",
+   "utc": "2013-05-19T00:48:00",
+   "mag": "UNK",
+   "location": "2 W ROZEL, PAWNEE KS",
+   "lat": 38.2,
+   "lon": -99.44,
+   "comments": "TORNADO DAMAGE. ONE HOUSE NEARLY DESTROYED",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 2.7
+  }
+ ]
+}

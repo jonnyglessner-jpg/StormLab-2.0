@@ -1,0 +1,262 @@
+{
+ "case": "classic_selden_20210524",
+ "radius_km": 50,
+ "window_utc": [
+  "2021-05-24T19:41:37",
+  "2021-05-25T00:56:14"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 2,
+  "wind_reports": 0,
+  "tornado_reports": 3,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 2,
+  "wind_reports": 0,
+  "tornado_reports": 6,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T20:03:00",
+   "lat": 39.0868,
+   "lon": -101.5071,
+   "state": "KS",
+   "km_from_track": 45.4,
+   "km_from_storm_at_time": 45.4,
+   "ef": "EFU",
+   "length_mi": 0.56,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T20:09:00",
+   "lat": 39.1011,
+   "lon": -101.4696,
+   "state": "KS",
+   "km_from_track": 41.8,
+   "km_from_storm_at_time": 41.8,
+   "ef": "EFU",
+   "length_mi": 0.91,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:10:00",
+   "lat": 39.2084,
+   "lon": -101.3109,
+   "state": "KS",
+   "km_from_track": 26.0,
+   "km_from_storm_at_time": 42.4,
+   "ef": "EFU",
+   "length_mi": 1.54,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:15:00",
+   "lat": 39.4079,
+   "lon": -100.9801,
+   "state": "KS",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 10.5,
+   "ef": "EFU",
+   "length_mi": 1.01,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:44:00",
+   "lat": 39.4625,
+   "lon": -100.9398,
+   "state": "KS",
+   "km_from_track": 2.2,
+   "km_from_storm_at_time": 10.0,
+   "ef": "EFU",
+   "length_mi": 0.46,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-24T22:55:00",
+   "lat": 39.5835,
+   "lon": -100.6979,
+   "state": "KS",
+   "km_from_track": 1.4,
+   "km_from_storm_at_time": 1.1,
+   "size_in": 0.88
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-24T23:05:00",
+   "lat": 39.5917,
+   "lon": -100.6648,
+   "state": "KS",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 2.2,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T23:06:00",
+   "lat": 39.5314,
+   "lon": -100.6375,
+   "state": "KS",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 7.3,
+   "ef": 1,
+   "length_mi": 5.87,
+   "width_yd": 850.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T20:06:00",
+   "mag": "UNK",
+   "location": "11 NNE WALLACE, WALLACE KS",
+   "lat": 39.06,
+   "lon": -101.52,
+   "comments": "DISPATCH RELAYED A SPOTTER REPORT OF A BRIEF TORNADO. (GLD)",
+   "km_from_track": 47.5,
+   "km_from_storm_at_time": 47.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T20:08:00",
+   "mag": "UNK",
+   "location": "8 NW WINONA, THOMAS KS",
+   "lat": 39.15,
+   "lon": -101.35,
+   "comments": "DISPATCH RELAYED A SPOTTER REPORT OF A BRIEF TORNADO. (GLD)",
+   "km_from_track": 30.3,
+   "km_from_storm_at_time": 30.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T20:12:00",
+   "mag": "UNK",
+   "location": "14 NNE WALLACE, WALLACE KS",
+   "lat": 39.1,
+   "lon": -101.51,
+   "comments": "TRAINED SPOTTER REPORTED TORNADO ON GROUND AT TIME OF REPORT. 8 MILES NW OF MCALLASTER. (GLD)",
+   "km_from_track": 45.2,
+   "km_from_storm_at_time": 45.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T20:13:00",
+   "mag": "UNK",
+   "location": "12 WNW WINONA, LOGAN KS",
+   "lat": 39.1,
+   "lon": -101.46,
+   "comments": "REPORT OF 2 TORNADOES ON THE GROUND AT THE SAME TIME... ONE APPEARED TO BE A LANDSPOUT. (GLD)",
+   "km_from_track": 41.1,
+   "km_from_storm_at_time": 41.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:15:00",
+   "mag": "UNK",
+   "location": "10 SSE BREWSTER, THOMAS KS",
+   "lat": 39.24,
+   "lon": -101.3,
+   "comments": "REPORTED SMALL ROPE TORNADO NNW OF WINONA... KS. DELAYED REPORT. (GLD)",
+   "km_from_track": 25.1,
+   "km_from_storm_at_time": 41.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:16:00",
+   "mag": "UNK",
+   "location": "4 NE COLBY, THOMAS KS",
+   "lat": 39.43,
+   "lon": -101.0,
+   "comments": "LAW ENFORCEMENT REPORTED TORNADO BRIEFLY TOUCHED GROUND NE OF COLBY BEFORE LIFTING BACK UP. (GLD)",
+   "km_from_track": 2.4,
+   "km_from_storm_at_time": 9.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:23:00",
+   "mag": "UNK",
+   "location": "3 WNW GEM, THOMAS KS",
+   "lat": 39.44,
+   "lon": -100.96,
+   "comments": "SPOTTER REPORTS TORNADO WEST OF GEM... KS. (GLD)",
+   "km_from_track": 0.9,
+   "km_from_storm_at_time": 6.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T21:45:00",
+   "mag": "UNK",
+   "location": "5 NNW GEM, THOMAS KS",
+   "lat": 39.49,
+   "lon": -100.92,
+   "comments": "TRAINED SPOTTER REPORTED BRIEF TORNADO. ALSO REPORTED VIA SOCIAL MEDIA. (GLD)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 6.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T23:06:00",
+   "mag": "UNK",
+   "location": "4 W SELDEN, SHERIDAN KS",
+   "lat": 39.53,
+   "lon": -100.64,
+   "comments": "SELDEN... KS EF-1 TORNADO BEGAN HERE AT THIS TIME. (GLD)",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 7.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-24T23:18:00",
+   "mag": "175",
+   "location": "7 WNW SELDEN, DECATUR KS",
+   "lat": 39.59,
+   "lon": -100.68,
+   "comments": "PUBLIC REPORTED GOLF BALL SIZE HAIL. (GLD)",
+   "km_from_track": 0.4,
+   "km_from_storm_at_time": 9.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T23:24:00",
+   "mag": "UNK",
+   "location": "SELDEN, SHERIDAN KS",
+   "lat": 39.54,
+   "lon": -100.57,
+   "comments": "*** 1 INJ *** SELDEN... KS TORNADO STRUCK THE TOWN AROUND THIS TIME. CONFIRMED BY NWS DAMAGE ASSESSMENT TEAM. (GLD)",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 7.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T23:36:00",
+   "mag": "UNK",
+   "location": "2 NE SELDEN, SHERIDAN KS",
+   "lat": 39.56,
+   "lon": -100.54,
+   "comments": "SELDEN... KS TORNADO ENDED HERE AT THIS TIME. EF1 WITH WINDS OF 110 MPH. TORNADO TRAVELED AROUND 6 MILES AND LASTED AROUND 30 MINUTES. MULTIPLE VORTEX TORNADO AT TIMES. (GLD)",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 6.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-24T23:45:00",
+   "mag": "UNK",
+   "location": "SELDEN, SHERIDAN KS",
+   "lat": 39.54,
+   "lon": -100.57,
+   "comments": "EMERGENCY MANAGER REPORTING BUILDINGS AND TREES DOWN... HOMES DAMAGED... AN OVERTURNED SEMI... AND 1 POSSIBLY INJURY DUE TO TORNADO. (GLD)",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 12.8
+  }
+ ]
+}

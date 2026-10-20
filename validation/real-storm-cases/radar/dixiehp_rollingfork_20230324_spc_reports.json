@@ -1,0 +1,161 @@
+{
+ "case": "dixiehp_rollingfork_20230324",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-03-24T21:25:37",
+  "2023-03-25T03:13:56"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T00:57:00",
+   "lat": 32.84,
+   "lon": -91.0,
+   "state": "MS",
+   "km_from_track": 7.4,
+   "km_from_storm_at_time": 11.4,
+   "ef": 4,
+   "length_mi": 59.23,
+   "width_yd": 1320.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T02:12:00",
+   "lat": 33.31,
+   "lon": -90.04,
+   "state": "MS",
+   "km_from_track": 7.2,
+   "km_from_storm_at_time": 7.4,
+   "ef": 3,
+   "length_mi": 29.43,
+   "width_yd": 1550.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T00:57:00",
+   "mag": "UNK",
+   "location": "5 SE MAYERSVILLE, ISSAQUENA MS",
+   "lat": 32.84,
+   "lon": -91.0,
+   "comments": "*** 16 FATAL *** A LONG TRACK EF4 TORNADO DEVELOPED OVER NORTHERN ISSAQUENA COUNTY AND TRACKED 59.4 MILES THROUGH SHARKEY AND HUMPHREYS COUNTIES... ENDING IN NORTHERN H (JAN)",
+   "km_from_track": 7.4,
+   "km_from_storm_at_time": 11.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T00:58:00",
+   "mag": "UNK",
+   "location": "3 SE MAYERSVILLE, ISSAQUENA MS",
+   "lat": 32.87,
+   "lon": -91.0,
+   "comments": "A TORNADO WAS SEEN NEAR WILLETT ROAD. (JAN)",
+   "km_from_track": 4.2,
+   "km_from_storm_at_time": 10.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T01:05:00",
+   "mag": "UNK",
+   "location": "ROLLING FORK, SHARKEY MS",
+   "lat": 32.91,
+   "lon": -90.87,
+   "comments": "VARIOUS REPORTS OF CATASTROPHIC DAMAGE IN AND AROUND ROLLING FORK... MS. (JAN)",
+   "km_from_track": 6.0,
+   "km_from_storm_at_time": 7.8
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-03-25T01:33:00",
+   "mag": "UNK",
+   "location": "2 NE MIDNIGHT, HUMPHREYS MS",
+   "lat": 33.07,
+   "lon": -90.55,
+   "comments": "REPORT FROM MPING OF WIND DAMAGE ALONG MS HIGHWAY 149 SIMILAR TO TREES UPROOTED OR SNAPPED OR A ROOF BLOWN OFF A BUILDING. LIKELY TORNADO DAMAGE. (JAN)",
+   "km_from_track": 5.3,
+   "km_from_storm_at_time": 9.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T01:37:00",
+   "mag": "UNK",
+   "location": "SILVER CITY, HUMPHREYS MS",
+   "lat": 33.1,
+   "lon": -90.5,
+   "comments": "*** 1 FATAL... 2 INJ *** BROADCAST MEDIA REPORTS THAT AN ADULT MALE DIED... AND TWO CHILDREN WERE IN CRITICAL CONDITION AFTER BEING TRAPPED IN A TORNADO DAMAGED HOME. A (JAN)",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 9.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T01:59:00",
+   "mag": "UNK",
+   "location": "4 S CRUGER, HOLMES MS",
+   "lat": 33.26,
+   "lon": -90.23,
+   "comments": "TREES DOWN BETWEEN CRUGER AND TCHULA. (JAN)",
+   "km_from_track": 5.5,
+   "km_from_storm_at_time": 4.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T02:12:00",
+   "mag": "UNK",
+   "location": "2 WSW BLACK HAWK, CARROLL MS",
+   "lat": 33.31,
+   "lon": -90.04,
+   "comments": "*** 3 FATAL... 5 INJ *** AN EF3 TORNADO DEVELOPED NEAR BLACKHAWK IN CARROLL COUNTY AND TRACKED 29.2 MILES NORTHEASTWARD THROUGH THE WINONA AREA IN MONTGOMERY COUNTY... (JAN)",
+   "km_from_track": 7.2,
+   "km_from_storm_at_time": 7.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T02:32:00",
+   "mag": "UNK",
+   "location": "2 SSW WINONA, MONTGOMERY MS",
+   "lat": 33.46,
+   "lon": -89.74,
+   "comments": "CORRECTS PREVIOUS TORNADO REPORT FROM 2 SSW WINONA. THERE WAS MAJOR DAMAGE TO HOMES ALONG US HIGHWAY 51... AND A CHURCH OFF OF HWY 51 WAS COMPLETELY DESTROYED. (JAN)",
+   "km_from_track": 9.7,
+   "km_from_storm_at_time": 11.9
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-03-25T02:52:00",
+   "mag": "UNK",
+   "location": "1 SSW WINONA, MONTGOMERY MS",
+   "lat": 33.47,
+   "lon": -89.74,
+   "comments": "A PINE TREE WAS BLOWN DOWN ACROSS A ROAD 1.3 MILES SOUTH OF WINONA. REPORT AND PICTURE RELAYED VIA TWITTER. POSSIBLE TORNADO DAMAGE. (JAN)",
+   "km_from_track": 8.8,
+   "km_from_storm_at_time": 12.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-03-25T02:53:00",
+   "mag": "UNK",
+   "location": "3 E WINONA, MONTGOMERY MS",
+   "lat": 33.48,
+   "lon": -89.68,
+   "comments": "TREES AND POWERLINES DOWN. POSSIBLE HOUSE DAMAGE EAST OF WINONA. (JAN)",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 11.6
+  }
+ ]
+}

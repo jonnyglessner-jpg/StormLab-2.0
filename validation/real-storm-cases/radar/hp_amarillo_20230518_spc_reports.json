@@ -1,0 +1,297 @@
+{
+ "case": "hp_amarillo_20230518",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-05-18T23:35:36",
+  "2023-05-19T04:46:36"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 6,
+  "wind_reports": 6,
+  "tornado_reports": 1,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": 74.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-18T23:50:00",
+   "lat": 35.41,
+   "lon": -101.84,
+   "state": "TX",
+   "km_from_track": 26.1,
+   "km_from_storm_at_time": 83.1,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T00:59:00",
+   "lat": 35.41,
+   "lon": -101.64,
+   "state": "TX",
+   "km_from_track": 13.2,
+   "km_from_storm_at_time": 58.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T01:10:00",
+   "lat": 35.35,
+   "lon": -101.64,
+   "state": "TX",
+   "km_from_track": 8.4,
+   "km_from_storm_at_time": 47.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T01:42:00",
+   "lat": 35.31,
+   "lon": -101.62,
+   "state": "TX",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 30.1,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T02:14:00",
+   "lat": 35.4,
+   "lon": -101.4,
+   "state": "TX",
+   "km_from_track": 17.6,
+   "km_from_storm_at_time": 34.4,
+   "size_in": 2.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T02:18:00",
+   "lat": 35.06,
+   "lon": -101.96,
+   "state": "TX",
+   "km_from_track": 25.5,
+   "km_from_storm_at_time": 32.6,
+   "gust_kt": 74.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T02:22:00",
+   "lat": 34.98,
+   "lon": -101.95,
+   "state": "TX",
+   "km_from_track": 23.6,
+   "km_from_storm_at_time": 37.5,
+   "gust_kt": 50.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T02:55:00",
+   "lat": 35.48,
+   "lon": -101.35,
+   "state": "TX",
+   "km_from_track": 26.9,
+   "km_from_storm_at_time": 27.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T02:55:00",
+   "lat": 35.48,
+   "lon": -101.35,
+   "state": "TX",
+   "km_from_track": 26.9,
+   "km_from_storm_at_time": 27.0,
+   "gust_kt": 52.0,
+   "measured": true
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-19T03:02:00",
+   "lat": 35.2786,
+   "lon": -101.5409,
+   "state": "TX",
+   "km_from_track": 0.5,
+   "km_from_storm_at_time": 1.8,
+   "ef": 0,
+   "length_mi": 0.09,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T03:17:00",
+   "lat": 34.73,
+   "lon": -101.8324,
+   "state": "TX",
+   "km_from_track": 10.2,
+   "km_from_storm_at_time": 67.0,
+   "gust_kt": 51.0,
+   "measured": true
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T03:45:00",
+   "lat": 35.4,
+   "lon": -101.24,
+   "state": "TX",
+   "km_from_track": 29.3,
+   "km_from_storm_at_time": 39.2,
+   "gust_kt": 50.0,
+   "measured": true
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T04:00:00",
+   "lat": 35.4,
+   "lon": -101.24,
+   "state": "TX",
+   "km_from_track": 29.3,
+   "km_from_storm_at_time": 47.4,
+   "gust_kt": 50.0,
+   "measured": true
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-18T23:50:00",
+   "mag": "250",
+   "location": "14 N AMARILLO, POTTER TX",
+   "lat": 35.41,
+   "lon": -101.84,
+   "comments": "(AMA)",
+   "km_from_track": 26.1,
+   "km_from_storm_at_time": 83.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T00:59:00",
+   "mag": "175",
+   "location": "7 NNW PANTEX, POTTER TX",
+   "lat": 35.41,
+   "lon": -101.64,
+   "comments": "(AMA)",
+   "km_from_track": 13.2,
+   "km_from_storm_at_time": 58.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T01:42:00",
+   "mag": "200",
+   "location": "2 WSW PANTEX, CARSON TX",
+   "lat": 35.31,
+   "lon": -101.62,
+   "comments": "(AMA)",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 30.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T02:14:00",
+   "mag": "200",
+   "location": "4 NNW PANHANDLE, CARSON TX",
+   "lat": 35.4,
+   "lon": -101.4,
+   "comments": "(AMA)",
+   "km_from_track": 17.6,
+   "km_from_storm_at_time": 34.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T02:18:00",
+   "mag": "UNK",
+   "location": "6 NNW CANYON, RANDALL TX",
+   "lat": 35.06,
+   "lon": -101.96,
+   "comments": "CARPORT DESTROYED ALONGSIDE VARIOUS ROOF SHINGLES AND WOODEN FENCE LINES BROKEN. (AMA)",
+   "km_from_track": 25.5,
+   "km_from_storm_at_time": 32.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T02:22:00",
+   "mag": "58",
+   "location": "1 W CANYON, RANDALL TX",
+   "lat": 34.98,
+   "lon": -101.95,
+   "comments": "(AMA)",
+   "km_from_track": 23.6,
+   "km_from_storm_at_time": 37.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T02:55:00",
+   "mag": "60",
+   "location": "9 N PANHANDLE, CARSON TX",
+   "lat": 35.48,
+   "lon": -101.35,
+   "comments": "STORM CHASER MEASURED WITH HIS ANEMOMETER. (AMA)",
+   "km_from_track": 26.9,
+   "km_from_storm_at_time": 27.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-19T02:55:00",
+   "mag": "100",
+   "location": "9 N PANHANDLE, CARSON TX",
+   "lat": 35.48,
+   "lon": -101.35,
+   "comments": "(AMA)",
+   "km_from_track": 26.9,
+   "km_from_storm_at_time": 27.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-19T03:02:00",
+   "mag": "UNK",
+   "location": "4 SE PANTEX, CARSON TX",
+   "lat": 35.28,
+   "lon": -101.54,
+   "comments": "A BRIEF TORNADO TOUCHED DOWN JUST TO THE EAST OF FM2373. IT CAUSED SOME BROKEN TREE LIMBS AND TOSSED A DUMPSTER SEVERAL YARDS BACK TO THE SOUTH. IT RESULTED IN DAMAGE T (AMA)",
+   "km_from_track": 0.3,
+   "km_from_storm_at_time": 1.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T03:17:00",
+   "mag": "59",
+   "location": "1 E HAPPY, SWISHER TX",
+   "lat": 34.74,
+   "lon": -101.84,
+   "comments": "(LUB)",
+   "km_from_track": 11.2,
+   "km_from_storm_at_time": 66.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T03:45:00",
+   "mag": "58",
+   "location": "4 WSW WHITE DEER, CARSON TX",
+   "lat": 35.4,
+   "lon": -101.24,
+   "comments": "CORRECTS PREVIOUS TSTM WND GST REPORT FROM 4 WSW WHITE DEER. STORM CHASER MEASURED WITH ANEMOMETER. (AMA)",
+   "km_from_track": 29.3,
+   "km_from_storm_at_time": 39.2
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-19T04:00:00",
+   "mag": "58",
+   "location": "4 WSW WHITE DEER, CARSON TX",
+   "lat": 35.4,
+   "lon": -101.24,
+   "comments": "STORM CHASER MEASURED WITH ANEMOMETER. (AMA)",
+   "km_from_track": 29.3,
+   "km_from_storm_at_time": 47.4
+  }
+ ]
+}

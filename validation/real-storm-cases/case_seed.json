@@ -1,0 +1,755 @@
+{
+ "_doc": "Hand-written seed for the case library. tools/case_catalog.py adds SPC facts, radars, balloon stations and data sources and writes catalog.json + CASES.md. Anchor = rough storm location (town), window = storm's life in UTC. role: calibrate (tune against it), holdout (never tune against it, score only), null (supercell that did NOT produce a tornado: the genesis model must say no), boundary (outflow-boundary / marginal genesis). chase = folder in ../storm-chase-site when the user was there.",
+ "cases": [
+  {
+   "id": "lp_manchester_20220513",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    37.0,
+    -98.04
+   ],
+   "window_utc": [
+    "2022-05-13T23:00",
+    "2022-05-14T03:00"
+   ],
+   "chase": "2022-05-13-wakita-ok",
+   "notes": "done: soundings, radar, lifecycle, GOES"
+  },
+  {
+   "id": "lp_earth_20210516",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    34.23,
+    -102.41
+   ],
+   "window_utc": [
+    "2021-05-16T21:00",
+    "2021-05-17T03:00"
+   ],
+   "chase": "2021-05-16-earth-tx",
+   "notes": "done; brief EFU as it went classic"
+  },
+  {
+   "id": "lp_hope_20220603",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    32.81,
+    -104.74
+   ],
+   "window_utc": [
+    "2022-06-03T19:00",
+    "2022-06-04T01:00"
+   ],
+   "chase": "2022-06-03-hope-nm",
+   "notes": "done"
+  },
+  {
+   "id": "lp_taiban_20230527",
+   "preset": "plains_lp",
+   "role": "holdout",
+   "anchor": [
+    34.44,
+    -104.0
+   ],
+   "window_utc": [
+    "2023-05-27T20:00",
+    "2023-05-28T03:00"
+   ],
+   "chase": "2023-05-27-taiban-nm",
+   "notes": "'Incredible LP Supercell'"
+  },
+  {
+   "id": "lp_rushcenter_20220421",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    38.47,
+    -99.31
+   ],
+   "window_utc": [
+    "2022-04-21T21:00",
+    "2022-04-22T03:00"
+   ],
+   "chase": "2022-04-21-rush-center-ks",
+   "notes": "'Gorgeous LP Supercell', early-season"
+  },
+  {
+   "id": "lp_clarks_20220818",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    41.21,
+    -97.84
+   ],
+   "window_utc": [
+    "2022-08-18T21:00",
+    "2022-08-19T03:00"
+   ],
+   "chase": "2022-08-18-clarks-ne",
+   "notes": "'Funky LP Supercell', late-summer"
+  },
+  {
+   "id": "ddc_20160524",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    37.75,
+    -100.02
+   ],
+   "window_utc": [
+    "2016-05-24T21:00",
+    "2016-05-25T03:00"
+   ],
+   "chase": null,
+   "notes": "the map's own town; cyclic; first-pass soundings and radar done"
+  },
+  {
+   "id": "classic_rozel_20130518",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    38.2,
+    -99.4
+   ],
+   "window_utc": [
+    "2013-05-18T21:00",
+    "2013-05-19T03:00"
+   ],
+   "chase": null,
+   "notes": "slow, photogenic, rope-to-stovepipe"
+  },
+  {
+   "id": "classic_pilger_20140616",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    42.0,
+    -97.05
+   ],
+   "window_utc": [
+    "2014-06-16T19:00",
+    "2014-06-17T02:00"
+   ],
+   "chase": null,
+   "notes": "twin tornadoes from one storm"
+  },
+  {
+   "id": "classic_forsan_20210517",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    32.11,
+    -101.37
+   ],
+   "window_utc": [
+    "2021-05-17T21:00",
+    "2021-05-18T03:00"
+   ],
+   "chase": "2021-05-17-forsan-tx",
+   "notes": "'Giant Supercell & Cone Tornado'"
+  },
+  {
+   "id": "classic_lamar_20220607",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    38.09,
+    -102.62
+   ],
+   "window_utc": [
+    "2022-06-07T20:00",
+    "2022-06-08T03:00"
+   ],
+   "chase": "2022-06-07-lamar-co",
+   "notes": "'Long-Tracked Supercell, Tornado'"
+  },
+  {
+   "id": "classic_selden_20210524",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    39.54,
+    -100.57
+   ],
+   "window_utc": [
+    "2021-05-24T21:00",
+    "2021-05-25T03:00"
+   ],
+   "chase": "2021-05-24-selden-ks",
+   "notes": "several weak tornadoes, cyclic"
+  },
+  {
+   "id": "classic_andover_20220429",
+   "preset": "plains_classic",
+   "role": "holdout",
+   "anchor": [
+    37.71,
+    -97.14
+   ],
+   "window_utc": [
+    "2022-04-29T22:00",
+    "2022-04-30T04:00"
+   ],
+   "chase": "2022-04-29-hope-ks",
+   "notes": "Andover storm; chaser was on the Hope storm"
+  },
+  {
+   "id": "classic_akron_20250523",
+   "preset": "plains_classic",
+   "role": "holdout",
+   "anchor": [
+    40.16,
+    -103.21
+   ],
+   "window_utc": [
+    "2025-05-23T19:00",
+    "2025-05-24T02:00"
+   ],
+   "chase": "2025-05-23-akron-co",
+   "notes": "'Breaking the Colorado Curse'"
+  },
+  {
+   "id": "hp_elreno_20130531",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    35.5,
+    -98.0
+   ],
+   "window_utc": [
+    "2013-05-31T22:00",
+    "2013-06-01T02:00"
+   ],
+   "chase": null,
+   "notes": "wide, rain-wrapped; DOW and mobile data published"
+  },
+  {
+   "id": "hp_moore_20130520",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    35.33,
+    -97.5
+   ],
+   "window_utc": [
+    "2013-05-20T19:00",
+    "2013-05-20T22:00"
+   ],
+   "chase": null,
+   "notes": "classic-to-HP"
+  },
+  {
+   "id": "hp_linwood_20190528",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    38.95,
+    -95.05
+   ],
+   "window_utc": [
+    "2019-05-28T21:00",
+    "2019-05-29T02:00"
+   ],
+   "chase": null,
+   "notes": "rain-wrapped wedge, Lawrence/Linwood"
+  },
+  {
+   "id": "hp_morton_20220523",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    33.73,
+    -102.76
+   ],
+   "window_utc": [
+    "2022-05-23T21:00",
+    "2022-05-24T03:00"
+   ],
+   "chase": "2022-05-23-morton-tx",
+   "notes": "possible outflow boundary; user to confirm"
+  },
+  {
+   "id": "hp_amarillo_20230518",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    35.2,
+    -101.8
+   ],
+   "window_utc": [
+    "2023-05-18T21:00",
+    "2023-05-19T03:00"
+   ],
+   "chase": "2023-05-18-amarillo-tx",
+   "notes": "'The Amarillo Mothership'"
+  },
+  {
+   "id": "hp_manhattan_20220611",
+   "preset": "plains_hp",
+   "role": "holdout",
+   "anchor": [
+    39.18,
+    -96.57
+   ],
+   "window_utc": [
+    "2022-06-11T21:00",
+    "2022-06-12T03:00"
+   ],
+   "chase": "2022-06-11-manhattan-ks",
+   "notes": "'The Manhattan Monster'"
+  },
+  {
+   "id": "dixie_smithville_20110427",
+   "preset": "dixie_classic",
+   "role": "calibrate",
+   "anchor": [
+    34.07,
+    -88.39
+   ],
+   "window_utc": [
+    "2011-04-27T19:00",
+    "2011-04-27T22:00"
+   ],
+   "chase": null,
+   "notes": "RUC era (pre-RAP)"
+  },
+  {
+   "id": "dixie_tuscaloosa_20110427",
+   "preset": "dixie_classic",
+   "role": "calibrate",
+   "anchor": [
+    33.2,
+    -87.55
+   ],
+   "window_utc": [
+    "2011-04-27T21:00",
+    "2011-04-28T01:00"
+   ],
+   "chase": null,
+   "notes": "long-track; RUC era"
+  },
+  {
+   "id": "dixie_beauregard_20190303",
+   "preset": "dixie_classic",
+   "role": "holdout",
+   "anchor": [
+    32.55,
+    -85.38
+   ],
+   "window_utc": [
+    "2019-03-03T19:00",
+    "2019-03-03T22:00"
+   ],
+   "chase": null,
+   "notes": "cool-season, fast"
+  },
+  {
+   "id": "dixiehp_mayfield_20211210",
+   "preset": "dixie_hp",
+   "role": "calibrate",
+   "anchor": [
+    36.74,
+    -88.64
+   ],
+   "window_utc": [
+    "2021-12-11T00:00",
+    "2021-12-11T06:00"
+   ],
+   "chase": null,
+   "notes": "nocturnal, long-track quad-state supercell"
+  },
+  {
+   "id": "dixiehp_bassfield_20200412",
+   "preset": "dixie_hp",
+   "role": "calibrate",
+   "anchor": [
+    31.5,
+    -89.75
+   ],
+   "window_utc": [
+    "2020-04-12T19:00",
+    "2020-04-12T23:00"
+   ],
+   "chase": null,
+   "notes": "very wide wedge"
+  },
+  {
+   "id": "dixiehp_rollingfork_20230324",
+   "preset": "dixie_hp",
+   "role": "calibrate",
+   "anchor": [
+    32.9,
+    -90.88
+   ],
+   "window_utc": [
+    "2023-03-25T00:00",
+    "2023-03-25T04:00"
+   ],
+   "chase": null,
+   "notes": "nocturnal"
+  },
+  {
+   "id": "dixiehp_moundville_20210317",
+   "preset": "dixie_hp",
+   "role": "holdout",
+   "anchor": [
+    32.99,
+    -87.63
+   ],
+   "window_utc": [
+    "2021-03-17T17:00",
+    "2021-03-17T23:00"
+   ],
+   "chase": "2021-03-17-moundville-al",
+   "notes": "user's first tornado intercept"
+  },
+  {
+   "id": "mw_washington_20131117",
+   "preset": "midwest_classic",
+   "role": "calibrate",
+   "anchor": [
+    40.7,
+    -89.4
+   ],
+   "window_utc": [
+    "2013-11-17T15:00",
+    "2013-11-17T19:00"
+   ],
+   "chase": null,
+   "notes": "November, fast"
+  },
+  {
+   "id": "mw_keota_20230331",
+   "preset": "midwest_classic",
+   "role": "calibrate",
+   "anchor": [
+    41.36,
+    -91.95
+   ],
+   "window_utc": [
+    "2023-03-31T19:00",
+    "2023-04-01T01:00"
+   ],
+   "chase": null,
+   "notes": ""
+  },
+  {
+   "id": "mw_lewistown_20230404",
+   "preset": "midwest_classic",
+   "role": "calibrate",
+   "anchor": [
+    40.4,
+    -90.15
+   ],
+   "window_utc": [
+    "2023-04-04T21:00",
+    "2023-04-05T03:00"
+   ],
+   "chase": "2023-04-04-lewistown-il",
+   "notes": "'The Lewistown Cone'; fluctuated classic/HP, classic when the tornado formed (user)"
+  },
+  {
+   "id": "mw_lakeview_20240314",
+   "preset": "midwest_classic",
+   "role": "holdout",
+   "anchor": [
+    40.5,
+    -83.9
+   ],
+   "window_utc": [
+    "2024-03-14T22:00",
+    "2024-03-15T03:00"
+   ],
+   "chase": "2024-03-14-lakeview-oh",
+   "notes": "Indian Lake tornado, 'The Ohio Monster'"
+  },
+  {
+   "id": "classic_arnold_20240607",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    41.42,
+    -100.19
+   ],
+   "window_utc": [
+    "2024-06-07T20:00",
+    "2024-06-08T03:00"
+   ],
+   "chase": "2024-06-07-ansley-ne",
+   "notes": "chase folder 2024-06-07-ansley-ne; five supercells; the tornado was near Arnold NE (user)"
+  },
+  {
+   "id": "mwhp_greenfield_20240521",
+   "preset": "midwest_hp",
+   "role": "calibrate",
+   "anchor": [
+    41.3,
+    -94.46
+   ],
+   "window_utc": [
+    "2024-05-21T18:00",
+    "2024-05-21T23:00"
+   ],
+   "chase": null,
+   "notes": "DOW sampled the tornado"
+  },
+  {
+   "id": "mwhp_mendota_20240227",
+   "preset": "midwest_hp",
+   "role": "calibrate",
+   "anchor": [
+    41.55,
+    -89.12
+   ],
+   "window_utc": [
+    "2024-02-27T22:00",
+    "2024-02-28T04:00"
+   ],
+   "chase": "2024-02-27-mendota-il",
+   "notes": "February"
+  },
+  {
+   "id": "mwhp_applecreek_20230615",
+   "preset": "midwest_hp",
+   "role": "holdout",
+   "anchor": [
+    40.75,
+    -81.84
+   ],
+   "window_utc": [
+    "2023-06-15T18:00",
+    "2023-06-16T02:00"
+   ],
+   "chase": "2023-06-15-apple-creek-oh",
+   "notes": "'Backyard Supercell'"
+  },
+  {
+   "id": "mini_milton_20241009",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    27.0,
+    -80.5
+   ],
+   "window_utc": [
+    "2024-10-09T13:00",
+    "2024-10-09T23:00"
+   ],
+   "chase": null,
+   "notes": "tropical-cyclone outbreak, many cells; pick one storm"
+  },
+  {
+   "id": "mini_gainesville_20240204",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    29.65,
+    -82.32
+   ],
+   "window_utc": [
+    "2024-02-04T15:00",
+    "2024-02-05T02:00"
+   ],
+   "chase": "2024-02-04-gainesville-fl",
+   "notes": "cool-season low-topped"
+  },
+  {
+   "id": "mini_sycamore_20210809",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    41.99,
+    -88.69
+   ],
+   "window_utc": [
+    "2021-08-09T18:00",
+    "2021-08-10T01:00"
+   ],
+   "chase": "2021-08-09-sycamore-il",
+   "notes": "six tornadoes, warm front"
+  },
+  {
+   "id": "mini_beaver_20221212",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    36.8,
+    -100.5
+   ],
+   "window_utc": [
+    "2022-12-12T20:00",
+    "2022-12-13T03:00"
+   ],
+   "chase": "2022-12-12-beaver-ok",
+   "notes": "'A Wedge in December', cool-season"
+  },
+  {
+   "id": "null_maywood_20220609",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    40.66,
+    -100.62
+   ],
+   "window_utc": [
+    "2022-06-09T20:00",
+    "2022-06-10T03:00"
+   ],
+   "chase": "2022-06-09-maywood-ne",
+   "notes": "'Gorgeous Supercell', no tornado"
+  },
+  {
+   "id": "null_brule_20220727",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    41.09,
+    -101.89
+   ],
+   "window_utc": [
+    "2022-07-27T20:00",
+    "2022-07-28T03:00"
+   ],
+   "chase": "2022-07-27-brule-ne",
+   "notes": "'Pretty Structure'"
+  },
+  {
+   "id": "null_sanjon_20230525",
+   "preset": "plains_hp",
+   "role": "null",
+   "anchor": [
+    35.1,
+    -103.33
+   ],
+   "window_utc": [
+    "2023-05-25T20:00",
+    "2023-05-26T03:00"
+   ],
+   "chase": "2023-05-25-san-jon-nm",
+   "notes": "'MASSIVE Mothership' part two"
+  },
+  {
+   "id": "null_sterling_20240601",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    40.63,
+    -103.21
+   ],
+   "window_utc": [
+    "2024-06-01T20:00",
+    "2024-06-02T03:00"
+   ],
+   "chase": "2024-06-01-sterling-co",
+   "notes": "'This Supercell Was a Tease'"
+  },
+  {
+   "id": "null_burlington_20230813",
+   "preset": "plains_hp",
+   "role": "null",
+   "anchor": [
+    38.19,
+    -95.74
+   ],
+   "window_utc": [
+    "2023-08-13T20:00",
+    "2023-08-14T03:00"
+   ],
+   "chase": "2023-08-13-burlington-ks",
+   "notes": "HP, August"
+  },
+  {
+   "id": "null_tescott_20220917",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    39.0,
+    -97.88
+   ],
+   "window_utc": [
+    "2022-09-17T21:00",
+    "2022-09-18T03:00"
+   ],
+   "chase": "2022-09-17-tescott-ks",
+   "notes": "'The Big Beautiful Orange Storm'"
+  },
+  {
+   "id": "null_fortsumner_20210522",
+   "preset": "plains_lp",
+   "role": "null",
+   "anchor": [
+    34.47,
+    -104.24
+   ],
+   "window_utc": [
+    "2021-05-22T20:00",
+    "2021-05-23T03:00"
+   ],
+   "chase": "2021-05-22-fort-sumner-nm",
+   "notes": ""
+  },
+  {
+   "id": "null_hobbs_20220601",
+   "preset": "plains_hp",
+   "role": "null",
+   "anchor": [
+    32.7,
+    -103.14
+   ],
+   "window_utc": [
+    "2022-06-01T20:00",
+    "2022-06-02T03:00"
+   ],
+   "chase": "2022-06-01-hobbs-nm",
+   "notes": "'Hail & Mammatus'"
+  },
+  {
+   "id": "bnd_stratford_20230528",
+   "preset": "plains_lp",
+   "role": "boundary",
+   "anchor": [
+    36.34,
+    -102.07
+   ],
+   "window_utc": [
+    "2023-05-28T20:00",
+    "2023-05-29T03:00"
+   ],
+   "chase": "2023-05-28-stratford-tx",
+   "notes": "'Weirdest Tornado Chase'; user to confirm a boundary"
+  },
+  {
+   "id": "bnd_grady_20230524",
+   "preset": "plains_hp",
+   "role": "boundary",
+   "anchor": [
+    34.82,
+    -103.32
+   ],
+   "window_utc": [
+    "2023-05-24T20:00",
+    "2023-05-25T03:00"
+   ],
+   "chase": "2023-05-24-grady-nm",
+   "notes": "'MASSIVE Mothership' part one, 2 EFU"
+  },
+  {
+   "id": "bnd_plainview_20230523",
+   "preset": "plains_lp",
+   "role": "boundary",
+   "anchor": [
+    34.18,
+    -101.71
+   ],
+   "window_utc": [
+    "2023-05-23T20:00",
+    "2023-05-24T03:00"
+   ],
+   "chase": "2023-05-23-plainview-tx",
+   "notes": "landspouts: a tornado without a supercell; negative control for the meso-based genesis model"
+  }
+ ]
+}

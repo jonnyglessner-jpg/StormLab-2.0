@@ -1,0 +1,269 @@
+{
+ "case": "mini_milton_20241009",
+ "radius_km": 50,
+ "window_utc": [
+  "2024-10-09T16:35:47",
+  "2024-10-09T19:28:42"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 11,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T16:37:00",
+   "lat": 27.362,
+   "lon": -81.205,
+   "state": "FL",
+   "km_from_track": 12.1,
+   "km_from_storm_at_time": 147.4,
+   "ef": 1,
+   "length_mi": 6.84,
+   "width_yd": 500.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:04:00",
+   "lat": 27.2822,
+   "lon": -80.8798,
+   "state": "FL",
+   "km_from_track": 26.9,
+   "km_from_storm_at_time": 61.9,
+   "ef": 2,
+   "length_mi": 8.5,
+   "width_yd": 250.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:10:00",
+   "lat": 27.2724,
+   "lon": -80.7072,
+   "state": "FL",
+   "km_from_track": 43.3,
+   "km_from_storm_at_time": 59.5,
+   "ef": 1,
+   "length_mi": 17.14,
+   "width_yd": 300.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:13:00",
+   "lat": 27.3052,
+   "lon": -81.342,
+   "state": "FL",
+   "km_from_track": 18.5,
+   "km_from_storm_at_time": 60.9,
+   "ef": 2,
+   "length_mi": 2.85,
+   "width_yd": 300.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:15:00",
+   "lat": 26.4502,
+   "lon": -81.0533,
+   "state": "FL",
+   "km_from_track": 6.6,
+   "km_from_storm_at_time": 45.2,
+   "ef": 0,
+   "length_mi": 1.28,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:19:00",
+   "lat": 26.4311,
+   "lon": -81.0388,
+   "state": "FL",
+   "km_from_track": 5.6,
+   "km_from_storm_at_time": 50.7,
+   "ef": 1,
+   "length_mi": 1.26,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:21:00",
+   "lat": 26.419,
+   "lon": -81.0366,
+   "state": "FL",
+   "km_from_track": 6.0,
+   "km_from_storm_at_time": 51.8,
+   "ef": 1,
+   "length_mi": 1.74,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:24:00",
+   "lat": 26.8878,
+   "lon": -81.0381,
+   "state": "FL",
+   "km_from_track": 0.2,
+   "km_from_storm_at_time": 0.9,
+   "ef": 3,
+   "length_mi": 15.46,
+   "width_yd": 250.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:27:00",
+   "lat": 27.4318,
+   "lon": -80.9535,
+   "state": "FL",
+   "km_from_track": 28.1,
+   "km_from_storm_at_time": 58.8,
+   "ef": 2,
+   "length_mi": 2.64,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:30:00",
+   "lat": 27.0669,
+   "lon": -81.3474,
+   "state": "FL",
+   "km_from_track": 21.1,
+   "km_from_storm_at_time": 31.4,
+   "ef": 1,
+   "length_mi": 0.59,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:42:00",
+   "lat": 27.177,
+   "lon": -81.3519,
+   "state": "FL",
+   "km_from_track": 20.9,
+   "km_from_storm_at_time": 23.6,
+   "ef": 1,
+   "length_mi": 0.47,
+   "width_yd": 50.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T16:45:00",
+   "mag": "UNK",
+   "location": "6 SSE Lorida, Highlands FL",
+   "lat": 27.37,
+   "lon": -81.2,
+   "comments": "Social media pictures and videos of tornado near Wild Island. (TBW)",
+   "km_from_track": 12.8,
+   "km_from_storm_at_time": 148.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T17:50:00",
+   "mag": "UNK",
+   "location": "6 SE Archbold, Highlands FL",
+   "lat": 27.13,
+   "lon": -81.28,
+   "comments": "Pictures of large tornado near Brighton. (TBW)",
+   "km_from_track": 14.8,
+   "km_from_storm_at_time": 68.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:00:00",
+   "mag": "UNK",
+   "location": "4 ESE Archbold, Highlands FL",
+   "lat": 27.17,
+   "lon": -81.28,
+   "comments": "Video and images of large wedge tornado on the ground moving NNE near Placid Lakes near State Rd 70 and US 27. (TBW)",
+   "km_from_track": 14.6,
+   "km_from_storm_at_time": 62.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:11:00",
+   "mag": "UNK",
+   "location": "4 NW Basswood Estates, Okeechobee FL",
+   "lat": 27.32,
+   "lon": -80.91,
+   "comments": "Emergency manager confirms a tornado on the ground near Dixie Ranch Acres. (MLB)",
+   "km_from_track": 25.8,
+   "km_from_storm_at_time": 56.6
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:14:00",
+   "mag": "UNK",
+   "location": "6 W Clewiston, Hendry FL",
+   "lat": 26.74,
+   "lon": -81.03,
+   "comments": "Preliminary starting point for a confirmed tornado that formed near the Hendry and Glades county line... crossing US 27 and moving into the Brighton Reservation. Pendin (MFL)",
+   "km_from_track": 5.8,
+   "km_from_storm_at_time": 12.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:15:00",
+   "mag": "UNK",
+   "location": "3 NNE Lake Placid, Highlands FL",
+   "lat": 27.33,
+   "lon": -81.35,
+   "comments": "Sheriff reports damage to Tropical Harbor Mobile Home Park in Lake Placid/Sylvan Shores from apparent tornado (Time estimated). (TBW)",
+   "km_from_track": 20.1,
+   "km_from_storm_at_time": 61.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:16:00",
+   "mag": "UNK",
+   "location": "12 SSE Devils Garden, Hendry FL",
+   "lat": 26.46,
+   "lon": -81.05,
+   "comments": "NWS Storm Survey found small limbs broken by a tornadic circulation. This is a new tornado report. (MFL)",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 44.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:24:00",
+   "mag": "UNK",
+   "location": "5 NE Moore Haven, AMZ610 FL",
+   "lat": 26.89,
+   "lon": -81.04,
+   "comments": "Start point of the EF3 Lakeport Tornado. Time estimated off of KAMX. (MFL)",
+   "km_from_track": 0.3,
+   "km_from_storm_at_time": 1.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:30:00",
+   "mag": "UNK",
+   "location": "Lake Placid, Highlands FL",
+   "lat": 27.3,
+   "lon": -81.37,
+   "comments": "*** 1 INJ *** Reports of damage to a mobile home Park in Lake Placid. (TBW)",
+   "km_from_track": 21.0,
+   "km_from_storm_at_time": 48.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-10-09T18:49:00",
+   "mag": "UNK",
+   "location": "7 WNW Lion Country Safa, Palm Beach FL",
+   "lat": 26.74,
+   "lon": -80.47,
+   "comments": "Corrects previous tornado report from 7 WNW Lion Country Safari Park. Corrects previous tornado report from 7 WNW Lion Country Safari Park. Spotter witnessed tornado to (MFL)",
+   "km_from_track": 50.0,
+   "km_from_storm_at_time": 81.5
+  }
+ ]
+}

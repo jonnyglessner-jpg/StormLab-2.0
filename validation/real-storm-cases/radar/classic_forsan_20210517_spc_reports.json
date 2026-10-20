@@ -1,0 +1,312 @@
+{
+ "case": "classic_forsan_20210517",
+ "radius_km": 50,
+ "window_utc": [
+  "2021-05-17T20:30:24",
+  "2021-05-18T01:12:07"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 8,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 4.25,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 13,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 4.25,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T21:28:00",
+   "lat": 32.0744,
+   "lon": -101.786,
+   "state": "TX",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 6.4,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T21:51:00",
+   "lat": 32.1402,
+   "lon": -101.8121,
+   "state": "TX",
+   "km_from_track": 4.7,
+   "km_from_storm_at_time": 11.7,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T22:14:00",
+   "lat": 32.3,
+   "lon": -101.733,
+   "state": "TX",
+   "km_from_track": 13.3,
+   "km_from_storm_at_time": 24.3,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T22:51:00",
+   "lat": 32.4512,
+   "lon": -101.5894,
+   "state": "TX",
+   "km_from_track": 32.6,
+   "km_from_storm_at_time": 34.4,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:06:00",
+   "lat": 32.1265,
+   "lon": -101.4538,
+   "state": "TX",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 6.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:10:00",
+   "lat": 32.18,
+   "lon": -101.48,
+   "state": "TX",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 10.4,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:15:00",
+   "lat": 32.12,
+   "lon": -101.37,
+   "state": "TX",
+   "km_from_track": 4.7,
+   "km_from_storm_at_time": 5.3,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:20:00",
+   "lat": 32.1609,
+   "lon": -101.4184,
+   "state": "TX",
+   "km_from_track": 1.4,
+   "km_from_storm_at_time": 6.5,
+   "size_in": 4.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:46:00",
+   "lat": 32.018,
+   "lon": -101.9,
+   "state": "TX",
+   "km_from_track": 7.8,
+   "km_from_storm_at_time": 63.5,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:52:00",
+   "lat": 32.0512,
+   "lon": -102.0196,
+   "state": "TX",
+   "km_from_track": 18.9,
+   "km_from_storm_at_time": 74.1,
+   "size_in": 2.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-18T00:11:00",
+   "lat": 32.05,
+   "lon": -101.18,
+   "state": "TX",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 1.7,
+   "ef": 2,
+   "length_mi": 11.4,
+   "width_yd": 1056.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-18T00:36:00",
+   "lat": 32.2987,
+   "lon": -100.85,
+   "state": "TX",
+   "km_from_track": 29.9,
+   "km_from_storm_at_time": 30.1,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-18T00:40:00",
+   "lat": 32.02,
+   "lon": -101.02,
+   "state": "TX",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 5.2,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-18T00:40:00",
+   "lat": 32.2987,
+   "lon": -100.85,
+   "state": "TX",
+   "km_from_track": 29.9,
+   "km_from_storm_at_time": 30.0,
+   "size_in": 2.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T21:28:00",
+   "mag": "250",
+   "location": "4 SE STANTON, Glasscock TX",
+   "lat": 32.09,
+   "lon": -101.74,
+   "comments": "SPOTTER REPORTED 2 1/2 INCH HAIL S OF STANTON ON HWY 137. (MAF)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 5.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T21:51:00",
+   "mag": "250",
+   "location": "1 NW STANTON, Martin TX",
+   "lat": 32.14,
+   "lon": -101.8,
+   "comments": "SPOTTER REPORT OF 2 1/2 INCH HAIL 1 NW STANTON. (MAF)",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 10.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T22:14:00",
+   "mag": "250",
+   "location": "8 E LENORAH, Martin TX",
+   "lat": 32.31,
+   "lon": -101.74,
+   "comments": "(MAF)",
+   "km_from_track": 14.4,
+   "km_from_storm_at_time": 25.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T22:51:00",
+   "mag": "175",
+   "location": "5 NE KNOTT, Howard TX",
+   "lat": 32.45,
+   "lon": -101.58,
+   "comments": "SOCIAL MEDIA PHOTO 5 NE OF KNOTT. (MAF)",
+   "km_from_track": 32.4,
+   "km_from_storm_at_time": 33.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:10:00",
+   "mag": "275",
+   "location": "SOUTH HAVEN, HOWARD TX",
+   "lat": 32.19,
+   "lon": -101.48,
+   "comments": "(MAF)",
+   "km_from_track": 4.2,
+   "km_from_storm_at_time": 10.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:20:00",
+   "mag": "425",
+   "location": "4 NW FORSAN, Howard TX",
+   "lat": 32.15,
+   "lon": -101.41,
+   "comments": "(MAF)",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 5.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:46:00",
+   "mag": "100",
+   "location": "GREENWOOD, MIDLAND TX",
+   "lat": 32.03,
+   "lon": -101.9,
+   "comments": "(MAF)",
+   "km_from_track": 7.6,
+   "km_from_storm_at_time": 63.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-17T23:52:00",
+   "mag": "200",
+   "location": "5 NE MIDLAND, Midland TX",
+   "lat": 32.05,
+   "lon": -102.02,
+   "comments": "2 INCH SIZE HAIL NE OF MIDLAND (MAF)",
+   "km_from_track": 18.9,
+   "km_from_storm_at_time": 74.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-18T00:11:00",
+   "mag": "UNK",
+   "location": "19 NW STERLING CITY, STERLING TX",
+   "lat": 32.05,
+   "lon": -101.18,
+   "comments": "A STORM CHASER VIDEOTAPED A LARGE TORNADO IN NORTHWEST STERLING COUNTY. (SJT)",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 1.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-18T00:36:00",
+   "mag": "UNK",
+   "location": "14 NNW STERLING CITY, STERLING TX",
+   "lat": 32.03,
+   "lon": -101.06,
+   "comments": "STORM CHASER VIDEOTAPED TORNADO AT 7:36 PM. (SJT)",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 5.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-18T00:40:00",
+   "mag": "275",
+   "location": "12 N STERLING CITY, STERLING TX",
+   "lat": 32.02,
+   "lon": -101.02,
+   "comments": "STORM CHASER REPORTED BASEBALL SIZE HAIL. (SJT)",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 5.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2021-05-18T00:40:00",
+   "mag": "200",
+   "location": "7 S COLORADO CITY, Mitchell TX",
+   "lat": 32.3,
+   "lon": -100.86,
+   "comments": "(MAF)",
+   "km_from_track": 29.5,
+   "km_from_storm_at_time": 29.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-05-18T00:47:00",
+   "mag": "UNK",
+   "location": "14 N STERLING CITY, STERLING TX",
+   "lat": 32.03,
+   "lon": -101.02,
+   "comments": "STERLING COUNTY SHERIFFS OFFICE REPORTED DAMAGE TO A GAS PLANT ABOUT 14 MILES NORTH OF STERLING CITY ALONG HIGHWAY 163. THERE WERE ALSO MULTIPLE EYEWITNESS REPORTS OF T (SJT)",
+   "km_from_track": 3.9,
+   "km_from_storm_at_time": 3.9
+  }
+ ]
+}

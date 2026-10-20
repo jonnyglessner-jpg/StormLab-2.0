@@ -1,0 +1,262 @@
+{
+ "case": "mini_gainesville_20240204",
+ "radius_km": 50,
+ "window_utc": [
+  "2024-02-04T18:04:13",
+  "2024-02-04T23:27:41"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 8,
+  "wind_reports": 0,
+  "tornado_reports": 3,
+  "largest_hail_in": 1.25,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 10,
+  "wind_reports": 0,
+  "tornado_reports": 3,
+  "largest_hail_in": 1.25,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T19:56:00",
+   "lat": 29.66,
+   "lon": -82.38,
+   "state": "FL",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 3.9,
+   "size_in": 0.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T19:56:00",
+   "lat": 29.65,
+   "lon": -82.37,
+   "state": "FL",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 3.5,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T20:01:00",
+   "lat": 29.61,
+   "lon": -82.37,
+   "state": "FL",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 11.8,
+   "size_in": 0.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T20:10:00",
+   "lat": 30.22,
+   "lon": -82.16,
+   "state": "FL",
+   "km_from_track": 23.4,
+   "km_from_storm_at_time": 54.1,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T20:44:00",
+   "lat": 29.91,
+   "lon": -82.09,
+   "state": "FL",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 3.7,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T20:55:00",
+   "lat": 29.95,
+   "lon": -82.09,
+   "state": "FL",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 3.2,
+   "size_in": 0.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T21:10:00",
+   "lat": 30.0,
+   "lon": -82.04,
+   "state": "FL",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 5.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-02-04T21:11:00",
+   "lat": 30.1988,
+   "lon": -81.9119,
+   "state": "FL",
+   "km_from_track": 1.4,
+   "km_from_storm_at_time": 19.2,
+   "ef": 1,
+   "length_mi": 1.05,
+   "width_yd": 200.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-02-04T21:13:00",
+   "lat": 29.9881,
+   "lon": -82.0338,
+   "state": "FL",
+   "km_from_track": 1.5,
+   "km_from_storm_at_time": 8.4,
+   "ef": 1,
+   "length_mi": 0.98,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T22:00:00",
+   "lat": 30.29,
+   "lon": -81.83,
+   "state": "FL",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 1.8,
+   "size_in": 0.88
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-02-04T22:05:00",
+   "lat": 30.2573,
+   "lon": -81.8646,
+   "state": "FL",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 8.1,
+   "ef": 0,
+   "length_mi": 1.38,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T22:10:00",
+   "lat": 29.16,
+   "lon": -82.12,
+   "state": "FL",
+   "km_from_track": 44.8,
+   "km_from_storm_at_time": 135.2,
+   "size_in": 0.88
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T23:12:00",
+   "lat": 30.5216,
+   "lon": -81.8147,
+   "state": "FL",
+   "km_from_track": 8.2,
+   "km_from_storm_at_time": 17.8,
+   "size_in": 1.25
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T19:56:00",
+   "mag": "100",
+   "location": "1 NW University of Flor, Alachua FL",
+   "lat": 29.65,
+   "lon": -82.37,
+   "comments": "Photo from Social Media showing estimated quarter sized hail littering the green at UF golf course in Gainesville... FL. Time estimated off Radar. (JAX)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 3.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T20:10:00",
+   "mag": "100",
+   "location": "4 S Glen Saint Mary, Baker FL",
+   "lat": 30.22,
+   "lon": -82.16,
+   "comments": "1 inch hail reported with passing storm. (JAX)",
+   "km_from_track": 23.4,
+   "km_from_storm_at_time": 54.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T20:44:00",
+   "mag": "100",
+   "location": "3 SSE Starke, Bradford FL",
+   "lat": 29.91,
+   "lon": -82.09,
+   "comments": "Public reported hail about quarter size hail with some hailstones slightly bigger. Radar estimated time. (JAX)",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 3.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T21:10:00",
+   "mag": "100",
+   "location": "4 NW Kingsley, Clay FL",
+   "lat": 30.0,
+   "lon": -82.04,
+   "comments": "Quarter size hail was reported along CR-225 between Lawtey and Kingsley Lake. (JAX)",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 5.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-02-04T21:12:00",
+   "mag": "UNK",
+   "location": "6 E Maxville, Duval FL",
+   "lat": 30.21,
+   "lon": -81.91,
+   "comments": "Video of tornado touching down near Cecil Field from the public... and EM reports damage to homes in the area. Video was taken near Argyle Forest Blvd and FL23 looking (JAX)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 19.8
+  },
+  {
+   "kind": "wind",
+   "utc": "2024-02-04T21:13:00",
+   "mag": "UNK",
+   "location": "3 NW Kingsley, Clay FL",
+   "lat": 30.0,
+   "lon": -82.03,
+   "comments": "Multiple trees down along CR-225. Possible tornado damage. (JAX)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 7.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-02-04T21:15:00",
+   "mag": "UNK",
+   "location": "3 NW Kingsley, Clay FL",
+   "lat": 30.0,
+   "lon": -82.03,
+   "comments": "A tornado touched down in the northwestern portions of Clay County... or within the Camp Blanding Wildlife Management Area just to the northwest of Kingsley Lake... on (JAX)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 8.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-02-04T22:06:00",
+   "mag": "UNK",
+   "location": "5 WNW Jacksonville Heig, Duval FL",
+   "lat": 30.27,
+   "lon": -81.86,
+   "comments": "A tornado touched down adjacent to the Immanuel Baptist Church off Sarroca Lane... or just southwest of the intersection of Normandy Boulevard and Cecil Commerce Center (JAX)",
+   "km_from_track": 0.4,
+   "km_from_storm_at_time": 7.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-02-04T23:12:00",
+   "mag": "125",
+   "location": "2 SW Ratliff, Nassau FL",
+   "lat": 30.48,
+   "lon": -81.85,
+   "comments": "Public report of Half dollar sized hail near Ratliff FL... in Nassau County. (JAX)",
+   "km_from_track": 9.4,
+   "km_from_storm_at_time": 23.2
+  }
+ ]
+}

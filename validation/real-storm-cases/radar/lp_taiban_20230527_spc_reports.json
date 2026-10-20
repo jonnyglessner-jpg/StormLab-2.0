@@ -1,0 +1,59 @@
+{
+ "case": "lp_taiban_20230527",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-05-27T21:27:29",
+  "2023-05-28T02:59:26"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 1,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-27T23:15:00",
+   "lat": 34.68,
+   "lon": -104.37,
+   "state": "NM",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 4.1,
+   "size_in": 1.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-27T23:15:00",
+   "mag": "100",
+   "location": "5 N SUMNER LAKE STATE P, DE BACA NM",
+   "lat": 34.68,
+   "lon": -104.39,
+   "comments": "(ABQ)",
+   "km_from_track": 4.6,
+   "km_from_storm_at_time": 5.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-27T23:37:00",
+   "mag": "175",
+   "location": "5 N SUMNER LAKE STATE P, DE BACA NM",
+   "lat": 34.68,
+   "lon": -104.37,
+   "comments": "(ABQ)",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 13.6
+  }
+ ]
+}

@@ -1,0 +1,727 @@
+{
+ "case": "classic_lamar_20220607",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-06-07T18:09:08",
+  "2022-06-08T04:31:01"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 15,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 3.5,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 30,
+  "wind_reports": 2,
+  "tornado_reports": 4,
+  "largest_hail_in": 3.5,
+  "strongest_gust_kt": 76.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:25:00",
+   "lat": 38.97,
+   "lon": -104.61,
+   "state": "CO",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 8.7,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:45:00",
+   "lat": 38.97,
+   "lon": -104.6,
+   "state": "CO",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 2.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:45:00",
+   "lat": 38.97,
+   "lon": -104.61,
+   "state": "CO",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 2.8,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:55:00",
+   "lat": 38.97,
+   "lon": -104.54,
+   "state": "CO",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 3.4,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:58:00",
+   "lat": 38.95,
+   "lon": -104.58,
+   "state": "CO",
+   "km_from_track": 2.0,
+   "km_from_storm_at_time": 8.1,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T20:29:00",
+   "lat": 38.9,
+   "lon": -104.39,
+   "state": "CO",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 10.7,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T21:29:00",
+   "lat": 38.75,
+   "lon": -103.79,
+   "state": "CO",
+   "km_from_track": 2.4,
+   "km_from_storm_at_time": 4.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T21:35:00",
+   "lat": 38.76,
+   "lon": -103.8,
+   "state": "CO",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 4.1,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T21:42:00",
+   "lat": 38.97,
+   "lon": -104.6,
+   "state": "CO",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 80.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T22:20:00",
+   "lat": 38.05,
+   "lon": -103.43,
+   "state": "CO",
+   "km_from_track": 41.2,
+   "km_from_storm_at_time": 60.6,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T22:41:00",
+   "lat": 38.07,
+   "lon": -103.23,
+   "state": "CO",
+   "km_from_track": 31.0,
+   "km_from_storm_at_time": 48.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T23:40:00",
+   "lat": 38.54,
+   "lon": -103.7,
+   "state": "CO",
+   "km_from_track": 13.5,
+   "km_from_storm_at_time": 72.2,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:23:00",
+   "lat": 38.12,
+   "lon": -102.73,
+   "state": "CO",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 4.4,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:28:00",
+   "lat": 38.11,
+   "lon": -102.84,
+   "state": "CO",
+   "km_from_track": 6.1,
+   "km_from_storm_at_time": 8.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T00:36:00",
+   "lat": 38.2,
+   "lon": -103.33,
+   "state": "CO",
+   "km_from_track": 22.6,
+   "km_from_storm_at_time": 55.0,
+   "ef": "EFU",
+   "length_mi": 3.4,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:45:00",
+   "lat": 38.2,
+   "lon": -103.33,
+   "state": "CO",
+   "km_from_track": 22.6,
+   "km_from_storm_at_time": 61.2,
+   "size_in": 2.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:51:00",
+   "lat": 38.1,
+   "lon": -103.16,
+   "state": "CO",
+   "km_from_track": 25.9,
+   "km_from_storm_at_time": 46.1,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T00:56:00",
+   "lat": 37.97,
+   "lon": -102.62,
+   "state": "CO",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 4.6,
+   "ef": "EFU",
+   "length_mi": 6.39,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T01:01:00",
+   "lat": 37.99,
+   "lon": -102.61,
+   "state": "CO",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 0.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T01:05:00",
+   "lat": 38.1,
+   "lon": -103.16,
+   "state": "CO",
+   "km_from_track": 25.9,
+   "km_from_storm_at_time": 53.1,
+   "size_in": 1.75
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-06-08T01:31:00",
+   "lat": 37.03,
+   "lon": -101.91,
+   "state": "KS",
+   "km_from_track": 32.6,
+   "km_from_storm_at_time": 103.5,
+   "gust_kt": 52.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:00:00",
+   "lat": 37.69,
+   "lon": -102.25,
+   "state": "CO",
+   "km_from_track": 5.4,
+   "km_from_storm_at_time": 4.7,
+   "size_in": 1.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-06-08T02:05:00",
+   "lat": 36.92,
+   "lon": -101.78,
+   "state": "OK",
+   "km_from_track": 38.7,
+   "km_from_storm_at_time": 93.6,
+   "gust_kt": 76.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:18:00",
+   "lat": 37.63,
+   "lon": -102.13,
+   "state": "CO",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 2.7,
+   "size_in": 3.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T02:18:00",
+   "lat": 37.61,
+   "lon": -102.13,
+   "state": "CO",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 4.3,
+   "ef": "EFU",
+   "length_mi": 6.35,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:48:00",
+   "lat": 37.5,
+   "lon": -101.94,
+   "state": "KS",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 1.8,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:54:00",
+   "lat": 38.84,
+   "lon": -103.81,
+   "state": "CO",
+   "km_from_track": 11.4,
+   "km_from_storm_at_time": 223.7,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:00:00",
+   "lat": 37.0,
+   "lon": -101.9,
+   "state": "KS",
+   "km_from_track": 34.9,
+   "km_from_storm_at_time": 49.9,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:08:00",
+   "lat": 38.72,
+   "lon": -103.63,
+   "state": "CO",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 212.4,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:12:00",
+   "lat": 38.74,
+   "lon": -103.54,
+   "state": "CO",
+   "km_from_track": 12.5,
+   "km_from_storm_at_time": 210.0,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:15:00",
+   "lat": 38.74,
+   "lon": -103.54,
+   "state": "CO",
+   "km_from_track": 12.5,
+   "km_from_storm_at_time": 212.1,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:16:00",
+   "lat": 38.73,
+   "lon": -103.55,
+   "state": "CO",
+   "km_from_track": 11.2,
+   "km_from_storm_at_time": 212.6,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T03:27:00",
+   "lat": 37.61,
+   "lon": -102.26,
+   "state": "CO",
+   "km_from_track": 12.7,
+   "km_from_storm_at_time": 52.8,
+   "ef": "EFU",
+   "length_mi": 8.07,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:46:00",
+   "lat": 37.27,
+   "lon": -101.78,
+   "state": "KS",
+   "km_from_track": 5.3,
+   "km_from_storm_at_time": 6.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:58:00",
+   "lat": 37.46,
+   "lon": -102.04,
+   "state": "KS",
+   "km_from_track": 7.9,
+   "km_from_storm_at_time": 44.6,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T04:13:00",
+   "lat": 38.54,
+   "lon": -103.7,
+   "state": "CO",
+   "km_from_track": 13.5,
+   "km_from_storm_at_time": 235.8,
+   "size_in": 1.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:25:00",
+   "mag": "150",
+   "location": "3 N FALCON, EL PASO CO",
+   "lat": 38.97,
+   "lon": -104.61,
+   "comments": "COCORAHS SPOTTER MEASURED 1.63-INCH HAIL WITH EARLIER SEVERE STORM. (PUB)",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 8.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T19:55:00",
+   "mag": "200",
+   "location": "5 SW PEYTON, EL PASO CO",
+   "lat": 38.97,
+   "lon": -104.54,
+   "comments": "PICTURE EMAILED FROM TRAINED SPOTTER. (PUB)",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 3.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T20:29:00",
+   "mag": "200",
+   "location": "4 N ELLICOTT, EL PASO CO",
+   "lat": 38.9,
+   "lon": -104.39,
+   "comments": "PICTURE RELAYED VIA SOCIAL MEDIA. (PUB)",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 10.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T21:35:00",
+   "mag": "175",
+   "location": "7 NW FORDER, LINCOLN CO",
+   "lat": 38.76,
+   "lon": -103.8,
+   "comments": "(BOU)",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 4.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T21:42:00",
+   "mag": "100",
+   "location": "3 NNE FALCON, EL PASO CO",
+   "lat": 38.97,
+   "lon": -104.6,
+   "comments": "HAIL TO QUARTER SIZE ONGOING AS REPORTED BY TRAINED SPOTTER. (PUB)",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 80.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T22:20:00",
+   "mag": "175",
+   "location": "6 SE CHERAW, OTERO CO",
+   "lat": 38.05,
+   "lon": -103.43,
+   "comments": "(PUB)",
+   "km_from_track": 41.2,
+   "km_from_storm_at_time": 60.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T22:41:00",
+   "mag": "100",
+   "location": "LAS ANIMAS, BENT CO",
+   "lat": 38.07,
+   "lon": -103.23,
+   "comments": "OBSERVED FROM LAS ANIMAS DOLLAR GENERAL. (PUB)",
+   "km_from_track": 31.0,
+   "km_from_storm_at_time": 48.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-07T23:40:00",
+   "mag": "125",
+   "location": "10 S FORDER, LINCOLN CO",
+   "lat": 38.54,
+   "lon": -103.7,
+   "comments": "(BOU)",
+   "km_from_track": 13.5,
+   "km_from_storm_at_time": 72.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:23:00",
+   "mag": "100",
+   "location": "3 S WILEY, PROWERS CO",
+   "lat": 38.12,
+   "lon": -102.73,
+   "comments": "REPORT FROM MPING: QUARTER (1.00 IN.). (PUB)",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 4.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:28:00",
+   "mag": "100",
+   "location": "HWY 50 AND CR 30, BENT CO",
+   "lat": 38.11,
+   "lon": -102.84,
+   "comments": "(PUB)",
+   "km_from_track": 6.1,
+   "km_from_storm_at_time": 8.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T00:36:00",
+   "mag": "UNK",
+   "location": "9 S ARLINGTON, BENT CO",
+   "lat": 38.2,
+   "lon": -103.33,
+   "comments": "VIA SOCIAL MEDIA. (PUB)",
+   "km_from_track": 22.6,
+   "km_from_storm_at_time": 55.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:45:00",
+   "mag": "275",
+   "location": "9 S ARLINGTON, BENT CO",
+   "lat": 38.2,
+   "lon": -103.33,
+   "comments": "(PUB)",
+   "km_from_track": 22.6,
+   "km_from_storm_at_time": 61.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T00:51:00",
+   "mag": "175",
+   "location": "1 W FORT LYON, BENT CO",
+   "lat": 38.1,
+   "lon": -103.16,
+   "comments": "CORRECTS TIME OF PREVIOUS HAIL REPORT FROM 1 W FORT LYON. PICTURE VIA SOCIAL MEDIA. (PUB)",
+   "km_from_track": 25.9,
+   "km_from_storm_at_time": 46.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T00:56:00",
+   "mag": "UNK",
+   "location": "8 S LAMAR, PROWERS CO",
+   "lat": 37.97,
+   "lon": -102.62,
+   "comments": "OFF DUTY NWS EMPLOYEE REPORTED TORNADO TOUCHDOWN. (PUB)",
+   "km_from_track": 3.5,
+   "km_from_storm_at_time": 4.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T01:01:00",
+   "mag": "100",
+   "location": "7 S LAMAR, PROWERS CO",
+   "lat": 37.99,
+   "lon": -102.61,
+   "comments": "REPORT FROM MPING: QUARTER (1.00 IN.). (PUB)",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 0.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-06-08T01:31:00",
+   "mag": "60",
+   "location": "2 NNW ELKHART, MORTON KS",
+   "lat": 37.03,
+   "lon": -101.91,
+   "comments": "(DDC)",
+   "km_from_track": 32.6,
+   "km_from_storm_at_time": 103.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:00:00",
+   "mag": "150",
+   "location": "12 NE TWO BUTTES, PROWERS CO",
+   "lat": 37.69,
+   "lon": -102.25,
+   "comments": "(PUB)",
+   "km_from_track": 5.4,
+   "km_from_storm_at_time": 4.7
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-06-08T02:10:00",
+   "mag": "88",
+   "location": "11 NE EVA, TEXAS OK",
+   "lat": 36.92,
+   "lon": -101.78,
+   "comments": "OK MESONET AT EVA. FIRST GUST OF 72 MPH AT 9:05 PM AND SEVERE GUSTS CONTINUED THROUGH 9:15 PM. (AMA)",
+   "km_from_track": 38.7,
+   "km_from_storm_at_time": 90.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T02:15:00",
+   "mag": "UNK",
+   "location": "3 N TWO BUTTES, BACA CO",
+   "lat": 37.6,
+   "lon": -102.4,
+   "comments": "DELAYED REPORT: TORNADO NORTH OF TWO BUTTES. (PUB)",
+   "km_from_track": 20.4,
+   "km_from_storm_at_time": 25.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T02:18:00",
+   "mag": "UNK",
+   "location": "15 ENE TWO BUTTES, BACA CO",
+   "lat": 37.61,
+   "lon": -102.13,
+   "comments": "LAW ENFORCEMENT CONFIRMED TORNADO TOUCHED THE GROUND. (PUB)",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 4.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:18:00",
+   "mag": "350",
+   "location": "15 ENE TWO BUTTES, BACA CO",
+   "lat": 37.63,
+   "lon": -102.13,
+   "comments": "(PUB)",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 2.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:48:00",
+   "mag": "150",
+   "location": "4 WSW MANTER, STANTON KS",
+   "lat": 37.5,
+   "lon": -101.94,
+   "comments": "(DDC)",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 1.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T02:54:00",
+   "mag": "100",
+   "location": "5 SE KUTCH, LINCOLN CO",
+   "lat": 38.84,
+   "lon": -103.81,
+   "comments": "(BOU)",
+   "km_from_track": 11.4,
+   "km_from_storm_at_time": 223.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:00:00",
+   "mag": "150",
+   "location": "ELKHART, MORTON KS",
+   "lat": 37.0,
+   "lon": -101.9,
+   "comments": "(DDC)",
+   "km_from_track": 34.9,
+   "km_from_storm_at_time": 49.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:08:00",
+   "mag": "175",
+   "location": "5 W KARVAL, LINCOLN CO",
+   "lat": 38.72,
+   "lon": -103.63,
+   "comments": "COCORAHS STATION CO-LN-34 KARVAL 4.8W. DELAYED REPORT. TIME ESTIMATED BY RADAR. (BOU)",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 212.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T03:27:00",
+   "mag": "UNK",
+   "location": "3 N TWO BUTTES, BACA CO",
+   "lat": 37.6,
+   "lon": -102.4,
+   "comments": "CORRECTS PREVIOUS TORNADO REPORT FROM 3 N TWO BUTTES. DELAYED REPORT: TORNADO NORTH OF TWO BUTTES. (PUB)",
+   "km_from_track": 20.4,
+   "km_from_storm_at_time": 62.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-08T03:27:00",
+   "mag": "UNK",
+   "location": "8 ENE TWO BUTTES, BACA CO",
+   "lat": 37.61,
+   "lon": -102.26,
+   "comments": "CORRECTS PREVIOUS TORNADO REPORT FROM 3 N TWO BUTTES. DELAYED REPORT: TORNADO NORTH OF TWO BUTTES. (PUB)",
+   "km_from_track": 12.7,
+   "km_from_storm_at_time": 52.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:46:00",
+   "mag": "100",
+   "location": "RICHFIELD, MORTON KS",
+   "lat": 37.27,
+   "lon": -101.78,
+   "comments": "CORRECTS PREVIOUS HAIL REPORT FROM RICHFIELD. SOCIAL MEDIA REPORT OF QUARTERS. (DDC)",
+   "km_from_track": 5.3,
+   "km_from_storm_at_time": 6.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T03:58:00",
+   "mag": "175",
+   "location": "1 S THE SAUNDERS ELEVAT, STANTON KS",
+   "lat": 37.46,
+   "lon": -102.04,
+   "comments": "(DDC)",
+   "km_from_track": 7.9,
+   "km_from_storm_at_time": 44.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-08T04:13:00",
+   "mag": "175",
+   "location": "10 S FORDER, LINCOLN CO",
+   "lat": 38.54,
+   "lon": -103.7,
+   "comments": "(BOU)",
+   "km_from_track": 13.5,
+   "km_from_storm_at_time": 235.8
+  }
+ ]
+}

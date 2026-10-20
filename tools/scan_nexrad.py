@@ -8,10 +8,13 @@ For every volume (subsampled to one per --every minutes) prints the time, the st
 the radius, its lat/lon, range from the point and bearing from the point. Volumes are cached in data/raw/nexrad.
 """
 import argparse
+from pathlib import Path
+import sys
 from datetime import datetime, timedelta
 
 import numpy as np
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))   # so it also runs under python -I
 from fetch_nexrad import RAW, BUCKET, list_volumes  # noqa: E402
 import urllib.request
 

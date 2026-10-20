@@ -1,0 +1,290 @@
+{
+ "case": "mini_sycamore_20210809",
+ "radius_km": 50,
+ "window_utc": [
+  "2021-08-09T19:54:03",
+  "2021-08-09T23:55:53"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 4,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 10,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T21:35:00",
+   "lat": 42.0538,
+   "lon": -88.9383,
+   "state": "IL",
+   "km_from_track": 1.5,
+   "km_from_storm_at_time": 6.4,
+   "ef": 0,
+   "length_mi": 0.1,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T21:44:00",
+   "lat": 42.0628,
+   "lon": -88.8742,
+   "state": "IL",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 2.4,
+   "ef": 1,
+   "length_mi": 1.8,
+   "width_yd": 80.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T21:45:00",
+   "lat": 42.3622,
+   "lon": -88.2786,
+   "state": "IL",
+   "km_from_track": 40.2,
+   "km_from_storm_at_time": 58.0,
+   "ef": 1,
+   "length_mi": 0.4,
+   "width_yd": 70.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T22:24:00",
+   "lat": 42.0472,
+   "lon": -88.5905,
+   "state": "IL",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 6.8,
+   "ef": 1,
+   "length_mi": 3.8,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T22:28:00",
+   "lat": 42.0024,
+   "lon": -89.0029,
+   "state": "IL",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 34.1,
+   "ef": 0,
+   "length_mi": 6.8,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:03:00",
+   "lat": 41.7068,
+   "lon": -89.005,
+   "state": "IL",
+   "km_from_track": 34.8,
+   "km_from_storm_at_time": 61.6,
+   "ef": "EFU",
+   "length_mi": 1.3,
+   "width_yd": 75.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:13:00",
+   "lat": 41.9623,
+   "lon": -88.6706,
+   "state": "IL",
+   "km_from_track": 11.7,
+   "km_from_storm_at_time": 28.3,
+   "ef": 1,
+   "length_mi": 1.5,
+   "width_yd": 150.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:26:00",
+   "lat": 41.9526,
+   "lon": -88.6043,
+   "state": "IL",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 29.8,
+   "ef": 0,
+   "length_mi": 0.2,
+   "width_yd": 20.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:28:00",
+   "lat": 41.9507,
+   "lon": -88.5961,
+   "state": "IL",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 29.1,
+   "ef": 0,
+   "length_mi": 3.9,
+   "width_yd": 400.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:38:00",
+   "lat": 41.9444,
+   "lon": -88.5059,
+   "state": "IL",
+   "km_from_track": 9.9,
+   "km_from_storm_at_time": 21.7,
+   "ef": "EFU",
+   "length_mi": 0.1,
+   "width_yd": 10.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T21:32:00",
+   "mag": "UNK",
+   "location": "2 SE ESMOND, DE KALB IL",
+   "lat": 42.02,
+   "lon": -88.91,
+   "comments": "MULTIPLE REPORTS OF A TORNADO SOUTHEAST OF ESMOND. (LOT)",
+   "km_from_track": 3.0,
+   "km_from_storm_at_time": 3.9
+  },
+  {
+   "kind": "wind",
+   "utc": "2021-08-09T21:40:00",
+   "mag": "UNK",
+   "location": "1 ESE MCCULLOM LAKE, MCHENRY IL",
+   "lat": 42.36,
+   "lon": -88.27,
+   "comments": "DAMAGE TO PORCHES ALONG EVERGREEN CIRCLE IN MCHENRY. TIME ESTIMATED BY RADAR. (LOT)",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 58.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T21:48:00",
+   "mag": "UNK",
+   "location": "1 N MCHENRY, MCHENRY IL",
+   "lat": 42.36,
+   "lon": -88.27,
+   "comments": "MCHENRY PD REPORTS POSSIBLE TORNADO NEAR BLAKE ROAD AND RICHMOND ROAD IN MCHENRY. (LOT)",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 57.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T21:52:00",
+   "mag": "UNK",
+   "location": "3 SW KINGSTON, DE KALB IL",
+   "lat": 42.07,
+   "lon": -88.8,
+   "comments": "MULTIPLE REPORTS OF A TORNADO SOUTH OF KENTLAND AND KINGSTON. (LOT)",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 2.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T22:26:00",
+   "mag": "UNK",
+   "location": "2 WSW BURLINGTON, KANE IL",
+   "lat": 42.05,
+   "lon": -88.58,
+   "comments": "CORRECTS AND UPDATES PREVIOUS TSTM WND DMG REPORT FROM 2 WSW BURLINGTON. KANE COUNTY SHERIFFS OFFICE REPORTS DAMAGE TO A STRUCTURE ALONG PLANK ROAD NEAR EAGLE ROAD. CON (LOT)",
+   "km_from_track": 1.5,
+   "km_from_storm_at_time": 4.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2021-08-09T22:26:00",
+   "mag": "UNK",
+   "location": "2 WSW BURLINGTON, KANE IL",
+   "lat": 42.05,
+   "lon": -88.58,
+   "comments": "KANE COUNTY SHERIFFS OFFICE REPORTS DAMAGE TO A STRUCTURE ALONG PLANK ROAD NEAR EAGLE ROAD. POSSIBLE TORNADO. TIME ESTIMATED BY RADAR. (LOT)",
+   "km_from_track": 1.5,
+   "km_from_storm_at_time": 4.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T22:28:00",
+   "mag": "UNK",
+   "location": "2 SW ESMOND, OGLE IL",
+   "lat": 42.01,
+   "lon": -88.96,
+   "comments": "UPDATES PREVIOUS TORNADO REPORT FROM 2 SW ESMOND. NUMEROUS REPORTS OF SMALL TORNADO WITH VISIBLE DEBRIS ON THE GROUND. VIDEO SHARED TO SOCIAL MEDIA SHOWS SMALL TORNADO (LOT)",
+   "km_from_track": 3.4,
+   "km_from_storm_at_time": 30.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:02:00",
+   "mag": "UNK",
+   "location": "1 NW PAW PAW, LEE IL",
+   "lat": 41.7,
+   "lon": -89.0,
+   "comments": "MULTIPLE REPORTS OF BRIEF TORNADO TOUCHDOWN. (LOT)",
+   "km_from_track": 35.6,
+   "km_from_storm_at_time": 60.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:06:00",
+   "mag": "UNK",
+   "location": "3 W VAN ORIN, BUREAU IL",
+   "lat": 41.56,
+   "lon": -89.4,
+   "comments": "BRIEF TOUCHDOWN THEN CAME RIGHT BACK UP. (DVN)",
+   "km_from_track": 47.7,
+   "km_from_storm_at_time": 99.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:13:00",
+   "mag": "UNK",
+   "location": "2 SSE SYCAMORE, DE KALB IL",
+   "lat": 41.97,
+   "lon": -88.67,
+   "comments": "TV CREW REPORTS DAMAGE TO TREES AND POWER LINES NEAR BETHANY ROAD AND FENSTERMAKER ROAD NEAR SYCAMORE. TIME ESTIMATED BY RADAR. (LOT)",
+   "km_from_track": 10.9,
+   "km_from_storm_at_time": 28.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:18:00",
+   "mag": "UNK",
+   "location": "4 ESE SYCAMORE, DE KALB IL",
+   "lat": 41.96,
+   "lon": -88.62,
+   "comments": "TORNADO ON THE GROUND EAST OF SYCAMORE. POSSIBLE DAMAGE TO STRUCTURES. (LOT)",
+   "km_from_track": 11.0,
+   "km_from_storm_at_time": 26.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:31:00",
+   "mag": "UNK",
+   "location": "1 S VIRGIL, KANE IL",
+   "lat": 41.93,
+   "lon": -88.54,
+   "comments": "RAIN-WRAPPED TORNADO REPORTED NEAR BEITH ROAD AND MEREDITH ROAD. (LOT)",
+   "km_from_track": 12.4,
+   "km_from_storm_at_time": 24.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2021-08-09T23:44:00",
+   "mag": "UNK",
+   "location": "1 ESE LILY LAKE, KANE IL",
+   "lat": 41.95,
+   "lon": -88.46,
+   "comments": "MULTIPLE REPORTS OF A WEAK TORNADO NEAR LILY LAKE. (LOT)",
+   "km_from_track": 7.0,
+   "km_from_storm_at_time": 17.9
+  }
+ ]
+}

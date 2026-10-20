@@ -1,0 +1,388 @@
+{
+ "case": "null_tescott_20220917",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-09-17T22:17:25",
+  "2022-09-18T01:47:18"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 11,
+  "wind_reports": 7,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": 78.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 13,
+  "wind_reports": 7,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": 78.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-09-17T23:30:00",
+   "lat": 39.04,
+   "lon": -98.15,
+   "state": "KS",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 3.3,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:04:00",
+   "lat": 39.02,
+   "lon": -97.97,
+   "state": "KS",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 2.7,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:13:00",
+   "lat": 39.02,
+   "lon": -97.97,
+   "state": "KS",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 4.6,
+   "gust_kt": 56.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:14:00",
+   "lat": 39.01,
+   "lon": -97.97,
+   "state": "KS",
+   "km_from_track": 3.8,
+   "km_from_storm_at_time": 5.3,
+   "gust_kt": 56.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:16:00",
+   "lat": 39.03,
+   "lon": -97.97,
+   "state": "KS",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 4.8,
+   "size_in": 1.25
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:23:00",
+   "lat": 39.01,
+   "lon": -97.88,
+   "state": "KS",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 1.3,
+   "gust_kt": 52.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:27:00",
+   "lat": 39.01,
+   "lon": -97.88,
+   "state": "KS",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 2.0,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:32:00",
+   "lat": 39.01,
+   "lon": -97.88,
+   "state": "KS",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 4.6,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:45:00",
+   "lat": 38.97,
+   "lon": -97.76,
+   "state": "KS",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 0.7,
+   "size_in": 1.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:45:00",
+   "lat": 38.97,
+   "lon": -97.76,
+   "state": "KS",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 0.7,
+   "gust_kt": 52.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:07:00",
+   "lat": 38.71,
+   "lon": -98.16,
+   "state": "KS",
+   "km_from_track": 29.8,
+   "km_from_storm_at_time": 52.4,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:13:00",
+   "lat": 38.92,
+   "lon": -97.63,
+   "state": "KS",
+   "km_from_track": 0.9,
+   "km_from_storm_at_time": 3.6,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:17:00",
+   "lat": 38.88,
+   "lon": -97.52,
+   "state": "KS",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 5.1,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:20:00",
+   "lat": 38.91,
+   "lon": -97.48,
+   "state": "KS",
+   "km_from_track": 8.9,
+   "km_from_storm_at_time": 8.9,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:25:00",
+   "lat": 38.79,
+   "lon": -97.76,
+   "state": "KS",
+   "km_from_track": 18.5,
+   "km_from_storm_at_time": 18.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T01:35:00",
+   "lat": 38.83,
+   "lon": -97.75,
+   "state": "KS",
+   "km_from_track": 14.0,
+   "km_from_storm_at_time": 16.1,
+   "gust_kt": 78.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:36:00",
+   "lat": 38.55,
+   "lon": -97.84,
+   "state": "KS",
+   "km_from_track": 43.5,
+   "km_from_storm_at_time": 43.5,
+   "size_in": 1.25
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T01:39:00",
+   "lat": 38.79,
+   "lon": -97.65,
+   "state": "KS",
+   "km_from_track": 12.1,
+   "km_from_storm_at_time": 12.1,
+   "gust_kt": 68.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:40:00",
+   "lat": 38.78,
+   "lon": -97.6,
+   "state": "KS",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 11.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T01:40:00",
+   "lat": 38.78,
+   "lon": -97.6,
+   "state": "KS",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 11.6,
+   "gust_kt": 61.0,
+   "measured": false
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-09-17T23:30:00",
+   "mag": "150",
+   "location": "LINCOLN, LINCOLN KS",
+   "lat": 39.04,
+   "lon": -98.15,
+   "comments": "(ICT)",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 3.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:13:00",
+   "mag": "65",
+   "location": "BEVERLY, LINCOLN KS",
+   "lat": 39.02,
+   "lon": -97.97,
+   "comments": "HALF DOLLAR SIZED HAIL ALSO REPORTED. (ICT)",
+   "km_from_track": 2.8,
+   "km_from_storm_at_time": 4.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:14:00",
+   "mag": "UNK",
+   "location": "BEVERLY, LINCOLN KS",
+   "lat": 39.01,
+   "lon": -97.97,
+   "comments": "TRAINED SPOTTER REPORTED 8 TO 10 INCH TREE BRANCH DOWN IN TOWN. TIME IS ESTIMATED FROM NEIGHBORING REPORTS. (ICT)",
+   "km_from_track": 3.8,
+   "km_from_storm_at_time": 5.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:16:00",
+   "mag": "125",
+   "location": "1 NNE BEVERLY, LINCOLN KS",
+   "lat": 39.03,
+   "lon": -97.97,
+   "comments": "GROUND COMPLETELY COVERED WITH DIMES AND QUARTERS. (ICT)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 4.8
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T00:23:00",
+   "mag": "60",
+   "location": "TESCOTT, OTTAWA KS",
+   "lat": 39.01,
+   "lon": -97.88,
+   "comments": "NO DAMAGE AT THE TIME OF OBSERVATION. (TOP)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 1.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:27:00",
+   "mag": "150",
+   "location": "TESCOTT, OTTAWA KS",
+   "lat": 39.01,
+   "lon": -97.88,
+   "comments": "HAIL COVERING GROUND. (TOP)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T00:45:00",
+   "mag": "150",
+   "location": "CULVER, OTTAWA KS",
+   "lat": 38.97,
+   "lon": -97.76,
+   "comments": "ALSO 60MPH WINDS. (TOP)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 0.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:07:00",
+   "mag": "100",
+   "location": "KANOPOLIS, ELLSWORTH KS",
+   "lat": 38.71,
+   "lon": -98.16,
+   "comments": "(ICT)",
+   "km_from_track": 29.8,
+   "km_from_storm_at_time": 52.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:13:00",
+   "mag": "175",
+   "location": "7 WNW NEW CAMBRIA, SALINE KS",
+   "lat": 38.92,
+   "lon": -97.63,
+   "comments": "(ICT)",
+   "km_from_track": 0.9,
+   "km_from_storm_at_time": 3.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:25:00",
+   "mag": "100",
+   "location": "5 NW SMOLAN, SALINE KS",
+   "lat": 38.79,
+   "lon": -97.76,
+   "comments": "ESTIMATED 60 MPH WINDS ALSO. (ICT)",
+   "km_from_track": 18.5,
+   "km_from_storm_at_time": 18.9
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T01:35:00",
+   "mag": "UNK",
+   "location": "7 ENE BROOKVILLE, SALINE KS",
+   "lat": 38.83,
+   "lon": -97.75,
+   "comments": "THE EXTERIOR OF A SHOP WAS BLOWN DOWN WITH DEBRIS SCATTERED. ONE GARAGE DOOR ON THE HOME WAS DENTED IN AND AN INTERIOR DOOR WAS TORN OFF OF THE HINGES. THERE WERE 100 R (ICT)",
+   "km_from_track": 14.0,
+   "km_from_storm_at_time": 16.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:36:00",
+   "mag": "125",
+   "location": "MARQUETTE, MCPHERSON KS",
+   "lat": 38.55,
+   "lon": -97.84,
+   "comments": "RECEIVED THROUGH SOCIAL MEDIA. (ICT)",
+   "km_from_track": 43.5,
+   "km_from_storm_at_time": 43.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-09-18T01:39:00",
+   "mag": "78",
+   "location": "3 SW SALINA, SALINE KS",
+   "lat": 38.79,
+   "lon": -97.66,
+   "comments": "(ICT)",
+   "km_from_track": 12.6,
+   "km_from_storm_at_time": 12.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-09-18T01:40:00",
+   "mag": "100",
+   "location": "2 SSE SALINA, SALINE KS",
+   "lat": 38.78,
+   "lon": -97.6,
+   "comments": "(ICT)",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 11.6
+  }
+ ]
+}

@@ -1,0 +1,3001 @@
+{
+ "case": "classic_forsan_20210517",
+ "site": "KSJT",
+ "radar_latlon": [
+  31.371,
+  -100.493
+ ],
+ "method": "composite (all-tilt column max) CC-filtered reflectivity on a 1 km grid; cell = composite >= 40 dBZ region nearest the predicted position; position = dBZ-weighted centroid of the core (>= max-10 dBZ); tops = highest beam-centre gate at the threshold over the cell, km above radar level; area40_low = cell area >= 40 dBZ at the lowest tilt",
+ "summary": {
+  "first_40dbz_utc": "2021-05-17T21:00:24",
+  "start_reason": "initiated",
+  "mature_utc": "2021-05-18T00:31:41",
+  "mature_top50_km": 13.3,
+  "last_40dbz_utc": "2021-05-18T00:42:07",
+  "end_reason": "merged",
+  "lifetime_h": 3.7,
+  "max_dbz": 74.5,
+  "max_top50_km": 13.3,
+  "max_top18_km": 16.0,
+  "max_area40_low_km2": 2736,
+  "max_area40_comp_km2": 3701,
+  "mean_motion": {
+   "from_deg": 259,
+   "kmh": 21.0,
+   "kt": 11.4
+  },
+  "net_displacement_km": 74.8,
+  "net_motion": {
+   "from_deg": 263,
+   "kmh": 20.3
+  },
+  "start_latlon": [
+   31.986,
+   -101.792
+  ],
+  "end_latlon": [
+   32.063,
+   -101.007
+  ],
+  "end_of_life": null,
+  "splits_utc": [
+   "2021-05-17T21:41:01",
+   "2021-05-17T22:25:44"
+  ],
+  "absorbed_small_cells_utc": [
+   "2021-05-18T00:21:01",
+   "2021-05-18T00:26:25",
+   "2021-05-18T00:31:41",
+   "2021-05-18T00:36:43"
+  ]
+ },
+ "volumes": [
+  {
+   "utc": "2021-05-17T21:00:24",
+   "latlon": [
+    31.986,
+    -101.792
+   ],
+   "range_km": 140.7,
+   "max_dbz": 48.0,
+   "low_max_dbz": 34.5,
+   "top18_km": 11.2,
+   "top30_km": 11.0,
+   "top50_km": null,
+   "area40_low_km2": 0,
+   "area40_comp_km2": 21,
+   "area50_comp_km2": 0,
+   "motion": {
+    "from_deg": 163,
+    "kmh": 21.1,
+    "kt": 11.4
+   },
+   "other_cells": []
+  },
+  {
+   "utc": "2021-05-17T21:05:39",
+   "latlon": [
+    32.004,
+    -101.795
+   ],
+   "range_km": 141.9,
+   "max_dbz": 56.0,
+   "low_max_dbz": 50.5,
+   "top18_km": 14.1,
+   "top30_km": 11.5,
+   "top50_km": 7.3,
+   "area40_low_km2": 28,
+   "area40_comp_km2": 81,
+   "area50_comp_km2": 25,
+   "motion": {
+    "from_deg": 154,
+    "kmh": 23.4,
+    "kt": 12.7
+   },
+   "other_cells": []
+  },
+  {
+   "utc": "2021-05-17T21:10:56",
+   "latlon": [
+    32.018,
+    -101.804
+   ],
+   "range_km": 143.4,
+   "max_dbz": 60.0,
+   "low_max_dbz": 58.5,
+   "top18_km": 11.5,
+   "top30_km": 11.5,
+   "top50_km": 9.1,
+   "area40_low_km2": 82,
+   "area40_comp_km2": 130,
+   "area50_comp_km2": 56,
+   "motion": {
+    "from_deg": 172,
+    "kmh": 28.2,
+    "kt": 15.2
+   },
+   "other_cells": []
+  },
+  {
+   "utc": "2021-05-17T21:15:51",
+   "latlon": [
+    32.036,
+    -101.82
+   ],
+   "range_km": 145.8,
+   "max_dbz": 61.5,
+   "low_max_dbz": 61.0,
+   "top18_km": 13.9,
+   "top30_km": 11.9,
+   "top50_km": 9.4,
+   "area40_low_km2": 102,
+   "area40_comp_km2": 153,
+   "area50_comp_km2": 57,
+   "motion": {
+    "from_deg": 187,
+    "kmh": 35.4,
+    "kt": 19.1
+   },
+   "other_cells": []
+  },
+  {
+   "utc": "2021-05-17T21:20:47",
+   "latlon": [
+    32.077,
+    -101.798
+   ],
+   "range_km": 146.3,
+   "max_dbz": 65.0,
+   "low_max_dbz": 61.0,
+   "top18_km": 14.5,
+   "top30_km": 14.4,
+   "top50_km": 11.6,
+   "area40_low_km2": 105,
+   "area40_comp_km2": 194,
+   "area50_comp_km2": 73,
+   "motion": {
+    "from_deg": 198,
+    "kmh": 51.1,
+    "kt": 27.6
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.06,
+      -102.045
+     ],
+     "area40_comp_km2": 9
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T21:26:12",
+   "latlon": [
+    32.109,
+    -101.779
+   ],
+   "range_km": 146.8,
+   "max_dbz": 69.0,
+   "low_max_dbz": 62.0,
+   "top18_km": 14.2,
+   "top30_km": 12.1,
+   "top50_km": 9.4,
+   "area40_low_km2": 145,
+   "area40_comp_km2": 231,
+   "area50_comp_km2": 103,
+   "motion": {
+    "from_deg": 196,
+    "kmh": 53.0,
+    "kt": 28.6
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.007,
+      -102.055
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.038,
+      -102.034
+     ],
+     "area40_comp_km2": 15
+    },
+    {
+     "latlon": [
+      32.073,
+      -102.041
+     ],
+     "area40_comp_km2": 4
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T21:31:08",
+   "latlon": [
+    32.167,
+    -101.757
+   ],
+   "range_km": 148.7,
+   "max_dbz": 67.5,
+   "low_max_dbz": 66.5,
+   "top18_km": 12.1,
+   "top30_km": 12.0,
+   "top50_km": 9.4,
+   "area40_low_km2": 188,
+   "area40_comp_km2": 280,
+   "area50_comp_km2": 103,
+   "motion": {
+    "from_deg": 198,
+    "kmh": 39.6,
+    "kt": 21.4
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.056,
+      -101.994
+     ],
+     "area40_comp_km2": 61
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T21:36:04",
+   "latlon": [
+    32.185,
+    -101.778
+   ],
+   "range_km": 151.5,
+   "max_dbz": 65.0,
+   "low_max_dbz": 65.0,
+   "top18_km": 13.5,
+   "top30_km": 12.1,
+   "top50_km": 9.4,
+   "area40_low_km2": 216,
+   "area40_comp_km2": 326,
+   "area50_comp_km2": 126,
+   "motion": {
+    "from_deg": 196,
+    "kmh": 33.0,
+    "kt": 17.8
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.072,
+      -101.964
+     ],
+     "area40_comp_km2": 98
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T21:41:01",
+   "latlon": [
+    32.181,
+    -101.746
+   ],
+   "range_km": 148.8,
+   "max_dbz": 67.0,
+   "low_max_dbz": 65.0,
+   "top18_km": 13.7,
+   "top30_km": 12.1,
+   "top50_km": 9.5,
+   "area40_low_km2": 224,
+   "area40_comp_km2": 328,
+   "area50_comp_km2": 114,
+   "motion": {
+    "from_deg": 322,
+    "kmh": 32.1,
+    "kt": 17.4
+   },
+   "split_from_parent": true,
+   "other_cells": [
+    {
+     "latlon": [
+      32.081,
+      -101.954
+     ],
+     "area40_comp_km2": 91
+    },
+    {
+     "latlon": [
+      32.071,
+      -101.625
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.097,
+      -101.595
+     ],
+     "area40_comp_km2": 4
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T21:50:54",
+   "latlon": [
+    32.098,
+    -101.698
+   ],
+   "range_km": 139.8,
+   "max_dbz": 56.0,
+   "low_max_dbz": 56.0,
+   "top18_km": 13.7,
+   "top30_km": 11.2,
+   "top50_km": 5.6,
+   "area40_low_km2": 75,
+   "area40_comp_km2": 123,
+   "area50_comp_km2": 34,
+   "motion": {
+    "from_deg": 308,
+    "kmh": 32.7,
+    "kt": 17.7
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.11,
+      -101.914
+     ],
+     "area40_comp_km2": 92
+    },
+    {
+     "latlon": [
+      32.176,
+      -101.865
+     ],
+     "area40_comp_km2": 14
+    },
+    {
+     "latlon": [
+      32.241,
+      -101.701
+     ],
+     "area40_comp_km2": 175
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T21:55:50",
+   "latlon": [
+    32.116,
+    -101.686
+   ],
+   "range_km": 140.0,
+   "max_dbz": 58.5,
+   "low_max_dbz": 58.5,
+   "top18_km": 13.1,
+   "top30_km": 11.3,
+   "top50_km": 3.5,
+   "area40_low_km2": 92,
+   "area40_comp_km2": 144,
+   "area50_comp_km2": 20,
+   "motion": {
+    "from_deg": 248,
+    "kmh": 39.2,
+    "kt": 21.2
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.134,
+      -101.883
+     ],
+     "area40_comp_km2": 112
+    },
+    {
+     "latlon": [
+      32.269,
+      -101.698
+     ],
+     "area40_comp_km2": 211
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:00:46",
+   "latlon": [
+    32.121,
+    -101.653
+   ],
+   "range_km": 137.8,
+   "max_dbz": 52.0,
+   "low_max_dbz": 52.0,
+   "top18_km": 13.7,
+   "top30_km": 11.3,
+   "top50_km": 4.2,
+   "area40_low_km2": 107,
+   "area40_comp_km2": 173,
+   "area50_comp_km2": 10,
+   "motion": {
+    "from_deg": 255,
+    "kmh": 49.8,
+    "kt": 26.9
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.142,
+      -101.863
+     ],
+     "area40_comp_km2": 112
+    },
+    {
+     "latlon": [
+      32.305,
+      -101.677
+     ],
+     "area40_comp_km2": 222
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:05:41",
+   "latlon": [
+    32.132,
+    -101.604
+   ],
+   "range_km": 134.9,
+   "max_dbz": 54.0,
+   "low_max_dbz": 52.5,
+   "top18_km": 13.7,
+   "top30_km": 11.1,
+   "top50_km": 9.6,
+   "area40_low_km2": 111,
+   "area40_comp_km2": 188,
+   "area50_comp_km2": 21,
+   "motion": {
+    "from_deg": 264,
+    "kmh": 34.6,
+    "kt": 18.7
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.15,
+      -101.844
+     ],
+     "area40_comp_km2": 81
+    },
+    {
+     "latlon": [
+      32.142,
+      -101.756
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.328,
+      -101.666
+     ],
+     "area40_comp_km2": 204
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:10:38",
+   "latlon": [
+    32.137,
+    -101.53
+   ],
+   "range_km": 129.9,
+   "max_dbz": 60.5,
+   "low_max_dbz": 56.0,
+   "top18_km": 13.7,
+   "top30_km": 11.2,
+   "top50_km": 8.0,
+   "area40_low_km2": 127,
+   "area40_comp_km2": 208,
+   "area50_comp_km2": 33,
+   "motion": {
+    "from_deg": 268,
+    "kmh": 27.5,
+    "kt": 14.8
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.157,
+      -101.831
+     ],
+     "area40_comp_km2": 66
+    },
+    {
+     "latlon": [
+      32.369,
+      -101.645
+     ],
+     "area40_comp_km2": 216
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:15:34",
+   "latlon": [
+    32.122,
+    -101.598
+   ],
+   "range_km": 133.8,
+   "max_dbz": 61.0,
+   "low_max_dbz": 58.5,
+   "top18_km": 13.7,
+   "top30_km": 12.9,
+   "top50_km": 8.0,
+   "area40_low_km2": 118,
+   "area40_comp_km2": 180,
+   "area50_comp_km2": 50,
+   "motion": {
+    "from_deg": 138,
+    "kmh": 1.9,
+    "kt": 1.0
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.143,
+      -101.716
+     ],
+     "area40_comp_km2": 9
+    },
+    {
+     "latlon": [
+      32.178,
+      -101.823
+     ],
+     "area40_comp_km2": 51
+    },
+    {
+     "latlon": [
+      32.237,
+      -101.782
+     ],
+     "area40_comp_km2": 10
+    },
+    {
+     "latlon": [
+      32.247,
+      -101.614
+     ],
+     "area40_comp_km2": 9
+    },
+    {
+     "latlon": [
+      32.352,
+      -101.887
+     ],
+     "area40_comp_km2": 36
+    },
+    {
+     "latlon": [
+      32.403,
+      -101.63
+     ],
+     "area40_comp_km2": 217
+    },
+    {
+     "latlon": [
+      32.428,
+      -101.536
+     ],
+     "area40_comp_km2": 5
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:25:44",
+   "latlon": [
+    32.139,
+    -101.584
+   ],
+   "range_km": 133.9,
+   "max_dbz": 56.0,
+   "low_max_dbz": 56.0,
+   "top18_km": 13.0,
+   "top30_km": 12.8,
+   "top50_km": 6.6,
+   "area40_low_km2": 111,
+   "area40_comp_km2": 158,
+   "area50_comp_km2": 15,
+   "motion": {
+    "from_deg": 229,
+    "kmh": 13.6,
+    "kt": 7.4
+   },
+   "split_from_parent": true,
+   "other_cells": [
+    {
+     "latlon": [
+      32.23,
+      -101.743
+     ],
+     "area40_comp_km2": 85
+    },
+    {
+     "latlon": [
+      32.185,
+      -101.813
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.39,
+      -101.844
+     ],
+     "area40_comp_km2": 51
+    },
+    {
+     "latlon": [
+      32.467,
+      -101.615
+     ],
+     "area40_comp_km2": 199
+    },
+    {
+     "latlon": [
+      32.416,
+      -101.53
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.507,
+      -101.676
+     ],
+     "area40_comp_km2": 5
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:30:52",
+   "latlon": [
+    32.138,
+    -101.581
+   ],
+   "range_km": 133.7,
+   "max_dbz": 56.5,
+   "low_max_dbz": 52.5,
+   "top18_km": 13.2,
+   "top30_km": 13.0,
+   "top50_km": 6.5,
+   "area40_low_km2": 38,
+   "area40_comp_km2": 100,
+   "area50_comp_km2": 14,
+   "motion": {
+    "from_deg": 242,
+    "kmh": 23.4,
+    "kt": 12.6
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      32.242,
+      -101.715
+     ],
+     "area40_comp_km2": 110
+    },
+    {
+     "latlon": [
+      32.27,
+      -101.379
+     ],
+     "area40_comp_km2": 31
+    },
+    {
+     "latlon": [
+      32.392,
+      -101.857
+     ],
+     "area40_comp_km2": 67
+    },
+    {
+     "latlon": [
+      32.498,
+      -101.6
+     ],
+     "area40_comp_km2": 198
+    },
+    {
+     "latlon": [
+      32.547,
+      -101.672
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.563,
+      -101.648
+     ],
+     "area40_comp_km2": 4
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:35:54",
+   "latlon": [
+    32.152,
+    -101.556
+   ],
+   "range_km": 132.8,
+   "max_dbz": 56.5,
+   "low_max_dbz": 53.0,
+   "top18_km": 13.5,
+   "top30_km": 13.2,
+   "top50_km": 5.0,
+   "area40_low_km2": 84,
+   "area40_comp_km2": 124,
+   "area50_comp_km2": 8,
+   "motion": {
+    "from_deg": 259,
+    "kmh": 33.4,
+    "kt": 18.0
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.394,
+      -100.535
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.805,
+      -100.601
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.109,
+      -101.471
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.248,
+      -101.687
+     ],
+     "area40_comp_km2": 129
+    },
+    {
+     "latlon": [
+      32.299,
+      -101.37
+     ],
+     "area40_comp_km2": 10
+    },
+    {
+     "latlon": [
+      32.416,
+      -101.839
+     ],
+     "area40_comp_km2": 95
+    },
+    {
+     "latlon": [
+      32.439,
+      -100.643
+     ],
+     "area40_comp_km2": 107
+    },
+    {
+     "latlon": [
+      32.528,
+      -101.611
+     ],
+     "area40_comp_km2": 173
+    },
+    {
+     "latlon": [
+      32.605,
+      -101.558
+     ],
+     "area40_comp_km2": 13
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:40:56",
+   "latlon": [
+    32.162,
+    -101.531
+   ],
+   "range_km": 131.8,
+   "max_dbz": 52.5,
+   "low_max_dbz": 52.5,
+   "top18_km": 13.1,
+   "top30_km": 13.1,
+   "top50_km": 5.2,
+   "area40_low_km2": 82,
+   "area40_comp_km2": 140,
+   "area50_comp_km2": 15,
+   "motion": {
+    "from_deg": 260,
+    "kmh": 41.9,
+    "kt": 22.6
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.401,
+      -100.479
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.761,
+      -100.519
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.798,
+      -100.598
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.801,
+      -100.68
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.088,
+      -101.479
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.091,
+      -101.555
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.258,
+      -101.653
+     ],
+     "area40_comp_km2": 108
+    },
+    {
+     "latlon": [
+      32.433,
+      -101.822
+     ],
+     "area40_comp_km2": 104
+    },
+    {
+     "latlon": [
+      32.452,
+      -100.635
+     ],
+     "area40_comp_km2": 151
+    },
+    {
+     "latlon": [
+      32.506,
+      -101.782
+     ],
+     "area40_comp_km2": 18
+    },
+    {
+     "latlon": [
+      32.576,
+      -101.6
+     ],
+     "area40_comp_km2": 181
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:46:04",
+   "latlon": [
+    32.151,
+    -101.463
+   ],
+   "range_km": 126.2,
+   "max_dbz": 53.0,
+   "low_max_dbz": 53.0,
+   "top18_km": 13.0,
+   "top30_km": 12.7,
+   "top50_km": 4.2,
+   "area40_low_km2": 85,
+   "area40_comp_km2": 156,
+   "area50_comp_km2": 7,
+   "motion": {
+    "from_deg": 272,
+    "kmh": 34.9,
+    "kt": 18.9
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.765,
+      -100.523
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.802,
+      -100.61
+     ],
+     "area40_comp_km2": 11
+    },
+    {
+     "latlon": [
+      32.103,
+      -101.614
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.276,
+      -101.624
+     ],
+     "area40_comp_km2": 93
+    },
+    {
+     "latlon": [
+      32.19,
+      -101.466
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.291,
+      -101.554
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.468,
+      -101.782
+     ],
+     "area40_comp_km2": 135
+    },
+    {
+     "latlon": [
+      32.459,
+      -100.629
+     ],
+     "area40_comp_km2": 161
+    },
+    {
+     "latlon": [
+      32.611,
+      -101.59
+     ],
+     "area40_comp_km2": 171
+    },
+    {
+     "latlon": [
+      32.556,
+      -101.521
+     ],
+     "area40_comp_km2": 7
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:51:05",
+   "latlon": [
+    32.167,
+    -101.445
+   ],
+   "range_km": 126.2,
+   "max_dbz": 53.5,
+   "low_max_dbz": 52.0,
+   "top18_km": 12.9,
+   "top30_km": 12.7,
+   "top50_km": 4.9,
+   "area40_low_km2": 112,
+   "area40_comp_km2": 245,
+   "area50_comp_km2": 21,
+   "motion": {
+    "from_deg": 279,
+    "kmh": 26.0,
+    "kt": 14.0
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.773,
+      -100.535
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.818,
+      -100.683
+     ],
+     "area40_comp_km2": 10
+    },
+    {
+     "latlon": [
+      31.803,
+      -100.603
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.898,
+      -101.008
+     ],
+     "area40_comp_km2": 47
+    },
+    {
+     "latlon": [
+      32.084,
+      -101.664
+     ],
+     "area40_comp_km2": 34
+    },
+    {
+     "latlon": [
+      32.082,
+      -101.502
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      32.098,
+      -101.457
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.285,
+      -101.578
+     ],
+     "area40_comp_km2": 107
+    },
+    {
+     "latlon": [
+      32.475,
+      -100.622
+     ],
+     "area40_comp_km2": 207
+    },
+    {
+     "latlon": [
+      32.488,
+      -101.76
+     ],
+     "area40_comp_km2": 135
+    },
+    {
+     "latlon": [
+      32.632,
+      -101.578
+     ],
+     "area40_comp_km2": 141
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T22:56:20",
+   "latlon": [
+    32.145,
+    -101.442
+   ],
+   "range_km": 124.4,
+   "max_dbz": 57.5,
+   "low_max_dbz": 52.5,
+   "top18_km": 14.9,
+   "top30_km": 13.3,
+   "top50_km": 12.0,
+   "area40_low_km2": 157,
+   "area40_comp_km2": 372,
+   "area50_comp_km2": 77,
+   "motion": {
+    "from_deg": 285,
+    "kmh": 13.4,
+    "kt": 7.2
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.935,
+      -101.007
+     ],
+     "area40_comp_km2": 87
+    },
+    {
+     "latlon": [
+      32.285,
+      -101.528
+     ],
+     "area40_comp_km2": 54
+    },
+    {
+     "latlon": [
+      32.367,
+      -101.496
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.482,
+      -100.609
+     ],
+     "area40_comp_km2": 244
+    },
+    {
+     "latlon": [
+      32.499,
+      -101.749
+     ],
+     "area40_comp_km2": 118
+    },
+    {
+     "latlon": [
+      32.671,
+      -101.572
+     ],
+     "area40_comp_km2": 132
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:01:36",
+   "latlon": [
+    32.149,
+    -101.424
+   ],
+   "range_km": 123.4,
+   "max_dbz": 61.5,
+   "low_max_dbz": 59.0,
+   "top18_km": 14.8,
+   "top30_km": 14.5,
+   "top50_km": 11.8,
+   "area40_low_km2": 229,
+   "area40_comp_km2": 454,
+   "area50_comp_km2": 188,
+   "motion": {
+    "from_deg": 262,
+    "kmh": 25.1,
+    "kt": 13.5
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.809,
+      -100.686
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.961,
+      -100.986
+     ],
+     "area40_comp_km2": 162
+    },
+    {
+     "latlon": [
+      32.318,
+      -101.47
+     ],
+     "area40_comp_km2": 17
+    },
+    {
+     "latlon": [
+      32.493,
+      -100.601
+     ],
+     "area40_comp_km2": 270
+    },
+    {
+     "latlon": [
+      32.441,
+      -100.519
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.544,
+      -101.724
+     ],
+     "area40_comp_km2": 172
+    },
+    {
+     "latlon": [
+      32.714,
+      -101.587
+     ],
+     "area40_comp_km2": 107
+    },
+    {
+     "latlon": [
+      32.68,
+      -101.516
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.727,
+      -101.474
+     ],
+     "area40_comp_km2": 5
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:12:09",
+   "latlon": [
+    32.173,
+    -101.357
+   ],
+   "range_km": 120.9,
+   "max_dbz": 66.5,
+   "low_max_dbz": 62.5,
+   "top18_km": 14.6,
+   "top30_km": 14.3,
+   "top50_km": 11.9,
+   "area40_low_km2": 459,
+   "area40_comp_km2": 680,
+   "area50_comp_km2": 363,
+   "motion": {
+    "from_deg": 258,
+    "kmh": 22.9,
+    "kt": 12.3
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.362,
+      -100.519
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.759,
+      -100.521
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.8,
+      -100.613
+     ],
+     "area40_comp_km2": 11
+    },
+    {
+     "latlon": [
+      31.804,
+      -100.677
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.027,
+      -100.955
+     ],
+     "area40_comp_km2": 297
+    },
+    {
+     "latlon": [
+      32.5,
+      -100.576
+     ],
+     "area40_comp_km2": 309
+    },
+    {
+     "latlon": [
+      32.632,
+      -101.662
+     ],
+     "area40_comp_km2": 264
+    },
+    {
+     "latlon": [
+      32.572,
+      -100.535
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.737,
+      -101.546
+     ],
+     "area40_comp_km2": 74
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:17:25",
+   "latlon": [
+    32.162,
+    -101.361
+   ],
+   "range_km": 120.3,
+   "max_dbz": 65.5,
+   "low_max_dbz": 64.0,
+   "top18_km": 14.7,
+   "top30_km": 14.4,
+   "top50_km": 11.9,
+   "area40_low_km2": 519,
+   "area40_comp_km2": 726,
+   "area50_comp_km2": 334,
+   "motion": {
+    "from_deg": 270,
+    "kmh": 20.2,
+    "kt": 10.9
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.761,
+      -100.519
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.803,
+      -100.624
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      31.802,
+      -100.675
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.058,
+      -100.946
+     ],
+     "area40_comp_km2": 371
+    },
+    {
+     "latlon": [
+      32.165,
+      -100.953
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.325,
+      -100.585
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.483,
+      -100.562
+     ],
+     "area40_comp_km2": 350
+    },
+    {
+     "latlon": [
+      32.579,
+      -101.551
+     ],
+     "area40_comp_km2": 37
+    },
+    {
+     "latlon": [
+      32.712,
+      -101.654
+     ],
+     "area40_comp_km2": 207
+    },
+    {
+     "latlon": [
+      32.732,
+      -101.463
+     ],
+     "area40_comp_km2": 6
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:22:41",
+   "latlon": [
+    32.166,
+    -101.338
+   ],
+   "range_km": 119.1,
+   "max_dbz": 67.5,
+   "low_max_dbz": 65.0,
+   "top18_km": 15.0,
+   "top30_km": 14.3,
+   "top50_km": 11.9,
+   "area40_low_km2": 458,
+   "area40_comp_km2": 671,
+   "area50_comp_km2": 337,
+   "motion": {
+    "from_deg": 273,
+    "kmh": 21.1,
+    "kt": 11.4
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.761,
+      -100.519
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.092,
+      -100.937
+     ],
+     "area40_comp_km2": 428
+    },
+    {
+     "latlon": [
+      32.465,
+      -100.556
+     ],
+     "area40_comp_km2": 411
+    },
+    {
+     "latlon": [
+      32.604,
+      -101.476
+     ],
+     "area40_comp_km2": 21
+    },
+    {
+     "latlon": [
+      32.726,
+      -101.655
+     ],
+     "area40_comp_km2": 131
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:27:58",
+   "latlon": [
+    32.171,
+    -101.302
+   ],
+   "range_km": 117.3,
+   "max_dbz": 69.0,
+   "low_max_dbz": 69.0,
+   "top18_km": 14.1,
+   "top30_km": 14.0,
+   "top50_km": 11.5,
+   "area40_low_km2": 427,
+   "area40_comp_km2": 720,
+   "area50_comp_km2": 385,
+   "motion": {
+    "from_deg": 270,
+    "kmh": 24.1,
+    "kt": 13.0
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.762,
+      -100.521
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.798,
+      -100.611
+     ],
+     "area40_comp_km2": 11
+    },
+    {
+     "latlon": [
+      32.123,
+      -100.944
+     ],
+     "area40_comp_km2": 433
+    },
+    {
+     "latlon": [
+      32.3,
+      -101.331
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.448,
+      -100.558
+     ],
+     "area40_comp_km2": 418
+    },
+    {
+     "latlon": [
+      32.495,
+      -100.667
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.632,
+      -101.416
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.746,
+      -101.67
+     ],
+     "area40_comp_km2": 57
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:33:13",
+   "latlon": [
+    32.163,
+    -101.288
+   ],
+   "range_km": 115.8,
+   "max_dbz": 70.0,
+   "low_max_dbz": 68.5,
+   "top18_km": 14.4,
+   "top30_km": 14.2,
+   "top50_km": 13.0,
+   "area40_low_km2": 526,
+   "area40_comp_km2": 749,
+   "area50_comp_km2": 380,
+   "motion": {
+    "from_deg": 265,
+    "kmh": 22.2,
+    "kt": 12.0
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.8,
+      -100.603
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.047,
+      -101.985
+     ],
+     "area40_comp_km2": 44
+    },
+    {
+     "latlon": [
+      32.146,
+      -100.942
+     ],
+     "area40_comp_km2": 529
+    },
+    {
+     "latlon": [
+      32.437,
+      -100.554
+     ],
+     "area40_comp_km2": 478
+    },
+    {
+     "latlon": [
+      32.398,
+      -100.332
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.758,
+      -101.623
+     ],
+     "area40_comp_km2": 4
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:38:31",
+   "latlon": [
+    32.163,
+    -101.274
+   ],
+   "range_km": 114.9,
+   "max_dbz": 73.5,
+   "low_max_dbz": 70.0,
+   "top18_km": 14.7,
+   "top30_km": 14.0,
+   "top50_km": 11.2,
+   "area40_low_km2": 555,
+   "area40_comp_km2": 752,
+   "area50_comp_km2": 279,
+   "motion": {
+    "from_deg": 291,
+    "kmh": 16.8,
+    "kt": 9.1
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.358,
+      -100.524
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      31.502,
+      -101.673
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.755,
+      -100.522
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      31.806,
+      -100.61
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.06,
+      -101.97
+     ],
+     "area40_comp_km2": 104
+    },
+    {
+     "latlon": [
+      32.178,
+      -100.938
+     ],
+     "area40_comp_km2": 650
+    },
+    {
+     "latlon": [
+      32.43,
+      -100.55
+     ],
+     "area40_comp_km2": 650
+    },
+    {
+     "latlon": [
+      32.41,
+      -100.35
+     ],
+     "area40_comp_km2": 5
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:43:56",
+   "latlon": [
+    32.178,
+    -101.248
+   ],
+   "range_km": 114.7,
+   "max_dbz": 71.5,
+   "low_max_dbz": 69.5,
+   "top18_km": 14.5,
+   "top30_km": 13.8,
+   "top50_km": 13.1,
+   "area40_low_km2": 483,
+   "area40_comp_km2": 659,
+   "area50_comp_km2": 245,
+   "motion": {
+    "from_deg": 300,
+    "kmh": 17.0,
+    "kt": 9.2
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.514,
+      -101.628
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.758,
+      -100.519
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.807,
+      -100.618
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.816,
+      -100.683
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.079,
+      -101.957
+     ],
+     "area40_comp_km2": 171
+    },
+    {
+     "latlon": [
+      32.209,
+      -100.929
+     ],
+     "area40_comp_km2": 748
+    },
+    {
+     "latlon": [
+      32.071,
+      -101.245
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.1,
+      -101.46
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      32.433,
+      -100.545
+     ],
+     "area40_comp_km2": 764
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:49:06",
+   "latlon": [
+    32.14,
+    -101.249
+   ],
+   "range_km": 111.5,
+   "max_dbz": 73.0,
+   "low_max_dbz": 67.5,
+   "top18_km": 14.1,
+   "top30_km": 13.8,
+   "top50_km": 10.8,
+   "area40_low_km2": 1081,
+   "area40_comp_km2": 1531,
+   "area50_comp_km2": 638,
+   "motion": {
+    "from_deg": 329,
+    "kmh": 22.8,
+    "kt": 12.3
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.803,
+      -100.609
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.983,
+      -101.755
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.001,
+      -101.745
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      32.028,
+      -101.707
+     ],
+     "area40_comp_km2": 48
+    },
+    {
+     "latlon": [
+      32.088,
+      -101.935
+     ],
+     "area40_comp_km2": 222
+    },
+    {
+     "latlon": [
+      32.432,
+      -100.545
+     ],
+     "area40_comp_km2": 794
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:54:20",
+   "latlon": [
+    32.14,
+    -101.233
+   ],
+   "range_km": 110.5,
+   "max_dbz": 74.5,
+   "low_max_dbz": 73.0,
+   "top18_km": 16.0,
+   "top30_km": 15.0,
+   "top50_km": 12.6,
+   "area40_low_km2": 1093,
+   "area40_comp_km2": 1495,
+   "area50_comp_km2": 560,
+   "motion": {
+    "from_deg": 335,
+    "kmh": 36.0,
+    "kt": 19.4
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.804,
+      -100.607
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.819,
+      -100.69
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.001,
+      -101.798
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.054,
+      -101.683
+     ],
+     "area40_comp_km2": 170
+    },
+    {
+     "latlon": [
+      32.111,
+      -101.9
+     ],
+     "area40_comp_km2": 204
+    },
+    {
+     "latlon": [
+      32.1,
+      -101.735
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.221,
+      -100.771
+     ],
+     "area40_comp_km2": 9
+    },
+    {
+     "latlon": [
+      32.253,
+      -101.514
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.289,
+      -101.514
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.435,
+      -100.552
+     ],
+     "area40_comp_km2": 817
+    },
+    {
+     "latlon": [
+      32.311,
+      -101.826
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.388,
+      -101.497
+     ],
+     "area40_comp_km2": 16
+    },
+    {
+     "latlon": [
+      32.379,
+      -101.438
+     ],
+     "area40_comp_km2": 9
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-17T23:59:36",
+   "latlon": [
+    32.104,
+    -101.227
+   ],
+   "range_km": 107.1,
+   "max_dbz": 70.0,
+   "low_max_dbz": 70.0,
+   "top18_km": 15.9,
+   "top30_km": 15.6,
+   "top50_km": 12.9,
+   "area40_low_km2": 1247,
+   "area40_comp_km2": 2038,
+   "area50_comp_km2": 862,
+   "motion": {
+    "from_deg": 324,
+    "kmh": 39.9,
+    "kt": 21.5
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.803,
+      -100.611
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.809,
+      -100.686
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.221,
+      -101.873
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.304,
+      -101.465
+     ],
+     "area40_comp_km2": 47
+    },
+    {
+     "latlon": [
+      32.277,
+      -100.898
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.28,
+      -100.662
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.427,
+      -100.568
+     ],
+     "area40_comp_km2": 852
+    },
+    {
+     "latlon": [
+      32.319,
+      -101.767
+     ],
+     "area40_comp_km2": 31
+    },
+    {
+     "latlon": [
+      32.38,
+      -101.807
+     ],
+     "area40_comp_km2": 23
+    },
+    {
+     "latlon": [
+      32.387,
+      -101.743
+     ],
+     "area40_comp_km2": 11
+    },
+    {
+     "latlon": [
+      32.414,
+      -101.433
+     ],
+     "area40_comp_km2": 57
+    },
+    {
+     "latlon": [
+      32.412,
+      -101.784
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.448,
+      -101.512
+     ],
+     "area40_comp_km2": 13
+    },
+    {
+     "latlon": [
+      32.451,
+      -100.811
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.546,
+      -100.339
+     ],
+     "area40_comp_km2": 13
+    },
+    {
+     "latlon": [
+      32.617,
+      -100.495
+     ],
+     "area40_comp_km2": 4
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:04:45",
+   "latlon": [
+    32.068,
+    -101.189
+   ],
+   "range_km": 101.7,
+   "max_dbz": 69.5,
+   "low_max_dbz": 67.5,
+   "top18_km": 15.6,
+   "top30_km": 14.4,
+   "top50_km": 13.2,
+   "area40_low_km2": 1698,
+   "area40_comp_km2": 2471,
+   "area50_comp_km2": 1136,
+   "motion": {
+    "from_deg": 309,
+    "kmh": 27.1,
+    "kt": 14.7
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.369,
+      -100.521
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.773,
+      -100.528
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      31.807,
+      -100.618
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.825,
+      -100.688
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.014,
+      -101.123
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.014,
+      -101.056
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.138,
+      -101.631
+     ],
+     "area40_comp_km2": 666
+    },
+    {
+     "latlon": [
+      32.323,
+      -101.412
+     ],
+     "area40_comp_km2": 60
+    },
+    {
+     "latlon": [
+      32.308,
+      -101.228
+     ],
+     "area40_comp_km2": 19
+    },
+    {
+     "latlon": [
+      32.339,
+      -101.712
+     ],
+     "area40_comp_km2": 43
+    },
+    {
+     "latlon": [
+      32.409,
+      -101.736
+     ],
+     "area40_comp_km2": 81
+    },
+    {
+     "latlon": [
+      32.452,
+      -101.422
+     ],
+     "area40_comp_km2": 75
+    },
+    {
+     "latlon": [
+      32.468,
+      -101.557
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.555,
+      -101.326
+     ],
+     "area40_comp_km2": 12
+    },
+    {
+     "latlon": [
+      32.576,
+      -101.407
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      32.602,
+      -101.392
+     ],
+     "area40_comp_km2": 21
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:10:11",
+   "latlon": [
+    32.048,
+    -101.163
+   ],
+   "range_km": 98.4,
+   "max_dbz": 69.0,
+   "low_max_dbz": 67.0,
+   "top18_km": 15.3,
+   "top30_km": 15.1,
+   "top50_km": 13.1,
+   "area40_low_km2": 1914,
+   "area40_comp_km2": 2590,
+   "area50_comp_km2": 1210,
+   "motion": {
+    "from_deg": 260,
+    "kmh": 28.0,
+    "kt": 15.1
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.38,
+      -100.535
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.76,
+      -100.522
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.78,
+      -100.545
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.798,
+      -100.598
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      31.814,
+      -100.682
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.157,
+      -101.588
+     ],
+     "area40_comp_km2": 758
+    },
+    {
+     "latlon": [
+      32.253,
+      -100.593
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.334,
+      -101.362
+     ],
+     "area40_comp_km2": 70
+    },
+    {
+     "latlon": [
+      32.432,
+      -101.677
+     ],
+     "area40_comp_km2": 121
+    },
+    {
+     "latlon": [
+      32.443,
+      -101.305
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.453,
+      -101.356
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      32.496,
+      -101.452
+     ],
+     "area40_comp_km2": 79
+    },
+    {
+     "latlon": [
+      32.587,
+      -101.284
+     ],
+     "area40_comp_km2": 11
+    },
+    {
+     "latlon": [
+      32.62,
+      -101.364
+     ],
+     "area40_comp_km2": 43
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:15:36",
+   "latlon": [
+    32.099,
+    -101.166
+   ],
+   "range_km": 103.0,
+   "max_dbz": 70.0,
+   "low_max_dbz": 66.5,
+   "top18_km": 15.0,
+   "top30_km": 14.8,
+   "top50_km": 12.4,
+   "area40_low_km2": 1930,
+   "area40_comp_km2": 2580,
+   "area50_comp_km2": 1304,
+   "motion": {
+    "from_deg": 247,
+    "kmh": 29.6,
+    "kt": 16.0
+   },
+   "other_cells": [
+    {
+     "latlon": [
+      31.365,
+      -100.521
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.755,
+      -100.519
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.785,
+      -100.545
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.806,
+      -100.608
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      31.807,
+      -100.566
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.967,
+      -101.09
+     ],
+     "area40_comp_km2": 22
+    },
+    {
+     "latlon": [
+      32.165,
+      -101.565
+     ],
+     "area40_comp_km2": 713
+    },
+    {
+     "latlon": [
+      32.283,
+      -101.298
+     ],
+     "area40_comp_km2": 51
+    },
+    {
+     "latlon": [
+      32.324,
+      -101.01
+     ],
+     "area40_comp_km2": 24
+    },
+    {
+     "latlon": [
+      32.338,
+      -101.311
+     ],
+     "area40_comp_km2": 20
+    },
+    {
+     "latlon": [
+      32.37,
+      -100.99
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.402,
+      -100.851
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.457,
+      -101.641
+     ],
+     "area40_comp_km2": 112
+    },
+    {
+     "latlon": [
+      32.457,
+      -101.264
+     ],
+     "area40_comp_km2": 13
+    },
+    {
+     "latlon": [
+      32.528,
+      -101.43
+     ],
+     "area40_comp_km2": 91
+    },
+    {
+     "latlon": [
+      32.517,
+      -101.605
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      32.622,
+      -100.398
+     ],
+     "area40_comp_km2": 10
+    },
+    {
+     "latlon": [
+      32.656,
+      -101.315
+     ],
+     "area40_comp_km2": 42
+    },
+    {
+     "latlon": [
+      32.628,
+      -101.23
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.653,
+      -100.354
+     ],
+     "area40_comp_km2": 22
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:21:01",
+   "latlon": [
+    32.107,
+    -101.108
+   ],
+   "range_km": 100.4,
+   "max_dbz": 69.0,
+   "low_max_dbz": 64.0,
+   "top18_km": 15.3,
+   "top30_km": 15.1,
+   "top50_km": 12.4,
+   "area40_low_km2": 1978,
+   "area40_comp_km2": 2600,
+   "area50_comp_km2": 1393,
+   "motion": {
+    "from_deg": 262,
+    "kmh": 32.5,
+    "kt": 17.5
+   },
+   "absorbed_km2": [
+    22,
+    51,
+    6,
+    22
+   ],
+   "other_cells": [
+    {
+     "latlon": [
+      31.654,
+      -101.342
+     ],
+     "area40_comp_km2": 10
+    },
+    {
+     "latlon": [
+      31.759,
+      -100.521
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.788,
+      -100.544
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.797,
+      -100.603
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      31.807,
+      -100.564
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.974,
+      -100.954
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      32.037,
+      -101.587
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.18,
+      -101.528
+     ],
+     "area40_comp_km2": 716
+    },
+    {
+     "latlon": [
+      32.444,
+      -100.796
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.517,
+      -101.609
+     ],
+     "area40_comp_km2": 102
+    },
+    {
+     "latlon": [
+      32.495,
+      -100.651
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      32.513,
+      -100.674
+     ],
+     "area40_comp_km2": 9
+    },
+    {
+     "latlon": [
+      32.556,
+      -101.382
+     ],
+     "area40_comp_km2": 83
+    },
+    {
+     "latlon": [
+      32.681,
+      -101.272
+     ],
+     "area40_comp_km2": 23
+    },
+    {
+     "latlon": [
+      32.729,
+      -101.258
+     ],
+     "area40_comp_km2": 6
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:26:25",
+   "latlon": [
+    32.086,
+    -101.087
+   ],
+   "range_km": 97.3,
+   "max_dbz": 69.0,
+   "low_max_dbz": 68.0,
+   "top18_km": 14.9,
+   "top30_km": 14.8,
+   "top50_km": 12.7,
+   "area40_low_km2": 2547,
+   "area40_comp_km2": 3405,
+   "area50_comp_km2": 1781,
+   "motion": {
+    "from_deg": 286,
+    "kmh": 39.0,
+    "kt": 21.0
+   },
+   "absorbed_km2": [
+    7,
+    716
+   ],
+   "other_cells": [
+    {
+     "latlon": [
+      31.762,
+      -100.524
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.799,
+      -101.63
+     ],
+     "area40_comp_km2": 9
+    },
+    {
+     "latlon": [
+      31.81,
+      -100.677
+     ],
+     "area40_comp_km2": 9
+    },
+    {
+     "latlon": [
+      31.804,
+      -100.623
+     ],
+     "area40_comp_km2": 6
+    },
+    {
+     "latlon": [
+      31.975,
+      -101.601
+     ],
+     "area40_comp_km2": 5
+    },
+    {
+     "latlon": [
+      31.983,
+      -101.576
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.295,
+      -101.214
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      32.558,
+      -101.558
+     ],
+     "area40_comp_km2": 106
+    },
+    {
+     "latlon": [
+      32.583,
+      -101.362
+     ],
+     "area40_comp_km2": 51
+    },
+    {
+     "latlon": [
+      32.734,
+      -101.217
+     ],
+     "area40_comp_km2": 27
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:31:41",
+   "latlon": [
+    32.073,
+    -101.05
+   ],
+   "range_km": 94.2,
+   "max_dbz": 70.0,
+   "low_max_dbz": 68.0,
+   "top18_km": 15.5,
+   "top30_km": 15.0,
+   "top50_km": 13.3,
+   "area40_low_km2": 2695,
+   "area40_comp_km2": 3565,
+   "area50_comp_km2": 1558,
+   "motion": {
+    "from_deg": 294,
+    "kmh": 31.7,
+    "kt": 17.1
+   },
+   "absorbed_km2": [
+    4
+   ],
+   "other_cells": [
+    {
+     "latlon": [
+      31.742,
+      -101.656
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.772,
+      -101.654
+     ],
+     "area40_comp_km2": 12
+    },
+    {
+     "latlon": [
+      31.815,
+      -101.605
+     ],
+     "area40_comp_km2": 43
+    },
+    {
+     "latlon": [
+      31.798,
+      -100.683
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.797,
+      -100.611
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.956,
+      -101.607
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.405,
+      -100.35
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.61,
+      -101.499
+     ],
+     "area40_comp_km2": 62
+    },
+    {
+     "latlon": [
+      32.609,
+      -101.325
+     ],
+     "area40_comp_km2": 39
+    },
+    {
+     "latlon": [
+      32.63,
+      -100.355
+     ],
+     "area40_comp_km2": 38
+    },
+    {
+     "latlon": [
+      32.655,
+      -101.198
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      32.749,
+      -101.201
+     ],
+     "area40_comp_km2": 23
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:36:43",
+   "latlon": [
+    32.072,
+    -101.021
+   ],
+   "range_km": 92.6,
+   "max_dbz": 70.0,
+   "low_max_dbz": 69.0,
+   "top18_km": 15.3,
+   "top30_km": 15.2,
+   "top50_km": 12.7,
+   "area40_low_km2": 2014,
+   "area40_comp_km2": 2638,
+   "area50_comp_km2": 1309,
+   "motion": {
+    "from_deg": 287,
+    "kmh": 30.5,
+    "kt": 16.4
+   },
+   "absorbed_km2": [
+    4
+   ],
+   "other_cells": [
+    {
+     "latlon": [
+      31.759,
+      -100.522
+     ],
+     "area40_comp_km2": 7
+    },
+    {
+     "latlon": [
+      31.828,
+      -101.569
+     ],
+     "area40_comp_km2": 129
+    },
+    {
+     "latlon": [
+      31.804,
+      -100.675
+     ],
+     "area40_comp_km2": 8
+    },
+    {
+     "latlon": [
+      31.803,
+      -100.615
+     ],
+     "area40_comp_km2": 11
+    },
+    {
+     "latlon": [
+      31.819,
+      -100.712
+     ],
+     "area40_comp_km2": 4
+    },
+    {
+     "latlon": [
+      31.954,
+      -101.615
+     ],
+     "area40_comp_km2": 39
+    },
+    {
+     "latlon": [
+      32.159,
+      -101.446
+     ],
+     "area40_comp_km2": 983
+    },
+    {
+     "latlon": [
+      32.639,
+      -101.457
+     ],
+     "area40_comp_km2": 68
+    },
+    {
+     "latlon": [
+      32.632,
+      -101.286
+     ],
+     "area40_comp_km2": 34
+    },
+    {
+     "latlon": [
+      32.641,
+      -100.362
+     ],
+     "area40_comp_km2": 31
+    },
+    {
+     "latlon": [
+      32.674,
+      -101.151
+     ],
+     "area40_comp_km2": 8
+    }
+   ]
+  },
+  {
+   "utc": "2021-05-18T00:42:07",
+   "latlon": [
+    32.063,
+    -101.007
+   ],
+   "range_km": 91.0,
+   "max_dbz": 69.5,
+   "low_max_dbz": 68.0,
+   "top18_km": 15.2,
+   "top30_km": 14.7,
+   "top50_km": 13.1,
+   "area40_low_km2": 2736,
+   "area40_comp_km2": 3701,
+   "area50_comp_km2": 1766,
+   "motion": {
+    "from_deg": 285,
+    "kmh": 24.4,
+    "kt": 13.2
+   },
+   "merged_with_km2": [
+    983
+   ],
+   "other_cells": []
+  }
+ ]
+}

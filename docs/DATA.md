@@ -84,6 +84,10 @@ the Python already on this PC.
 
 ## 3. Reference cases (proposed; you confirm or swap)
 
+**Superseded 2026-10-20 by the case library:** `validation/real-storm-cases/CASES.md` (51 cases: calibrate,
+holdout, null and boundary roles, SPC facts attached), built by `tools/case_catalog.py` from `case_seed.json`;
+soundings by `tools/fetch_case_soundings.py`. The table below is the original proposal.
+
 One or two real storms per preset. I pull radar, satellite and HRRR for each; your photos and video from the day are
 the visual ground truth. Cases marked * are days from your chase log.
 

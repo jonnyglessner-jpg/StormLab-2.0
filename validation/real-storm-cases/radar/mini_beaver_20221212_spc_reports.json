@@ -1,0 +1,114 @@
+{
+ "case": "mini_beaver_20221212",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-12-13T00:58:39",
+  "2022-12-13T05:11:52"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 2,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 3,
+  "wind_reports": 0,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-12-13T03:16:00",
+   "lat": 36.62,
+   "lon": -100.73,
+   "state": "OK",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 3.0,
+   "size_in": 2.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-12-13T03:21:00",
+   "lat": 36.6188,
+   "lon": -100.6606,
+   "state": "OK",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 4.0,
+   "ef": "EFU",
+   "length_mi": 1.22,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-12-13T03:31:00",
+   "lat": 36.74,
+   "lon": -100.52,
+   "state": "OK",
+   "km_from_track": 2.0,
+   "km_from_storm_at_time": 7.1,
+   "size_in": 1.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-12-13T03:38:00",
+   "lat": 36.6843,
+   "lon": -100.524,
+   "state": "OK",
+   "km_from_track": 4.2,
+   "km_from_storm_at_time": 4.5,
+   "ef": 0,
+   "length_mi": 0.66,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-12-13T04:20:00",
+   "lat": 37.2,
+   "lon": -99.48,
+   "state": "KS",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 60.8,
+   "size_in": 1.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-12-13T03:16:00",
+   "mag": "250",
+   "location": "3 WSW BALKO, BEAVER OK",
+   "lat": 36.62,
+   "lon": -100.73,
+   "comments": "ESTIMATED PING PONG BALL TO TENNIS BALL SIZE HAIL WHILE VIEWING THROUGH A WINDOW WHILE SHELTERED IN PLACE. (AMA)",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 3.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-12-13T03:31:00",
+   "mag": "150",
+   "location": "5 S BEAVER, BEAVER OK",
+   "lat": 36.74,
+   "lon": -100.52,
+   "comments": "PHOTO SEEN ON SOCIAL MEDIA. (AMA)",
+   "km_from_track": 2.0,
+   "km_from_storm_at_time": 7.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-12-13T04:20:00",
+   "mag": "175",
+   "location": "PROTECTION, COMANCHE KS",
+   "lat": 37.2,
+   "lon": -99.48,
+   "comments": "REPORT RECEIVED VIA SOCIAL MEDIA. (DDC)",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 60.8
+  }
+ ]
+}

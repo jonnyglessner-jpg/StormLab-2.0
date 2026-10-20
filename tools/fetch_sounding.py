@@ -112,25 +112,44 @@ def fetch_igra(station, t):
 
 # ---------------------------------------------------------------- model soundings (GRIB)
 def _decode_point(data, lat, lon):
+    return _decode_points(data, [(lat, lon)])[0]
+
+
+def _decode_points(data, pts):
+    """Values of the needed fields at the grid points nearest each (lat, lon). data = GRIB bytes, or a Path to a GRIB file.
+
+    Pass a Path when the file may hold multi-field messages (RAP before ~2015 packs UGRD and VGRD into one message):
+    codes_new_from_message on bytes only yields the first field of such a message, and VGRD goes missing."""
     import eccodes  # noqa: PLC0415
     eccodes.codes_grib_multi_support_on()      # NCEP packs UGRD and VGRD into one multi-field message
-    fields, idx, pos = {}, None, 0
-    while pos < len(data):
-        h = eccodes.codes_new_from_message(data[pos:])
-        size = eccodes.codes_get_message_size(h)
+    fields, idx = [{} for _ in pts], None
+
+    def handles():
+        if isinstance(data, Path):
+            with open(data, "rb") as fh:
+                while (h := eccodes.codes_grib_new_from_file(fh)) is not None:
+                    yield h
+        else:
+            pos = 0
+            while pos < len(data):
+                h = eccodes.codes_new_from_message(data[pos:])
+                pos += eccodes.codes_get_message_size(h)
+                yield h
+
+    for h in handles():
         var = eccodes.codes_get(h, "shortName"); lev = eccodes.codes_get(h, "level"); ltype = eccodes.codes_get(h, "typeOfLevel")
-        keep = (ltype == "isobaricInhPa" and var in ("gh", "t", "r", "u", "v")) or \
-               (ltype == "surface" and var in ("sp", "orog")) or \
-               (ltype == "heightAboveGround" and var in ("2t", "2d", "10u", "10v"))
+        keep = (ltype == "isobaricInhPa" and var in ("gh", "t", "r", "u", "v")) or                (ltype == "surface" and var in ("sp", "orog")) or                (ltype == "heightAboveGround" and var in ("2t", "2d", "10u", "10v"))
         if keep:
             if idx is None:
                 lats = eccodes.codes_get_array(h, "latitudes"); lons = eccodes.codes_get_array(h, "longitudes")
                 lons = np.where(lons > 180, lons - 360, lons)
-                idx = int(np.argmin((lats - lat) ** 2 + ((lons - lon) * np.cos(np.radians(lat))) ** 2))
-                print(f"  nearest grid point {lats[idx]:.3f}, {lons[idx]:.3f}")
-            fields[(var, ltype, int(lev))] = float(eccodes.codes_get_array(h, "values")[idx])
+                idx = [int(np.argmin((lats - la) ** 2 + ((lons - lo) * np.cos(np.radians(la))) ** 2)) for la, lo in pts]
+                for i in idx:
+                    print(f"  nearest grid point {lats[i]:.3f}, {lons[i]:.3f}")
+            vals = eccodes.codes_get_array(h, "values")
+            for f, i in zip(fields, idx):
+                f[(var, ltype, int(lev))] = float(vals[i])
         eccodes.codes_release(h)
-        pos += size
     return fields
 
 
@@ -159,6 +178,12 @@ def _levels_from_fields(fields):
 
 
 def fetch_rap(lat, lon, t):
+    fields = _decode_point(grib_rap(t), lat, lon)
+    return {"source": f"RAP 13 km analysis {t:%Y-%m-%d %HZ} nearest {lat},{lon}", "levels": _levels_from_fields(fields)}
+
+
+def grib_rap(t):
+    """Path to the cached RAP 13 km analysis file for hour t (downloaded from NCEI when missing)."""
     cache = OUT / "grib"; cache.mkdir(parents=True, exist_ok=True)
     name = f"rap_130_{t:%Y%m%d_%H}00_000.grb2"
     f = cache / name
@@ -167,11 +192,16 @@ def fetch_rap(lat, lon, t):
         url = f"https://www.ncei.noaa.gov/thredds/fileServer/{coll}/{t:%Y%m}/{t:%Y%m%d}/{name}"
         print(f"  downloading {url}")
         get(url, to_file=f)
-    fields = _decode_point(f.read_bytes(), lat, lon)
-    return {"source": f"RAP 13 km analysis {t:%Y-%m-%d %HZ} nearest {lat},{lon}", "levels": _levels_from_fields(fields)}
+    return f
 
 
 def fetch_hrrr(lat, lon, t):
+    fields = _decode_point(grib_hrrr(t), lat, lon)
+    return {"source": f"HRRR 3 km analysis {t:%Y-%m-%d %HZ} nearest {lat},{lon}", "levels": _levels_from_fields(fields)}
+
+
+def grib_hrrr(t):
+    """The needed HRRR analysis messages for hour t as GRIB bytes (byte-range requests on the .idx, not cached)."""
     base = f"https://noaa-hrrr-bdp-pds.s3.amazonaws.com/hrrr.{t:%Y%m%d}/conus/hrrr.t{t:%H}z.wrfprsf00.grib2"
     inv = get(base + ".idx").decode().splitlines()
     want = []
@@ -188,8 +218,7 @@ def fetch_hrrr(lat, lon, t):
         buf.write(get(base, (start, end)))
         if n % 40 == 39:
             print(f"    {n + 1}/{len(want)}")
-    fields = _decode_point(buf.getvalue(), lat, lon)
-    return {"source": f"HRRR 3 km analysis {t:%Y-%m-%d %HZ} nearest {lat},{lon}", "levels": _levels_from_fields(fields)}
+    return buf.getvalue()
 
 
 # ---------------------------------------------------------------- diagnostics

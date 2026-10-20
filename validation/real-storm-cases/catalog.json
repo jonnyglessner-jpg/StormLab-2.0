@@ -1,0 +1,6023 @@
+{
+ "generated_by": "tools/case_catalog.py",
+ "radius_km": 60,
+ "pad_h": 1,
+ "cases": [
+  {
+   "id": "lp_manchester_20220513",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    37.0,
+    -98.04
+   ],
+   "window_utc": [
+    "2022-05-13T23:00",
+    "2022-05-14T03:00"
+   ],
+   "chase": "2022-05-13-wakita-ok",
+   "notes": "done: soundings, radar, lifecycle, GOES",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 8,
+    "max_hail_in": 2.25,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KICT",
+     "name": "WICHITA",
+     "km": 89.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 65.5
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 190.3
+    },
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 209.4
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 312.4
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "lp_manchester_20220513_hrrr.json",
+     "lp_manchester_20220513_oun_igra.json"
+    ],
+    "radar": [
+     "lp_manchester_20220513_KICT_0003.json",
+     "lp_manchester_20220513_KICT_0054.json",
+     "lp_manchester_20220513_KVNX_0055.json",
+     "lp_manchester_20220513_lifecycle.json",
+     "lp_manchester_20220513_spc_reports.json"
+    ],
+    "satellite": true
+   }
+  },
+  {
+   "id": "lp_earth_20210516",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    34.23,
+    -102.41
+   ],
+   "window_utc": [
+    "2021-05-16T21:00",
+    "2021-05-17T03:00"
+   ],
+   "chase": "2021-05-16-earth-tx",
+   "notes": "done; brief EFU as it went classic",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EFU",
+    "longest_track_mi": 0.97,
+    "widest_yd": 50,
+    "hail_reports": 1,
+    "max_hail_in": 1.5,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2021-05-17T00:40",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       34.1122,
+       -102.4394
+      ],
+      "end": [
+       34.1131,
+       -102.4224
+      ],
+      "length_mi": 0.97,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 13.4
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KLBB",
+     "name": "LUBBOCK",
+     "km": 84.4
+    },
+    {
+     "site": "KFDX",
+     "name": "CANNON AFB",
+     "km": 119.6
+    },
+    {
+     "site": "KAMA",
+     "name": "AMARILLO",
+     "km": 128.6
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 128.6
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 255.2
+    },
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 395.6
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "lp_earth_20210516_ama_igra.json",
+     "lp_earth_20210516_hrrr.json",
+     "lp_earth_20210516_igra.json"
+    ],
+    "radar": [
+     "lp_earth_20210516_KLBB_0038.json",
+     "lp_earth_20210516_lifecycle.json",
+     "lp_earth_20210516_spc_reports.json"
+    ],
+    "satellite": true
+   }
+  },
+  {
+   "id": "lp_hope_20220603",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    32.81,
+    -104.74
+   ],
+   "window_utc": [
+    "2022-06-03T19:00",
+    "2022-06-04T01:00"
+   ],
+   "chase": "2022-06-03-hope-nm",
+   "notes": "done",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 3,
+    "max_hail_in": 1.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KHDX",
+     "name": "HOLLOMAN AFB",
+     "km": 132.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072364",
+     "name": "SANTA TERESA; NM.",
+     "km": 211.4
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 258.2
+    },
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 302.5
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 388.1
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "lp_hope_20220603_hrrr.json",
+     "lp_hope_20220603_igra.json",
+     "lp_hope_20220603_maf_igra.json"
+    ],
+    "radar": [
+     "lp_hope_20220603_KFDX_2216.json",
+     "lp_hope_20220603_KHDX_2200.json",
+     "lp_hope_20220603_lifecycle.json",
+     "lp_hope_20220603_spc_reports.json"
+    ],
+    "satellite": true
+   }
+  },
+  {
+   "id": "lp_taiban_20230527",
+   "preset": "plains_lp",
+   "role": "holdout",
+   "anchor": [
+    34.44,
+    -104.0
+   ],
+   "window_utc": [
+    "2023-05-27T20:00",
+    "2023-05-28T03:00"
+   ],
+   "chase": "2023-05-27-taiban-nm",
+   "notes": "'Incredible LP Supercell'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 1,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KFDX",
+     "name": "CANNON AFB",
+     "km": 41.0
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 226.9
+    },
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 248.6
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 324.8
+    },
+    {
+     "id": "USM00072364",
+     "name": "SANTA TERESA; NM.",
+     "km": 380.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "lp_taiban_20230527_hrrr.json",
+     "lp_taiban_20230527_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "lp_rushcenter_20220421",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    38.47,
+    -99.31
+   ],
+   "window_utc": [
+    "2022-04-21T21:00",
+    "2022-04-22T03:00"
+   ],
+   "chase": "2022-04-21-rush-center-ks",
+   "notes": "'Gorgeous LP Supercell', early-season",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 3,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KDDC",
+     "name": "DODGE CITY",
+     "km": 97.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 97.6
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 262.1
+    },
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 319.0
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 325.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "lp_rushcenter_20220421_hrrr.json",
+     "lp_rushcenter_20220421_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "lp_clarks_20220818",
+   "preset": "plains_lp",
+   "role": "calibrate",
+   "anchor": [
+    41.21,
+    -97.84
+   ],
+   "window_utc": [
+    "2022-08-18T21:00",
+    "2022-08-19T03:00"
+   ],
+   "chase": "2022-08-18-clarks-ne",
+   "notes": "'Funky LP Supercell', late-summer",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 6,
+    "max_hail_in": 2.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KUEX",
+     "name": "HASTINGS",
+     "km": 111.1
+    },
+    {
+     "site": "KOAX",
+     "name": "OMAHA",
+     "km": 123.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 123.7
+    },
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 239.5
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 302.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "lp_clarks_20220818_hrrr.json",
+     "lp_clarks_20220818_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "ddc_20160524",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    37.75,
+    -100.02
+   ],
+   "window_utc": [
+    "2016-05-24T21:00",
+    "2016-05-25T03:00"
+   ],
+   "chase": null,
+   "notes": "the map's own town; cyclic; first-pass soundings and radar done",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 18,
+    "max_rating": "EF3",
+    "longest_track_mi": 16.7,
+    "widest_yd": 1800,
+    "hail_reports": 10,
+    "max_hail_in": 5.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2016-05-24T22:55",
+      "rating": "EF3",
+      "state": "KS",
+      "start": [
+       37.5031,
+       -100.1355
+      ],
+      "end": [
+       37.6862,
+       -100.2077
+      ],
+      "length_mi": 14.7,
+      "width_yd": 675,
+      "fatalities": 0,
+      "km_from_anchor": 29.3
+     },
+     {
+      "utc": "2016-05-24T22:59",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       37.5342,
+       -100.0931
+      ],
+      "end": [
+       37.5435,
+       -100.0907
+      ],
+      "length_mi": 0.7,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 24.8
+     },
+     {
+      "utc": "2016-05-24T23:12",
+      "rating": "EF3",
+      "state": "KS",
+      "start": [
+       38.237,
+       -100.1663
+      ],
+      "end": [
+       38.3348,
+       -100.0077
+      ],
+      "length_mi": 11.02,
+      "width_yd": 300,
+      "fatalities": 0,
+      "km_from_anchor": 55.6
+     },
+     {
+      "utc": "2016-05-24T23:14",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       37.6182,
+       -100.091
+      ],
+      "end": [
+       37.6371,
+       -100.0892
+      ],
+      "length_mi": 1.4,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 15.9
+     },
+     {
+      "utc": "2016-05-24T23:20",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       37.6281,
+       -100.1146
+      ],
+      "end": [
+       37.6308,
+       -100.1136
+      ],
+      "length_mi": 0.2,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 15.9
+     },
+     {
+      "utc": "2016-05-24T23:22",
+      "rating": "EF2",
+      "state": "KS",
+      "start": [
+       37.646,
+       -100.0988
+      ],
+      "end": [
+       37.6996,
+       -100.0914
+      ],
+      "length_mi": 5.0,
+      "width_yd": 550,
+      "fatalities": 0,
+      "km_from_anchor": 13.5
+     },
+     {
+      "utc": "2016-05-24T23:28",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       37.6601,
+       -100.0816
+      ],
+      "end": [
+       37.6971,
+       -100.0815
+      ],
+      "length_mi": 2.7,
+      "width_yd": 90,
+      "fatalities": 0,
+      "km_from_anchor": 11.4
+     },
+     {
+      "utc": "2016-05-24T23:32",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       37.7003,
+       -100.0855
+      ],
+      "end": [
+       37.7142,
+       -100.0704
+      ],
+      "length_mi": 2.9,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 8.0
+     },
+     {
+      "utc": "2016-05-24T23:52",
+      "rating": "EF2",
+      "state": "KS",
+      "start": [
+       37.6999,
+       -100.0935
+      ],
+      "end": [
+       37.9265,
+       -100.1148
+      ],
+      "length_mi": 16.7,
+      "width_yd": 1800,
+      "fatalities": 0,
+      "km_from_anchor": 8.5
+     },
+     {
+      "utc": "2016-05-24T23:55",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       37.7922,
+       -100.0695
+      ],
+      "end": [
+       37.7942,
+       -100.0696
+      ],
+      "length_mi": 0.1,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 6.4
+     },
+     {
+      "utc": "2016-05-25T00:03",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       38.1651,
+       -100.0395
+      ],
+      "end": [
+       38.1737,
+       -100.0365
+      ],
+      "length_mi": 0.6,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 46.2
+     },
+     {
+      "utc": "2016-05-25T00:07",
+      "rating": "EF3",
+      "state": "KS",
+      "start": [
+       37.8614,
+       -100.0489
+      ],
+      "end": [
+       37.8838,
+       -100.0301
+      ],
+      "length_mi": 1.9,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 12.6
+     },
+     {
+      "utc": "2016-05-25T00:11",
+      "rating": "EF3",
+      "state": "KS",
+      "start": [
+       38.1961,
+       -100.0382
+      ],
+      "end": [
+       38.2909,
+       -100.0828
+      ],
+      "length_mi": 7.7,
+      "width_yd": 700,
+      "fatalities": 0,
+      "km_from_anchor": 49.6
+     },
+     {
+      "utc": "2016-05-25T00:15",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       37.906,
+       -100.0252
+      ],
+      "end": [
+       37.9355,
+       -99.9927
+      ],
+      "length_mi": 2.7,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 17.4
+     },
+     {
+      "utc": "2016-05-25T00:25",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       37.7859,
+       -99.4057
+      ],
+      "end": [
+       37.8252,
+       -99.3494
+      ],
+      "length_mi": 4.3,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 54.1
+     },
+     {
+      "utc": "2016-05-25T00:36",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       37.9765,
+       -99.9408
+      ],
+      "end": [
+       38.0155,
+       -99.9036
+      ],
+      "length_mi": 3.5,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 26.1
+     },
+     {
+      "utc": "2016-05-25T00:49",
+      "rating": "EF2",
+      "state": "KS",
+      "start": [
+       37.7947,
+       -99.3725
+      ],
+      "end": [
+       37.8243,
+       -99.2827
+      ],
+      "length_mi": 5.4,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 57.1
+     },
+     {
+      "utc": "2016-05-25T00:55",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       38.1035,
+       -100.082
+      ],
+      "end": [
+       38.1095,
+       -100.0778
+      ],
+      "length_mi": 0.5,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 39.7
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDDC",
+     "name": "DODGE CITY",
+     "km": 4.7
+    },
+    {
+     "site": "KVNX",
+     "name": "VANCE AFB",
+     "km": 201.6
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 4.7
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 257.3
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 318.0
+    },
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 367.3
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "ddc_20160524_hrrr.json",
+     "ddc_20160524_igra.json"
+    ],
+    "radar": [
+     "ddc_20160524_KDDC_2248.json",
+     "ddc_20160524_KDDC_2335.json"
+    ],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_rozel_20130518",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    38.2,
+    -99.4
+   ],
+   "window_utc": [
+    "2013-05-18T21:00",
+    "2013-05-19T03:00"
+   ],
+   "chase": null,
+   "notes": "slow, photogenic, rope-to-stovepipe",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 3,
+    "max_rating": "EF4",
+    "longest_track_mi": 7.0,
+    "widest_yd": 1100,
+    "hail_reports": 3,
+    "max_hail_in": 2.0,
+    "wind_reports": 1,
+    "max_wind_kt": 65.0,
+    "tornado_list": [
+     {
+      "utc": "2013-05-19T00:18",
+      "rating": "EF4",
+      "state": "KS",
+      "start": [
+       38.1429,
+       -99.4706
+      ],
+      "end": [
+       38.231,
+       -99.4301
+      ],
+      "length_mi": 7.0,
+      "width_yd": 1100,
+      "fatalities": 0,
+      "km_from_anchor": 8.9
+     },
+     {
+      "utc": "2013-05-19T00:49",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       38.2011,
+       -99.2768
+      ],
+      "end": [
+       38.2258,
+       -99.3187
+      ],
+      "length_mi": 4.0,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 10.8
+     },
+     {
+      "utc": "2013-05-19T01:10",
+      "rating": "EF0",
+      "state": "KS",
+      "start": [
+       38.242,
+       -99.1818
+      ],
+      "end": [
+       38.2563,
+       -99.1484
+      ],
+      "length_mi": 2.06,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 19.6
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDDC",
+     "name": "DODGE CITY",
+     "km": 69.8
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 69.7
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 244.6
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 341.4
+    },
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 344.6
+    }
+   ],
+   "sources": {
+    "model_sounding": "rap",
+    "dual_pol": false,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "classic_rozel_20130518_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_pilger_20140616",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    42.0,
+    -97.05
+   ],
+   "window_utc": [
+    "2014-06-16T19:00",
+    "2014-06-17T02:00"
+   ],
+   "chase": null,
+   "notes": "twin tornadoes from one storm",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 6,
+    "max_rating": "EF4",
+    "longest_track_mi": 23.94,
+    "widest_yd": 530,
+    "hail_reports": 6,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2014-06-16T20:38",
+      "rating": "EF0",
+      "state": "NE",
+      "start": [
+       41.8596,
+       -97.3602
+      ],
+      "end": [
+       41.8744,
+       -97.3461
+      ],
+      "length_mi": 1.25,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 30.0
+     },
+     {
+      "utc": "2014-06-16T20:42",
+      "rating": "EF4",
+      "state": "NE",
+      "start": [
+       41.893,
+       -97.33
+      ],
+      "end": [
+       42.0441,
+       -97.2105
+      ],
+      "length_mi": 12.11,
+      "width_yd": 400,
+      "fatalities": 0,
+      "km_from_anchor": 26.0
+     },
+     {
+      "utc": "2014-06-16T21:00",
+      "rating": "EF4",
+      "state": "NE",
+      "start": [
+       41.9528,
+       -97.1369
+      ],
+      "end": [
+       42.122,
+       -96.8492
+      ],
+      "length_mi": 23.94,
+      "width_yd": 500,
+      "fatalities": 1,
+      "km_from_anchor": 8.9
+     },
+     {
+      "utc": "2014-06-16T21:13",
+      "rating": "EF4",
+      "state": "NE",
+      "start": [
+       41.9742,
+       -97.04
+      ],
+      "end": [
+       42.117,
+       -96.9439
+      ],
+      "length_mi": 11.5,
+      "width_yd": 500,
+      "fatalities": 1,
+      "km_from_anchor": 3.0
+     },
+     {
+      "utc": "2014-06-16T21:40",
+      "rating": "EF4",
+      "state": "NE",
+      "start": [
+       42.127,
+       -96.8686
+      ],
+      "end": [
+       42.3509,
+       -96.8031
+      ],
+      "length_mi": 15.84,
+      "width_yd": 530,
+      "fatalities": 0,
+      "km_from_anchor": 20.6
+     },
+     {
+      "utc": "2014-06-16T22:41",
+      "rating": "EF0",
+      "state": "NE",
+      "start": [
+       42.36,
+       -96.59
+      ],
+      "end": [
+       42.36,
+       -96.585
+      ],
+      "length_mi": 0.26,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 55.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KOAX",
+     "name": "OMAHA",
+     "km": 94.5
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 94.5
+    },
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 318.6
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 346.9
+    },
+    {
+     "id": "USM00072659",
+     "name": "ABERDEEN/REG.; SD.",
+     "km": 399.5
+    }
+   ],
+   "sources": {
+    "model_sounding": "rap",
+    "dual_pol": true,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "classic_pilger_20140616_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_forsan_20210517",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    32.11,
+    -101.37
+   ],
+   "window_utc": [
+    "2021-05-17T21:00",
+    "2021-05-18T03:00"
+   ],
+   "chase": "2021-05-17-forsan-tx",
+   "notes": "'Giant Supercell & Cone Tornado'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF2",
+    "longest_track_mi": 11.4,
+    "widest_yd": 1056,
+    "hail_reports": 12,
+    "max_hail_in": 4.25,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2021-05-18T00:11",
+      "rating": "EF2",
+      "state": "TX",
+      "start": [
+       32.05,
+       -101.18
+      ],
+      "end": [
+       32.05,
+       -101.18
+      ],
+      "length_mi": 11.4,
+      "width_yd": 1056,
+      "fatalities": 0,
+      "km_from_anchor": 19.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KMAF",
+     "name": "MIDLAND ODESSA",
+     "km": 79.4
+    },
+    {
+     "site": "KSJT",
+     "name": "SAN ANGELO",
+     "km": 116.8
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 79.4
+    },
+    {
+     "id": "USM00072261",
+     "name": "DEL RIO/INT.; TX.",
+     "km": 307.2
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 348.7
+    },
+    {
+     "id": "USM00072249",
+     "name": "FORT WORTH; TX.",
+     "km": 390.3
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "classic_forsan_20210517_hrrr.json",
+     "classic_forsan_20210517_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_lamar_20220607",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    38.09,
+    -102.62
+   ],
+   "window_utc": [
+    "2022-06-07T20:00",
+    "2022-06-08T03:00"
+   ],
+   "chase": "2022-06-07-lamar-co",
+   "notes": "'Long-Tracked Supercell, Tornado'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EFU",
+    "longest_track_mi": 6.39,
+    "widest_yd": 20,
+    "hail_reports": 7,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2022-06-08T00:56",
+      "rating": "EFU",
+      "state": "CO",
+      "start": [
+       37.97,
+       -102.62
+      ],
+      "end": [
+       37.9189,
+       -102.5224
+      ],
+      "length_mi": 6.39,
+      "width_yd": 20,
+      "fatalities": 0,
+      "km_from_anchor": 13.3
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KPUX",
+     "name": "PUEBLO",
+     "km": 142.4
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 235.4
+    },
+    {
+     "id": "USM00072469",
+     "name": "DENVER/STAPLETON INT.; CO.",
+     "km": 269.5
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 327.9
+    },
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 376.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "classic_lamar_20220607_hrrr.json",
+     "classic_lamar_20220607_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_selden_20210524",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    39.54,
+    -100.57
+   ],
+   "window_utc": [
+    "2021-05-24T21:00",
+    "2021-05-25T03:00"
+   ],
+   "chase": "2021-05-24-selden-ks",
+   "notes": "several weak tornadoes, cyclic",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 3,
+    "max_rating": "EF1",
+    "longest_track_mi": 5.87,
+    "widest_yd": 850,
+    "hail_reports": 2,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2021-05-24T21:15",
+      "rating": "EFU",
+      "state": "KS",
+      "start": [
+       39.4079,
+       -100.9801
+      ],
+      "end": [
+       39.42,
+       -100.9693
+      ],
+      "length_mi": 1.01,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 38.1
+     },
+     {
+      "utc": "2021-05-24T21:44",
+      "rating": "EFU",
+      "state": "KS",
+      "start": [
+       39.4625,
+       -100.9398
+      ],
+      "end": [
+       39.4691,
+       -100.9403
+      ],
+      "length_mi": 0.46,
+      "width_yd": 25,
+      "fatalities": 0,
+      "km_from_anchor": 32.9
+     },
+     {
+      "utc": "2021-05-24T23:06",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       39.5314,
+       -100.6375
+      ],
+      "end": [
+       39.5629,
+       -100.5432
+      ],
+      "length_mi": 5.87,
+      "width_yd": 850,
+      "fatalities": 0,
+      "km_from_anchor": 5.9
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KGLD",
+     "name": "GOODLAND",
+     "km": 98.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 177.5
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 204.5
+    },
+    {
+     "id": "USM00072469",
+     "name": "DENVER/STAPLETON INT.; CO.",
+     "km": 368.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "classic_selden_20210524_hrrr.json",
+     "classic_selden_20210524_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_andover_20220429",
+   "preset": "plains_classic",
+   "role": "holdout",
+   "anchor": [
+    37.71,
+    -97.14
+   ],
+   "window_utc": [
+    "2022-04-29T22:00",
+    "2022-04-30T04:00"
+   ],
+   "chase": "2022-04-29-hope-ks",
+   "notes": "Andover storm; chaser was on the Hope storm",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 4,
+    "max_rating": "EF3",
+    "longest_track_mi": 12.65,
+    "widest_yd": 250,
+    "hail_reports": 12,
+    "max_hail_in": 2.5,
+    "wind_reports": 2,
+    "max_wind_kt": 61.0,
+    "tornado_list": [
+     {
+      "utc": "2022-04-30T01:10",
+      "rating": "EF3",
+      "state": "KS",
+      "start": [
+       37.6262,
+       -97.193
+      ],
+      "end": [
+       37.783,
+       -97.082
+      ],
+      "length_mi": 12.65,
+      "width_yd": 250,
+      "fatalities": 0,
+      "km_from_anchor": 10.4
+     },
+     {
+      "utc": "2022-04-30T01:19",
+      "rating": "EFU",
+      "state": "KS",
+      "start": [
+       38.073,
+       -97.443
+      ],
+      "end": [
+       38.0733,
+       -97.44
+      ],
+      "length_mi": 0.16,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 48.3
+     },
+     {
+      "utc": "2022-04-30T01:47",
+      "rating": "EFU",
+      "state": "KS",
+      "start": [
+       37.78,
+       -96.89
+      ],
+      "end": [
+       37.78,
+       -96.8865
+      ],
+      "length_mi": 0.19,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 23.3
+     },
+     {
+      "utc": "2022-04-30T02:05",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       37.79,
+       -96.72
+      ],
+      "end": [
+       37.83,
+       -96.58
+      ],
+      "length_mi": 8.13,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 38.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KVNX",
+     "name": "VANCE AFB",
+     "km": 138.8
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 127.5
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 200.6
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 248.8
+    },
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 282.5
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "classic_andover_20220429_hrrr.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_akron_20250523",
+   "preset": "plains_classic",
+   "role": "holdout",
+   "anchor": [
+    40.16,
+    -103.21
+   ],
+   "window_utc": [
+    "2025-05-23T19:00",
+    "2025-05-24T02:00"
+   ],
+   "chase": "2025-05-23-akron-co",
+   "notes": "'Breaking the Colorado Curse'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 2,
+    "max_rating": "EF2",
+    "longest_track_mi": 11.2,
+    "widest_yd": 400,
+    "hail_reports": 16,
+    "max_hail_in": 3.1,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2025-05-23T23:09",
+      "rating": "EF1",
+      "state": "CO",
+      "start": [
+       40.55,
+       -103.48
+      ],
+      "end": [
+       40.4,
+       -103.4
+      ],
+      "length_mi": 11.2,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 49.0
+     },
+     {
+      "utc": "2025-05-23T23:37",
+      "rating": "EF2",
+      "state": "CO",
+      "start": [
+       40.38,
+       -103.27
+      ],
+      "end": [
+       40.26,
+       -103.25
+      ],
+      "length_mi": 8.36,
+      "width_yd": 400,
+      "fatalities": 0,
+      "km_from_anchor": 25.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KFTG",
+     "name": "DENVER FRONT RANGE AP",
+     "km": 121.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 237.8
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 386.8
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "classic_akron_20250523_hrrr.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "hp_elreno_20130531",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    35.5,
+    -98.0
+   ],
+   "window_utc": [
+    "2013-05-31T22:00",
+    "2013-06-01T02:00"
+   ],
+   "chase": null,
+   "notes": "wide, rain-wrapped; DOW and mobile data published",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 12,
+    "max_rating": "EF3",
+    "longest_track_mi": 16.2,
+    "widest_yd": 4576,
+    "hail_reports": 12,
+    "max_hail_in": 5.9,
+    "wind_reports": 14,
+    "max_wind_kt": 83.0,
+    "tornado_list": [
+     {
+      "utc": "2013-05-31T22:35",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.8802,
+       -98.1874
+      ],
+      "end": [
+       35.8905,
+       -98.1747
+      ],
+      "length_mi": 1.0,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 45.5
+     },
+     {
+      "utc": "2013-05-31T22:55",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.4987,
+       -98.12
+      ],
+      "end": [
+       35.5014,
+       -98.1148
+      ],
+      "length_mi": 0.35,
+      "width_yd": 30,
+      "fatalities": 0,
+      "km_from_anchor": 10.9
+     },
+     {
+      "utc": "2013-05-31T23:03",
+      "rating": "EF3",
+      "state": "OK",
+      "start": [
+       35.485,
+       -98.096
+      ],
+      "end": [
+       35.502,
+       -97.848
+      ],
+      "length_mi": 16.2,
+      "width_yd": 4576,
+      "fatalities": 8,
+      "km_from_anchor": 8.8
+     },
+     {
+      "utc": "2013-05-31T23:12",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.44,
+       -98.003
+      ],
+      "end": [
+       35.44,
+       -98.003
+      ],
+      "length_mi": 0.5,
+      "width_yd": 120,
+      "fatalities": 0,
+      "km_from_anchor": 6.7
+     },
+     {
+      "utc": "2013-05-31T23:13",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.459,
+       -98.011
+      ],
+      "end": [
+       35.459,
+       -98.011
+      ],
+      "length_mi": 0.5,
+      "width_yd": 350,
+      "fatalities": 0,
+      "km_from_anchor": 4.7
+     },
+     {
+      "utc": "2013-05-31T23:29",
+      "rating": "EF2",
+      "state": "OK",
+      "start": [
+       35.4858,
+       -97.8511
+      ],
+      "end": [
+       35.451,
+       -97.7929
+      ],
+      "length_mi": 5.0,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 13.6
+     },
+     {
+      "utc": "2013-05-31T23:51",
+      "rating": "EF1",
+      "state": "OK",
+      "start": [
+       35.454,
+       -97.699
+      ],
+      "end": [
+       35.448,
+       -97.599
+      ],
+      "length_mi": 5.71,
+      "width_yd": 600,
+      "fatalities": 0,
+      "km_from_anchor": 27.7
+     },
+     {
+      "utc": "2013-05-31T23:55",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.4432,
+       -97.96
+      ],
+      "end": [
+       35.4412,
+       -97.952
+      ],
+      "length_mi": 0.47,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 7.3
+     },
+     {
+      "utc": "2013-06-01T00:35",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.411,
+       -97.457
+      ],
+      "end": [
+       35.41,
+       -97.449
+      ],
+      "length_mi": 0.5,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 50.2
+     },
+     {
+      "utc": "2013-06-01T00:42",
+      "rating": "EF1",
+      "state": "OK",
+      "start": [
+       35.341,
+       -97.609
+      ],
+      "end": [
+       35.347,
+       -97.594
+      ],
+      "length_mi": 1.0,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 39.6
+     },
+     {
+      "utc": "2013-06-01T00:45",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       35.321,
+       -97.799
+      ],
+      "end": [
+       35.321,
+       -97.799
+      ],
+      "length_mi": 0.2,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 27.0
+     },
+     {
+      "utc": "2013-06-01T00:53",
+      "rating": "EF1",
+      "state": "OK",
+      "start": [
+       35.406,
+       -97.551
+      ],
+      "end": [
+       35.404,
+       -97.531
+      ],
+      "length_mi": 1.13,
+      "width_yd": 300,
+      "fatalities": 0,
+      "km_from_anchor": 42.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KOUN",
+     "name": "NORMAN NSSL",
+     "km": 56.9
+    },
+    {
+     "site": "KCRI",
+     "name": "ROC FAA REDUNDANT RDA 1",
+     "km": 57.0
+    },
+    {
+     "site": "KTLX",
+     "name": "OKLAHOMA CITY",
+     "km": 68.0
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 62.1
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 130.3
+    },
+    {
+     "id": "USM00072249",
+     "name": "FORT WORTH; TX.",
+     "km": 303.3
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 306.7
+    }
+   ],
+   "sources": {
+    "model_sounding": "rap",
+    "dual_pol": false,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "hp_elreno_20130531_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "hp_moore_20130520",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    35.33,
+    -97.5
+   ],
+   "window_utc": [
+    "2013-05-20T19:00",
+    "2013-05-20T22:00"
+   ],
+   "chase": null,
+   "notes": "classic-to-HP",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF5",
+    "longest_track_mi": 13.85,
+    "widest_yd": 1900,
+    "hail_reports": 4,
+    "max_hail_in": 3.25,
+    "wind_reports": 2,
+    "max_wind_kt": 78.0,
+    "tornado_list": [
+     {
+      "utc": "2013-05-20T19:56",
+      "rating": "EF5",
+      "state": "OK",
+      "start": [
+       35.284,
+       -97.628
+      ],
+      "end": [
+       35.341,
+       -97.3999
+      ],
+      "length_mi": 13.85,
+      "width_yd": 1900,
+      "fatalities": 24,
+      "km_from_anchor": 12.7
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KCRI",
+     "name": "ROC FAA REDUNDANT RDA 1",
+     "km": 10.8
+    },
+    {
+     "site": "KOUN",
+     "name": "NORMAN NSSL",
+     "km": 11.0
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 17.5
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 141.2
+    },
+    {
+     "id": "USM00072249",
+     "name": "FORT WORTH; TX.",
+     "km": 278.1
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 348.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "rap",
+    "dual_pol": false,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "hp_moore_20130520_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "hp_linwood_20190528",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    38.95,
+    -95.05
+   ],
+   "window_utc": [
+    "2019-05-28T21:00",
+    "2019-05-29T02:00"
+   ],
+   "chase": null,
+   "notes": "rain-wrapped wedge, Lawrence/Linwood",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 2,
+    "max_rating": "EF4",
+    "longest_track_mi": 29.07,
+    "widest_yd": 1760,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 1,
+    "max_wind_kt": 70.0,
+    "tornado_list": [
+     {
+      "utc": "2019-05-28T22:49",
+      "rating": "EF2",
+      "state": "KS",
+      "start": [
+       38.7541,
+       -95.5186
+      ],
+      "end": [
+       38.8404,
+       -95.354
+      ],
+      "length_mi": 10.69,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 46.1
+     },
+     {
+      "utc": "2019-05-28T23:05",
+      "rating": "EF4",
+      "state": "KS",
+      "start": [
+       38.8381,
+       -95.3665
+      ],
+      "end": [
+       39.0807,
+       -94.927
+      ],
+      "length_mi": 29.07,
+      "width_yd": 1760,
+      "fatalities": 0,
+      "km_from_anchor": 30.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KEAX",
+     "name": "KANSAS CITY",
+     "km": 69.7
+    },
+    {
+     "site": "KTWX",
+     "name": "TOPEKA",
+     "km": 102.4
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 52.0
+    },
+    {
+     "id": "USM00072440",
+     "name": "SPRINGFIELD/MUN.; MO.",
+     "km": 239.1
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 286.3
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 338.6
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "hp_linwood_20190528_hrrr.json",
+     "hp_linwood_20190528_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "hp_morton_20220523",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    33.73,
+    -102.76
+   ],
+   "window_utc": [
+    "2022-05-23T21:00",
+    "2022-05-24T03:00"
+   ],
+   "chase": "2022-05-23-morton-tx",
+   "notes": "possible outflow boundary; user to confirm",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 9,
+    "max_rating": "EF2",
+    "longest_track_mi": 7.55,
+    "widest_yd": 1420,
+    "hail_reports": 6,
+    "max_hail_in": 2.25,
+    "wind_reports": 3,
+    "max_wind_kt": 70.0,
+    "tornado_list": [
+     {
+      "utc": "2022-05-23T23:50",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       33.8136,
+       -102.8465
+      ],
+      "end": [
+       33.8143,
+       -102.8292
+      ],
+      "length_mi": 0.99,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 12.3
+     },
+     {
+      "utc": "2022-05-24T00:03",
+      "rating": "EF2",
+      "state": "TX",
+      "start": [
+       33.8093,
+       -102.786
+      ],
+      "end": [
+       33.8342,
+       -102.7815
+      ],
+      "length_mi": 2.85,
+      "width_yd": 1400,
+      "fatalities": 0,
+      "km_from_anchor": 9.1
+     },
+     {
+      "utc": "2022-05-24T00:13",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       33.8213,
+       -102.7178
+      ],
+      "end": [
+       33.835,
+       -102.7157
+      ],
+      "length_mi": 0.68,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 10.9
+     },
+     {
+      "utc": "2022-05-24T00:40",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       33.7937,
+       -102.6694
+      ],
+      "end": [
+       33.788,
+       -102.6433
+      ],
+      "length_mi": 1.55,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 11.0
+     },
+     {
+      "utc": "2022-05-24T01:06",
+      "rating": "EF0",
+      "state": "TX",
+      "start": [
+       33.7802,
+       -102.5942
+      ],
+      "end": [
+       33.7821,
+       -102.5608
+      ],
+      "length_mi": 1.92,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 16.3
+     },
+     {
+      "utc": "2022-05-24T01:14",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       33.6874,
+       -102.6876
+      ],
+      "end": [
+       33.687,
+       -102.6853
+      ],
+      "length_mi": 0.14,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 8.2
+     },
+     {
+      "utc": "2022-05-24T01:28",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       33.6627,
+       -102.5785
+      ],
+      "end": [
+       33.6524,
+       -102.5644
+      ],
+      "length_mi": 1.08,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 18.4
+     },
+     {
+      "utc": "2022-05-24T01:37",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       33.664,
+       -102.5559
+      ],
+      "end": [
+       33.6636,
+       -102.5482
+      ],
+      "length_mi": 0.44,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 20.3
+     },
+     {
+      "utc": "2022-05-24T01:40",
+      "rating": "EF2",
+      "state": "TX",
+      "start": [
+       33.6266,
+       -102.5438
+      ],
+      "end": [
+       33.6829,
+       -102.4312
+      ],
+      "length_mi": 7.55,
+      "width_yd": 1420,
+      "fatalities": 0,
+      "km_from_anchor": 23.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KLBB",
+     "name": "LUBBOCK",
+     "km": 87.9
+    },
+    {
+     "site": "KFDX",
+     "name": "CANNON AFB",
+     "km": 127.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 192.9
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 205.8
+    },
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 383.0
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "hp_morton_20220523_hrrr.json",
+     "hp_morton_20220523_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "hp_amarillo_20230518",
+   "preset": "plains_hp",
+   "role": "calibrate",
+   "anchor": [
+    35.2,
+    -101.8
+   ],
+   "window_utc": [
+    "2023-05-18T21:00",
+    "2023-05-19T03:00"
+   ],
+   "chase": "2023-05-18-amarillo-tx",
+   "notes": "'The Amarillo Mothership'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF0",
+    "longest_track_mi": 0.09,
+    "widest_yd": 25,
+    "hail_reports": 7,
+    "max_hail_in": 2.5,
+    "wind_reports": 6,
+    "max_wind_kt": 74.0,
+    "tornado_list": [
+     {
+      "utc": "2023-05-19T03:02",
+      "rating": "EF0",
+      "state": "TX",
+      "start": [
+       35.2786,
+       -101.5409
+      ],
+      "end": [
+       35.2793,
+       -101.5395
+      ],
+      "length_mi": 0.09,
+      "width_yd": 25,
+      "fatalities": 0,
+      "km_from_anchor": 25.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KAMA",
+     "name": "AMARILLO",
+     "km": 9.0
+    },
+    {
+     "site": "KLBB",
+     "name": "LUBBOCK",
+     "km": 171.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 9.0
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 328.5
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 364.0
+    },
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 396.4
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "hp_amarillo_20230518_hrrr.json",
+     "hp_amarillo_20230518_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "hp_manhattan_20220611",
+   "preset": "plains_hp",
+   "role": "holdout",
+   "anchor": [
+    39.18,
+    -96.57
+   ],
+   "window_utc": [
+    "2022-06-11T21:00",
+    "2022-06-12T03:00"
+   ],
+   "chase": "2022-06-11-manhattan-ks",
+   "notes": "'The Manhattan Monster'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 3,
+    "max_rating": "EF2",
+    "longest_track_mi": 11.25,
+    "widest_yd": 50,
+    "hail_reports": 5,
+    "max_hail_in": 1.75,
+    "wind_reports": 22,
+    "max_wind_kt": 100.0,
+    "tornado_list": [
+     {
+      "utc": "2022-06-12T00:04",
+      "rating": "EF1",
+      "state": "KS",
+      "start": [
+       39.44,
+       -96.558
+      ],
+      "end": [
+       39.278,
+       -96.579
+      ],
+      "length_mi": 11.25,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 28.9
+     },
+     {
+      "utc": "2022-06-12T00:20",
+      "rating": "EF2",
+      "state": "KS",
+      "start": [
+       39.1971,
+       -96.5765
+      ],
+      "end": [
+       39.1947,
+       -96.5714
+      ],
+      "length_mi": 0.32,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 2.0
+     },
+     {
+      "utc": "2022-06-12T00:32",
+      "rating": "EFU",
+      "state": "KS",
+      "start": [
+       39.0981,
+       -96.4743
+      ],
+      "end": [
+       39.0981,
+       -96.4743
+      ],
+      "length_mi": 0.01,
+      "width_yd": 10,
+      "fatalities": 0,
+      "km_from_anchor": 12.3
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KTWX",
+     "name": "TOPEKA",
+     "km": 35.5
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 81.9
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 238.6
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 298.3
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 335.3
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "hp_manhattan_20220611_hrrr.json",
+     "hp_manhattan_20220611_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixie_smithville_20110427",
+   "preset": "dixie_classic",
+   "role": "calibrate",
+   "anchor": [
+    34.07,
+    -88.39
+   ],
+   "window_utc": [
+    "2011-04-27T19:00",
+    "2011-04-27T22:00"
+   ],
+   "chase": null,
+   "notes": "RUC era (pre-RAP)",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 4,
+    "max_rating": "EF5",
+    "longest_track_mi": 132.0,
+    "widest_yd": 2200,
+    "hail_reports": 3,
+    "max_hail_in": 4.0,
+    "wind_reports": 2,
+    "max_wind_kt": 70.0,
+    "tornado_list": [
+     {
+      "utc": "2011-04-27T19:59",
+      "rating": "EF0",
+      "state": "MS",
+      "start": [
+       34.3202,
+       -88.8848
+      ],
+      "end": [
+       34.3259,
+       -88.8683
+      ],
+      "length_mi": 1.02,
+      "width_yd": 75,
+      "fatalities": 0,
+      "km_from_anchor": 53.3
+     },
+     {
+      "utc": "2011-04-27T20:05",
+      "rating": "EF5",
+      "state": "AL",
+      "start": [
+       34.1043,
+       -88.1479
+      ],
+      "end": [
+       35.0857,
+       -86.1511
+      ],
+      "length_mi": 132.0,
+      "width_yd": 2200,
+      "fatalities": 72,
+      "km_from_anchor": 22.6
+     },
+     {
+      "utc": "2011-04-27T20:42",
+      "rating": "EF5",
+      "state": "MS",
+      "start": [
+       34.0455,
+       -88.445
+      ],
+      "end": [
+       34.3226,
+       -87.8924
+      ],
+      "length_mi": 37.3,
+      "width_yd": 1320,
+      "fatalities": 23,
+      "km_from_anchor": 5.8
+     },
+     {
+      "utc": "2011-04-27T22:10",
+      "rating": "EF3",
+      "state": "AL",
+      "start": [
+       34.0289,
+       -87.9421
+      ],
+      "end": [
+       34.3039,
+       -87.4968
+      ],
+      "length_mi": 31.84,
+      "width_yd": 1320,
+      "fatalities": 0,
+      "km_from_anchor": 41.5
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KGWX",
+     "name": "COLUMBUS AFB",
+     "km": 20.0
+    },
+    {
+     "site": "KBMX",
+     "name": "BIRMINGHAM",
+     "km": 180.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074001",
+     "name": "REDSTONE ARSENAL; AL.",
+     "km": 171.7
+    },
+    {
+     "id": "USM00072230",
+     "name": "BIRMINGHAM; AL",
+     "km": 178.8
+    },
+    {
+     "id": "USM00072235",
+     "name": "JACKSON/ALLEN C. THOMPSON FIEL",
+     "km": 250.3
+    },
+    {
+     "id": "USM00072327",
+     "name": "NASHVILLE/METROPOLITAN; TN.",
+     "km": 293.0
+    }
+   ],
+   "sources": {
+    "model_sounding": "ruc (fetch_sounding needs a RUC reader)",
+    "dual_pol": false,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixie_tuscaloosa_20110427",
+   "preset": "dixie_classic",
+   "role": "calibrate",
+   "anchor": [
+    33.2,
+    -87.55
+   ],
+   "window_utc": [
+    "2011-04-27T21:00",
+    "2011-04-28T01:00"
+   ],
+   "chase": null,
+   "notes": "long-track; RUC era",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 4,
+    "max_rating": "EF4",
+    "longest_track_mi": 127.8,
+    "widest_yd": 2600,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2011-04-27T20:40",
+      "rating": "EF4",
+      "state": "AL",
+      "start": [
+       33.2506,
+       -88.1814
+      ],
+      "end": [
+       34.2831,
+       -86.3491
+      ],
+      "length_mi": 127.8,
+      "width_yd": 1408,
+      "fatalities": 13,
+      "km_from_anchor": 59.0
+     },
+     {
+      "utc": "2011-04-27T21:43",
+      "rating": "EF4",
+      "state": "AL",
+      "start": [
+       33.0297,
+       -87.935
+      ],
+      "end": [
+       33.6311,
+       -86.7436
+      ],
+      "length_mi": 80.68,
+      "width_yd": 2600,
+      "fatalities": 64,
+      "km_from_anchor": 40.5
+     },
+     {
+      "utc": "2011-04-27T23:50",
+      "rating": "EF1",
+      "state": "AL",
+      "start": [
+       32.8478,
+       -87.4922
+      ],
+      "end": [
+       32.9047,
+       -87.3605
+      ],
+      "length_mi": 8.62,
+      "width_yd": 300,
+      "fatalities": 0,
+      "km_from_anchor": 39.5
+     },
+     {
+      "utc": "2011-04-28T00:32",
+      "rating": "EF1",
+      "state": "AL",
+      "start": [
+       33.1169,
+       -87.0081
+      ],
+      "end": [
+       33.156,
+       -86.9274
+      ],
+      "length_mi": 5.41,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 51.3
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KBMX",
+     "name": "BIRMINGHAM",
+     "km": 72.6
+    },
+    {
+     "site": "KGWX",
+     "name": "COLUMBUS AFB",
+     "km": 105.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072230",
+     "name": "BIRMINGHAM; AL",
+     "km": 71.5
+    },
+    {
+     "id": "USM00074001",
+     "name": "REDSTONE ARSENAL; AL.",
+     "km": 177.2
+    },
+    {
+     "id": "USM00072235",
+     "name": "JACKSON/ALLEN C. THOMPSON FIEL",
+     "km": 256.1
+    },
+    {
+     "id": "USM00072215",
+     "name": "PEACHTREE CITY; GA.",
+     "km": 277.8
+    }
+   ],
+   "sources": {
+    "model_sounding": "ruc (fetch_sounding needs a RUC reader)",
+    "dual_pol": false,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "dixie_tuscaloosa_20110427_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixie_beauregard_20190303",
+   "preset": "dixie_classic",
+   "role": "holdout",
+   "anchor": [
+    32.55,
+    -85.38
+   ],
+   "window_utc": [
+    "2019-03-03T19:00",
+    "2019-03-03T22:00"
+   ],
+   "chase": null,
+   "notes": "cool-season, fast",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 3,
+    "max_rating": "EF4",
+    "longest_track_mi": 68.04,
+    "widest_yd": 1600,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 1,
+    "max_wind_kt": 50.0,
+    "tornado_list": [
+     {
+      "utc": "2019-03-03T20:00",
+      "rating": "EF4",
+      "state": "AL",
+      "start": [
+       32.4472,
+       -85.4818
+      ],
+      "end": [
+       32.7452,
+       -84.3697
+      ],
+      "length_mi": 68.04,
+      "width_yd": 1600,
+      "fatalities": 23,
+      "km_from_anchor": 14.9
+     },
+     {
+      "utc": "2019-03-03T20:27",
+      "rating": "EF2",
+      "state": "AL",
+      "start": [
+       32.3455,
+       -85.7356
+      ],
+      "end": [
+       32.4914,
+       -85.2738
+      ],
+      "length_mi": 29.07,
+      "width_yd": 1300,
+      "fatalities": 0,
+      "km_from_anchor": 40.4
+     },
+     {
+      "utc": "2019-03-03T21:19",
+      "rating": "EF1",
+      "state": "GA",
+      "start": [
+       32.836,
+       -84.9421
+      ],
+      "end": [
+       32.8665,
+       -84.8197
+      ],
+      "length_mi": 7.41,
+      "width_yd": 900,
+      "fatalities": 0,
+      "km_from_anchor": 51.9
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KMXX",
+     "name": "MAXWELL AFB",
+     "km": 38.4
+    },
+    {
+     "site": "KFFC",
+     "name": "ATLANTA",
+     "km": 118.1
+    },
+    {
+     "site": "KEOX",
+     "name": "FORT RUCKER",
+     "km": 121.4
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072215",
+     "name": "PEACHTREE CITY; GA.",
+     "km": 117.4
+    },
+    {
+     "id": "USM00072230",
+     "name": "BIRMINGHAM; AL",
+     "km": 148.5
+    },
+    {
+     "id": "USM00072221",
+     "name": "VALPARAISO/EGLIN AFB; FL.",
+     "km": 253.8
+    },
+    {
+     "id": "USM00072214",
+     "name": "TALLAHASSEE/MUN.; FL.",
+     "km": 255.4
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "dixie_beauregard_20190303_hrrr.json",
+     "dixie_beauregard_20190303_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixiehp_mayfield_20211210",
+   "preset": "dixie_hp",
+   "role": "calibrate",
+   "anchor": [
+    36.74,
+    -88.64
+   ],
+   "window_utc": [
+    "2021-12-11T00:00",
+    "2021-12-11T06:00"
+   ],
+   "chase": null,
+   "notes": "nocturnal, long-track quad-state supercell",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF4",
+    "longest_track_mi": 168.53,
+    "widest_yd": 2600,
+    "hail_reports": 2,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2021-12-11T02:54",
+      "rating": "EF4",
+      "state": "TN",
+      "start": [
+       36.483,
+       -89.135
+      ],
+      "end": [
+       37.6078,
+       -86.5062
+      ],
+      "length_mi": 168.53,
+      "width_yd": 2600,
+      "fatalities": 57,
+      "km_from_anchor": 52.6
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KPAH",
+     "name": "PADUCAH",
+     "km": 38.3
+    },
+    {
+     "site": "KHPX",
+     "name": "FORT CAMPBELL",
+     "km": 120.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072327",
+     "name": "NASHVILLE/METROPOLITAN; TN.",
+     "km": 195.2
+    },
+    {
+     "id": "USM00074560",
+     "name": "LINCOLN; IL.",
+     "km": 384.2
+    },
+    {
+     "id": "USM00072340",
+     "name": "LITTLE ROCK/ADAMS FLD; AR.",
+     "km": 389.1
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "dixiehp_mayfield_20211210_hrrr.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixiehp_bassfield_20200412",
+   "preset": "dixie_hp",
+   "role": "calibrate",
+   "anchor": [
+    31.5,
+    -89.75
+   ],
+   "window_utc": [
+    "2020-04-12T19:00",
+    "2020-04-12T23:00"
+   ],
+   "chase": null,
+   "notes": "very wide wedge",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 3,
+    "max_rating": "EF4",
+    "longest_track_mi": 83.22,
+    "widest_yd": 3960,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2020-04-12T20:38",
+      "rating": "EF4",
+      "state": "MS",
+      "start": [
+       31.2662,
+       -90.1832
+      ],
+      "end": [
+       31.4017,
+       -89.8505
+      ],
+      "length_mi": 22.12,
+      "width_yd": 1936,
+      "fatalities": 4,
+      "km_from_anchor": 48.7
+     },
+     {
+      "utc": "2020-04-12T21:12",
+      "rating": "EF4",
+      "state": "MS",
+      "start": [
+       31.4641,
+       -89.7579
+      ],
+      "end": [
+       32.072,
+       -88.8649
+      ],
+      "length_mi": 67.43,
+      "width_yd": 3960,
+      "fatalities": 7,
+      "km_from_anchor": 4.1
+     },
+     {
+      "utc": "2020-04-12T21:36",
+      "rating": "EF3",
+      "state": "MS",
+      "start": [
+       31.3712,
+       -90.1101
+      ],
+      "end": [
+       32.1121,
+       -89.0047
+      ],
+      "length_mi": 83.22,
+      "width_yd": 2041,
+      "fatalities": 0,
+      "km_from_anchor": 37.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDGX",
+     "name": "JACKSON BRANDON",
+     "km": 89.5
+    },
+    {
+     "site": "KHDC",
+     "name": "HAMMOND MUNICIPAL AIRPORT",
+     "km": 125.8
+    },
+    {
+     "site": "KLIX",
+     "name": "NEW ORLEANS",
+     "km": 129.6
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072235",
+     "name": "JACKSON/ALLEN C. THOMPSON FIEL",
+     "km": 96.2
+    },
+    {
+     "id": "USM00072233",
+     "name": "SLIDELL/MUN. LA",
+     "km": 129.5
+    },
+    {
+     "id": "USM00072221",
+     "name": "VALPARAISO/EGLIN AFB; FL.",
+     "km": 328.3
+    },
+    {
+     "id": "USM00072230",
+     "name": "BIRMINGHAM; AL",
+     "km": 335.5
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "dixiehp_bassfield_20200412_hrrr.json",
+     "dixiehp_bassfield_20200412_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixiehp_rollingfork_20230324",
+   "preset": "dixie_hp",
+   "role": "calibrate",
+   "anchor": [
+    32.9,
+    -90.88
+   ],
+   "window_utc": [
+    "2023-03-25T00:00",
+    "2023-03-25T04:00"
+   ],
+   "chase": null,
+   "notes": "nocturnal",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF4",
+    "longest_track_mi": 59.23,
+    "widest_yd": 1320,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2023-03-25T00:57",
+      "rating": "EF4",
+      "state": "MS",
+      "start": [
+       32.84,
+       -91.0
+      ],
+      "end": [
+       33.26,
+       -90.11
+      ],
+      "length_mi": 59.23,
+      "width_yd": 1320,
+      "fatalities": 17,
+      "km_from_anchor": 13.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDGX",
+     "name": "JACKSON BRANDON",
+     "km": 108.6
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072235",
+     "name": "JACKSON/ALLEN C. THOMPSON FIEL",
+     "km": 98.9
+    },
+    {
+     "id": "USM00072340",
+     "name": "LITTLE ROCK/ADAMS FLD; AR.",
+     "km": 250.0
+    },
+    {
+     "id": "USM00072248",
+     "name": "SHREVEPORT/REG.; LA.",
+     "km": 281.6
+    },
+    {
+     "id": "USM00072233",
+     "name": "SLIDELL/MUN. LA",
+     "km": 302.0
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "dixiehp_rollingfork_20230324_hrrr.json",
+     "dixiehp_rollingfork_20230324_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "dixiehp_moundville_20210317",
+   "preset": "dixie_hp",
+   "role": "holdout",
+   "anchor": [
+    32.99,
+    -87.63
+   ],
+   "window_utc": [
+    "2021-03-17T17:00",
+    "2021-03-17T23:00"
+   ],
+   "chase": "2021-03-17-moundville-al",
+   "notes": "user's first tornado intercept",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 5,
+    "max_rating": "EF1",
+    "longest_track_mi": 22.03,
+    "widest_yd": 650,
+    "hail_reports": 1,
+    "max_hail_in": 2.5,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2021-03-17T19:03",
+      "rating": "EF0",
+      "state": "AL",
+      "start": [
+       32.5117,
+       -87.8866
+      ],
+      "end": [
+       32.5176,
+       -87.8744
+      ],
+      "length_mi": 0.83,
+      "width_yd": 175,
+      "fatalities": 0,
+      "km_from_anchor": 58.3
+     },
+     {
+      "utc": "2021-03-17T19:12",
+      "rating": "EF1",
+      "state": "AL",
+      "start": [
+       32.9081,
+       -87.7584
+      ],
+      "end": [
+       33.1254,
+       -87.4878
+      ],
+      "length_mi": 22.03,
+      "width_yd": 550,
+      "fatalities": 0,
+      "km_from_anchor": 15.0
+     },
+     {
+      "utc": "2021-03-17T20:09",
+      "rating": "EF1",
+      "state": "AL",
+      "start": [
+       33.1907,
+       -87.3795
+      ],
+      "end": [
+       33.1959,
+       -87.3728
+      ],
+      "length_mi": 0.53,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 32.3
+     },
+     {
+      "utc": "2021-03-17T20:25",
+      "rating": "EF1",
+      "state": "AL",
+      "start": [
+       33.2887,
+       -87.2997
+      ],
+      "end": [
+       33.3361,
+       -87.2896
+      ],
+      "length_mi": 3.51,
+      "width_yd": 650,
+      "fatalities": 0,
+      "km_from_anchor": 45.3
+     },
+     {
+      "utc": "2021-03-17T20:54",
+      "rating": "EF1",
+      "state": "AL",
+      "start": [
+       33.336,
+       -87.3097
+      ],
+      "end": [
+       33.3995,
+       -87.2435
+      ],
+      "length_mi": 5.81,
+      "width_yd": 650,
+      "fatalities": 0,
+      "km_from_anchor": 48.7
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KBMX",
+     "name": "BIRMINGHAM",
+     "km": 82.6
+    },
+    {
+     "site": "KGWX",
+     "name": "COLUMBUS AFB",
+     "km": 119.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072230",
+     "name": "BIRMINGHAM; AL",
+     "km": 81.7
+    },
+    {
+     "id": "USM00072235",
+     "name": "JACKSON/ALLEN C. THOMPSON FIEL",
+     "km": 241.2
+    },
+    {
+     "id": "USM00072215",
+     "name": "PEACHTREE CITY; GA.",
+     "km": 287.9
+    },
+    {
+     "id": "USM00072221",
+     "name": "VALPARAISO/EGLIN AFB; FL.",
+     "km": 297.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "dixiehp_moundville_20210317_hrrr.json",
+     "dixiehp_moundville_20210317_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mw_washington_20131117",
+   "preset": "midwest_classic",
+   "role": "calibrate",
+   "anchor": [
+    40.7,
+    -89.4
+   ],
+   "window_utc": [
+    "2013-11-17T15:00",
+    "2013-11-17T19:00"
+   ],
+   "chase": null,
+   "notes": "November, fast",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 3,
+    "max_rating": "EF4",
+    "longest_track_mi": 46.36,
+    "widest_yd": 880,
+    "hail_reports": 9,
+    "max_hail_in": 4.0,
+    "wind_reports": 5,
+    "max_wind_kt": 61.0,
+    "tornado_list": [
+     {
+      "utc": "2013-11-17T16:52",
+      "rating": "EF2",
+      "state": "IL",
+      "start": [
+       40.5756,
+       -89.6569
+      ],
+      "end": [
+       40.5922,
+       -89.6198
+      ],
+      "length_mi": 2.26,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 25.7
+     },
+     {
+      "utc": "2013-11-17T16:59",
+      "rating": "EF4",
+      "state": "IL",
+      "start": [
+       40.622,
+       -89.5678
+      ],
+      "end": [
+       41.0063,
+       -88.8439
+      ],
+      "length_mi": 46.36,
+      "width_yd": 880,
+      "fatalities": 3,
+      "km_from_anchor": 16.6
+     },
+     {
+      "utc": "2013-11-17T17:43",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       40.9587,
+       -88.9251
+      ],
+      "end": [
+       40.98,
+       -88.884
+      ],
+      "length_mi": 2.6,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 49.2
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KILX",
+     "name": "LINCOLN",
+     "km": 61.3
+    },
+    {
+     "site": "KDVN",
+     "name": "DAVENPORT",
+     "km": 141.6
+    },
+    {
+     "site": "KLOT",
+     "name": "CHICAGO",
+     "km": 149.1
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074560",
+     "name": "LINCOLN; IL.",
+     "km": 61.2
+    },
+    {
+     "id": "USM00074455",
+     "name": "QUAD CITY; IA.",
+     "km": 141.6
+    }
+   ],
+   "sources": {
+    "model_sounding": "rap",
+    "dual_pol": true,
+    "goes16": false
+   },
+   "have": {
+    "soundings": [
+     "mw_washington_20131117_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mw_keota_20230331",
+   "preset": "midwest_classic",
+   "role": "calibrate",
+   "anchor": [
+    41.36,
+    -91.95
+   ],
+   "window_utc": [
+    "2023-03-31T19:00",
+    "2023-04-01T01:00"
+   ],
+   "chase": null,
+   "notes": "",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 7,
+    "max_rating": "EF4",
+    "longest_track_mi": 26.09,
+    "widest_yd": 1000,
+    "hail_reports": 6,
+    "max_hail_in": 1.75,
+    "wind_reports": 2,
+    "max_wind_kt": 70.0,
+    "tornado_list": [
+     {
+      "utc": "2023-03-31T20:36",
+      "rating": "EF3",
+      "state": "IA",
+      "start": [
+       41.0615,
+       -92.3334
+      ],
+      "end": [
+       41.34,
+       -92.0
+      ],
+      "length_mi": 26.09,
+      "width_yd": 1000,
+      "fatalities": 0,
+      "km_from_anchor": 46.2
+     },
+     {
+      "utc": "2023-03-31T20:52",
+      "rating": "EFU",
+      "state": "IA",
+      "start": [
+       41.6489,
+       -92.544
+      ],
+      "end": [
+       41.6855,
+       -92.4949
+      ],
+      "length_mi": 3.58,
+      "width_yd": 60,
+      "fatalities": 0,
+      "km_from_anchor": 59.0
+     },
+     {
+      "utc": "2023-03-31T21:10",
+      "rating": "EF4",
+      "state": "IA",
+      "start": [
+       41.31,
+       -92.03
+      ],
+      "end": [
+       41.54,
+       -91.8
+      ],
+      "length_mi": 19.9,
+      "width_yd": 700,
+      "fatalities": 0,
+      "km_from_anchor": 8.7
+     },
+     {
+      "utc": "2023-03-31T21:37",
+      "rating": "EF0",
+      "state": "IA",
+      "start": [
+       41.53,
+       -91.79
+      ],
+      "end": [
+       41.6,
+       -91.72
+      ],
+      "length_mi": 6.1,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 23.1
+     },
+     {
+      "utc": "2023-03-31T21:46",
+      "rating": "EF2",
+      "state": "IA",
+      "start": [
+       41.63,
+       -91.69
+      ],
+      "end": [
+       41.81,
+       -91.49
+      ],
+      "length_mi": 16.93,
+      "width_yd": 75,
+      "fatalities": 0,
+      "km_from_anchor": 37.0
+     },
+     {
+      "utc": "2023-03-31T21:53",
+      "rating": "EF2",
+      "state": "IA",
+      "start": [
+       41.54,
+       -91.56
+      ],
+      "end": [
+       41.7,
+       -91.39
+      ],
+      "length_mi": 14.69,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 38.2
+     },
+     {
+      "utc": "2023-03-31T22:06",
+      "rating": "EF1",
+      "state": "IA",
+      "start": [
+       41.64,
+       -91.36
+      ],
+      "end": [
+       41.72,
+       -91.24
+      ],
+      "length_mi": 8.3,
+      "width_yd": 10,
+      "fatalities": 0,
+      "km_from_anchor": 58.2
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDVN",
+     "name": "DAVENPORT",
+     "km": 117.4
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074455",
+     "name": "QUAD CITY; IA.",
+     "km": 117.4
+    },
+    {
+     "id": "USM00074560",
+     "name": "LINCOLN; IL.",
+     "km": 257.8
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 368.7
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mw_keota_20230331_hrrr.json",
+     "mw_keota_20230331_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mw_lewistown_20230404",
+   "preset": "midwest_classic",
+   "role": "calibrate",
+   "anchor": [
+    40.4,
+    -90.15
+   ],
+   "window_utc": [
+    "2023-04-04T21:00",
+    "2023-04-05T03:00"
+   ],
+   "chase": "2023-04-04-lewistown-il",
+   "notes": "'The Lewistown Cone'; fluctuated classic/HP, classic when the tornado formed (user)",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 5,
+    "max_rating": "EF3",
+    "longest_track_mi": 19.92,
+    "widest_yd": 600,
+    "hail_reports": 10,
+    "max_hail_in": 4.0,
+    "wind_reports": 8,
+    "max_wind_kt": 70.0,
+    "tornado_list": [
+     {
+      "utc": "2023-04-04T23:52",
+      "rating": "EF1",
+      "state": "IL",
+      "start": [
+       40.31,
+       -90.6
+      ],
+      "end": [
+       40.36,
+       -90.46
+      ],
+      "length_mi": 8.31,
+      "width_yd": 350,
+      "fatalities": 0,
+      "km_from_anchor": 39.4
+     },
+     {
+      "utc": "2023-04-05T00:02",
+      "rating": "EF1",
+      "state": "IL",
+      "start": [
+       40.3631,
+       -90.4329
+      ],
+      "end": [
+       40.3668,
+       -90.3966
+      ],
+      "length_mi": 1.93,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 24.3
+     },
+     {
+      "utc": "2023-04-05T00:09",
+      "rating": "EFU",
+      "state": "IL",
+      "start": [
+       40.3484,
+       -90.3773
+      ],
+      "end": [
+       40.3521,
+       -90.3639
+      ],
+      "length_mi": 0.75,
+      "width_yd": 20,
+      "fatalities": 0,
+      "km_from_anchor": 20.1
+     },
+     {
+      "utc": "2023-04-05T00:11",
+      "rating": "EF3",
+      "state": "IL",
+      "start": [
+       40.3308,
+       -90.3233
+      ],
+      "end": [
+       40.5429,
+       -90.0667
+      ],
+      "length_mi": 19.92,
+      "width_yd": 600,
+      "fatalities": 0,
+      "km_from_anchor": 16.6
+     },
+     {
+      "utc": "2023-04-05T00:29",
+      "rating": "EFU",
+      "state": "IL",
+      "start": [
+       40.405,
+       -90.0777
+      ],
+      "end": [
+       40.4065,
+       -90.0748
+      ],
+      "length_mi": 0.18,
+      "width_yd": 20,
+      "fatalities": 0,
+      "km_from_anchor": 6.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KILX",
+     "name": "LINCOLN",
+     "km": 74.4
+    },
+    {
+     "site": "KDVN",
+     "name": "DAVENPORT",
+     "km": 139.5
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074560",
+     "name": "LINCOLN; IL.",
+     "km": 74.2
+    },
+    {
+     "id": "USM00074455",
+     "name": "QUAD CITY; IA.",
+     "km": 139.5
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mw_lewistown_20230404_hrrr.json",
+     "mw_lewistown_20230404_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mw_lakeview_20240314",
+   "preset": "midwest_classic",
+   "role": "holdout",
+   "anchor": [
+    40.5,
+    -83.9
+   ],
+   "window_utc": [
+    "2024-03-14T22:00",
+    "2024-03-15T03:00"
+   ],
+   "chase": "2024-03-14-lakeview-oh",
+   "notes": "Indian Lake tornado, 'The Ohio Monster'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 4,
+    "max_rating": "EF3",
+    "longest_track_mi": 31.33,
+    "widest_yd": 1050,
+    "hail_reports": 7,
+    "max_hail_in": 2.75,
+    "wind_reports": 1,
+    "max_wind_kt": 61.0,
+    "tornado_list": [
+     {
+      "utc": "2024-03-14T23:00",
+      "rating": "EF1",
+      "state": "OH",
+      "start": [
+       40.55,
+       -84.57
+      ],
+      "end": [
+       40.5675,
+       -84.2681
+      ],
+      "length_mi": 15.95,
+      "width_yd": 1050,
+      "fatalities": 0,
+      "km_from_anchor": 56.9
+     },
+     {
+      "utc": "2024-03-14T23:29",
+      "rating": "EF3",
+      "state": "OH",
+      "start": [
+       40.5193,
+       -84.1664
+      ],
+      "end": [
+       40.3932,
+       -83.5918
+      ],
+      "length_mi": 31.33,
+      "width_yd": 1000,
+      "fatalities": 3,
+      "km_from_anchor": 22.6
+     },
+     {
+      "utc": "2024-03-14T23:30",
+      "rating": "EF1",
+      "state": "OH",
+      "start": [
+       40.8763,
+       -83.8087
+      ],
+      "end": [
+       40.8822,
+       -83.7453
+      ],
+      "length_mi": 3.34,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 42.5
+     },
+     {
+      "utc": "2024-03-15T00:24",
+      "rating": "EF2",
+      "state": "OH",
+      "start": [
+       40.3718,
+       -83.5251
+      ],
+      "end": [
+       40.2827,
+       -83.176
+      ],
+      "length_mi": 19.48,
+      "width_yd": 600,
+      "fatalities": 0,
+      "km_from_anchor": 34.8
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KILN",
+     "name": "CINCINNATI",
+     "km": 120.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072426",
+     "name": "WILMINGTON; OH.",
+     "km": 120.1
+    },
+    {
+     "id": "USM00072632",
+     "name": "WHITE LAKE; MI.",
+     "km": 247.1
+    },
+    {
+     "id": "USM00072520",
+     "name": "PITTSBURGH/GREATER PITTSBURGH",
+     "km": 311.4
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mw_lakeview_20240314_hrrr.json",
+     "mw_lakeview_20240314_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "classic_arnold_20240607",
+   "preset": "plains_classic",
+   "role": "calibrate",
+   "anchor": [
+    41.42,
+    -100.19
+   ],
+   "window_utc": [
+    "2024-06-07T20:00",
+    "2024-06-08T03:00"
+   ],
+   "chase": "2024-06-07-ansley-ne",
+   "notes": "chase folder 2024-06-07-ansley-ne; five supercells; the tornado was near Arnold NE (user)",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF2",
+    "longest_track_mi": 1.73,
+    "widest_yd": 750,
+    "hail_reports": 5,
+    "max_hail_in": 1.75,
+    "wind_reports": 1,
+    "max_wind_kt": 52.0,
+    "tornado_list": [
+     {
+      "utc": "2024-06-07T22:19",
+      "rating": "EF2",
+      "state": "NE",
+      "start": [
+       41.539,
+       -100.058
+      ],
+      "end": [
+       41.528,
+       -100.028
+      ],
+      "length_mi": 1.73,
+      "width_yd": 750,
+      "fatalities": 0,
+      "km_from_anchor": 17.2
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KLNX",
+     "name": "NORTH PLATTE",
+     "km": 67.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 53.3
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 319.2
+    },
+    {
+     "id": "USM00072662",
+     "name": "RAPID CITY/REGIONAL AIRPORT; S",
+     "km": 374.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mwhp_greenfield_20240521",
+   "preset": "midwest_hp",
+   "role": "calibrate",
+   "anchor": [
+    41.3,
+    -94.46
+   ],
+   "window_utc": [
+    "2024-05-21T18:00",
+    "2024-05-21T23:00"
+   ],
+   "chase": null,
+   "notes": "DOW sampled the tornado",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 5,
+    "max_rating": "EF4",
+    "longest_track_mi": 40.65,
+    "widest_yd": 1600,
+    "hail_reports": 5,
+    "max_hail_in": 1.25,
+    "wind_reports": 2,
+    "max_wind_kt": 61.0,
+    "tornado_list": [
+     {
+      "utc": "2024-05-21T19:59",
+      "rating": "EF4",
+      "state": "IA",
+      "start": [
+       40.8996,
+       -94.9285
+      ],
+      "end": [
+       41.3276,
+       -94.3931
+      ],
+      "length_mi": 40.65,
+      "width_yd": 1600,
+      "fatalities": 5,
+      "km_from_anchor": 59.4
+     },
+     {
+      "utc": "2024-05-21T20:09",
+      "rating": "EF0",
+      "state": "IA",
+      "start": [
+       41.5127,
+       -94.9085
+      ],
+      "end": [
+       41.5994,
+       -94.8299
+      ],
+      "length_mi": 7.24,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 44.3
+     },
+     {
+      "utc": "2024-05-21T20:18",
+      "rating": "EF1",
+      "state": "IA",
+      "start": [
+       40.9539,
+       -94.6758
+      ],
+      "end": [
+       41.0458,
+       -94.4658
+      ],
+      "length_mi": 12.66,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 42.5
+     },
+     {
+      "utc": "2024-05-21T20:39",
+      "rating": "EF2",
+      "state": "IA",
+      "start": [
+       41.3002,
+       -94.4473
+      ],
+      "end": [
+       41.4474,
+       -94.2445
+      ],
+      "length_mi": 14.63,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 1.1
+     },
+     {
+      "utc": "2024-05-21T20:50",
+      "rating": "EF0",
+      "state": "IA",
+      "start": [
+       41.1504,
+       -94.2242
+      ],
+      "end": [
+       41.2001,
+       -94.1861
+      ],
+      "length_mi": 3.97,
+      "width_yd": 75,
+      "fatalities": 0,
+      "km_from_anchor": 25.8
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDMX",
+     "name": "DES MOINES",
+     "km": 77.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 159.3
+    },
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 266.9
+    },
+    {
+     "id": "USM00074455",
+     "name": "QUAD CITY; IA.",
+     "km": 325.0
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mwhp_greenfield_20240521_hrrr.json",
+     "mwhp_greenfield_20240521_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mwhp_mendota_20240227",
+   "preset": "midwest_hp",
+   "role": "calibrate",
+   "anchor": [
+    41.55,
+    -89.12
+   ],
+   "window_utc": [
+    "2024-02-27T22:00",
+    "2024-02-28T04:00"
+   ],
+   "chase": "2024-02-27-mendota-il",
+   "notes": "February",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 4,
+    "max_rating": "EF0",
+    "longest_track_mi": 7.89,
+    "widest_yd": 175,
+    "hail_reports": 9,
+    "max_hail_in": 2.0,
+    "wind_reports": 4,
+    "max_wind_kt": 61.0,
+    "tornado_list": [
+     {
+      "utc": "2024-02-28T00:15",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       41.7168,
+       -89.0537
+      ],
+      "end": [
+       41.7173,
+       -89.0529
+      ],
+      "length_mi": 0.05,
+      "width_yd": 10,
+      "fatalities": 0,
+      "km_from_anchor": 19.3
+     },
+     {
+      "utc": "2024-02-28T00:28",
+      "rating": "EFU",
+      "state": "IL",
+      "start": [
+       41.8034,
+       -88.7514
+      ],
+      "end": [
+       41.7982,
+       -88.7295
+      ],
+      "length_mi": 1.3,
+      "width_yd": 120,
+      "fatalities": 0,
+      "km_from_anchor": 41.6
+     },
+     {
+      "utc": "2024-02-28T00:53",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       41.7507,
+       -88.652
+      ],
+      "end": [
+       41.7638,
+       -88.5492
+      ],
+      "length_mi": 5.39,
+      "width_yd": 175,
+      "fatalities": 0,
+      "km_from_anchor": 44.8
+     },
+     {
+      "utc": "2024-02-28T00:55",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       41.8799,
+       -88.5694
+      ],
+      "end": [
+       41.9395,
+       -88.4386
+      ],
+      "length_mi": 7.89,
+      "width_yd": 125,
+      "fatalities": 0,
+      "km_from_anchor": 58.6
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KLOT",
+     "name": "CHICAGO",
+     "km": 86.4
+    },
+    {
+     "site": "KDVN",
+     "name": "DAVENPORT",
+     "km": 121.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074455",
+     "name": "QUAD CITY; IA.",
+     "km": 121.8
+    },
+    {
+     "id": "USM00074560",
+     "name": "LINCOLN; IL.",
+     "km": 156.6
+    },
+    {
+     "id": "USM00072645",
+     "name": "GREEN BAY/A.-STRAUBEL; WI.",
+     "km": 337.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mwhp_mendota_20240227_hrrr.json",
+     "mwhp_mendota_20240227_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mwhp_applecreek_20230615",
+   "preset": "midwest_hp",
+   "role": "holdout",
+   "anchor": [
+    40.75,
+    -81.84
+   ],
+   "window_utc": [
+    "2023-06-15T18:00",
+    "2023-06-16T02:00"
+   ],
+   "chase": "2023-06-15-apple-creek-oh",
+   "notes": "'Backyard Supercell'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF0",
+    "longest_track_mi": 1.24,
+    "widest_yd": 300,
+    "hail_reports": 17,
+    "max_hail_in": 2.25,
+    "wind_reports": 1,
+    "max_wind_kt": 50.0,
+    "tornado_list": [
+     {
+      "utc": "2023-06-16T00:46",
+      "rating": "EF0",
+      "state": "OH",
+      "start": [
+       40.9343,
+       -82.2738
+      ],
+      "end": [
+       40.9211,
+       -82.2578
+      ],
+      "length_mi": 1.24,
+      "width_yd": 300,
+      "fatalities": 0,
+      "km_from_anchor": 41.9
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KCLE",
+     "name": "CLEVELAND",
+     "km": 73.8
+    },
+    {
+     "site": "KPBZ",
+     "name": "PITTSBURGH",
+     "km": 139.0
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072520",
+     "name": "PITTSBURGH/GREATER PITTSBURGH",
+     "km": 139.4
+    },
+    {
+     "id": "USM00072426",
+     "name": "WILMINGTON; OH.",
+     "km": 224.1
+    },
+    {
+     "id": "USM00072632",
+     "name": "WHITE LAKE; MI.",
+     "km": 255.5
+    },
+    {
+     "id": "USM00072528",
+     "name": "BUFFALO/GREATER BUFFALO INT.;",
+     "km": 355.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mwhp_applecreek_20230615_hrrr.json",
+     "mwhp_applecreek_20230615_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mini_milton_20241009",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    27.0,
+    -80.5
+   ],
+   "window_utc": [
+    "2024-10-09T13:00",
+    "2024-10-09T23:00"
+   ],
+   "chase": null,
+   "notes": "tropical-cyclone outbreak, many cells; pick one storm",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 15,
+    "max_rating": "EF3",
+    "longest_track_mi": 65.49,
+    "widest_yd": 500,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2024-10-09T15:40",
+      "rating": "EF0",
+      "state": "FL",
+      "start": [
+       26.7286,
+       -80.5906
+      ],
+      "end": [
+       26.9531,
+       -80.615
+      ],
+      "length_mi": 15.53,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 31.5
+     },
+     {
+      "utc": "2024-10-09T15:44",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       26.9874,
+       -81.0846
+      ],
+      "end": [
+       27.0754,
+       -81.1119
+      ],
+      "length_mi": 6.28,
+      "width_yd": 120,
+      "fatalities": 0,
+      "km_from_anchor": 57.9
+     },
+     {
+      "utc": "2024-10-09T18:04",
+      "rating": "EF2",
+      "state": "FL",
+      "start": [
+       27.2822,
+       -80.8798
+      ],
+      "end": [
+       27.3823,
+       -80.9577
+      ],
+      "length_mi": 8.5,
+      "width_yd": 250,
+      "fatalities": 0,
+      "km_from_anchor": 49.0
+     },
+     {
+      "utc": "2024-10-09T18:05",
+      "rating": "EF0",
+      "state": "FL",
+      "start": [
+       27.127,
+       -80.384
+      ],
+      "end": [
+       27.385,
+       -80.402
+      ],
+      "length_mi": 17.94,
+      "width_yd": 200,
+      "fatalities": 0,
+      "km_from_anchor": 18.2
+     },
+     {
+      "utc": "2024-10-09T18:10",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       27.2724,
+       -80.7072
+      ],
+      "end": [
+       27.4988,
+       -80.8184
+      ],
+      "length_mi": 17.14,
+      "width_yd": 300,
+      "fatalities": 0,
+      "km_from_anchor": 36.6
+     },
+     {
+      "utc": "2024-10-09T18:24",
+      "rating": "EF3",
+      "state": "FL",
+      "start": [
+       26.8878,
+       -81.0381
+      ],
+      "end": [
+       27.1086,
+       -81.0814
+      ],
+      "length_mi": 15.46,
+      "width_yd": 250,
+      "fatalities": 0,
+      "km_from_anchor": 54.8
+     },
+     {
+      "utc": "2024-10-09T18:49",
+      "rating": "EFU",
+      "state": "FL",
+      "start": [
+       26.7294,
+       -80.4646
+      ],
+      "end": [
+       26.964,
+       -80.4241
+      ],
+      "length_mi": 16.35,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 30.3
+     },
+     {
+      "utc": "2024-10-09T18:59",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       27.228,
+       -80.361
+      ],
+      "end": [
+       27.397,
+       -80.378
+      ],
+      "length_mi": 11.8,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 28.8
+     },
+     {
+      "utc": "2024-10-09T19:05",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       27.496,
+       -80.416
+      ],
+      "end": [
+       27.595,
+       -80.497
+      ],
+      "length_mi": 11.42,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 55.8
+     },
+     {
+      "utc": "2024-10-09T20:03",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       27.1244,
+       -80.1938
+      ],
+      "end": [
+       27.1635,
+       -80.1892
+      ],
+      "length_mi": 3.0,
+      "width_yd": 250,
+      "fatalities": 0,
+      "km_from_anchor": 33.3
+     },
+     {
+      "utc": "2024-10-09T20:14",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       27.4695,
+       -80.3468
+      ],
+      "end": [
+       27.5571,
+       -80.3952
+      ],
+      "length_mi": 6.75,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 54.4
+     },
+     {
+      "utc": "2024-10-09T20:33",
+      "rating": "EF2",
+      "state": "FL",
+      "start": [
+       26.6907,
+       -80.4445
+      ],
+      "end": [
+       27.412,
+       -80.319
+      ],
+      "length_mi": 65.49,
+      "width_yd": 300,
+      "fatalities": 0,
+      "km_from_anchor": 34.8
+     },
+     {
+      "utc": "2024-10-09T20:43",
+      "rating": "EF3",
+      "state": "FL",
+      "start": [
+       26.5555,
+       -80.3321
+      ],
+      "end": [
+       27.014,
+       -80.189
+      ],
+      "length_mi": 32.89,
+      "width_yd": 457,
+      "fatalities": 0,
+      "km_from_anchor": 52.2
+     },
+     {
+      "utc": "2024-10-09T20:59",
+      "rating": "EF3",
+      "state": "FL",
+      "start": [
+       27.374,
+       -80.427
+      ],
+      "end": [
+       27.676,
+       -80.362
+      ],
+      "length_mi": 21.24,
+      "width_yd": 500,
+      "fatalities": 6,
+      "km_from_anchor": 42.2
+     },
+     {
+      "utc": "2024-10-09T21:35",
+      "rating": "EF2",
+      "state": "FL",
+      "start": [
+       27.0803,
+       -80.1932
+      ],
+      "end": [
+       27.162,
+       -80.1791
+      ],
+      "length_mi": 5.71,
+      "width_yd": 400,
+      "fatalities": 0,
+      "km_from_anchor": 31.7
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KMLB",
+     "name": "MELBOURNE",
+     "km": 124.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072202",
+     "name": "MIAMI; FL (72202-0)",
+     "km": 139.5
+    },
+    {
+     "id": "USM00074794",
+     "name": "CAPE KENNEDY",
+     "km": 163.2
+    },
+    {
+     "id": "USM00072210",
+     "name": "TAMPA BAY AREA; FL.",
+     "km": 203.4
+    },
+    {
+     "id": "USM00072201",
+     "name": "KEY WEST/INT.; FL",
+     "km": 301.1
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mini_milton_20241009_hrrr.json",
+     "mini_milton_20241009_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mini_gainesville_20240204",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    29.65,
+    -82.32
+   ],
+   "window_utc": [
+    "2024-02-04T15:00",
+    "2024-02-05T02:00"
+   ],
+   "chase": "2024-02-04-gainesville-fl",
+   "notes": "cool-season low-topped",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EF1",
+    "longest_track_mi": 0.98,
+    "widest_yd": 100,
+    "hail_reports": 7,
+    "max_hail_in": 1.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2024-02-04T21:13",
+      "rating": "EF1",
+      "state": "FL",
+      "start": [
+       29.9881,
+       -82.0338
+      ],
+      "end": [
+       30.0019,
+       -82.0298
+      ],
+      "length_mi": 0.98,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 46.6
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KJAX",
+     "name": "JACKSONVILLE",
+     "km": 110.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072206",
+     "name": "JACKSONVILLE/INTNL.; FL.",
+     "km": 110.2
+    },
+    {
+     "id": "USM00072214",
+     "name": "TALLAHASSEE/MUN.; FL.",
+     "km": 210.1
+    },
+    {
+     "id": "USM00072210",
+     "name": "TAMPA BAY AREA; FL.",
+     "km": 216.4
+    },
+    {
+     "id": "USM00074794",
+     "name": "CAPE KENNEDY",
+     "km": 216.6
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mini_gainesville_20240204_hrrr.json",
+     "mini_gainesville_20240204_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mini_sycamore_20210809",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    41.99,
+    -88.69
+   ],
+   "window_utc": [
+    "2021-08-09T18:00",
+    "2021-08-10T01:00"
+   ],
+   "chase": "2021-08-09-sycamore-il",
+   "notes": "six tornadoes, warm front",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 10,
+    "max_rating": "EF1",
+    "longest_track_mi": 6.8,
+    "widest_yd": 400,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2021-08-09T21:35",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       42.0538,
+       -88.9383
+      ],
+      "end": [
+       42.0538,
+       -88.9359
+      ],
+      "length_mi": 0.1,
+      "width_yd": 20,
+      "fatalities": 0,
+      "km_from_anchor": 21.7
+     },
+     {
+      "utc": "2021-08-09T21:44",
+      "rating": "EF1",
+      "state": "IL",
+      "start": [
+       42.0628,
+       -88.8742
+      ],
+      "end": [
+       42.0645,
+       -88.8392
+      ],
+      "length_mi": 1.8,
+      "width_yd": 80,
+      "fatalities": 0,
+      "km_from_anchor": 17.2
+     },
+     {
+      "utc": "2021-08-09T21:45",
+      "rating": "EF1",
+      "state": "IL",
+      "start": [
+       42.3622,
+       -88.2786
+      ],
+      "end": [
+       42.3622,
+       -88.2716
+      ],
+      "length_mi": 0.4,
+      "width_yd": 70,
+      "fatalities": 0,
+      "km_from_anchor": 53.5
+     },
+     {
+      "utc": "2021-08-09T22:24",
+      "rating": "EF1",
+      "state": "IL",
+      "start": [
+       42.0472,
+       -88.5905
+      ],
+      "end": [
+       42.0382,
+       -88.5185
+      ],
+      "length_mi": 3.8,
+      "width_yd": 100,
+      "fatalities": 0,
+      "km_from_anchor": 10.4
+     },
+     {
+      "utc": "2021-08-09T22:28",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       42.0024,
+       -89.0029
+      ],
+      "end": [
+       42.0001,
+       -88.8703
+      ],
+      "length_mi": 6.8,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 25.9
+     },
+     {
+      "utc": "2021-08-09T23:03",
+      "rating": "EFU",
+      "state": "IL",
+      "start": [
+       41.7068,
+       -89.005
+      ],
+      "end": [
+       41.7163,
+       -88.9825
+      ],
+      "length_mi": 1.3,
+      "width_yd": 75,
+      "fatalities": 0,
+      "km_from_anchor": 40.9
+     },
+     {
+      "utc": "2021-08-09T23:13",
+      "rating": "EF1",
+      "state": "IL",
+      "start": [
+       41.9623,
+       -88.6706
+      ],
+      "end": [
+       41.9574,
+       -88.6423
+      ],
+      "length_mi": 1.5,
+      "width_yd": 150,
+      "fatalities": 0,
+      "km_from_anchor": 3.5
+     },
+     {
+      "utc": "2021-08-09T23:26",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       41.9526,
+       -88.6043
+      ],
+      "end": [
+       41.9519,
+       -88.6014
+      ],
+      "length_mi": 0.2,
+      "width_yd": 20,
+      "fatalities": 0,
+      "km_from_anchor": 8.2
+     },
+     {
+      "utc": "2021-08-09T23:28",
+      "rating": "EF0",
+      "state": "IL",
+      "start": [
+       41.9507,
+       -88.5961
+      ],
+      "end": [
+       41.9414,
+       -88.5226
+      ],
+      "length_mi": 3.9,
+      "width_yd": 400,
+      "fatalities": 0,
+      "km_from_anchor": 8.9
+     },
+     {
+      "utc": "2021-08-09T23:38",
+      "rating": "EFU",
+      "state": "IL",
+      "start": [
+       41.9444,
+       -88.5059
+      ],
+      "end": [
+       41.9446,
+       -88.5049
+      ],
+      "length_mi": 0.1,
+      "width_yd": 10,
+      "fatalities": 0,
+      "km_from_anchor": 16.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KLOT",
+     "name": "CHICAGO",
+     "km": 66.0
+    },
+    {
+     "site": "KMKX",
+     "name": "MILWAUKEE",
+     "km": 109.3
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00074455",
+     "name": "QUAD CITY; IA.",
+     "km": 162.4
+    },
+    {
+     "id": "USM00074560",
+     "name": "LINCOLN; IL.",
+     "km": 211.5
+    },
+    {
+     "id": "USM00072645",
+     "name": "GREEN BAY/A.-STRAUBEL; WI.",
+     "km": 282.8
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mini_sycamore_20210809_hrrr.json",
+     "mini_sycamore_20210809_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "mini_beaver_20221212",
+   "preset": "minisupercell",
+   "role": "calibrate",
+   "anchor": [
+    36.8,
+    -100.5
+   ],
+   "window_utc": [
+    "2022-12-12T20:00",
+    "2022-12-13T03:00"
+   ],
+   "chase": "2022-12-12-beaver-ok",
+   "notes": "'A Wedge in December', cool-season",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 2,
+    "max_rating": "EF0",
+    "longest_track_mi": 1.22,
+    "widest_yd": 50,
+    "hail_reports": 2,
+    "max_hail_in": 2.5,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": [
+     {
+      "utc": "2022-12-13T03:21",
+      "rating": "EFU",
+      "state": "OK",
+      "start": [
+       36.6188,
+       -100.6606
+      ],
+      "end": [
+       36.629,
+       -100.6426
+      ],
+      "length_mi": 1.22,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 24.7
+     },
+     {
+      "utc": "2022-12-13T03:38",
+      "rating": "EF0",
+      "state": "OK",
+      "start": [
+       36.6843,
+       -100.524
+      ],
+      "end": [
+       36.6885,
+       -100.5133
+      ],
+      "length_mi": 0.66,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 13.0
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KDDC",
+     "name": "DODGE CITY",
+     "km": 116.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 116.8
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 205.4
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 268.4
+    },
+    {
+     "id": "USM00072357",
+     "name": "NORMAN/MAX WESTHEIMER A; OK.",
+     "km": 329.1
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "mini_beaver_20221212_hrrr.json",
+     "mini_beaver_20221212_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_maywood_20220609",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    40.66,
+    -100.62
+   ],
+   "window_utc": [
+    "2022-06-09T20:00",
+    "2022-06-10T03:00"
+   ],
+   "chase": "2022-06-09-maywood-ne",
+   "notes": "'Gorgeous Supercell', no tornado",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 7,
+    "max_hail_in": 2.5,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KLNX",
+     "name": "NORTH PLATTE",
+     "km": 144.4
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 53.0
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 327.2
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 364.4
+    },
+    {
+     "id": "USM00072469",
+     "name": "DENVER/STAPLETON INT.; CO.",
+     "km": 374.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "null_maywood_20220609_hrrr.json",
+     "null_maywood_20220609_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_brule_20220727",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    41.09,
+    -101.89
+   ],
+   "window_utc": [
+    "2022-07-27T20:00",
+    "2022-07-28T03:00"
+   ],
+   "chase": "2022-07-27-brule-ne",
+   "notes": "'Pretty Structure'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 1,
+    "max_hail_in": 1.0,
+    "wind_reports": 1,
+    "max_wind_kt": 54.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KLNX",
+     "name": "NORTH PLATTE",
+     "km": 145.9
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 99.8
+    },
+    {
+     "id": "USM00072469",
+     "name": "DENVER/STAPLETON INT.; CO.",
+     "km": 291.9
+    },
+    {
+     "id": "USM00072662",
+     "name": "RAPID CITY/REGIONAL AIRPORT; S",
+     "km": 342.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "null_brule_20220727_hrrr.json",
+     "null_brule_20220727_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_sanjon_20230525",
+   "preset": "plains_hp",
+   "role": "null",
+   "anchor": [
+    35.1,
+    -103.33
+   ],
+   "window_utc": [
+    "2023-05-25T20:00",
+    "2023-05-26T03:00"
+   ],
+   "chase": "2023-05-25-san-jon-nm",
+   "notes": "'MASSIVE Mothership' part two",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 7,
+    "max_hail_in": 3.5,
+    "wind_reports": 3,
+    "max_wind_kt": 71.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KFDX",
+     "name": "CANNON AFB",
+     "km": 58.1
+    },
+    {
+     "site": "KAMA",
+     "name": "AMARILLO",
+     "km": 148.1
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 148.1
+    },
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 299.7
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 366.7
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "null_sanjon_20230525_hrrr.json",
+     "null_sanjon_20230525_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_sterling_20240601",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    40.63,
+    -103.21
+   ],
+   "window_utc": [
+    "2024-06-01T20:00",
+    "2024-06-02T03:00"
+   ],
+   "chase": "2024-06-01-sterling-co",
+   "notes": "'This Supercell Was a Tease'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 8,
+    "max_hail_in": 1.75,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KCYS",
+     "name": "CHEYENNE",
+     "km": 146.2
+    },
+    {
+     "site": "KFTG",
+     "name": "DENVER FRONT RANGE AP",
+     "km": 147.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072562",
+     "name": "NORTH PLATTE/LEE BIRD; NE.",
+     "km": 218.3
+    },
+    {
+     "id": "USM00072662",
+     "name": "RAPID CITY/REGIONAL AIRPORT; S",
+     "km": 380.0
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "null_sterling_20240601_hrrr.json",
+     "null_sterling_20240601_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_burlington_20230813",
+   "preset": "plains_hp",
+   "role": "null",
+   "anchor": [
+    38.19,
+    -95.74
+   ],
+   "window_utc": [
+    "2023-08-13T20:00",
+    "2023-08-14T03:00"
+   ],
+   "chase": "2023-08-13-burlington-ks",
+   "notes": "HP, August",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 6,
+    "max_wind_kt": 65.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KTWX",
+     "name": "TOPEKA",
+     "km": 99.4
+    },
+    {
+     "site": "KEAX",
+     "name": "KANSAS CITY",
+     "km": 145.8
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 98.6
+    },
+    {
+     "id": "USM00072440",
+     "name": "SPRINGFIELD/MUN.; MO.",
+     "km": 231.5
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 235.4
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 352.1
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [
+     "null_burlington_20230813_hrrr.json",
+     "null_burlington_20230813_igra.json"
+    ],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_tescott_20220917",
+   "preset": "plains_classic",
+   "role": "null",
+   "anchor": [
+    39.0,
+    -97.88
+   ],
+   "window_utc": [
+    "2022-09-17T21:00",
+    "2022-09-18T03:00"
+   ],
+   "chase": "2022-09-17-tescott-ks",
+   "notes": "'The Big Beautiful Orange Storm'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 14,
+    "max_hail_in": 1.75,
+    "wind_reports": 9,
+    "max_wind_kt": 78.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KTWX",
+     "name": "TOPEKA",
+     "km": 142.4
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072456",
+     "name": "TOPEKA/MUN.; KS.",
+     "km": 194.5
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 228.3
+    },
+    {
+     "id": "USM00074646",
+     "name": "LAMONT",
+     "km": 268.9
+    },
+    {
+     "id": "USM00072558",
+     "name": "VALLEY; NE.",
+     "km": 288.2
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_fortsumner_20210522",
+   "preset": "plains_lp",
+   "role": "null",
+   "anchor": [
+    34.47,
+    -104.24
+   ],
+   "window_utc": [
+    "2021-05-22T20:00",
+    "2021-05-23T03:00"
+   ],
+   "chase": "2021-05-22-fort-sumner-nm",
+   "notes": "",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 0,
+    "max_hail_in": 0.0,
+    "wind_reports": 0,
+    "max_wind_kt": 0.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KFDX",
+     "name": "CANNON AFB",
+     "km": 59.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 226.6
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 246.0
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 339.7
+    },
+    {
+     "id": "USM00072364",
+     "name": "SANTA TERESA; NM.",
+     "km": 368.4
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "null_hobbs_20220601",
+   "preset": "plains_hp",
+   "role": "null",
+   "anchor": [
+    32.7,
+    -103.14
+   ],
+   "window_utc": [
+    "2022-06-01T20:00",
+    "2022-06-02T03:00"
+   ],
+   "chase": "2022-06-01-hobbs-nm",
+   "notes": "'Hail & Mammatus'",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 3,
+    "max_hail_in": 2.0,
+    "wind_reports": 1,
+    "max_wind_kt": 58.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KMAF",
+     "name": "MIDLAND ODESSA",
+     "km": 122.7
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 122.8
+    },
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 311.0
+    },
+    {
+     "id": "USM00072364",
+     "name": "SANTA TERESA; NM.",
+     "km": 346.9
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "bnd_stratford_20230528",
+   "preset": "plains_lp",
+   "role": "boundary",
+   "anchor": [
+    36.34,
+    -102.07
+   ],
+   "window_utc": [
+    "2023-05-28T20:00",
+    "2023-05-29T03:00"
+   ],
+   "chase": "2023-05-28-stratford-tx",
+   "notes": "'Weirdest Tornado Chase'; user to confirm a boundary",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 1,
+    "max_rating": "EFU",
+    "longest_track_mi": 0.89,
+    "widest_yd": 20,
+    "hail_reports": 5,
+    "max_hail_in": 2.0,
+    "wind_reports": 1,
+    "max_wind_kt": 61.0,
+    "tornado_list": [
+     {
+      "utc": "2023-05-29T00:48",
+      "rating": "EFU",
+      "state": "TX",
+      "start": [
+       36.2,
+       -101.91
+      ],
+      "end": [
+       36.21,
+       -101.9
+      ],
+      "length_mi": 0.89,
+      "width_yd": 20,
+      "fatalities": 0,
+      "km_from_anchor": 21.2
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KAMA",
+     "name": "AMARILLO",
+     "km": 127.3
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 127.3
+    },
+    {
+     "id": "USM00072451",
+     "name": "DODGE CITY/MUN.; KS.",
+     "km": 244.4
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "bnd_grady_20230524",
+   "preset": "plains_hp",
+   "role": "boundary",
+   "anchor": [
+    34.82,
+    -103.32
+   ],
+   "window_utc": [
+    "2023-05-24T20:00",
+    "2023-05-25T03:00"
+   ],
+   "chase": "2023-05-24-grady-nm",
+   "notes": "'MASSIVE Mothership' part one, 2 EFU",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 2,
+    "max_rating": "EFU",
+    "longest_track_mi": 2.57,
+    "widest_yd": 50,
+    "hail_reports": 20,
+    "max_hail_in": 2.05,
+    "wind_reports": 16,
+    "max_wind_kt": 80.0,
+    "tornado_list": [
+     {
+      "utc": "2023-05-25T00:49",
+      "rating": "EFU",
+      "state": "NM",
+      "start": [
+       34.86,
+       -103.39
+      ],
+      "end": [
+       34.8281,
+       -103.3667
+      ],
+      "length_mi": 2.57,
+      "width_yd": 50,
+      "fatalities": 0,
+      "km_from_anchor": 7.8
+     },
+     {
+      "utc": "2023-05-25T01:00",
+      "rating": "EFU",
+      "state": "NM",
+      "start": [
+       34.84,
+       -103.27
+      ],
+      "end": [
+       34.8211,
+       -103.2506
+      ],
+      "length_mi": 1.71,
+      "width_yd": 40,
+      "fatalities": 0,
+      "km_from_anchor": 5.1
+     }
+    ]
+   },
+   "radars": [
+    {
+     "site": "KFDX",
+     "name": "CANNON AFB",
+     "km": 34.2
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 153.7
+    },
+    {
+     "id": "USM00072365",
+     "name": "ALBUQUERQUE/INT.; NM.",
+     "km": 302.0
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 336.7
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  },
+  {
+   "id": "bnd_plainview_20230523",
+   "preset": "plains_lp",
+   "role": "boundary",
+   "anchor": [
+    34.18,
+    -101.71
+   ],
+   "window_utc": [
+    "2023-05-23T20:00",
+    "2023-05-24T03:00"
+   ],
+   "chase": "2023-05-23-plainview-tx",
+   "notes": "landspouts: a tornado without a supercell; negative control for the meso-based genesis model",
+   "spc": {
+    "status": "SPC final database (Storm Data)",
+    "tornadoes": 0,
+    "max_rating": "none",
+    "longest_track_mi": 0,
+    "widest_yd": 0,
+    "hail_reports": 3,
+    "max_hail_in": 2.75,
+    "wind_reports": 1,
+    "max_wind_kt": 50.0,
+    "tornado_list": []
+   },
+   "radars": [
+    {
+     "site": "KLBB",
+     "name": "LUBBOCK",
+     "km": 59.3
+    },
+    {
+     "site": "KAMA",
+     "name": "AMARILLO",
+     "km": 117.1
+    }
+   ],
+   "balloons": [
+    {
+     "id": "USM00072363",
+     "name": "AMARILLO/INTL.; TX.",
+     "km": 117.1
+    },
+    {
+     "id": "USM00072265",
+     "name": "MIDLAND/MIDLAND REG. AIRTERM",
+     "km": 252.8
+    }
+   ],
+   "sources": {
+    "model_sounding": "hrrr",
+    "dual_pol": true,
+    "goes16": true
+   },
+   "have": {
+    "soundings": [],
+    "radar": [],
+    "satellite": false
+   }
+  }
+ ]
+}

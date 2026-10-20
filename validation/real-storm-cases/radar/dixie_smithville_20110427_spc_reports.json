@@ -1,0 +1,376 @@
+{
+ "case": "dixie_smithville_20110427",
+ "radius_km": 50,
+ "window_utc": [
+  "2011-04-27T19:21:58",
+  "2011-04-27T21:31:12"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 2,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 5,
+  "wind_reports": 4,
+  "tornado_reports": 2,
+  "largest_hail_in": 4.0,
+  "strongest_gust_kt": 70.0
+ },
+ "final": [
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:05:00",
+   "lat": 34.1043,
+   "lon": -88.1479,
+   "state": "AL",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 6.6,
+   "ef": 5,
+   "length_mi": 132.0,
+   "width_yd": 2200.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:35:00",
+   "lat": 34.0,
+   "lon": -88.75,
+   "state": "MS",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 107.9,
+   "size_in": 3.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T20:35:00",
+   "lat": 34.0,
+   "lon": -88.75,
+   "state": "MS",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 107.9,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:38:00",
+   "lat": 34.14,
+   "lon": -87.98,
+   "state": "AL",
+   "km_from_track": 10.5,
+   "km_from_storm_at_time": 41.7,
+   "size_in": 4.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:40:00",
+   "lat": 34.2291,
+   "lon": -88.4695,
+   "state": "MS",
+   "km_from_track": 27.5,
+   "km_from_storm_at_time": 82.2,
+   "size_in": 1.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:42:00",
+   "lat": 34.0455,
+   "lon": -88.445,
+   "state": "MS",
+   "km_from_track": 12.5,
+   "km_from_storm_at_time": 90.6,
+   "ef": 5,
+   "length_mi": 37.3,
+   "width_yd": 1320.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:44:00",
+   "lat": 34.46,
+   "lon": -87.48,
+   "state": "AL",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 5.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:45:00",
+   "lat": 34.46,
+   "lon": -87.48,
+   "state": "AL",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 4.2,
+   "size_in": 1.75
+  },
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T21:21:00",
+   "lat": 34.3378,
+   "lon": -87.8513,
+   "state": "AL",
+   "km_from_track": 4.3,
+   "km_from_storm_at_time": 57.0,
+   "gust_kt": 70.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T21:23:00",
+   "lat": 34.3635,
+   "lon": -87.8006,
+   "state": "AL",
+   "km_from_track": 5.4,
+   "km_from_storm_at_time": 51.5,
+   "gust_kt": 65.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T21:26:00",
+   "lat": 34.3923,
+   "lon": -87.7338,
+   "state": "AL",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 44.6,
+   "gust_kt": 65.0,
+   "measured": false
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T19:36:00",
+   "mag": "UNK",
+   "location": "3 S FLORENCE, COLBERT AL",
+   "lat": 34.76,
+   "lon": -87.67,
+   "comments": "A TREE WAS BLOWN DOWN ON A MOBILE HOME. (HUN)",
+   "km_from_track": 35.7,
+   "km_from_storm_at_time": 101.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:05:00",
+   "mag": "UNK",
+   "location": "5 NNE DETROIT, MARION AL",
+   "lat": 34.09,
+   "lon": -88.13,
+   "comments": "*** 18 FATAL *** AN EF-5 TORNADO TOUCHED DOWN SW OF HAMILTON AND MOVED NE ACROSS MARION COUNTY AND CONTINUED INTO FRANKLIN COUNTY...SEE LSR/S FROM WFO HUN. THE TORNADO (BMX)",
+   "km_from_track": 5.6,
+   "km_from_storm_at_time": 7.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:14:00",
+   "mag": "UNK",
+   "location": "HAMILTON, MARION AL",
+   "lat": 34.14,
+   "lon": -87.98,
+   "comments": "TORNADO REPORTED ON THE GROUD JUST WEST OF THE MARION COUNTY AIRPORT IN HAMILTON. (BMX)",
+   "km_from_track": 10.5,
+   "km_from_storm_at_time": 9.1
+  },
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T20:25:00",
+   "mag": "UNK",
+   "location": "FLORENCE, LAUDERDALE AL",
+   "lat": 34.8,
+   "lon": -87.68,
+   "comments": "ROOFS BLOWN OFF HOUSES AND TREES DOWN. LOCATION WAS HOLLYWOOD AND VETERANS DRIVE. (HUN)",
+   "km_from_track": 39.6,
+   "km_from_storm_at_time": 54.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:28:00",
+   "mag": "UNK",
+   "location": "3 S OKOLONA, CHICKASAW MS",
+   "lat": 33.96,
+   "lon": -88.75,
+   "comments": "TORNADO ON THE GROUND SOUTH OF OKOLONA (MEG)",
+   "km_from_track": 40.8,
+   "km_from_storm_at_time": 101.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:28:00",
+   "mag": "UNK",
+   "location": "HACKLEBURG, MARION AL",
+   "lat": 34.27,
+   "lon": -87.83,
+   "comments": "TORNADO ON GROUND JUST MOVED THROUGH DOWNTOWN HACKLEBURG. IN NOW NORTH OF 345. (BMX)",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 11.1
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:30:00",
+   "mag": "UNK",
+   "location": "PHIL CAMPBELL, FRANKLIN AL",
+   "lat": 34.35,
+   "lon": -87.71,
+   "comments": "TORNADO ON GROUND ON HIGHWAY 243 IN PHIL CAMPBELL. (HUN)",
+   "km_from_track": 1.6,
+   "km_from_storm_at_time": 0.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:32:00",
+   "mag": "UNK",
+   "location": "NEW WREN, MONROE MS",
+   "lat": 33.97,
+   "lon": -88.62,
+   "comments": "*** 4 FATAL *** EMERGENCY MANAGER REPORTS 4 PRELIMINARY FATALITIES AND SIGNIFICANT DAMAGE. ADDITIONAL INJURIES UNKNOWN. (MEG)",
+   "km_from_track": 28.8,
+   "km_from_storm_at_time": 95.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:44:00",
+   "mag": "UNK",
+   "location": "SMITHVILLE, MONROE MS",
+   "lat": 34.07,
+   "lon": -88.4,
+   "comments": "*** 14 FATAL",
+   "km_from_track": 9.9,
+   "km_from_storm_at_time": 89.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:44:00",
+   "mag": "100",
+   "location": "MT HOPE, LAWRENCE AL",
+   "lat": 34.46,
+   "lon": -87.48,
+   "comments": "MEASURED BY SPOTTER. (HUN)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 5.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:45:00",
+   "mag": "175",
+   "location": "MT HOPE, LAWRENCE AL",
+   "lat": 34.46,
+   "lon": -87.48,
+   "comments": "(HUN)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 4.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:46:00",
+   "mag": "UNK",
+   "location": "MT HOPE, LAWRENCE AL",
+   "lat": 34.46,
+   "lon": -87.48,
+   "comments": "TORNADO ON GROUND WITH DEBRIS AND ROARING SOUND. (HUN)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 2.6
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:48:00",
+   "mag": "UNK",
+   "location": "MT HOPE, LAWRENCE AL",
+   "lat": 34.46,
+   "lon": -87.48,
+   "comments": "TORNADO ON GROUND. (HUN)",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 2.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T20:50:00",
+   "mag": "175",
+   "location": "4 SW FULTON, ITAWAMBA MS",
+   "lat": 34.22,
+   "lon": -88.45,
+   "comments": "(MEG)",
+   "km_from_track": 25.8,
+   "km_from_storm_at_time": 96.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:52:00",
+   "mag": "UNK",
+   "location": "HATTON, LAWRENCE AL",
+   "lat": 34.56,
+   "lon": -87.41,
+   "comments": "MT HOPE TO HATTON. NUMEROUS HOUSES ARE GONE. (HUN)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 5.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:53:00",
+   "mag": "UNK",
+   "location": "HATTON, LAWRENCE AL",
+   "lat": 34.56,
+   "lon": -87.41,
+   "comments": "ONE HALF MILE WIDE TORNADO ALONG HWY 157 AND HWY 101 NEAR HATTON. (HUN)",
+   "km_from_track": 4.1,
+   "km_from_storm_at_time": 4.2
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:55:00",
+   "mag": "UNK",
+   "location": "MOULTON, LAWRENCE AL",
+   "lat": 34.48,
+   "lon": -87.29,
+   "comments": "TORNADO ON GROUN NORTH OF MOULTON AT 102 AND CR41. (HUN)",
+   "km_from_track": 10.9,
+   "km_from_storm_at_time": 11.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T20:57:00",
+   "mag": "UNK",
+   "location": "9 W WESTON, MARION AL",
+   "lat": 34.16,
+   "lon": -88.18,
+   "comments": "*** 6 FATAL *** THE TORNADO PATH IN AL STARTED IN MARION COUNTY NEAR COUNTY ROAD 93 AND DRY CREEK ROAD. A FEW STRUCTURES WERE DAMAGED AND NUMEROUS TREES WERE SNAPPED OF (BMX)",
+   "km_from_track": 6.9,
+   "km_from_storm_at_time": 87.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2011-04-27T21:00:00",
+   "mag": "UNK",
+   "location": "OKOLONA, CHICKASAW MS",
+   "lat": 34.01,
+   "lon": -88.75,
+   "comments": "ROOF AND STRUCTURAL DAMAGE (MEG)",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 145.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2011-04-27T21:00:00",
+   "mag": "300",
+   "location": "OKOLONA, CHICKASAW MS",
+   "lat": 34.01,
+   "lon": -88.75,
+   "comments": "(MEG)",
+   "km_from_track": 40.3,
+   "km_from_storm_at_time": 145.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2011-04-27T21:16:00",
+   "mag": "UNK",
+   "location": "4 W TRINITY, LAWRENCE AL",
+   "lat": 34.61,
+   "lon": -87.15,
+   "comments": "TORNADO REPORTED ON GROUND IN MORGAN COUNTY MOVING INTO SOURTHERN LIMESTON COUNTY. (HUN)",
+   "km_from_track": 14.9,
+   "km_from_storm_at_time": 14.9
+  }
+ ]
+}

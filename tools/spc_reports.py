@@ -17,6 +17,7 @@ import argparse
 import csv
 import io
 import json
+import urllib.error
 import urllib.request
 import zipfile
 from datetime import datetime, timedelta
@@ -62,12 +63,16 @@ def db_time_utc(r):
 
 def daily(day):
     """Preliminary reports for the SPC day starting 12Z on `day` (times UTC)."""
-    url = f"{DAILY}{day:%y%m%d}_rpts_filtered.csv"
-    txt = urllib.request.urlopen(url, timeout=60).read().decode("latin-1").splitlines()
+    try:
+        url = f"{DAILY}{day:%y%m%d}_rpts_filtered.csv"
+        txt = urllib.request.urlopen(url, timeout=60).read().decode("latin-1").splitlines()
+    except urllib.error.HTTPError:   # older days (2011 and before) only have the unfiltered file
+        url = f"{DAILY}{day:%y%m%d}_rpts.csv"
+        txt = urllib.request.urlopen(url, timeout=60).read().decode("latin-1").splitlines()
     out, kind = [], None
     for line in txt:
         if line.startswith("Time,"):
-            kind = {"F_Scale": "tornado", "Speed": "wind", "Size": "hail"}[line.split(",")[1]]
+            kind = {"F_Scale": "tornado", "F-Scale": "tornado", "Speed": "wind", "Size": "hail"}[line.split(",")[1]]
             continue
         row = next(csv.reader([line]))
         if len(row) < 8:

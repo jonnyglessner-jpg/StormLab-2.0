@@ -1,0 +1,745 @@
+{
+ "classic_forsan_20210517": {
+  "site": "KSJT",
+  "anchor_utc": "2021-05-18T00:11",
+  "anchor_latlon": [
+   32.05,
+   -101.18
+  ],
+  "why": "EF2 tornado start",
+  "first_guess_motion": [
+   263,
+   15
+  ],
+  "outcome": "3.7 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_maywood_20220609": {
+  "site": "KLNX",
+  "anchor_utc": "2022-06-10T01:32",
+  "anchor_latlon": [
+   40.61,
+   -100.68
+  ],
+  "why": "66 dBZ cell 7 km from the town at its closest pass",
+  "first_guess_motion": [
+   316,
+   16
+  ],
+  "outcome": "4.16 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "lp_taiban_20230527": {
+  "tried": [
+   "KLBB"
+  ],
+  "site": "KLBB",
+  "anchor_utc": "2023-05-28T00:26",
+  "anchor_latlon": [
+   34.61,
+   -103.99
+  ],
+  "why": "64 dBZ cell 18 km from the town at its closest pass",
+  "first_guess_motion": [
+   281,
+   18
+  ],
+  "outcome": "4.53 h, ended died",
+  "spc_reports": "ok"
+ },
+ "lp_rushcenter_20220421": {
+  "site": "KDDC",
+  "anchor_utc": "2022-04-22T01:11",
+  "anchor_latlon": [
+   38.43,
+   -99.32
+  ],
+  "why": "61 dBZ cell 4 km from the town at its closest pass",
+  "first_guess_motion": [
+   235,
+   17
+  ],
+  "outcome": "2.6 h, ended died",
+  "spc_reports": "ok"
+ },
+ "lp_clarks_20220818": {
+  "site": "KUEX",
+  "anchor_utc": "2022-08-19T00:02",
+  "anchor_latlon": [
+   41.19,
+   -97.7
+  ],
+  "why": "70 dBZ cell 12 km from the town at its closest pass",
+  "first_guess_motion": [
+   359,
+   12
+  ],
+  "outcome": "2.98 h, ended died",
+  "spc_reports": "ok"
+ },
+ "ddc_20160524": {
+  "site": "KDDC",
+  "anchor_utc": "2016-05-24T22:55",
+  "anchor_latlon": [
+   37.5031,
+   -100.1355
+  ],
+  "why": "EF3 tornado start",
+  "first_guess_motion": [
+   236,
+   22
+  ],
+  "outcome": "2.02 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "classic_rozel_20130518": {
+  "tried": [
+   "KDDC",
+   "KICT"
+  ],
+  "site": "KICT",
+  "anchor_utc": "2013-05-19T00:18",
+  "anchor_latlon": [
+   38.1429,
+   -99.4706
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   216,
+   22
+  ],
+  "outcome": "2.61 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "classic_pilger_20140616": {
+  "site": "KOAX",
+  "anchor_utc": "2014-06-16T20:42",
+  "anchor_latlon": [
+   41.893,
+   -97.33
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   220,
+   31
+  ],
+  "outcome": "2.86 h, ended died",
+  "spc_reports": "ok"
+ },
+ "classic_lamar_20220607": {
+  "tried": [
+   "KPUX"
+  ],
+  "site": "KPUX",
+  "anchor_utc": "2022-06-08T00:56",
+  "anchor_latlon": [
+   37.97,
+   -102.62
+  ],
+  "why": "EFU tornado start",
+  "first_guess_motion": [
+   284,
+   4
+  ],
+  "outcome": "9.36 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "classic_selden_20210524": {
+  "site": "KGLD",
+  "anchor_utc": "2021-05-24T23:06",
+  "anchor_latlon": [
+   39.5314,
+   -100.6375
+  ],
+  "why": "EF1 tornado start",
+  "first_guess_motion": [
+   260,
+   16
+  ],
+  "outcome": "4.24 h, ended died",
+  "spc_reports": "ok"
+ },
+ "classic_andover_20220429": {
+  "site": "KVNX",
+  "anchor_utc": "2022-04-30T01:10",
+  "anchor_latlon": [
+   37.6262,
+   -97.193
+  ],
+  "why": "EF3 tornado start",
+  "first_guess_motion": [
+   234,
+   30
+  ],
+  "outcome": "2.48 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "classic_akron_20250523": {
+  "site": "KFTG",
+  "anchor_utc": "2025-05-23T23:37",
+  "anchor_latlon": [
+   40.38,
+   -103.27
+  ],
+  "why": "EF2 tornado start",
+  "first_guess_motion": [
+   303,
+   16
+  ],
+  "outcome": "3.38 h, ended died",
+  "spc_reports": "ok"
+ },
+ "hp_elreno_20130531": {
+  "site": "KTLX",
+  "anchor_utc": "2013-05-31T23:03",
+  "anchor_latlon": [
+   35.485,
+   -98.096
+  ],
+  "why": "EF3 tornado start",
+  "first_guess_motion": [
+   259,
+   22
+  ],
+  "outcome": "4.73 h, ended died",
+  "spc_reports": "ok"
+ },
+ "hp_moore_20130520": {
+  "tried": [
+   "KTLX"
+  ],
+  "site": "KTLX",
+  "anchor_utc": "2013-05-20T19:56",
+  "anchor_latlon": [
+   35.284,
+   -97.628
+  ],
+  "why": "EF5 tornado start",
+  "first_guess_motion": [
+   254,
+   34
+  ],
+  "outcome": "4.04 h, ended died",
+  "spc_reports": "ok"
+ },
+ "hp_linwood_20190528": {
+  "site": "KEAX",
+  "anchor_utc": "2019-05-28T23:05",
+  "anchor_latlon": [
+   38.8381,
+   -95.3665
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   228,
+   38
+  ],
+  "outcome": "4.16 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "hp_morton_20220523": {
+  "tried": [
+   "KLBB"
+  ],
+  "site": "KLBB",
+  "anchor_utc": "2022-05-24T00:03",
+  "anchor_latlon": [
+   33.8093,
+   -102.786
+  ],
+  "why": "EF2 tornado start",
+  "first_guess_motion": [
+   246,
+   8
+  ],
+  "outcome": "8.27 h, ended collapsed_new_cell_on_outflow",
+  "spc_reports": "ok"
+ },
+ "hp_amarillo_20230518": {
+  "site": "KAMA",
+  "anchor_utc": "2023-05-19T03:02",
+  "anchor_latlon": [
+   35.2786,
+   -101.5409
+  ],
+  "why": "EF0 tornado start",
+  "first_guess_motion": [
+   238,
+   8
+  ],
+  "outcome": "4.18 h, ended died",
+  "spc_reports": "ok"
+ },
+ "hp_manhattan_20220611": {
+  "tried": [
+   "KTWX"
+  ],
+  "site": "KTWX",
+  "anchor_utc": "2022-06-12T00:20",
+  "anchor_latlon": [
+   39.1971,
+   -96.5765
+  ],
+  "why": "EF2 tornado start",
+  "first_guess_motion": [
+   303,
+   19
+  ],
+  "outcome": "4.93 h, ended died",
+  "spc_reports": "ok"
+ },
+ "dixie_smithville_20110427": {
+  "site": "KGWX",
+  "anchor_utc": "2011-04-27T20:05",
+  "anchor_latlon": [
+   34.1043,
+   -88.1479
+  ],
+  "why": "EF5 tornado start",
+  "first_guess_motion": [
+   232,
+   56
+  ],
+  "outcome": "1.15 h, ended merged",
+  "spc_reports": "failed: urllib.error.HTTPError: HTTP Error 404: Not Found"
+ },
+ "dixie_tuscaloosa_20110427": {
+  "site": "KBMX",
+  "anchor_utc": "2011-04-27T20:40",
+  "anchor_latlon": [
+   33.2506,
+   -88.1814
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   232,
+   56
+  ],
+  "outcome": "6.12 h, ended merged",
+  "spc_reports": "failed: urllib.error.HTTPError: HTTP Error 404: Not Found"
+ },
+ "dixie_beauregard_20190303": {
+  "tried": [
+   "KMXX"
+  ],
+  "site": "KMXX",
+  "anchor_utc": "2019-03-03T20:00",
+  "anchor_latlon": [
+   32.4472,
+   -85.4818
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   251,
+   38
+  ],
+  "outcome": "5.82 h, ended died",
+  "spc_reports": "ok"
+ },
+ "dixiehp_mayfield_20211210": {
+  "site": "KPAH",
+  "anchor_utc": "2021-12-11T02:54",
+  "anchor_latlon": [
+   36.483,
+   -89.135
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   233,
+   45
+  ],
+  "outcome": "3.24 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "dixiehp_bassfield_20200412": {
+  "site": "KDGX",
+  "anchor_utc": "2020-04-12T20:38",
+  "anchor_latlon": [
+   31.2662,
+   -90.1832
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   223,
+   46
+  ],
+  "outcome": "3.29 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "dixiehp_rollingfork_20230324": {
+  "site": "KDGX",
+  "anchor_utc": "2023-03-25T00:57",
+  "anchor_latlon": [
+   32.84,
+   -91.0
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   221,
+   42
+  ],
+  "outcome": "4.81 h, ended died",
+  "spc_reports": "ok"
+ },
+ "dixiehp_moundville_20210317": {
+  "site": "KBMX",
+  "anchor_utc": "2021-03-17T19:12",
+  "anchor_latlon": [
+   32.9081,
+   -87.7584
+  ],
+  "why": "EF1 tornado start",
+  "first_guess_motion": [
+   228,
+   24
+  ],
+  "outcome": "5.71 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "mw_washington_20131117": {
+  "site": "KILX",
+  "anchor_utc": "2013-11-17T16:59",
+  "anchor_latlon": [
+   40.622,
+   -89.5678
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   234,
+   51
+  ],
+  "outcome": "1.97 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "mw_keota_20230331": {
+  "tried": [
+   "KDVN",
+   "KDMX"
+  ],
+  "site": "KDMX",
+  "anchor_utc": "2023-03-31T21:10",
+  "anchor_latlon": [
+   41.31,
+   -92.03
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   228,
+   44
+  ],
+  "outcome": "5.29 h, ended collapsed_new_cell_on_outflow",
+  "spc_reports": "ok"
+ },
+ "mw_lewistown_20230404": {
+  "site": "KILX",
+  "anchor_utc": "2023-04-05T00:11",
+  "anchor_latlon": [
+   40.3308,
+   -90.3233
+  ],
+  "why": "EF3 tornado start",
+  "first_guess_motion": [
+   221,
+   33
+  ],
+  "outcome": "4.07 h, ended died",
+  "spc_reports": "ok"
+ },
+ "mw_lakeview_20240314": {
+  "site": "KILN",
+  "anchor_utc": "2024-03-14T23:29",
+  "anchor_latlon": [
+   40.5193,
+   -84.1664
+  ],
+  "why": "EF3 tornado start",
+  "first_guess_motion": [
+   266,
+   45
+  ],
+  "outcome": "3.09 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "classic_arnold_20240607": {
+  "site": "KLNX",
+  "anchor_utc": "2024-06-07T22:19",
+  "anchor_latlon": [
+   41.539,
+   -100.058
+  ],
+  "why": "EF2 tornado start",
+  "first_guess_motion": [
+   291,
+   20
+  ],
+  "outcome": "3.31 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "mwhp_greenfield_20240521": {
+  "tried": [
+   "KDMX"
+  ],
+  "site": "KDMX",
+  "anchor_utc": "2024-05-21T19:59",
+  "anchor_latlon": [
+   40.8996,
+   -94.9285
+  ],
+  "why": "EF4 tornado start",
+  "first_guess_motion": [
+   227,
+   45
+  ],
+  "outcome": "4.23 h, ended died",
+  "spc_reports": "ok"
+ },
+ "mwhp_mendota_20240227": {
+  "site": "KLOT",
+  "anchor_utc": "2024-02-28T00:15",
+  "anchor_latlon": [
+   41.7168,
+   -89.0537
+  ],
+  "why": "EF0 tornado start",
+  "first_guess_motion": [
+   231,
+   13
+  ],
+  "outcome": "3.21 h, ended died",
+  "spc_reports": "ok"
+ },
+ "mwhp_applecreek_20230615": {
+  "site": "KCLE",
+  "anchor_utc": "2023-06-16T00:46",
+  "anchor_latlon": [
+   40.9343,
+   -82.2738
+  ],
+  "why": "EF0 tornado start",
+  "first_guess_motion": [
+   296,
+   22
+  ],
+  "outcome": "3.39 h, ended died",
+  "spc_reports": "ok"
+ },
+ "mini_milton_20241009": {
+  "site": "KMLB",
+  "anchor_utc": "2024-10-09T18:24",
+  "anchor_latlon": [
+   26.8878,
+   -81.0381
+  ],
+  "why": "EF3 tornado start",
+  "first_guess_motion": [
+   164,
+   37
+  ],
+  "outcome": "1.88 h, ended died",
+  "spc_reports": "ok"
+ },
+ "mini_gainesville_20240204": {
+  "site": "KJAX",
+  "anchor_utc": "2024-02-04T21:13",
+  "anchor_latlon": [
+   29.9881,
+   -82.0338
+  ],
+  "why": "EF1 tornado start",
+  "first_guess_motion": [
+   211,
+   21
+  ],
+  "outcome": "4.39 h, ended died",
+  "spc_reports": "ok"
+ },
+ "mini_sycamore_20210809": {
+  "site": "KLOT",
+  "anchor_utc": "2021-08-09T21:44",
+  "anchor_latlon": [
+   42.0628,
+   -88.8742
+  ],
+  "why": "EF1 tornado start",
+  "first_guess_motion": [
+   274,
+   19
+  ],
+  "outcome": "3.03 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "mini_beaver_20221212": {
+  "site": "KDDC",
+  "anchor_utc": "2022-12-13T03:38",
+  "anchor_latlon": [
+   36.6843,
+   -100.524
+  ],
+  "why": "EF0 tornado start",
+  "first_guess_motion": [
+   231,
+   36
+  ],
+  "outcome": "3.22 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_brule_20220727": {
+  "tried": [
+   "KLNX"
+  ],
+  "site": "KLNX",
+  "anchor_utc": "2022-07-28T01:54",
+  "anchor_latlon": [
+   41.06,
+   -101.77
+  ],
+  "why": "64 dBZ cell 10 km from the town at its closest pass",
+  "first_guess_motion": [
+   333,
+   15
+  ],
+  "outcome": "6.61 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_sanjon_20230525": {
+  "site": "KAMA",
+  "anchor_utc": "2023-05-26T03:47",
+  "anchor_latlon": [
+   35.03,
+   -103.35
+  ],
+  "why": "57 dBZ cell 8 km from the town at its closest pass",
+  "first_guess_motion": [
+   308,
+   11
+  ],
+  "outcome": "3.37 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_sterling_20240601": {
+  "site": "KCYS",
+  "anchor_utc": "2024-06-01T23:29",
+  "anchor_latlon": [
+   40.58,
+   -103.23
+  ],
+  "why": "60 dBZ cell 6 km from the town at its closest pass",
+  "first_guess_motion": [
+   322,
+   13
+  ],
+  "outcome": "3.3 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_burlington_20230813": {
+  "site": "KTWX",
+  "anchor_utc": "2023-08-14T00:15",
+  "anchor_latlon": [
+   38.16,
+   -95.64
+  ],
+  "why": "58 dBZ cell 9 km from the town at its closest pass",
+  "first_guess_motion": [
+   293,
+   25
+  ],
+  "outcome": "3.86 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_tescott_20220917": {
+  "site": "KTWX",
+  "anchor_utc": "2022-09-18T00:14",
+  "anchor_latlon": [
+   39.04,
+   -97.91
+  ],
+  "why": "71 dBZ cell 5 km from the town at its closest pass",
+  "first_guess_motion": [
+   252,
+   12
+  ],
+  "outcome": "2.5 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_fortsumner_20210522": {
+  "site": "KFDX",
+  "anchor_utc": "2021-05-22T22:57",
+  "anchor_latlon": [
+   34.57,
+   -104.21
+  ],
+  "why": "64 dBZ cell 11 km from the town at its closest pass",
+  "first_guess_motion": [
+   223,
+   19
+  ],
+  "outcome": "0.5 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "null_hobbs_20220601": {
+  "site": "KMAF",
+  "anchor_utc": "2022-06-02T01:26",
+  "anchor_latlon": [
+   32.78,
+   -103.22
+  ],
+  "why": "63 dBZ cell 11 km from the town at its closest pass",
+  "first_guess_motion": [
+   308,
+   14
+  ],
+  "outcome": "3.07 h, ended died",
+  "spc_reports": "ok"
+ },
+ "bnd_stratford_20230528": {
+  "tried": [
+   "KAMA"
+  ],
+  "site": "KAMA",
+  "anchor_utc": "2023-05-29T00:48",
+  "anchor_latlon": [
+   36.2,
+   -101.91
+  ],
+  "why": "EFU tornado start",
+  "first_guess_motion": [
+   301,
+   3
+  ],
+  "outcome": "5.07 h, ended merged",
+  "spc_reports": "ok"
+ },
+ "bnd_grady_20230524": {
+  "tried": [
+   "KAMA"
+  ],
+  "site": "KAMA",
+  "anchor_utc": "2023-05-25T00:49",
+  "anchor_latlon": [
+   34.86,
+   -103.39
+  ],
+  "why": "EFU tornado start",
+  "first_guess_motion": [
+   285,
+   12
+  ],
+  "outcome": "2.92 h, ended died",
+  "spc_reports": "ok"
+ },
+ "bnd_plainview_20230523": {
+  "site": "KLBB",
+  "anchor_utc": "2023-05-24T01:16",
+  "anchor_latlon": [
+   34.26,
+   -101.7
+  ],
+  "why": "66 dBZ cell 9 km from the town at its closest pass",
+  "first_guess_motion": [
+   332,
+   19
+  ],
+  "outcome": "3.29 h, ended merged",
+  "spc_reports": "ok"
+ }
+}

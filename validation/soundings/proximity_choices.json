@@ -1,0 +1,702 @@
+{
+ "classic_forsan_20210517": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-05-17T23",
+   "lat": 32.05,
+   "lon": -101.18,
+   "why": "1 h before the EF2 at 2021-05-18T00:11Z"
+  },
+  "balloon": {
+   "station": "USM00072265",
+   "valid": "2021-05-18T00",
+   "km": 79.4
+  }
+ },
+ "lp_manchester_20220513": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-05-14T00",
+   "lat": 37.0,
+   "lon": -98.04,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2022-05-14T00",
+   "km": 190.3
+  }
+ },
+ "lp_earth_20210516": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-05-16T23",
+   "lat": 34.1122,
+   "lon": -102.4394,
+   "why": "1 h before the EFU at 2021-05-17T00:40Z"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2021-05-17T00",
+   "km": 128.6
+  }
+ },
+ "lp_hope_20220603": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-06-03T20",
+   "lat": 32.81,
+   "lon": -104.74,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072364",
+   "valid": "2022-06-04T00",
+   "km": 211.4
+  }
+ },
+ "lp_taiban_20230527": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-05-27T21",
+   "lat": 34.44,
+   "lon": -104.0,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2023-05-28T00",
+   "km": 226.9
+  }
+ },
+ "lp_rushcenter_20220421": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-04-21T22",
+   "lat": 38.47,
+   "lon": -99.31,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2022-04-22T00",
+   "km": 97.6
+  }
+ },
+ "lp_clarks_20220818": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-08-18T22",
+   "lat": 41.21,
+   "lon": -97.84,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072558",
+   "valid": "2022-08-19T00",
+   "km": 123.7
+  }
+ },
+ "ddc_20160524": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2016-05-24T21",
+   "lat": 37.5031,
+   "lon": -100.1355,
+   "why": "1 h before the EF3 at 2016-05-24T22:55Z"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2016-05-25T00",
+   "km": 4.7
+  }
+ },
+ "classic_rozel_20130518": {
+  "model": {
+   "source": "rap",
+   "valid": "2013-05-18T23",
+   "lat": 38.1429,
+   "lon": -99.4706,
+   "why": "1 h before the EF4 at 2013-05-19T00:18Z"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2013-05-19T00",
+   "km": 69.7
+  }
+ },
+ "classic_pilger_20140616": {
+  "model": {
+   "source": "rap",
+   "valid": "2014-06-16T19",
+   "lat": 41.893,
+   "lon": -97.33,
+   "why": "1 h before the EF4 at 2014-06-16T20:42Z"
+  },
+  "balloon": {
+   "station": "USM00072558",
+   "valid": "2014-06-17T00",
+   "km": 94.5
+  }
+ },
+ "classic_lamar_20220607": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-06-07T23",
+   "lat": 37.97,
+   "lon": -102.62,
+   "why": "1 h before the EFU at 2022-06-08T00:56Z"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2022-06-08T00",
+   "km": 235.4
+  }
+ },
+ "classic_selden_20210524": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-05-24T22",
+   "lat": 39.5314,
+   "lon": -100.6375,
+   "why": "1 h before the EF1 at 2021-05-24T23:06Z"
+  },
+  "balloon": {
+   "station": "USM00072562",
+   "valid": "2021-05-25T00",
+   "km": 177.5
+  }
+ },
+ "classic_andover_20220429": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-04-30T00",
+   "lat": 37.6262,
+   "lon": -97.193,
+   "why": "1 h before the EF3 at 2022-04-30T01:10Z"
+  },
+  "balloon": {
+   "station": "USM00072456",
+   "valid": "2022-04-30T00",
+   "km": 200.6
+  }
+ },
+ "classic_akron_20250523": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2025-05-23T22",
+   "lat": 40.38,
+   "lon": -103.27,
+   "why": "1 h before the EF2 at 2025-05-23T23:37Z"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2025-05-24T00",
+   "km": 386.8
+  }
+ },
+ "hp_elreno_20130531": {
+  "model": {
+   "source": "rap",
+   "valid": "2013-05-31T22",
+   "lat": 35.485,
+   "lon": -98.096,
+   "why": "1 h before the EF3 at 2013-05-31T23:03Z"
+  },
+  "balloon": {
+   "station": "USM00072357",
+   "valid": "2013-06-01T00",
+   "km": 62.1
+  }
+ },
+ "hp_moore_20130520": {
+  "model": {
+   "source": "rap",
+   "valid": "2013-05-20T18",
+   "lat": 35.284,
+   "lon": -97.628,
+   "why": "1 h before the EF5 at 2013-05-20T19:56Z"
+  },
+  "balloon": {
+   "station": "USM00072357",
+   "valid": "2013-05-21T00",
+   "km": 17.5
+  }
+ },
+ "hp_linwood_20190528": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2019-05-28T22",
+   "lat": 38.8381,
+   "lon": -95.3665,
+   "why": "1 h before the EF4 at 2019-05-28T23:05Z"
+  },
+  "balloon": {
+   "station": "USM00072456",
+   "valid": "2019-05-29T00",
+   "km": 52.0
+  }
+ },
+ "hp_morton_20220523": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-05-23T23",
+   "lat": 33.8093,
+   "lon": -102.786,
+   "why": "1 h before the EF2 at 2022-05-24T00:03Z"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2022-05-24T00",
+   "km": 192.9
+  }
+ },
+ "hp_amarillo_20230518": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-05-19T02",
+   "lat": 35.2786,
+   "lon": -101.5409,
+   "why": "1 h before the EF0 at 2023-05-19T03:02Z"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2023-05-19T00",
+   "km": 9.0
+  }
+ },
+ "hp_manhattan_20220611": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-06-11T23",
+   "lat": 39.1971,
+   "lon": -96.5765,
+   "why": "1 h before the EF2 at 2022-06-12T00:20Z"
+  },
+  "balloon": {
+   "station": "USM00072456",
+   "valid": "2022-06-12T00",
+   "km": 81.9
+  }
+ },
+ "dixie_smithville_20110427": {
+  "model": {
+   "source": "ruc",
+   "valid": "2011-04-27T19",
+   "lat": 34.1043,
+   "lon": -88.1479,
+   "why": "1 h before the EF5 at 2011-04-27T20:05Z"
+  },
+  "balloon": {
+   "station": "USM00072230",
+   "valid": "2011-04-28T00",
+   "km": 178.8
+  }
+ },
+ "dixie_tuscaloosa_20110427": {
+  "model": {
+   "source": "ruc",
+   "valid": "2011-04-27T19",
+   "lat": 33.2506,
+   "lon": -88.1814,
+   "why": "1 h before the EF4 at 2011-04-27T20:40Z"
+  },
+  "balloon": {
+   "station": "USM00072230",
+   "valid": "2011-04-28T00",
+   "km": 71.5
+  }
+ },
+ "dixie_beauregard_20190303": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2019-03-03T19",
+   "lat": 32.4472,
+   "lon": -85.4818,
+   "why": "1 h before the EF4 at 2019-03-03T20:00Z"
+  },
+  "balloon": {
+   "station": "USM00072215",
+   "valid": "2019-03-04T00",
+   "km": 117.4
+  }
+ },
+ "dixiehp_mayfield_20211210": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-12-11T01",
+   "lat": 36.483,
+   "lon": -89.135,
+   "why": "1 h before the EF4 at 2021-12-11T02:54Z"
+  },
+  "balloon": {
+   "station": "USM00074560",
+   "valid": "2021-12-11T12",
+   "km": 384.2
+  }
+ },
+ "dixiehp_bassfield_20200412": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2020-04-12T19",
+   "lat": 31.2662,
+   "lon": -90.1832,
+   "why": "1 h before the EF4 at 2020-04-12T20:38Z"
+  },
+  "balloon": {
+   "station": "USM00072235",
+   "valid": "2020-04-13T00",
+   "km": 96.2
+  }
+ },
+ "dixiehp_rollingfork_20230324": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-03-24T23",
+   "lat": 32.84,
+   "lon": -91.0,
+   "why": "1 h before the EF4 at 2023-03-25T00:57Z"
+  },
+  "balloon": {
+   "station": "USM00072235",
+   "valid": "2023-03-25T12",
+   "km": 98.9
+  }
+ },
+ "dixiehp_moundville_20210317": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-03-17T18",
+   "lat": 32.9081,
+   "lon": -87.7584,
+   "why": "1 h before the EF1 at 2021-03-17T19:12Z"
+  },
+  "balloon": {
+   "station": "USM00072230",
+   "valid": "2021-03-17T12",
+   "km": 81.7
+  }
+ },
+ "mw_washington_20131117": {
+  "model": {
+   "source": "rap",
+   "valid": "2013-11-17T15",
+   "lat": 40.622,
+   "lon": -89.5678,
+   "why": "1 h before the EF4 at 2013-11-17T16:59Z"
+  },
+  "balloon": {
+   "station": "USM00074560",
+   "valid": "2013-11-17T12",
+   "km": 61.2
+  }
+ },
+ "mw_keota_20230331": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-03-31T20",
+   "lat": 41.31,
+   "lon": -92.03,
+   "why": "1 h before the EF4 at 2023-03-31T21:10Z"
+  },
+  "balloon": {
+   "station": "USM00074455",
+   "valid": "2023-04-01T00",
+   "km": 117.4
+  }
+ },
+ "mw_lewistown_20230404": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-04-04T23",
+   "lat": 40.3308,
+   "lon": -90.3233,
+   "why": "1 h before the EF3 at 2023-04-05T00:11Z"
+  },
+  "balloon": {
+   "station": "USM00074560",
+   "valid": "2023-04-05T00",
+   "km": 74.2
+  }
+ },
+ "mw_lakeview_20240314": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-03-14T22",
+   "lat": 40.5193,
+   "lon": -84.1664,
+   "why": "1 h before the EF3 at 2024-03-14T23:29Z"
+  },
+  "balloon": {
+   "station": "USM00072426",
+   "valid": "2024-03-15T00",
+   "km": 120.1
+  }
+ },
+ "mwhp_greenfield_20240521": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-05-21T18",
+   "lat": 40.8996,
+   "lon": -94.9285,
+   "why": "1 h before the EF4 at 2024-05-21T19:59Z"
+  },
+  "balloon": {
+   "station": "USM00072558",
+   "valid": "2024-05-22T00",
+   "km": 159.3
+  }
+ },
+ "mwhp_mendota_20240227": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-02-27T23",
+   "lat": 41.7168,
+   "lon": -89.0537,
+   "why": "1 h before the EF0 at 2024-02-28T00:15Z"
+  },
+  "balloon": {
+   "station": "USM00074455",
+   "valid": "2024-02-28T00",
+   "km": 121.8
+  }
+ },
+ "mwhp_applecreek_20230615": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-06-15T23",
+   "lat": 40.9343,
+   "lon": -82.2738,
+   "why": "1 h before the EF0 at 2023-06-16T00:46Z"
+  },
+  "balloon": {
+   "station": "USM00072520",
+   "valid": "2023-06-16T00",
+   "km": 139.4
+  }
+ },
+ "mini_milton_20241009": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-10-09T17",
+   "lat": 26.8878,
+   "lon": -81.0381,
+   "why": "1 h before the EF3 at 2024-10-09T18:24Z"
+  },
+  "balloon": {
+   "station": "USM00072202",
+   "valid": "2024-10-09T12",
+   "km": 139.5
+  }
+ },
+ "mini_gainesville_20240204": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-02-04T20",
+   "lat": 29.9881,
+   "lon": -82.0338,
+   "why": "1 h before the EF1 at 2024-02-04T21:13Z"
+  },
+  "balloon": {
+   "station": "USM00072206",
+   "valid": "2024-02-04T12",
+   "km": 110.2
+  }
+ },
+ "mini_sycamore_20210809": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-08-09T20",
+   "lat": 42.0628,
+   "lon": -88.8742,
+   "why": "1 h before the EF1 at 2021-08-09T21:44Z"
+  },
+  "balloon": {
+   "station": "USM00074455",
+   "valid": "2021-08-10T00",
+   "km": 162.4
+  }
+ },
+ "mini_beaver_20221212": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-12-13T02",
+   "lat": 36.6843,
+   "lon": -100.524,
+   "why": "1 h before the EF0 at 2022-12-13T03:38Z"
+  },
+  "balloon": {
+   "station": "USM00072451",
+   "valid": "2022-12-13T00",
+   "km": 116.8
+  }
+ },
+ "null_maywood_20220609": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-06-09T21",
+   "lat": 40.66,
+   "lon": -100.62,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072562",
+   "valid": "2022-06-10T00",
+   "km": 53.0
+  }
+ },
+ "null_brule_20220727": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-07-27T21",
+   "lat": 41.09,
+   "lon": -101.89,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072562",
+   "valid": "2022-07-28T00",
+   "km": 99.8
+  }
+ },
+ "null_sanjon_20230525": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-05-25T21",
+   "lat": 35.1,
+   "lon": -103.33,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2023-05-26T00",
+   "km": 148.1
+  }
+ },
+ "null_sterling_20240601": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-06-01T21",
+   "lat": 40.63,
+   "lon": -103.21,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072562",
+   "valid": "2024-06-02T00",
+   "km": 218.3
+  }
+ },
+ "null_burlington_20230813": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-08-13T21",
+   "lat": 38.19,
+   "lon": -95.74,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072456",
+   "valid": "2023-08-14T00",
+   "km": 98.6
+  }
+ },
+ "null_tescott_20220917": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-09-17T22",
+   "lat": 39.0,
+   "lon": -97.88,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072456",
+   "valid": "2022-09-18T00",
+   "km": 194.5
+  }
+ },
+ "null_fortsumner_20210522": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2021-05-22T21",
+   "lat": 34.47,
+   "lon": -104.24,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072365",
+   "valid": "2021-05-23T00",
+   "km": 226.6
+  }
+ },
+ "null_hobbs_20220601": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2022-06-01T21",
+   "lat": 32.7,
+   "lon": -103.14,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072265",
+   "valid": "2022-06-02T00",
+   "km": 122.8
+  }
+ },
+ "bnd_stratford_20230528": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-05-28T23",
+   "lat": 36.2,
+   "lon": -101.91,
+   "why": "1 h before the EFU at 2023-05-29T00:48Z"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2023-05-29T00",
+   "km": 127.3
+  }
+ },
+ "bnd_grady_20230524": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-05-24T23",
+   "lat": 34.86,
+   "lon": -103.39,
+   "why": "1 h before the EFU at 2023-05-25T00:49Z"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2023-05-25T00",
+   "km": 153.7
+  }
+ },
+ "bnd_plainview_20230523": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2023-05-23T21",
+   "lat": 34.18,
+   "lon": -101.71,
+   "why": "anchor, window start + 1 h"
+  },
+  "balloon": {
+   "station": "USM00072363",
+   "valid": "2023-05-24T00",
+   "km": 117.1
+  }
+ },
+ "classic_arnold_20240607": {
+  "model": {
+   "source": "hrrr",
+   "valid": "2024-06-07T21",
+   "lat": 41.539,
+   "lon": -100.058,
+   "why": "1 h before the EF2 at 2024-06-07T22:19Z"
+  },
+  "balloon": {
+   "station": "USM00072562",
+   "valid": "2024-06-08T00",
+   "km": 53.3
+  }
+ }
+}

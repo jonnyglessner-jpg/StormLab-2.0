@@ -1,0 +1,208 @@
+{
+ "case": "classic_arnold_20240607",
+ "radius_km": 50,
+ "window_utc": [
+  "2024-06-07T19:37:02",
+  "2024-06-07T23:55:45"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 3,
+  "wind_reports": 1,
+  "tornado_reports": 1,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": 52.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 7,
+  "wind_reports": 1,
+  "tornado_reports": 1,
+  "largest_hail_in": 1.75,
+  "strongest_gust_kt": 52.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T20:08:00",
+   "lat": 41.91,
+   "lon": -100.59,
+   "state": "NE",
+   "km_from_track": 9.6,
+   "km_from_storm_at_time": 14.0,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T20:47:00",
+   "lat": 41.77,
+   "lon": -100.29,
+   "state": "NE",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 29.2,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T21:54:00",
+   "lat": 41.61,
+   "lon": -99.9,
+   "state": "NE",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 28.4,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T21:55:00",
+   "lat": 41.62,
+   "lon": -99.86,
+   "state": "NE",
+   "km_from_track": 8.4,
+   "km_from_storm_at_time": 30.5,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-06-07T22:19:00",
+   "lat": 41.539,
+   "lon": -100.058,
+   "state": "NE",
+   "km_from_track": 2.2,
+   "km_from_storm_at_time": 3.7,
+   "ef": 2,
+   "length_mi": 1.73,
+   "width_yd": 750.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T22:34:00",
+   "lat": 41.54,
+   "lon": -99.83,
+   "state": "NE",
+   "km_from_track": 5.5,
+   "km_from_storm_at_time": 9.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T22:54:00",
+   "lat": 41.41,
+   "lon": -99.64,
+   "state": "NE",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 10.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2024-06-07T22:55:00",
+   "lat": 41.43,
+   "lon": -99.64,
+   "state": "NE",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 6.1,
+   "gust_kt": 52.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T23:48:00",
+   "lat": 41.16,
+   "lon": -99.15,
+   "state": "NE",
+   "km_from_track": 26.2,
+   "km_from_storm_at_time": 26.2,
+   "size_in": 1.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T20:08:00",
+   "mag": "175",
+   "location": "5 SSW Thedford, Thomas NE",
+   "lat": 41.91,
+   "lon": -100.59,
+   "comments": "(LBF)",
+   "km_from_track": 9.6,
+   "km_from_storm_at_time": 14.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T20:47:00",
+   "mag": "150",
+   "location": "9 S Halsey, Thomas NE",
+   "lat": 41.77,
+   "lon": -100.29,
+   "comments": "(LBF)",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 29.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T21:54:00",
+   "mag": "175",
+   "location": "2 WSW Anselmo, Custer NE",
+   "lat": 41.61,
+   "lon": -99.9,
+   "comments": "(LBF)",
+   "km_from_track": 6.8,
+   "km_from_storm_at_time": 28.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2024-06-07T22:19:00",
+   "mag": "UNK",
+   "location": "10.7 NE Arnold, Custer NE",
+   "lat": 41.53,
+   "lon": -100.05,
+   "comments": "Damage survey confirms a tornado. (LBF)",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 4.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T22:34:00",
+   "mag": "100",
+   "location": "5 NW Merna, Custer NE",
+   "lat": 41.54,
+   "lon": -99.83,
+   "comments": "(LBF)",
+   "km_from_track": 5.5,
+   "km_from_storm_at_time": 9.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T22:54:00",
+   "mag": "100",
+   "location": "Broken Bow, Custer NE",
+   "lat": 41.41,
+   "lon": -99.64,
+   "comments": "(LBF)",
+   "km_from_track": 4.8,
+   "km_from_storm_at_time": 10.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2024-06-07T22:55:00",
+   "mag": "60",
+   "location": "2 N Broken Bow, Custer NE",
+   "lat": 41.43,
+   "lon": -99.64,
+   "comments": "(LBF)",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 6.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2024-06-07T23:48:00",
+   "mag": "175",
+   "location": "Litchfield, Sherman NE",
+   "lat": 41.16,
+   "lon": -99.15,
+   "comments": "On going. (GID)",
+   "km_from_track": 26.2,
+   "km_from_storm_at_time": 26.2
+  }
+ ]
+}

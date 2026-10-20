@@ -1,0 +1,417 @@
+{
+ "case": "classic_andover_20220429",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-04-29T23:15:33",
+  "2022-04-30T02:44:27"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 6,
+  "wind_reports": 0,
+  "tornado_reports": 4,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 11,
+  "wind_reports": 3,
+  "tornado_reports": 5,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": 61.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T00:38:00",
+   "lat": 38.03,
+   "lon": -96.97,
+   "state": "KS",
+   "km_from_track": 28.9,
+   "km_from_storm_at_time": 46.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-04-30T00:44:00",
+   "lat": 38.09,
+   "lon": -96.89,
+   "state": "KS",
+   "km_from_track": 32.7,
+   "km_from_storm_at_time": 58.1,
+   "gust_kt": 52.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T00:47:00",
+   "lat": 37.68,
+   "lon": -97.26,
+   "state": "KS",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 6.8,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T00:55:00",
+   "lat": 37.6897,
+   "lon": -97.1448,
+   "state": "KS",
+   "km_from_track": 6.0,
+   "km_from_storm_at_time": 5.7,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T01:10:00",
+   "lat": 37.6262,
+   "lon": -97.193,
+   "state": "KS",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 17.0,
+   "ef": 3,
+   "length_mi": 12.65,
+   "width_yd": 250.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T01:19:00",
+   "lat": 38.073,
+   "lon": -97.443,
+   "state": "KS",
+   "km_from_track": 46.7,
+   "km_from_storm_at_time": 54.3,
+   "ef": "EFU",
+   "length_mi": 0.16,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T01:47:00",
+   "lat": 37.78,
+   "lon": -96.89,
+   "state": "KS",
+   "km_from_track": 3.1,
+   "km_from_storm_at_time": 6.3,
+   "ef": "EFU",
+   "length_mi": 0.19,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T01:50:00",
+   "lat": 37.84,
+   "lon": -96.83,
+   "state": "KS",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 7.2,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T01:50:00",
+   "lat": 37.9,
+   "lon": -96.3,
+   "state": "KS",
+   "km_from_track": 27.7,
+   "km_from_storm_at_time": 43.6,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:01:00",
+   "lat": 37.82,
+   "lon": -96.66,
+   "state": "KS",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 3.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-04-30T02:01:00",
+   "lat": 37.7152,
+   "lon": -97.2814,
+   "state": "KS",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 52.4,
+   "gust_kt": 61.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:03:00",
+   "lat": 37.82,
+   "lon": -96.7784,
+   "state": "KS",
+   "km_from_track": 3.3,
+   "km_from_storm_at_time": 7.4,
+   "size_in": 1.25
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T02:05:00",
+   "lat": 37.79,
+   "lon": -96.72,
+   "state": "KS",
+   "km_from_track": 2.5,
+   "km_from_storm_at_time": 6.5,
+   "ef": 1,
+   "length_mi": 8.13,
+   "width_yd": 100.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:19:00",
+   "lat": 37.66,
+   "lon": -97.44,
+   "state": "KS",
+   "km_from_track": 8.9,
+   "km_from_storm_at_time": 76.2,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:29:00",
+   "lat": 37.61,
+   "lon": -97.41,
+   "state": "KS",
+   "km_from_track": 6.6,
+   "km_from_storm_at_time": 75.5,
+   "size_in": 1.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-04-30T02:30:00",
+   "lat": 38.23,
+   "lon": -96.41,
+   "state": "KS",
+   "km_from_track": 44.9,
+   "km_from_storm_at_time": 44.9,
+   "gust_kt": 56.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:34:00",
+   "lat": 37.68,
+   "lon": -97.13,
+   "state": "KS",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 49.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:35:00",
+   "lat": 38.0011,
+   "lon": -96.63,
+   "state": "KS",
+   "km_from_track": 15.9,
+   "km_from_storm_at_time": 15.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T02:44:00",
+   "lat": 37.84,
+   "lon": -96.41,
+   "state": "KS",
+   "km_from_track": 17.8,
+   "km_from_storm_at_time": 17.8,
+   "ef": 1,
+   "length_mi": 0.03,
+   "width_yd": 60.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T00:38:00",
+   "mag": "100",
+   "location": "6 SW BURNS, BUTLER KS",
+   "lat": 38.03,
+   "lon": -96.97,
+   "comments": "(ICT)",
+   "km_from_track": 28.9,
+   "km_from_storm_at_time": 46.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-04-30T00:44:00",
+   "mag": "60",
+   "location": "BURNS, MARION KS",
+   "lat": 38.09,
+   "lon": -96.89,
+   "comments": "(ICT)",
+   "km_from_track": 32.7,
+   "km_from_storm_at_time": 58.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T00:47:00",
+   "mag": "125",
+   "location": "EAST WICHITA, SEDGWICK KS",
+   "lat": 37.68,
+   "lon": -97.26,
+   "comments": "(ICT)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 6.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T00:55:00",
+   "mag": "100",
+   "location": "ANDOVER, BUTLER KS",
+   "lat": 37.69,
+   "lon": -97.14,
+   "comments": "(ICT)",
+   "km_from_track": 5.6,
+   "km_from_storm_at_time": 6.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T01:19:00",
+   "mag": "UNK",
+   "location": "2 W NEWTON, HARVEY KS",
+   "lat": 38.05,
+   "lon": -97.38,
+   "comments": "BRIEF TOUCHDOWN. (ICT)",
+   "km_from_track": 43.2,
+   "km_from_storm_at_time": 48.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T01:20:00",
+   "mag": "UNK",
+   "location": "4 W AUGUSTA, BUTLER KS",
+   "lat": 37.69,
+   "lon": -97.05,
+   "comments": "SPOTTER WAS IN AUGUSTA LOOKING WEST AT THE TORNADO AND THE TORNADO HAD JUST CROSSED HIGHWAY 400 TO THE NORTH. (ICT)",
+   "km_from_track": 4.0,
+   "km_from_storm_at_time": 5.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T01:47:00",
+   "mag": "UNK",
+   "location": "EL DORADO, BUTLER KS",
+   "lat": 37.82,
+   "lon": -96.86,
+   "comments": "TORNADO JUST SW OF TOWN. (ICT)",
+   "km_from_track": 3.8,
+   "km_from_storm_at_time": 5.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T01:50:00",
+   "mag": "250",
+   "location": "2 ENE EL DORADO, BUTLER KS",
+   "lat": 37.84,
+   "lon": -96.83,
+   "comments": "DELAYED REPORT OF TENNIS BALL SIZED HAIL NEAR EL DORADO LAKE SENT VIA FACEBOOK. TIME IS APPROXIMATED FROM RADAR. (ICT)",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 7.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T01:50:00",
+   "mag": "150",
+   "location": "6 N EUREKA, GREENWOOD KS",
+   "lat": 37.9,
+   "lon": -96.3,
+   "comments": "(ICT)",
+   "km_from_track": 27.7,
+   "km_from_storm_at_time": 43.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-04-30T02:01:00",
+   "mag": "70",
+   "location": "EAST WICHITA, SEDGWICK KS",
+   "lat": 37.68,
+   "lon": -97.26,
+   "comments": "PUBLIC CITIZEN REPORTED WIND GUSTS OF 65 TO 70 MPH IN EASTBOROUGH NEAR THE WSU CAMPUS. (ICT)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 51.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T02:27:00",
+   "mag": "UNK",
+   "location": "2 N ROSALIA, BUTLER KS",
+   "lat": 37.85,
+   "lon": -96.62,
+   "comments": "REPORTS OF MULTI-VORTEX... WEDGE. (ICT)",
+   "km_from_track": 1.3,
+   "km_from_storm_at_time": 1.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-04-30T02:30:00",
+   "mag": "UNK",
+   "location": "10 ENE MATFIELD GREEN, CHASE KS",
+   "lat": 38.23,
+   "lon": -96.41,
+   "comments": "DELAYED REPORT. SEMI TRUCK FLIPPED OVER ON THE KANSAS TURNPIKE. TIME ESTIMATED FROM RADAR. (ICT)",
+   "km_from_track": 44.9,
+   "km_from_storm_at_time": 44.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:33:00",
+   "mag": "200",
+   "location": "2 S EAST WICHITA, SEDGWICK KS",
+   "lat": 37.66,
+   "lon": -97.26,
+   "comments": "(ICT)",
+   "km_from_track": 0.7,
+   "km_from_storm_at_time": 61.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:34:00",
+   "mag": "175",
+   "location": "1 SSE ANDOVER, BUTLER KS",
+   "lat": 37.68,
+   "lon": -97.13,
+   "comments": "(ICT)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 49.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T02:35:00",
+   "mag": "UNK",
+   "location": "5 ENE ROSALIA, BUTLER KS",
+   "lat": 37.85,
+   "lon": -96.54,
+   "comments": "(ICT)",
+   "km_from_track": 6.3,
+   "km_from_storm_at_time": 6.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-04-30T02:35:00",
+   "mag": "100",
+   "location": "2 S CASSODAY, BUTLER KS",
+   "lat": 38.01,
+   "lon": -96.64,
+   "comments": "(ICT)",
+   "km_from_track": 17.0,
+   "km_from_storm_at_time": 17.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-04-30T02:44:00",
+   "mag": "UNK",
+   "location": "7 W EUREKA, GREENWOOD KS",
+   "lat": 37.84,
+   "lon": -96.41,
+   "comments": "STORM SURVEY FOUND A ROLLED CAMPER AND A TOSSED OUTBUILDING. (ICT)",
+   "km_from_track": 17.8,
+   "km_from_storm_at_time": 17.8
+  }
+ ]
+}

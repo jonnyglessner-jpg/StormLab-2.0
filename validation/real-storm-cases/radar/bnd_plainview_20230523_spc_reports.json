@@ -1,0 +1,81 @@
+{
+ "case": "bnd_plainview_20230523",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-05-23T21:50:39",
+  "2023-05-24T02:07:58"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 1,
+  "wind_reports": 1,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.5,
+  "strongest_gust_kt": 50.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 1,
+  "wind_reports": 1,
+  "tornado_reports": 0,
+  "largest_hail_in": 1.5,
+  "strongest_gust_kt": 50.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-24T00:15:00",
+   "lat": 34.28,
+   "lon": -101.72,
+   "state": "TX",
+   "km_from_track": 0.7,
+   "km_from_storm_at_time": 1.1,
+   "size_in": 1.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-24T01:22:00",
+   "lat": 34.1855,
+   "lon": -101.7,
+   "state": "TX",
+   "km_from_track": 8.2,
+   "km_from_storm_at_time": 9.3,
+   "gust_kt": 50.0,
+   "measured": true
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-23T23:50:00",
+   "mag": "175",
+   "location": "5 E SPADE, HALE TX",
+   "lat": 33.93,
+   "lon": -102.07,
+   "comments": "(LUB)",
+   "km_from_track": 48.8,
+   "km_from_storm_at_time": 55.7
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-24T00:15:00",
+   "mag": "150",
+   "location": "6 N PLAINVIEW, HALE TX",
+   "lat": 34.28,
+   "lon": -101.72,
+   "comments": "(LUB)",
+   "km_from_track": 0.7,
+   "km_from_storm_at_time": 1.1
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-24T01:22:00",
+   "mag": "58",
+   "location": "1 S PLAINVIEW, HALE TX",
+   "lat": 34.18,
+   "lon": -101.71,
+   "comments": "(LUB)",
+   "km_from_track": 8.8,
+   "km_from_storm_at_time": 10.0
+  }
+ ]
+}

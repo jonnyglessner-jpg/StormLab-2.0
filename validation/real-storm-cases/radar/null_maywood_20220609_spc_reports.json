@@ -1,0 +1,196 @@
+{
+ "case": "null_maywood_20220609",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-06-09T22:51:47",
+  "2022-06-10T04:01:29"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 7,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 7,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": 2.5,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T00:30:00",
+   "lat": 41.04,
+   "lon": -100.97,
+   "state": "NE",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 3.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:00:00",
+   "lat": 40.87,
+   "lon": -100.91,
+   "state": "NE",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 9.3,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:10:00",
+   "lat": 40.71,
+   "lon": -100.87,
+   "state": "NE",
+   "km_from_track": 8.6,
+   "km_from_storm_at_time": 8.6,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:21:00",
+   "lat": 40.69,
+   "lon": -100.81,
+   "state": "NE",
+   "km_from_track": 5.9,
+   "km_from_storm_at_time": 8.1,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:51:00",
+   "lat": 40.47,
+   "lon": -100.65,
+   "state": "NE",
+   "km_from_track": 3.4,
+   "km_from_storm_at_time": 4.4,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T02:15:00",
+   "lat": 40.46,
+   "lon": -100.61,
+   "state": "NE",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 21.1,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T02:28:00",
+   "lat": 40.2301,
+   "lon": -100.4195,
+   "state": "NE",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 3.0,
+   "size_in": 1.75
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T00:30:00",
+   "mag": "100",
+   "location": "8 SSE HERSHEY, LINCOLN NE",
+   "lat": 41.04,
+   "lon": -100.97,
+   "comments": "(LBF)",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 3.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:00:00",
+   "mag": "250",
+   "location": "5 ENE DICKENS, LINCOLN NE",
+   "lat": 40.87,
+   "lon": -100.91,
+   "comments": "(LBF)",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 9.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:10:00",
+   "mag": "250",
+   "location": "8 WSW WELLFLEET, LINCOLN NE",
+   "lat": 40.71,
+   "lon": -100.87,
+   "comments": "(LBF)",
+   "km_from_track": 8.6,
+   "km_from_storm_at_time": 8.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:21:00",
+   "mag": "150",
+   "location": "6 SW WELLFLEET, HAYES NE",
+   "lat": 40.69,
+   "lon": -100.81,
+   "comments": "(LBF)",
+   "km_from_track": 5.9,
+   "km_from_storm_at_time": 8.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T01:51:00",
+   "mag": "150",
+   "location": "13 S MAYWOOD, FRONTIER NE",
+   "lat": 40.47,
+   "lon": -100.65,
+   "comments": "REPORT VIA SOCIAL MEDIA. (LBF)",
+   "km_from_track": 3.4,
+   "km_from_storm_at_time": 4.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T02:00:00",
+   "mag": "175",
+   "location": "INDIANOLA, RED WILLOW NE",
+   "lat": 40.23,
+   "lon": -100.42,
+   "comments": "(GLD)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 20.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-06-10T02:10:00",
+   "mag": "UNK",
+   "location": "9 N MCCOOK, RED WILLOW NE",
+   "lat": 40.34,
+   "lon": -100.63,
+   "comments": "POSSIBLE BRIEF LAND SPOUT TORNADO 8-10 MILES NORTH. (GLD)",
+   "km_from_track": 9.2,
+   "km_from_storm_at_time": 10.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T02:15:00",
+   "mag": "100",
+   "location": "13 SSW CURTIS, FRONTIER NE",
+   "lat": 40.46,
+   "lon": -100.61,
+   "comments": "(LBF)",
+   "km_from_track": 1.0,
+   "km_from_storm_at_time": 21.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-06-10T02:28:00",
+   "mag": "100",
+   "location": "INDIANOLA, RED WILLOW NE",
+   "lat": 40.23,
+   "lon": -100.42,
+   "comments": "(GLD)",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 3.1
+  }
+ ]
+}

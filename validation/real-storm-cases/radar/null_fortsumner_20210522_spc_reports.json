@@ -1,0 +1,25 @@
+{
+ "case": "null_fortsumner_20210522",
+ "radius_km": 50,
+ "window_utc": [
+  "2021-05-22T22:02:41",
+  "2021-05-22T23:32:40"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 0,
+  "wind_reports": 0,
+  "tornado_reports": 0,
+  "largest_hail_in": null,
+  "strongest_gust_kt": null
+ },
+ "final": [],
+ "preliminary": []
+}

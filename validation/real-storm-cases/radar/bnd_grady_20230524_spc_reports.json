@@ -1,0 +1,562 @@
+{
+ "case": "bnd_grady_20230524",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-05-24T22:36:36",
+  "2023-05-25T02:31:37"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 9,
+  "wind_reports": 7,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.0,
+  "strongest_gust_kt": 80.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 17,
+  "wind_reports": 10,
+  "tornado_reports": 2,
+  "largest_hail_in": 2.05,
+  "strongest_gust_kt": 80.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-24T23:41:00",
+   "lat": 35.11,
+   "lon": -103.34,
+   "state": "NM",
+   "km_from_track": 4.2,
+   "km_from_storm_at_time": 22.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-24T23:41:00",
+   "lat": 35.11,
+   "lon": -103.35,
+   "state": "NM",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 21.9,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-24T23:42:00",
+   "lat": 35.18,
+   "lon": -103.6,
+   "state": "NM",
+   "km_from_track": 8.3,
+   "km_from_storm_at_time": 9.5,
+   "gust_kt": 66.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-24T23:54:00",
+   "lat": 35.16,
+   "lon": -103.38,
+   "state": "NM",
+   "km_from_track": 7.2,
+   "km_from_storm_at_time": 11.3,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:00:00",
+   "lat": 35.12,
+   "lon": -103.38,
+   "state": "NM",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 9.9,
+   "size_in": 2.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T00:00:00",
+   "lat": 35.17,
+   "lon": -103.65,
+   "state": "NM",
+   "km_from_track": 8.7,
+   "km_from_storm_at_time": 16.1,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:18:00",
+   "lat": 35.0,
+   "lon": -103.34,
+   "state": "NM",
+   "km_from_track": 0.4,
+   "km_from_storm_at_time": 8.4,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T00:18:00",
+   "lat": 35.0,
+   "lon": -103.34,
+   "state": "NM",
+   "km_from_track": 0.4,
+   "km_from_storm_at_time": 8.4,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:24:00",
+   "lat": 35.08,
+   "lon": -103.28,
+   "state": "NM",
+   "km_from_track": 4.9,
+   "km_from_storm_at_time": 5.7,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:26:00",
+   "lat": 35.13,
+   "lon": -103.14,
+   "state": "NM",
+   "km_from_track": 18.7,
+   "km_from_storm_at_time": 19.4,
+   "size_in": 1.25
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T00:30:00",
+   "lat": 35.22,
+   "lon": -103.12,
+   "state": "NM",
+   "km_from_track": 25.3,
+   "km_from_storm_at_time": 27.2,
+   "gust_kt": 51.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:46:00",
+   "lat": 35.22,
+   "lon": -103.1,
+   "state": "NM",
+   "km_from_track": 26.8,
+   "km_from_storm_at_time": 35.5,
+   "size_in": 0.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-25T00:49:00",
+   "lat": 34.86,
+   "lon": -103.39,
+   "state": "NM",
+   "km_from_track": 10.1,
+   "km_from_storm_at_time": 12.0,
+   "ef": "EFU",
+   "length_mi": 2.57,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:52:00",
+   "lat": 35.25,
+   "lon": -103.06,
+   "state": "NM",
+   "km_from_track": 31.7,
+   "km_from_storm_at_time": 42.3,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-25T01:00:00",
+   "lat": 34.84,
+   "lon": -103.27,
+   "state": "NM",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 6.5,
+   "ef": "EFU",
+   "length_mi": 1.71,
+   "width_yd": 40.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T01:12:00",
+   "lat": 34.82,
+   "lon": -103.26,
+   "state": "NM",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 5.2,
+   "size_in": 2.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:13:00",
+   "lat": 34.82,
+   "lon": -103.31,
+   "state": "NM",
+   "km_from_track": 7.8,
+   "km_from_storm_at_time": 9.1,
+   "gust_kt": 80.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T01:20:00",
+   "lat": 34.75,
+   "lon": -103.21,
+   "state": "NM",
+   "km_from_track": 7.1,
+   "km_from_storm_at_time": 8.6,
+   "size_in": 0.75
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:23:00",
+   "lat": 34.64,
+   "lon": -103.21,
+   "state": "NM",
+   "km_from_track": 17.5,
+   "km_from_storm_at_time": 19.6,
+   "gust_kt": 73.0,
+   "measured": true
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:30:00",
+   "lat": 34.6466,
+   "lon": -103.2142,
+   "state": "NM",
+   "km_from_track": 17.1,
+   "km_from_storm_at_time": 17.1,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:47:00",
+   "lat": 34.35,
+   "lon": -103.26,
+   "state": "NM",
+   "km_from_track": 47.8,
+   "km_from_storm_at_time": 49.9,
+   "gust_kt": 52.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:00:00",
+   "lat": 34.51,
+   "lon": -103.37,
+   "state": "NM",
+   "km_from_track": 37.1,
+   "km_from_storm_at_time": 46.9,
+   "size_in": 1.75
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T02:01:00",
+   "lat": 34.89,
+   "lon": -102.99,
+   "state": "TX",
+   "km_from_track": 8.3,
+   "km_from_storm_at_time": 8.5,
+   "gust_kt": 52.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:05:00",
+   "lat": 34.49,
+   "lon": -103.2,
+   "state": "NM",
+   "km_from_track": 31.3,
+   "km_from_storm_at_time": 40.6,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:10:00",
+   "lat": 34.41,
+   "lon": -103.3,
+   "state": "NM",
+   "km_from_track": 43.2,
+   "km_from_storm_at_time": 52.8,
+   "size_in": 1.75
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T02:20:00",
+   "lat": 34.43,
+   "lon": -103.21,
+   "state": "NM",
+   "km_from_track": 37.8,
+   "km_from_storm_at_time": 47.0,
+   "gust_kt": 61.0,
+   "measured": false
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:21:00",
+   "lat": 34.5,
+   "lon": -103.2,
+   "state": "NM",
+   "km_from_track": 30.2,
+   "km_from_storm_at_time": 39.6,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:25:00",
+   "lat": 34.4,
+   "lon": -103.27,
+   "state": "NM",
+   "km_from_track": 43.0,
+   "km_from_storm_at_time": 52.4,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:30:00",
+   "lat": 34.45,
+   "lon": -103.05,
+   "state": "NM",
+   "km_from_track": 33.7,
+   "km_from_storm_at_time": 41.0,
+   "size_in": 2.05
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "wind",
+   "utc": "2023-05-24T23:42:00",
+   "mag": "76",
+   "location": "7 E TUCUMCARI, QUAY NM",
+   "lat": 35.18,
+   "lon": -103.6,
+   "comments": "ASOS STATION KTCC TUCUMCARI MUNI AIRPORT. (ABQ)",
+   "km_from_track": 8.3,
+   "km_from_storm_at_time": 9.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-24T23:54:00",
+   "mag": "200",
+   "location": "5 NW SAN JON, QUAY NM",
+   "lat": 35.16,
+   "lon": -103.38,
+   "comments": ". (ABQ)",
+   "km_from_track": 7.2,
+   "km_from_storm_at_time": 11.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T00:00:00",
+   "mag": "UNK",
+   "location": "5 E TUCUMCARI, QUAY NM",
+   "lat": 35.17,
+   "lon": -103.65,
+   "comments": "MULTIPLE SEMI ROLLOVERS ALONG I-40. LOCATION ESTIMATED. (ABQ)",
+   "km_from_track": 8.7,
+   "km_from_storm_at_time": 16.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:15:00",
+   "mag": "200",
+   "location": "3 WNW SAN JON, QUAY NM",
+   "lat": 35.12,
+   "lon": -103.38,
+   "comments": "(ABQ)",
+   "km_from_track": 5.1,
+   "km_from_storm_at_time": 5.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T00:18:00",
+   "mag": "70",
+   "location": "6 N WHEATLAND, QUAY NM",
+   "lat": 35.0,
+   "lon": -103.34,
+   "comments": "(ABQ)",
+   "km_from_track": 0.4,
+   "km_from_storm_at_time": 8.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:26:00",
+   "mag": "125",
+   "location": "6 E BARD, QUAY NM",
+   "lat": 35.13,
+   "lon": -103.14,
+   "comments": "(ABQ)",
+   "km_from_track": 18.7,
+   "km_from_storm_at_time": 19.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T00:30:00",
+   "mag": "59",
+   "location": "5 NW GLENRIO, QUAY NM",
+   "lat": 35.22,
+   "lon": -103.12,
+   "comments": "(ABQ)",
+   "km_from_track": 25.3,
+   "km_from_storm_at_time": 27.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T00:46:00",
+   "mag": "100",
+   "location": "2 NW GLENRIO, QUAY NM",
+   "lat": 35.2,
+   "lon": -103.08,
+   "comments": "(ABQ)",
+   "km_from_track": 27.0,
+   "km_from_storm_at_time": 34.7
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-25T00:49:00",
+   "mag": "UNK",
+   "location": "4 SSW WHEATLAND, CURRY NM",
+   "lat": 34.86,
+   "lon": -103.39,
+   "comments": "BRIEF TORNADO NEAR THE QUAY/CURRY COUNTY LINE. (ABQ)",
+   "km_from_track": 10.1,
+   "km_from_storm_at_time": 12.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-25T01:00:00",
+   "mag": "UNK",
+   "location": "3 ENE GRADY, CURRY NM",
+   "lat": 34.84,
+   "lon": -103.27,
+   "comments": "(ABQ)",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 6.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:00:00",
+   "mag": "59",
+   "location": "GLENRIO, QUAY NM",
+   "lat": 35.18,
+   "lon": -103.04,
+   "comments": "(ABQ)",
+   "km_from_track": 29.2,
+   "km_from_storm_at_time": 38.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:10:00",
+   "mag": "UNK",
+   "location": "GRADY, CURRY NM",
+   "lat": 34.82,
+   "lon": -103.32,
+   "comments": "NORTHSIDE WINDOWS OF BAPTIST CHURCH KNOCKED OUT. (ABQ)",
+   "km_from_track": 8.3,
+   "km_from_storm_at_time": 9.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T01:12:00",
+   "mag": "200",
+   "location": "3 E GRADY, CURRY NM",
+   "lat": 34.82,
+   "lon": -103.26,
+   "comments": "REPORT FROM MPING: HEN EGG (2.00 IN.). (ABQ)",
+   "km_from_track": 5.2,
+   "km_from_storm_at_time": 5.2
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:13:00",
+   "mag": "92",
+   "location": "GRADY, CURRY NM",
+   "lat": 34.82,
+   "lon": -103.31,
+   "comments": "TORUS MOBILE MESONET CLOCKED 92.4 MPH FROM RFD. (ABQ)",
+   "km_from_track": 7.8,
+   "km_from_storm_at_time": 9.1
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:23:00",
+   "mag": "84",
+   "location": "11 NW PLEASANT HILL, CURRY NM",
+   "lat": 34.64,
+   "lon": -103.21,
+   "comments": "MEASURED WITH HANDHELD. (ABQ)",
+   "km_from_track": 17.5,
+   "km_from_storm_at_time": 19.6
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-25T01:30:00",
+   "mag": "UNK",
+   "location": "11 NW PLEASANT HILL, CURRY NM",
+   "lat": 34.64,
+   "lon": -103.21,
+   "comments": "RAIN WRAPPED TORNADO. (ABQ)",
+   "km_from_track": 17.5,
+   "km_from_storm_at_time": 17.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T01:47:00",
+   "mag": "60",
+   "location": "4 SE CANNON AIR FORCE B, CURRY NM",
+   "lat": 34.35,
+   "lon": -103.26,
+   "comments": "(ABQ)",
+   "km_from_track": 47.8,
+   "km_from_storm_at_time": 49.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:00:00",
+   "mag": "175",
+   "location": "3 WNW RANCHVALE, CURRY NM",
+   "lat": 34.51,
+   "lon": -103.37,
+   "comments": "(ABQ)",
+   "km_from_track": 37.1,
+   "km_from_storm_at_time": 46.9
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T02:01:00",
+   "mag": "60",
+   "location": "11 WNW BOOTLEG, DEAF SMITH TX",
+   "lat": 34.89,
+   "lon": -102.99,
+   "comments": "OBSERVED BY MESONET. (AMA)",
+   "km_from_track": 8.3,
+   "km_from_storm_at_time": 8.5
+  },
+  {
+   "kind": "wind",
+   "utc": "2023-05-25T02:20:00",
+   "mag": "UNK",
+   "location": "1 NNW CLOVIS, CURRY NM",
+   "lat": 34.43,
+   "lon": -103.21,
+   "comments": "EMERGENCY MANAGER REPORTED ROOF DAMAGE TO TOWNHOME/DUPLEX NEAR N MAIN AND E TIERRA BLANCA ROAD. (ABQ)",
+   "km_from_track": 37.8,
+   "km_from_storm_at_time": 47.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-25T02:21:00",
+   "mag": "200",
+   "location": "6 N CLOVIS, CURRY NM",
+   "lat": 34.5,
+   "lon": -103.2,
+   "comments": "WIND DRIVEN HAIL. (ABQ)",
+   "km_from_track": 30.2,
+   "km_from_storm_at_time": 39.6
+  }
+ ]
+}

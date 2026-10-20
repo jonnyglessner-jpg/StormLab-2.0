@@ -1,0 +1,267 @@
+{
+ "case": "bnd_stratford_20230528",
+ "radius_km": 50,
+ "window_utc": [
+  "2023-05-28T19:33:34",
+  "2023-05-29T01:38:02"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 14,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 3.3,
+  "strongest_gust_kt": null
+ },
+ "all_within_radius_final": {
+  "hail_reports": 14,
+  "wind_reports": 0,
+  "tornado_reports": 1,
+  "largest_hail_in": 3.3,
+  "strongest_gust_kt": null
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T20:52:00",
+   "lat": 35.99,
+   "lon": -101.47,
+   "state": "TX",
+   "km_from_track": 0.8,
+   "km_from_storm_at_time": 1.0,
+   "size_in": 2.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T20:56:00",
+   "lat": 36.02,
+   "lon": -101.46,
+   "state": "TX",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 1.4,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T21:06:00",
+   "lat": 36.02,
+   "lon": -101.45,
+   "state": "TX",
+   "km_from_track": 0.6,
+   "km_from_storm_at_time": 0.8,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:05:00",
+   "lat": 36.06,
+   "lon": -101.48,
+   "state": "TX",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 13.5,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:12:00",
+   "lat": 36.08,
+   "lon": -101.44,
+   "state": "TX",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 14.4,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:22:00",
+   "lat": 36.1,
+   "lon": -101.44,
+   "state": "TX",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 13.8,
+   "size_in": 3.3
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:23:00",
+   "lat": 36.06,
+   "lon": -101.47,
+   "state": "TX",
+   "km_from_track": 1.5,
+   "km_from_storm_at_time": 16.3,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:49:00",
+   "lat": 36.08,
+   "lon": -101.44,
+   "state": "TX",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 20.4,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T23:05:00",
+   "lat": 36.08,
+   "lon": -101.44,
+   "state": "TX",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 23.0,
+   "size_in": 2.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T23:44:00",
+   "lat": 36.26,
+   "lon": -101.66,
+   "state": "TX",
+   "km_from_track": 0.5,
+   "km_from_storm_at_time": 2.4,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T23:48:00",
+   "lat": 36.2,
+   "lon": -101.66,
+   "state": "TX",
+   "km_from_track": 3.7,
+   "km_from_storm_at_time": 5.7,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T23:50:00",
+   "lat": 36.21,
+   "lon": -101.66,
+   "state": "TX",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 4.9,
+   "size_in": 1.25
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-29T00:13:00",
+   "lat": 36.28,
+   "lon": -101.75,
+   "state": "TX",
+   "km_from_track": 0.5,
+   "km_from_storm_at_time": 2.8,
+   "size_in": 1.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-29T00:27:00",
+   "lat": 36.23,
+   "lon": -101.84,
+   "state": "TX",
+   "km_from_track": 3.2,
+   "km_from_storm_at_time": 5.7,
+   "size_in": 0.75
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-29T00:48:00",
+   "lat": 36.2,
+   "lon": -101.91,
+   "state": "TX",
+   "km_from_track": 5.9,
+   "km_from_storm_at_time": 8.8,
+   "ef": "EFU",
+   "length_mi": 0.89,
+   "width_yd": 20.0
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T20:52:00",
+   "mag": "225",
+   "location": "3 NNW PRINGLE, HUTCHINSON TX",
+   "lat": 35.99,
+   "lon": -101.47,
+   "comments": "TIME ESTIMATED BY RADAR. (AMA)",
+   "km_from_track": 0.8,
+   "km_from_storm_at_time": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:05:00",
+   "mag": "175",
+   "location": "MORSE, HANSFORD TX",
+   "lat": 36.06,
+   "lon": -101.48,
+   "comments": "HAIL RANGING FROM QUARTERS TO GOLF BALLS. (AMA)",
+   "km_from_track": 2.3,
+   "km_from_storm_at_time": 13.5
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:22:00",
+   "mag": "330",
+   "location": "3 NE MORSE, HANSFORD TX",
+   "lat": 36.1,
+   "lon": -101.44,
+   "comments": "MEASURED 30 MINUTES AFTER THE STORM PASSED. (AMA)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 13.8
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T22:49:00",
+   "mag": "200",
+   "location": "2 ENE MORSE, HANSFORD TX",
+   "lat": 36.08,
+   "lon": -101.44,
+   "comments": "REPORT FROM MPING: HEN EGG (2.00 IN.). (AMA)",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 20.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T23:05:00",
+   "mag": "250",
+   "location": "2.3 NNE MORSE, HANSFORD TX",
+   "lat": 36.08,
+   "lon": -101.44,
+   "comments": "CHASER REPORTS SEVERAL DIFFERENT HAIL SIZES FROM GOLF BALL TO TENNIS BALL SIZED HAIL. (AMA)",
+   "km_from_track": 3.6,
+   "km_from_storm_at_time": 23.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-28T23:44:00",
+   "mag": "200",
+   "location": "14 W GRUVER, SHERMAN TX",
+   "lat": 36.26,
+   "lon": -101.66,
+   "comments": "OFF-DUTY NWS EMPLOYEE REPORTS ESTIMATED HEN EGG HAIL FALLING AT THIS MOMENT. (AMA)",
+   "km_from_track": 0.5,
+   "km_from_storm_at_time": 2.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2023-05-29T00:13:00",
+   "mag": "150",
+   "location": "14 SSE TEXHOMA, SHERMAN TX",
+   "lat": 36.28,
+   "lon": -101.75,
+   "comments": ". (AMA)",
+   "km_from_track": 0.5,
+   "km_from_storm_at_time": 2.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2023-05-29T00:48:00",
+   "mag": "UNK",
+   "location": "12 NNE CACTUS, SHERMAN TX",
+   "lat": 36.2,
+   "lon": -101.91,
+   "comments": "TORNADO ON THE GROUND FROM ROUGHLY 7:48 PM TO 7:56 PM. CONFIRMED TOUCHDOWN AND PERSISTENCE CONFIRMED VIA LOCAL MEDIA/LIVESTREAM... TORNADO LIFT CONFIRMED BY OFF-DUTY NW (AMA)",
+   "km_from_track": 5.9,
+   "km_from_storm_at_time": 8.8
+  }
+ ]
+}

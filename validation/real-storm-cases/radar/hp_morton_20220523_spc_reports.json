@@ -1,0 +1,469 @@
+{
+ "case": "hp_morton_20220523",
+ "radius_km": 50,
+ "window_utc": [
+  "2022-05-23T20:40:17",
+  "2022-05-24T05:56:39"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 7,
+  "wind_reports": 3,
+  "tornado_reports": 9,
+  "largest_hail_in": 2.25,
+  "strongest_gust_kt": 70.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 7,
+  "wind_reports": 5,
+  "tornado_reports": 9,
+  "largest_hail_in": 2.25,
+  "strongest_gust_kt": 70.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T22:35:00",
+   "lat": 33.94,
+   "lon": -103.16,
+   "state": "NM",
+   "km_from_track": 3.8,
+   "km_from_storm_at_time": 4.4,
+   "size_in": 1.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T22:40:00",
+   "lat": 33.94,
+   "lon": -103.18,
+   "state": "NM",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 12.2,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T22:50:00",
+   "lat": 33.8729,
+   "lon": -103.0112,
+   "state": "TX",
+   "km_from_track": 3.0,
+   "km_from_storm_at_time": 3.0,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T23:17:00",
+   "lat": 33.8445,
+   "lon": -102.8839,
+   "state": "TX",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 4.8,
+   "size_in": 2.25
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-23T23:50:00",
+   "lat": 33.8136,
+   "lon": -102.8465,
+   "state": "TX",
+   "km_from_track": 1.7,
+   "km_from_storm_at_time": 8.8,
+   "ef": "EFU",
+   "length_mi": 0.99,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T00:03:00",
+   "lat": 33.8093,
+   "lon": -102.786,
+   "state": "TX",
+   "km_from_track": 6.2,
+   "km_from_storm_at_time": 7.1,
+   "ef": 2,
+   "length_mi": 2.85,
+   "width_yd": 1400.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T00:13:00",
+   "lat": 33.8213,
+   "lon": -102.7178,
+   "state": "TX",
+   "km_from_track": 2.2,
+   "km_from_storm_at_time": 7.2,
+   "ef": "EFU",
+   "length_mi": 0.68,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T00:40:00",
+   "lat": 33.7937,
+   "lon": -102.6694,
+   "state": "TX",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 8.8,
+   "ef": "EFU",
+   "length_mi": 1.55,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T00:47:00",
+   "lat": 33.7339,
+   "lon": -102.7317,
+   "state": "TX",
+   "km_from_track": 10.3,
+   "km_from_storm_at_time": 18.8,
+   "gust_kt": 70.0,
+   "measured": true
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:06:00",
+   "lat": 33.7802,
+   "lon": -102.5942,
+   "state": "TX",
+   "km_from_track": 1.2,
+   "km_from_storm_at_time": 6.2,
+   "ef": 0,
+   "length_mi": 1.92,
+   "width_yd": 200.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:14:00",
+   "lat": 33.6874,
+   "lon": -102.6876,
+   "state": "TX",
+   "km_from_track": 13.3,
+   "km_from_storm_at_time": 14.2,
+   "ef": "EFU",
+   "length_mi": 0.14,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:28:00",
+   "lat": 33.6627,
+   "lon": -102.5785,
+   "state": "TX",
+   "km_from_track": 10.7,
+   "km_from_storm_at_time": 14.9,
+   "ef": "EFU",
+   "length_mi": 1.08,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:37:00",
+   "lat": 33.664,
+   "lon": -102.5559,
+   "state": "TX",
+   "km_from_track": 9.0,
+   "km_from_storm_at_time": 12.9,
+   "ef": "EFU",
+   "length_mi": 0.44,
+   "width_yd": 50.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T01:38:00",
+   "lat": 33.7341,
+   "lon": -102.732,
+   "state": "TX",
+   "km_from_track": 10.3,
+   "km_from_storm_at_time": 19.6,
+   "gust_kt": 50.0,
+   "measured": true
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:40:00",
+   "lat": 33.6266,
+   "lon": -102.5438,
+   "state": "TX",
+   "km_from_track": 11.6,
+   "km_from_storm_at_time": 15.3,
+   "ef": 2,
+   "length_mi": 7.55,
+   "width_yd": 1420.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-24T02:22:00",
+   "lat": 33.6154,
+   "lon": -102.3305,
+   "state": "TX",
+   "km_from_track": 5.0,
+   "km_from_storm_at_time": 5.9,
+   "size_in": 1.75
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-24T02:51:00",
+   "lat": 33.6754,
+   "lon": -102.1751,
+   "state": "TX",
+   "km_from_track": 1.1,
+   "km_from_storm_at_time": 1.8,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T03:05:00",
+   "lat": 34.1933,
+   "lon": -102.7434,
+   "state": "TX",
+   "km_from_track": 35.1,
+   "km_from_storm_at_time": 85.0,
+   "gust_kt": 58.0,
+   "measured": true
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-24T03:08:00",
+   "lat": 33.6933,
+   "lon": -102.0673,
+   "state": "TX",
+   "km_from_track": 2.9,
+   "km_from_storm_at_time": 3.0,
+   "size_in": 1.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T04:14:00",
+   "lat": 34.203,
+   "lon": -102.3807,
+   "state": "TX",
+   "km_from_track": 41.6,
+   "km_from_storm_at_time": 73.3,
+   "gust_kt": 56.0,
+   "measured": false
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T05:42:00",
+   "lat": 33.8577,
+   "lon": -101.7695,
+   "state": "TX",
+   "km_from_track": 2.7,
+   "km_from_storm_at_time": 14.4,
+   "gust_kt": 53.0,
+   "measured": true
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T22:41:00",
+   "mag": "175",
+   "location": "4 SE ROGERS, ROOSEVELT NM",
+   "lat": 33.94,
+   "lon": -103.18,
+   "comments": "REPORT FROM MPING: GOLF BALL (1.75 IN.). (ABQ)",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 13.4
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T22:45:00",
+   "mag": "175",
+   "location": "16 WNW MORTON, COCHRAN TX",
+   "lat": 33.81,
+   "lon": -103.02,
+   "comments": "(LUB)",
+   "km_from_track": 9.6,
+   "km_from_storm_at_time": 9.6
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T23:17:00",
+   "mag": "150",
+   "location": "1 ESE MAPLE, BAILEY TX",
+   "lat": 33.84,
+   "lon": -102.88,
+   "comments": "(LUB)",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 4.9
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-23T23:36:00",
+   "mag": "225",
+   "location": "3 N MAPLE, BAILEY TX",
+   "lat": 33.89,
+   "lon": -102.9,
+   "comments": "(LUB)",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 6.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-23T23:52:00",
+   "mag": "UNK",
+   "location": "7 NW MORTON, COCHRAN TX",
+   "lat": 33.8,
+   "lon": -102.84,
+   "comments": "SOCIAL MEDIA PHOTOS AND REPORTS DEPICT A BRIEF TORNADO TOUCHDOWN IN AN OPEN FIELD. LOCATION ESTIMATED FROM RADAR. (LUB)",
+   "km_from_track": 3.2,
+   "km_from_storm_at_time": 10.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T00:07:00",
+   "mag": "UNK",
+   "location": "7 N MORTON, BAILEY TX",
+   "lat": 33.83,
+   "lon": -102.76,
+   "comments": "LARGE TORNADO REPORTED BY OFF-DUTY NWS EMPLOYEE. (LUB)",
+   "km_from_track": 4.4,
+   "km_from_storm_at_time": 4.7
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T00:47:00",
+   "mag": "80",
+   "location": "1 ENE MORTON, COCHRAN TX",
+   "lat": 33.73,
+   "lon": -102.74,
+   "comments": "WEST TEXAS MESONET. 40 MPH SUSTAINED WINDS ALSO OBSERVED. (LUB)",
+   "km_from_track": 11.1,
+   "km_from_storm_at_time": 19.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:07:00",
+   "mag": "UNK",
+   "location": "4 SW PEP, HOCKLEY TX",
+   "lat": 33.77,
+   "lon": -102.61,
+   "comments": "SOCIAL MEDIA VIDEO OF TORNADO TOUCHING DOWN IN OPEN FIELD. (LUB)",
+   "km_from_track": 2.1,
+   "km_from_storm_at_time": 5.3
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T01:38:00",
+   "mag": "58",
+   "location": "1 ENE MORTON, COCHRAN TX",
+   "lat": 33.73,
+   "lon": -102.74,
+   "comments": "WEST TEXAS MESONET. (LUB)",
+   "km_from_track": 11.1,
+   "km_from_storm_at_time": 20.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2022-05-24T01:45:00",
+   "mag": "UNK",
+   "location": "11 NW LEVELLAND, HOCKLEY TX",
+   "lat": 33.69,
+   "lon": -102.5,
+   "comments": "(LUB)",
+   "km_from_track": 3.4,
+   "km_from_storm_at_time": 5.2
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-24T02:28:00",
+   "mag": "175",
+   "location": "2 NE LEVELLAND, HOCKLEY TX",
+   "lat": 33.6,
+   "lon": -102.34,
+   "comments": "(LUB)",
+   "km_from_track": 6.4,
+   "km_from_storm_at_time": 9.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-24T02:49:00",
+   "mag": "100",
+   "location": "4 W SHALLOWATER, LUBBOCK TX",
+   "lat": 33.69,
+   "lon": -102.06,
+   "comments": "(LUB)",
+   "km_from_track": 2.6,
+   "km_from_storm_at_time": 10.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T02:51:00",
+   "mag": "UNK",
+   "location": "2 S PEP, HOCKLEY TX",
+   "lat": 33.79,
+   "lon": -102.56,
+   "comments": "POWER POLES BLOWN DOWN AT THE INTERSECTION OF FM 597 AND FM 303. (LUB)",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 39.6
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T02:53:00",
+   "mag": "UNK",
+   "location": "2 NW COBLE, HOCKLEY TX",
+   "lat": 33.62,
+   "lon": -102.53,
+   "comments": "POWER POLES SNAPPED. (LUB)",
+   "km_from_track": 11.0,
+   "km_from_storm_at_time": 36.1
+  },
+  {
+   "kind": "hail",
+   "utc": "2022-05-24T02:59:00",
+   "mag": "100",
+   "location": "7 NNW SMYER, HOCKLEY TX",
+   "lat": 33.68,
+   "lon": -102.2,
+   "comments": "2 TO 3 INCHES OF ACCUMULATED QUARTER-SIZED HAIL ON THE GROUND. (LUB)",
+   "km_from_track": 1.8,
+   "km_from_storm_at_time": 8.9
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T03:05:00",
+   "mag": "67",
+   "location": "2 SSW MULESHOE, BAILEY TX",
+   "lat": 34.21,
+   "lon": -102.74,
+   "comments": "WEST TEXAS MESONET (LUB)",
+   "km_from_track": 36.9,
+   "km_from_storm_at_time": 86.1
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T03:42:00",
+   "mag": "UNK",
+   "location": "3 NW COBLE, HOCKLEY TX",
+   "lat": 33.63,
+   "lon": -102.54,
+   "comments": "BARN DAMAGED (LUB)",
+   "km_from_track": 11.1,
+   "km_from_storm_at_time": 60.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T04:14:00",
+   "mag": "UNK",
+   "location": "3 SSE EARTH, LAMB TX",
+   "lat": 34.19,
+   "lon": -102.38,
+   "comments": "LAMB COUNTY SHERIFF'S OFFICE REPORTED POWER LINES DOWN ON COUNTY ROAD 167. TIME ESTIMATED FROM RADAR. (LUB)",
+   "km_from_track": 40.4,
+   "km_from_storm_at_time": 72.4
+  },
+  {
+   "kind": "wind",
+   "utc": "2022-05-24T05:42:00",
+   "mag": "61",
+   "location": "5 ENE ABERNATHY, HALE TX",
+   "lat": 33.88,
+   "lon": -101.76,
+   "comments": "WEST TEXAS MESONET (LUB)",
+   "km_from_track": 1.9,
+   "km_from_storm_at_time": 12.2
+  }
+ ]
+}

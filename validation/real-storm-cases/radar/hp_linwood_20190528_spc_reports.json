@@ -1,0 +1,182 @@
+{
+ "case": "hp_linwood_20190528",
+ "radius_km": 50,
+ "window_utc": [
+  "2019-05-28T19:48:21",
+  "2019-05-29T00:57:51"
+ ],
+ "note": "final = SPC database (Storm Data, official); preliminary = SPC daily filtered reports. 'this storm' counts only reports within 25 km of the storm's radar position at the report time.",
+ "this_storm_final": {
+  "hail_reports": 0,
+  "wind_reports": 1,
+  "tornado_reports": 3,
+  "largest_hail_in": null,
+  "strongest_gust_kt": 70.0
+ },
+ "all_within_radius_final": {
+  "hail_reports": 2,
+  "wind_reports": 1,
+  "tornado_reports": 3,
+  "largest_hail_in": 2.0,
+  "strongest_gust_kt": 70.0
+ },
+ "final": [
+  {
+   "kind": "hail",
+   "utc": "2019-05-28T21:51:00",
+   "lat": 39.05,
+   "lon": -95.95,
+   "state": "KS",
+   "km_from_track": 39.0,
+   "km_from_storm_at_time": 63.9,
+   "size_in": 2.0
+  },
+  {
+   "kind": "hail",
+   "utc": "2019-05-28T21:55:00",
+   "lat": 39.05,
+   "lon": -95.87,
+   "state": "KS",
+   "km_from_track": 34.3,
+   "km_from_storm_at_time": 60.4,
+   "size_in": 1.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T22:10:00",
+   "lat": 38.5432,
+   "lon": -95.82,
+   "state": "KS",
+   "km_from_track": 6.9,
+   "km_from_storm_at_time": 9.0,
+   "ef": "EFU",
+   "length_mi": 0.5,
+   "width_yd": 25.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T22:49:00",
+   "lat": 38.7541,
+   "lon": -95.5186,
+   "state": "KS",
+   "km_from_track": 10.5,
+   "km_from_storm_at_time": 14.3,
+   "ef": 2,
+   "length_mi": 10.69,
+   "width_yd": 200.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T23:05:00",
+   "lat": 38.8381,
+   "lon": -95.3665,
+   "state": "KS",
+   "km_from_track": 7.7,
+   "km_from_storm_at_time": 9.9,
+   "ef": 4,
+   "length_mi": 29.07,
+   "width_yd": 1760.0
+  },
+  {
+   "kind": "wind",
+   "utc": "2019-05-29T00:00:00",
+   "lat": 39.0498,
+   "lon": -94.9088,
+   "state": "KS",
+   "km_from_track": 8.5,
+   "km_from_storm_at_time": 11.2,
+   "gust_kt": 70.0,
+   "measured": false
+  }
+ ],
+ "preliminary": [
+  {
+   "kind": "hail",
+   "utc": "2019-05-28T21:51:00",
+   "mag": "200",
+   "location": "3 S WILLARD, SHAWNEE KS",
+   "lat": 39.05,
+   "lon": -95.95,
+   "comments": "(TOP)",
+   "km_from_track": 39.0,
+   "km_from_storm_at_time": 63.9
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T22:11:00",
+   "mag": "UNK",
+   "location": "6 S OSAGE CITY, OSAGE KS",
+   "lat": 38.55,
+   "lon": -95.84,
+   "comments": "ROTATION AND DEBRIS BEING LOFTED FROM POSSIBLE TORNADO. RADAR ESTIMATED TIME. (TOP)",
+   "km_from_track": 5.4,
+   "km_from_storm_at_time": 8.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T23:07:00",
+   "mag": "UNK",
+   "location": "LONE STAR, DOUGLAS KS",
+   "lat": 38.87,
+   "lon": -95.36,
+   "comments": "REPORTED ON THE GROUND. (TOP)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 6.8
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T23:17:00",
+   "mag": "UNK",
+   "location": "S LAWRENCE, DOUGLAS KS",
+   "lat": 38.87,
+   "lon": -95.36,
+   "comments": "SOCIAL MEDIA REPORTING DAMAGE ON THE SOUTH SIDE OF LAWRENCE ALONG HIGHWAY 59. MAJOR ROOF DAMAGE TO A HOME. (TOP)",
+   "km_from_track": 5.7,
+   "km_from_storm_at_time": 13.3
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T23:17:00",
+   "mag": "UNK",
+   "location": "3 S EUDORA, DOUGLAS KS",
+   "lat": 38.9,
+   "lon": -95.1,
+   "comments": "MAJOR DAMAGE TO HOMES ALONG 1100 ROAD. IMAGES FROM TWITTER. (TOP)",
+   "km_from_track": 12.5,
+   "km_from_storm_at_time": 16.4
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T23:17:00",
+   "mag": "UNK",
+   "location": "3 N PLEASANT GROVE, DOUGLAS KS",
+   "lat": 38.9,
+   "lon": -95.26,
+   "comments": "VISUAL CONFIRMATION OF LARGE TORNADO ON THE GROUND. (TOP)",
+   "km_from_track": 6.3,
+   "km_from_storm_at_time": 7.5
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-28T23:40:00",
+   "mag": "UNK",
+   "location": "1 W LINWOOD, LEAVENWORTH KS",
+   "lat": 39.0,
+   "lon": -95.05,
+   "comments": "*** 3 INJ *** A NWS STORM SURVEY TEAM CONFIRMED AN EF-4 TORNADO... WITH MAXIMUM WINDS OF 170 MPH AND A MAXIMUM WIDTH OF 1 MILE OCCURRED TUESDAY EVENING. THE STORM CROSS (EAX)",
+   "km_from_track": 7.5,
+   "km_from_storm_at_time": 8.0
+  },
+  {
+   "kind": "tornado",
+   "utc": "2019-05-29T00:08:00",
+   "mag": "UNK",
+   "location": "3 SW MAYWOOD, WYANDOTTE KS",
+   "lat": 39.11,
+   "lon": -94.84,
+   "comments": "TREE RIPPED OUT OF GROUND AND HWY SIGN CRUMPLED LIKE PAPER ON INTERSTATE 70 NEAR BONNER SPRINGS. (EAX)",
+   "km_from_track": 6.6,
+   "km_from_storm_at_time": 7.3
+  }
+ ]
+}

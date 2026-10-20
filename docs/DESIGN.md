@@ -364,3 +364,10 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   fills the other parity from fresh neighbours and history; converged frames differ by 0.2/255 and the 70 min chaser
   march fell from 6.4 to 3.6 ms on the RX 7900 XT. The skin test passes (its budget is measured at the last time,
   100 min: 7.6 ms on a 3060); the 70 min chaser view is the worst seen, 11.3 ms at 1440p (about 7.6 ms at 1080p).
+- **2026-10-20** Canopy seam fixed. Away from the storm (3-5 updraft radii out) the march takes the canopy's density
+  from the analytic `anvilAt`, the same shape the far anvil draws, instead of the volume's copy (which thinned and
+  left gaps at its edges); the light grid lights it the far anvil's way there (ice above along the sun, no sideways
+  shade probes, which darkened a thin flat sheet under a low sun); the light grid's sun trace beyond the volume starts
+  with short steps (one 2.5 km first step had charged a ray leaving a thin canopy with too much ice: a dark band along
+  the volume's edge). The ice texture's regular layering is softened in favour of fibrous streaks. Cost: +0.5 ms on the
+  70 min chaser march (4.2 ms on the RX 7900 XT; RTX 3060 estimate 12.6 ms at 1440p).

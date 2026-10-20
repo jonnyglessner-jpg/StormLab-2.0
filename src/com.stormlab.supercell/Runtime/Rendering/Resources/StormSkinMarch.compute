@@ -18,7 +18,7 @@ float4 _NearP;
 // x: blend weight of the new frame (1 = no history), y: 1 = checkerboard (each frame marches half the pixels)
 float4 _TP;
 // x: debug switches (1 no flow detail, 2 no near field, 4 no rain streaks, 16 cloud only: no rain, shafts or haze,
-// 32 near field only, 64 step heat map, 128 no tornado, 256 no far anvil)
+// 32 near field only, 64 step heat map, 128 no tornado, 256 no analytic anvil at all, 512 no far anvil beyond the volume)
 float4 _Dbg;
 Texture2D<float> _DepthTex;
 RWTexture2D<float4> _Out;
@@ -449,7 +449,7 @@ void farAnvil(float3 cp, float3 rd, float t0, float t1, float3 skyc, float3 haze
             float warp = n3(float3(ua * 0.012, va * 0.05, 0.37));
             float layers = 0.5 + 0.5 * cos(6.2832 * (q.z / 0.42 + 2.2 * warp));
             float streak = n3(float3(ua * 0.01, va * 0.22, q.z * 0.5) + float3(0.6, 0.2, 0.9));
-            float iceTex = 0.3 + 0.7 * saturate(0.45 * layers + 0.35 * streak + 0.2);
+            float iceTex = 0.3 + 0.7 * saturate(0.2 * layers + 0.55 * streak + 0.25);
             // the same material blend as the volume's: fresh ice near the head is drawn with water cloud's threshold
             float sr = sqrt(a.av);
             float ice = 1.0 - saturate(a.mat / 0.3);
@@ -545,7 +545,7 @@ void March(uint3 gid : SV_DispatchThreadID)
     g_ph1 = 0.45 + 1.2 * pow(max(cosg, 0.0), 8.0); g_phW = miePhase(cosg, clamp(_PL.y, 5.0, 50.0)); g_phI = hg4(0.75, cosg);
     // the far anvil's slab: the anvil's height band, 90 km beyond the volume on every side
     float fa0 = -1.0, fa1 = -2.0;
-    if (S_anvil.w > 0.0 && !((uint)_Dbg.x & 288u))
+    if (S_anvil.w > 0.0 && !((uint)_Dbg.x & 800u))
     {
         float Lf = L + 90.0;
         float3 f0 = (float3(-Lf, -Lf, max(S_anvil2.y - 4.0, 0.0)) - cp) * inv, f1 = (float3(Lf, Lf, S_anvil2.y + 1.5) - cp) * inv;
@@ -559,6 +559,10 @@ void March(uint3 gid : SV_DispatchThreadID)
         float dt0 = 0.1;
         float t = ta + dt0 * ign(float2(id.xy) + 5.588238 * fmod(_MP.w, 64.0));
         float ph = g_ph1;
+        bool anvBand = S_anvil.w > 0.0 && !((uint)_Dbg.x & 256u);
+        float anvZ0 = S_anvil2.y - 4.0, anvZ1 = S_anvil2.y + 1.5;
+        float2 anvC = S_up.xy + S_tilt.xy * (S_base.y - S_base.x);
+        float anvR0 = 3.0 * S_tower.y, anvR1 = 5.0 * S_tower.y;
         bool surf = false; float prevBe = 0.0;
         float spinA = -S_tilt.w * S_base.z; float2 spinCS = float2(cos(spinA), sin(spinA));   // the meso frame's turn, once per pixel
         // the tornado's bounding cylinder (centred between its ground and top positions)
@@ -575,6 +579,20 @@ void March(uint3 gid : SV_DispatchThreadID)
             float dt = dt0 * (1.0 + t / 50.0);
             float3 tc = uvw(q);
             float4 s = _Dens.SampleLevel(sampler_LinearClamp, tc, 0);
+            // Away from the storm the canopy is a slowly changing sheet: there it takes the same analytic shape the far
+            // anvil does (blending in 3-5 updraft radii out), so the two meet without a seam and the volume's copy,
+            // thinned at its edges, leaves no gaps. Near the updraft the volume keeps its advected head.
+            if (anvBand && q.z > anvZ0 && q.z < anvZ1)
+            {
+                float wA = ss(anvR0, anvR1, length(q.xy - anvC));
+                if (wA > 0.01)
+                {
+                    AnvilS aa = anvilAt(q);
+                    float srA = sqrt(aa.av);
+                    // ice and empty air take the analytic shape outright; water cloud (a flanking tower reaching up) keeps the volume's
+                    if (s.a < 0.3 || s.r <= 0.004 || srA > s.r) { s.a = lerp(s.a, aa.mat, wA); s.r = lerp(s.r, srA, wA); }
+                }
+            }
             // the near field owns the cloud inside its box; the storm volume keeps it outside
             float wN = 0.0; float4 nv = 0.0;
             if (t > tn0 - 0.01 && t < tn1 + 0.01) { wN = nearWeight(q); if (wN > 0.0) nv = _NearTex.SampleLevel(sampler_LinearClamp, nearUvw(q), 0); }
@@ -605,6 +623,8 @@ void March(uint3 gid : SV_DispatchThreadID)
                 if (dmin < 0.0) { inTor = true; dt = min(dt, 0.006 + t * 0.0012); }
                 else dt = min(dt, max(dmin, 0.006) + 0.004);
             }
+            // the last step ends at the volume's edge, where the far anvil's march takes over (no stretch counted twice)
+            dt = min(dt, max(tb - t, 0.002));
             float be = 0.0; float3 Lc = 0.0;
             bool lowQ = q.z < S_base.x + 0.3;
             float4 lt = (s.r > 0.004 || s.g > 0.2 || nearOn || lowQ) ? _Light.SampleLevel(sampler_LinearClamp, tc, 0) : float4(0, 1, 1, 1);
@@ -658,7 +678,9 @@ void March(uint3 gid : SV_DispatchThreadID)
                     float streak = n3(float3(ua * 0.01, va * 0.22, q.z * 0.5) + float3(0.6, 0.2, 0.9));
                     float fine = 0.5;
                     if (lod < 0.98) fine = lerp(n3(float3(ua * 0.04, va * 0.8, q.z * 1.6) + float3(0.1, 0.5, 0.3)), 0.5, lod);
-                    float iceTex = 0.3 + 0.7 * saturate(0.45 * layers + 0.35 * streak + 0.2 * fine + 0.1);
+                    // fibrous streaks along the wind aloft, with only a faint trace of regular layering (stacked layers
+                    // read as stripes on a thin, flat sheet seen edge-on)
+                    float iceTex = 0.3 + 0.7 * saturate(0.2 * layers + 0.55 * streak + 0.2 * fine + 0.15);
                     float vI = s.r * iceTex;
                     ddI = ss(0.04, 0.8, vI) * 0.55;
                 }

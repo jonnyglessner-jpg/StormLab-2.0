@@ -378,10 +378,13 @@ void Light(uint3 gid : SV_DispatchThreadID)
     // volume's edge still shades the storm under it (a low sun shines in under a late anvil from 30-90 km away)
     if (S_anvil.w > 0.0 && q.z <= _LDims.w)
     {
-        [loop] for (int j = 0; j < 14; j++)
+        // short steps first: a ray leaving the volume inside a thin canopy is out of it within a km or so, and one long
+        // first step charged it 2.5 km of ice (a dark band along the volume's edge); then long steps for far canopy
+        [loop] for (int j = 0; j < 20; j++)
         {
             if (q.z > S_anvil2.y + 1.0) break;
-            tau += anvilAt(q).av * _LP.x * 2.5; q += _LSun.xyz * 2.5;
+            float st3 = j < 8 ? 0.6 : 2.5;
+            tau += anvilAt(q + _LSun.xyz * 0.5 * st3).av * _LP.x * st3; q += _LSun.xyz * st3;
         }
     }
     // 1.0's local self-shadow (it dimmed the transmittance by up to half) as extra depth on the main lobe
@@ -403,6 +406,23 @@ void Light(uint3 gid : SV_DispatchThreadID)
         }
         float under = ss(0.0, 0.4, (ua - 1.5 * dn) * 0.25);
         iceShade = (1.0 - 0.8 * sunward) * (1.0 - 0.8 * under) * (1.0 - 0.3 * above);
+    }
+    // Away from the storm the canopy is lit as the march's far anvil lights it (the ice between the point and the
+    // canopy's top along the sun, no sideways shade probes: on a thin, flat sheet under a low sun those probes hit the
+    // sheet itself and darkened it), blending in 3-5 updraft radii out, so the volume and the far anvil meet seamlessly
+    if (S_anvil.w > 0.0 && pos.z > S_anvil2.y - 4.0 && pos.z < S_anvil2.y + 1.5)
+    {
+        float2 aC = S_up.xy + S_tilt.xy * (S_base.y - S_base.x);
+        float wA = ss(3.0 * S_tower.y, 5.0 * S_tower.y, length(pos.xy - aC));
+        if (wA > 0.01)
+        {
+            AnvilS a = anvilAt(pos);
+            if (a.av > 0.004)
+            {
+                float est = a.av * _LP.x * min(max(a.topz - pos.z, 0.0) / max(_LSun.z, 0.08), 25.0) * 0.5;
+                tau = lerp(tau, est, wA); iceShade = lerp(iceShade, 1.0, wA);
+            }
+        }
     }
     // r: the sun's optical depth (sunT in StormSkinCommon.hlsl turns it into 1.0's transmittance)
     _OutL[id] = float4(tau, exp(-0.1 * up), skyOcc, iceShade);

@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SupercellSkinTest.unity
     guid: 878ed0923fc26f24c905111e6e81b17b
+  - enabled: 1
+    path: Assets/Scenes/TornadoViewer.unity
+    guid: 489bf759f57e51d42a946e780afbdd38
+  - enabled: 1
+    path: Assets/Scenes/StormTestBench.unity
+    guid: b7a737490817eea4785ee6fb81b19fd3
   m_configObjects: {}

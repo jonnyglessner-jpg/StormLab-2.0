@@ -207,7 +207,7 @@ soundings we pull.
 
 | Preset | MLCAPE J/kg | MLLCL m | 0-1 km SRH | 0-6 km shear kt | Anvil-level SR wind kt | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| Plains LP | 1800-3200 | 1200-1900 | 35-150 | 28-46 | 17-62 (not decisive) | Revised 2026-10-18 from 3 real cases (Manchester OK, Earth TX, Hope NM; `data/derived/plains_lp_cases.json`): slow isolated storms (9-17 kt), steep lapse rates (7.4-8.4 C/km), core held aloft. Tornado rare (Earth: one brief EFU as it went classic) |
+| Plains LP | 1800-3200 | 1200-1900 | 35-150 | 28-46 | 17-62 (not decisive) | Revised 2026-10-18 from 3 real cases (Manchester OK, Earth TX, Hope NM; `validation/real-storm-cases/plains_lp_cases.json`): slow isolated storms (9-17 kt), steep lapse rates (7.4-8.4 C/km), core held aloft. Tornado rare (Earth: one brief EFU as it went classic) |
 | Plains classic | 2000-4000 | 900-1500 | 150-350 | 40-60 | 35-55 | The Dodge City 2016 / Rozel 2013 type. Visible, cyclic |
 | Plains HP | 2500-4500 | 800-1300 | 200-450 | 35-55 | < 35 | El Reno 2013 type. Rain-wrapped, big RFD, huge hail, wedge potential |
 | Dixie classic | 1000-2000 | 500-900 | 250-500 | 50-75 | 35-50 | Fast (40-55 mph), low base, strongly curved hodograph |
@@ -285,8 +285,8 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
 - **2026-10-18** Plains LP acceptance window revised from three real cases; the textbook window (LCL 1.8-3 km, shear 45-70 kt,
   anvil storm-relative wind above 55 kt) did not fit them. LP vs classic must come from the simulated precipitation
   field, not from anvil-level wind alone.
-- **2026-10-18** Phase 1 brain built (`unity/com.stormlab.supercell/Runtime/Dynamics`, README and TIMELINE.md there;
-  headless validation in `unity/SupercellLabTest`, 14 of 14 pass). Decisions taken while building it: (1) Smagorinsky-Lilly
+- **2026-10-18** Phase 1 brain built (`src/com.stormlab.supercell/Runtime/Dynamics`, README and TIMELINE.md there;
+  headless validation in `tests/SupercellLabTest`, 14 of 14 pass). Decisions taken while building it: (1) Smagorinsky-Lilly
   sub-grid mixing (cs 0.25) added on top of 1.0's constant mixing; (2) rain evaporation uses its own intercept (1e6, not 8e6)
   against 1.0's cold-pool bias, which brings the WK cold pool from -11 to -10 K but leaves it 1-3 K colder than CM1;
   (3) superadiabatic layers below 1.5 km in real soundings are mixed out (the HRRR 2 m skin made the DDC storm blow up);
@@ -294,8 +294,8 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   so seek replays are bit-exact on one machine. Measured on the RX 7900 XT: 10.1 ms per step average tier, 23.7 ms high tier;
   frames are ~180 KB (not ~50 KB) because of the 1 km storm-centred qc/qr/qi/qh window; the average tier's 72 levels give
   ~290-320 m aloft, not 250 m (81 levels would).
-- **2026-10-18** Phase 2 skin started (`unity/com.stormlab.supercell/Runtime/Designer` and `Runtime/Rendering`, READMEs
-  there; test scene and headless screenshots in `unity/SupercellLabTest`). Decisions taken while building it: (1) the
+- **2026-10-18** Phase 2 skin started (`src/com.stormlab.supercell/Runtime/Designer` and `Runtime/Rendering`, READMEs
+  there; test scene and headless screenshots in `tests/SupercellLabTest`). Decisions taken while building it: (1) the
   parameter block is 40 slots, with 1.0's 21 kept in place so the ported shaders read them unchanged; (2) the designer
   blends every feature over the frames around the playback time (Gaussian, σ 25 s), so it is stateless and scrubbing
   works, and it falls back to 1.0's rule per feature, recording which source drew what; (3) the skin advects with its

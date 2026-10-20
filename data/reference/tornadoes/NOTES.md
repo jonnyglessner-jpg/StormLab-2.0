@@ -1,7 +1,7 @@
 # Tornado reference: what the photos say
 
 67 photos (user-supplied, 2026-10-19; the same image is sometimes in two folders). Sorted by what they show best.
-Used for the designed tornado's look in `unity/com.stormlab.supercell/Runtime/Rendering/Resources/StormSkinMarch.compute`
+Used for the designed tornado's look in `src/com.stormlab.supercell/Runtime/Rendering/Resources/StormSkinMarch.compute`
 (`tornadoField` and the tornado lighting in the march).
 
 ## The funnel's surface (`close_texture/`, `laminar/`)

@@ -8,11 +8,11 @@ What the model is calibrated against, where it comes from, what is already here,
 | --- | --- | --- |
 | SPC tornado database 1950-2025 (73,458 tornado records) | `data/raw/spc/1950-2025_actual_tornadoes.csv` | Tornado width, length, rating, timing, region and cycling climatology |
 | Derived climatology | `data/derived/tornado_climatology.json` (from `tools/spc_tornado_stats.py`) | The tornado model's acceptance windows and distributions |
-| StormLab 1.0 (your repo) | cloned for reference; C# environment port in `unity/.../Runtime/Environment` | Environment physics, scripted storm, cloud model kernels, vortex lab |
+| StormLab 1.0 (your repo) | cloned for reference; C# environment port in `src/com.stormlab.supercell/Runtime/Environment` | Environment physics, scripted storm, cloud model kernels, vortex lab |
 | Dodge City world | `../dodge-city-drive` | 1 m lidar terrain, NAIP imagery, OSM roads, `GeoReference`; the first world the storm damages |
 | Your chase log, 2019-2026 (78 chase days) | `../storm-chase-site` with photos and SPC stats per day | Reference cases and visual calibration |
 | Plains LP reference images (20, with per-image notes) | `data/reference/plains_lp/` + `NOTES.md` | Renderer and designer targets for the LP preset: high laminar base, stacked plates, sculpted tower, translucent precipitation |
-| Dodge City 2016-05-24 case, first pass | `data/raw/soundings/ddc_20160524_{igra,hrrr}.json`, `data/derived/radar/ddc_20160524_KDDC_{2248,2335}.{json,png}` | Proves the fetch tools; first Plains-classic reference numbers (below) |
+| Dodge City 2016-05-24 case, first pass | `validation/soundings/ddc_20160524_{igra,hrrr}.json`, `validation/real-storm-cases/radar/ddc_20160524_KDDC_{2248,2335}.{json,png}` | Proves the fetch tools; first Plains-classic reference numbers (below) |
 
 ### First reference case: Dodge City, 2016-05-24 (Plains classic, cyclic)
 

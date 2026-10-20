@@ -2,7 +2,7 @@
 
   python tools/spc_reports.py --case lp_earth_20210516 [--radius-km 50 --pad-min 30]
 
-Reads the track from data/derived/radar/<case>_lifecycle.json (radar_lifecycle.py) and keeps every report within
+Reads the track from validation/real-storm-cases/radar/<case>_lifecycle.json (radar_lifecycle.py) and keeps every report within
 --radius-km of the track and within the storm's life +-pad. Two sources:
   - the final SPC database (Storm Data, the official record): data/raw/spc/1955-2025_hail.csv.zip, _wind.csv.zip and
     1950-2025_actual_tornadoes.csv (downloaded from https://www.spc.noaa.gov/wcm/data/ when missing)
@@ -11,7 +11,7 @@ Reads the track from data/derived/radar/<case>_lifecycle.json (radar_lifecycle.p
 Each report gets its distance to the nearest point of the track and to the storm's position at the report time
 ("at_time"): a report far from the storm at that moment probably belongs to a neighbouring storm.
 
-Writes data/derived/radar/<case>_spc_reports.json.
+Writes validation/real-storm-cases/radar/<case>_spc_reports.json.
 """
 import argparse
 import csv
@@ -26,7 +26,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 SPC = ROOT / "data" / "raw" / "spc"
-DER = ROOT / "data" / "derived" / "radar"
+DER = ROOT / "validation" / "real-storm-cases" / "radar"
 WCM = "https://www.spc.noaa.gov/wcm/data/"
 DAILY = "https://www.spc.noaa.gov/climo/reports/"
 R_E = 6371.0

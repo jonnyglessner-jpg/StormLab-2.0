@@ -7,7 +7,7 @@ Sources:
   hrrr  HRRR 3 km analysis (hourly, 2014-07-30+) from AWS noaa-hrrr-bdp-pds; only the needed GRIB messages are
         pulled by byte range using the .idx file (~150 MB instead of 345).
 
-Output: data/raw/soundings/<case>_<source>.json with levels of p (hPa), z (m MSL), T (C), Td (C), wind dir (deg) and
+Output: validation/soundings/<case>_<source>.json with levels of p (hPa), z (m MSL), T (C), Td (C), wind dir (deg) and
 speed (kt), plus MetPy diagnostics (MLCAPE/MLCIN/LCL/LFC/EL, 0-1 / 0-3 km SRH, 0-1 / 0-6 km shear, Bunkers motion),
 so each case can be checked against the published proximity-sounding climatology.
 
@@ -31,7 +31,8 @@ import certifi
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "data" / "raw" / "soundings"
+OUT = ROOT / "data" / "raw" / "soundings"   # download caches (igra/, grib/)
+SND = ROOT / "validation" / "soundings"     # processed soundings the model and tests read
 UA = {"User-Agent": "supercell-lab-2 research fetch"}
 CTX = ssl.create_default_context(cafile=certifi.where())
 
@@ -253,8 +254,8 @@ def main():
     t = datetime.strptime(a.time, "%Y-%m-%dT%H")
     snd = {"igra": lambda: fetch_igra(a.station, t), "rap": lambda: fetch_rap(a.lat, a.lon, t), "hrrr": lambda: fetch_hrrr(a.lat, a.lon, t)}[a.source]()
     snd["case"] = a.case; snd["valid_utc"] = t.isoformat(); snd["diagnostics"] = diagnose(snd)
-    OUT.mkdir(parents=True, exist_ok=True)
-    f = OUT / f"{a.case}_{a.source}.json"
+    SND.mkdir(parents=True, exist_ok=True)
+    f = SND / f"{a.case}_{a.source}.json"
     f.write_text(json.dumps(snd, indent=1))
     print(f"wrote {f} ({len(snd['levels'])} levels)")
     print(json.dumps(snd["diagnostics"], indent=1))

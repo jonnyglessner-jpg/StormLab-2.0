@@ -33,8 +33,8 @@ or shipped in the game. The rest are Jonny's own (17 shows his Subaru).
 
 ## Measured environment and radar (2026-10-18)
 
-Full numbers: `data/derived/plains_lp_cases.json`; soundings in `data/raw/soundings/lp_*`, radar quick-looks in
-`data/derived/radar/lp_*.png`. Times UTC.
+Full numbers: `validation/real-storm-cases/plains_lp_cases.json`; soundings in `validation/soundings/lp_*`, radar quick-looks in
+`validation/real-storm-cases/radar/lp_*.png`. Times UTC.
 
 | | Manchester OK | Earth TX | Hope NM |
 | --- | --- | --- | --- |
@@ -60,10 +60,10 @@ decision in the sim cannot rest on anvil-level wind alone. Earth shows the LP-to
 
 ## Satellite, life cycle and storm reports (2026-10-18)
 
-Numbers: the `life_cycle`, `satellite` and `spc_reports` blocks per case in `data/derived/plains_lp_cases.json`; full
-per-volume / per-scan data in `data/derived/radar/lp_*_lifecycle.json`, `data/derived/satellite/lp_*.json` and
-`data/derived/radar/lp_*_spc_reports.json`; pictures in `data/derived/radar/lp_*_lifecycle.png` and
-`data/derived/satellite/lp_*_HHMM.png` (the anvil at three times, infrared and visible). Tools:
+Numbers: the `life_cycle`, `satellite` and `spc_reports` blocks per case in `validation/real-storm-cases/plains_lp_cases.json`; full
+per-volume / per-scan data in `validation/real-storm-cases/radar/lp_*_lifecycle.json`, `validation/real-storm-cases/satellite/lp_*.json` and
+`validation/real-storm-cases/radar/lp_*_spc_reports.json`; pictures in `validation/real-storm-cases/radar/lp_*_lifecycle.png` and
+`validation/real-storm-cases/satellite/lp_*_HHMM.png` (the anvil at three times, infrared and visible). Tools:
 `tools/radar_lifecycle.py`, `tools/fetch_goes.py` (GOES-16, 1-min mesoscale scans, parallax-corrected),
 `tools/spc_reports.py`. Times UTC; echo tops are above the radar (within ~0.2 km of above ground here).
 

@@ -2,7 +2,7 @@
 
   python tools/fetch_goes.py --case lp_earth_20210516 [--every 1 --height-km 12]
 
-Follows the storm with its radar track (data/derived/radar/<case>_lifecycle.json from radar_lifecycle.py; or give
+Follows the storm with its radar track (validation/real-storm-cases/radar/<case>_lifecycle.json from radar_lifecycle.py; or give
 --start/--end/--lat/--lon for a fixed point). Pulls ABI L2 Cloud and Moisture Imagery from the public noaa-goes16
 bucket (anonymous HTTPS): the 1-min mesoscale sector (M1 or M2, whichever covers the storm) when there is one,
 otherwise the 5-min CONUS sector. Band 13 (10.3 um) brightness temperature every scan; band 2 (0.64 um visible) for
@@ -27,7 +27,7 @@ Summary: first own -50 C top and first 1000 km2 anvil (minutes after the radar's
 is mostly free of neighbours (<= 25 % of its edge shared), the largest anvil and shield, OT frequency, episodes and size.
 Redo only the summary and quick-looks with --resummarise.
 
-Writes data/derived/satellite/<case>.json and three quick-look PNGs (IR with the -50 C contour + visible).
+Writes validation/real-storm-cases/satellite/<case>.json and three quick-look PNGs (IR with the -50 C contour + visible).
 Files are cached in data/raw/goes.
 """
 import argparse
@@ -46,8 +46,8 @@ from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw" / "goes"
-OUT = ROOT / "data" / "derived" / "satellite"
-RADAR = ROOT / "data" / "derived" / "radar"
+OUT = ROOT / "validation" / "real-storm-cases" / "satellite"
+RADAR = ROOT / "validation" / "real-storm-cases" / "radar"
 BUCKET = "https://noaa-goes16.s3.amazonaws.com/"
 R_E = 6371.0
 ANVIL_K = 223.15

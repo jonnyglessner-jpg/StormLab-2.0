@@ -1,12 +1,12 @@
 # Unity-generated (rebuilt on open)
-unity/SupercellLabTest/[Ll]ibrary/
-unity/SupercellLabTest/[Tt]emp/
-unity/SupercellLabTest/[Ll]ogs/
-unity/SupercellLabTest/[Oo]bj/
-unity/SupercellLabTest/[Bb]uild/
-unity/SupercellLabTest/[Bb]uilds/
-unity/SupercellLabTest/[Uu]ser[Ss]ettings/
-unity/SupercellLabTest/MemoryCaptures/
+tests/SupercellLabTest/[Ll]ibrary/
+tests/SupercellLabTest/[Tt]emp/
+tests/SupercellLabTest/[Ll]ogs/
+tests/SupercellLabTest/[Oo]bj/
+tests/SupercellLabTest/[Bb]uild/
+tests/SupercellLabTest/[Bb]uilds/
+tests/SupercellLabTest/[Uu]ser[Ss]ettings/
+tests/SupercellLabTest/MemoryCaptures/
 *.csproj
 *.sln
 *.slnx
@@ -19,7 +19,7 @@ unity/SupercellLabTest/MemoryCaptures/
 .idea/
 
 # Test renders (regenerate with the skin and designed-storm tests)
-unity/SupercellLabTest/Screenshots/
+tests/SupercellLabTest/Screenshots/
 
 # Downloaded source data (3+ GB; re-fetch with tools/fetch_*.py and tools/spc_*.py)
 data/raw/

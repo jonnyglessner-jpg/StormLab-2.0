@@ -11,7 +11,7 @@ storm motion (smoothed over ~20 min). It stops when the cell is gone for --gap v
 a comparable cell, when its core collapses and a new tall core takes over beside it, or beyond --max-range-km. Going
 backward through a split, it follows the parent storm.
 
-Writes data/derived/radar/<case>_lifecycle.json (+ a PNG: track map and time series). Each volume also lists the
+Writes validation/real-storm-cases/radar/<case>_lifecycle.json (+ a PNG: track map and time series). Each volume also lists the
 other composite >= 40 dBZ cells in the 160 km box (fetch_goes.py uses them to split a shared anvil between storms). Initiation is the first volume
 with a 40 dBZ echo anywhere in the column; "mature" is the time of the highest 50 dBZ echo top (ties: the largest
 composite 40 dBZ area); death is the last volume with 40 dBZ. The end type is "died" (40 dBZ gone), "merged",

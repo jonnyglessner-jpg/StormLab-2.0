@@ -31,6 +31,6 @@ out.append('        public static readonly double[][] IntervalMin = {\n         
 out.append('        /// <summary>[region]: share of families whose strongest tornado is the first</summary>')
 out.append(f'        public static readonly double[] StrongestFirst = {arr([cf[r]["strongest_is_first_share"] for r in regions])};')
 out += ['    }', '}', '']
-dst = root / 'unity/com.stormlab.supercell/Runtime/Design/TornadoClimatology.Data.cs'
+dst = root / 'src/com.stormlab.supercell/Runtime/Design/TornadoClimatology.Data.cs'
 dst.write_text('\n'.join(out), encoding='utf-8')
 print('wrote', dst)

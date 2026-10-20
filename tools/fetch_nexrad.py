@@ -9,7 +9,7 @@ Downloads the volume scan nearest the requested time (anonymous HTTPS, no accoun
     cores at 1 km and 4 km AGL (FFD and hail core footprints), the bounded weak echo region (a reflectivity minimum
     at 3-7 km AGL capped by stronger echo above: the vault / BWER and its depth), and the storm-relative velocity
     couplet strength at the lowest tilt (mesocyclone rotational velocity and diameter)
-  - writes data/derived/radar/<case>_<site>_<time>.json and a quick-look PNG (0.5 deg reflectivity + velocity,
+  - writes validation/real-storm-cases/radar/<case>_<site>_<time>.json and a quick-look PNG (0.5 deg reflectivity + velocity,
     and an east-west cross-section through the updraft)
 
 The numbers feed DESIGN.md's feature calibration table (vault depth, core sizes, meso diameter).
@@ -25,7 +25,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw" / "nexrad"
-DER = ROOT / "data" / "derived" / "radar"
+DER = ROOT / "validation" / "real-storm-cases" / "radar"
 BUCKET = "https://unidata-nexrad-level2.s3.amazonaws.com/"   # Unidata mirror of the NOAA archive; the NOAA bucket refuses anonymous listing
 
 

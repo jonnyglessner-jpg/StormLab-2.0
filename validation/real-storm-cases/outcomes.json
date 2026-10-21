@@ -28,6 +28,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.25,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -73.0,
+   "echo_to_minus50C_min": 12,
+   "echo_to_anvil_1000km2_min": 34,
+   "ot_fraction": 0.29,
+   "ot_diam_km_median": 9.1,
+   "anvil_major_minor_km": [
+    107.8,
+    75.3
+   ],
+   "backshear_km_median": 6.8
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2308,
@@ -68,6 +80,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.5,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -70.8,
+   "echo_to_minus50C_min": -7,
+   "echo_to_anvil_1000km2_min": -2,
+   "ot_fraction": 0.44,
+   "ot_diam_km_median": 8.4,
+   "anvil_major_minor_km": [
+    83.9,
+    42.9
+   ],
+   "backshear_km_median": 9.2
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2518,
@@ -108,6 +132,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.0,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -69.1,
+   "echo_to_minus50C_min": -1,
+   "echo_to_anvil_1000km2_min": 92,
+   "ot_fraction": 0.5,
+   "ot_diam_km_median": 7.9,
+   "anvil_major_minor_km": [
+    139.2,
+    52.5
+   ],
+   "backshear_km_median": 22.6
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1755,
@@ -148,6 +184,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -67.8,
+   "echo_to_minus50C_min": -9,
+   "echo_to_anvil_1000km2_min": 101,
+   "ot_fraction": 0.29,
+   "ot_diam_km_median": 7.7,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1899,
@@ -188,6 +236,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 0.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -73.9,
+   "echo_to_minus50C_min": 30,
+   "echo_to_anvil_1000km2_min": 50,
+   "ot_fraction": 0.65,
+   "ot_diam_km_median": 9.6,
+   "anvil_major_minor_km": [
+    90.9,
+    56.0
+   ],
+   "backshear_km_median": 10.9
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2619,
@@ -228,6 +288,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 2.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -63.5,
+   "echo_to_minus50C_min": 46,
+   "echo_to_anvil_1000km2_min": 85,
+   "ot_fraction": 0.55,
+   "ot_diam_km_median": 10.2,
+   "anvil_major_minor_km": [
+    95.7,
+    53.4
+   ],
+   "backshear_km_median": 8.3
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1718,
@@ -390,6 +462,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 4.25,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -74.1,
+   "echo_to_minus50C_min": 0,
+   "echo_to_anvil_1000km2_min": 24,
+   "ot_fraction": 0.71,
+   "ot_diam_km_median": 7.9,
+   "anvil_major_minor_km": [
+    78.8,
+    43.0
+   ],
+   "backshear_km_median": 18.0
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2012,
@@ -430,6 +514,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 3.5,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -82.0,
+   "echo_to_minus50C_min": 46,
+   "echo_to_anvil_1000km2_min": 60,
+   "ot_fraction": 0.33,
+   "ot_diam_km_median": 12.3,
+   "anvil_major_minor_km": [
+    135.8,
+    44.2
+   ],
+   "backshear_km_median": 2.5
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2046,
@@ -470,6 +566,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -70.8,
+   "echo_to_minus50C_min": 15,
+   "echo_to_anvil_1000km2_min": 15,
+   "ot_fraction": 0.11,
+   "ot_diam_km_median": 8.6,
+   "anvil_major_minor_km": [
+    155.0,
+    80.8
+   ],
+   "backshear_km_median": 54.6
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2024,
@@ -510,6 +618,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 2.5,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -74.9,
+   "echo_to_minus50C_min": 19,
+   "echo_to_anvil_1000km2_min": 37,
+   "ot_fraction": 0.41,
+   "ot_diam_km_median": 10.3,
+   "anvil_major_minor_km": [
+    125.4,
+    110.5
+   ],
+   "backshear_km_median": 8.1
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2321,
@@ -550,6 +670,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 3.1,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -70.5,
+   "echo_to_minus50C_min": 4,
+   "echo_to_anvil_1000km2_min": 11,
+   "ot_fraction": 0.52,
+   "ot_diam_km_median": 10.5,
+   "anvil_major_minor_km": [
+    136.6,
+    69.0
+   ],
+   "backshear_km_median": 11.6
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2144,
@@ -674,6 +806,18 @@
   "storm_wind_reports": 1,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": 70.0,
+  "goes": {
+   "coldest_c": -76.6,
+   "echo_to_minus50C_min": 7,
+   "echo_to_anvil_1000km2_min": 40,
+   "ot_fraction": 0.83,
+   "ot_diam_km_median": 9.4,
+   "anvil_major_minor_km": [
+    127.0,
+    51.5
+   ],
+   "backshear_km_median": 31.6
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2354,
@@ -716,6 +860,18 @@
   "storm_wind_reports": 3,
   "storm_max_hail_in": 2.25,
   "storm_max_gust_kt": 70.0,
+  "goes": {
+   "coldest_c": -76.6,
+   "echo_to_minus50C_min": 47,
+   "echo_to_anvil_1000km2_min": 51,
+   "ot_fraction": 0.26,
+   "ot_diam_km_median": 8.4,
+   "anvil_major_minor_km": [
+    73.3,
+    63.2
+   ],
+   "backshear_km_median": 9.3
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1958,
@@ -758,6 +914,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -77.3,
+   "echo_to_minus50C_min": 44,
+   "echo_to_anvil_1000km2_min": 79,
+   "ot_fraction": 0.39,
+   "ot_diam_km_median": 9.9,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 821,
@@ -800,6 +968,18 @@
   "storm_wind_reports": 21,
   "storm_max_hail_in": 1.0,
   "storm_max_gust_kt": 100.0,
+  "goes": {
+   "coldest_c": -84.3,
+   "echo_to_minus50C_min": -10,
+   "echo_to_anvil_1000km2_min": 97,
+   "ot_fraction": 0.33,
+   "ot_diam_km_median": 7.2,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 3341,
@@ -924,6 +1104,18 @@
   "storm_wind_reports": 1,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": 50.0,
+  "goes": {
+   "coldest_c": -70.8,
+   "echo_to_minus50C_min": 6,
+   "echo_to_anvil_1000km2_min": 6,
+   "ot_fraction": 0.17,
+   "ot_diam_km_median": 10.0,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 304,
@@ -964,6 +1156,18 @@
   "storm_wind_reports": 2,
   "storm_max_hail_in": 1.75,
   "storm_max_gust_kt": 70.0,
+  "goes": {
+   "coldest_c": -77.7,
+   "echo_to_minus50C_min": 3,
+   "echo_to_anvil_1000km2_min": 36,
+   "ot_fraction": 0.72,
+   "ot_diam_km_median": 15.6,
+   "anvil_major_minor_km": [
+    121.0,
+    59.6
+   ],
+   "backshear_km_median": 8.4
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1474,
@@ -1004,6 +1208,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -77.3,
+   "echo_to_minus50C_min": -9,
+   "echo_to_anvil_1000km2_min": 3,
+   "ot_fraction": 0.47,
+   "ot_diam_km_median": 15.4,
+   "anvil_major_minor_km": [
+    175.0,
+    97.3
+   ],
+   "backshear_km_median": 13.2
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2694,
@@ -1044,6 +1260,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -73.7,
+   "echo_to_minus50C_min": 20,
+   "echo_to_anvil_1000km2_min": 91,
+   "ot_fraction": 0.0,
+   "ot_diam_km_median": null,
+   "anvil_major_minor_km": [
+    77.4,
+    33.4
+   ],
+   "backshear_km_median": 6.5
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1368,
@@ -1084,6 +1312,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -73.8,
+   "echo_to_minus50C_min": 50,
+   "echo_to_anvil_1000km2_min": 60,
+   "ot_fraction": 0.3,
+   "ot_diam_km_median": 7.6,
+   "anvil_major_minor_km": [
+    123.8,
+    104.2
+   ],
+   "backshear_km_median": 12.9
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1367,
@@ -1164,6 +1404,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 2.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -70.0,
+   "echo_to_minus50C_min": 9,
+   "echo_to_anvil_1000km2_min": 61,
+   "ot_fraction": 0.55,
+   "ot_diam_km_median": 10.5,
+   "anvil_major_minor_km": [
+    145.5,
+    116.3
+   ],
+   "backshear_km_median": 12.8
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1600,
@@ -1204,6 +1456,18 @@
   "storm_wind_reports": 8,
   "storm_max_hail_in": 4.0,
   "storm_max_gust_kt": 70.0,
+  "goes": {
+   "coldest_c": -79.2,
+   "echo_to_minus50C_min": -9,
+   "echo_to_anvil_1000km2_min": 58,
+   "ot_fraction": 0.46,
+   "ot_diam_km_median": 8.9,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1046,
@@ -1244,6 +1508,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 2.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -76.0,
+   "echo_to_minus50C_min": -8,
+   "echo_to_anvil_1000km2_min": 41,
+   "ot_fraction": 0.83,
+   "ot_diam_km_median": 10.5,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1331,
@@ -1286,6 +1562,18 @@
   "storm_wind_reports": 1,
   "storm_max_hail_in": 1.75,
   "storm_max_gust_kt": 52.0,
+  "goes": {
+   "coldest_c": -72.6,
+   "echo_to_minus50C_min": -9,
+   "echo_to_anvil_1000km2_min": 15,
+   "ot_fraction": 0.64,
+   "ot_diam_km_median": 14.4,
+   "anvil_major_minor_km": [
+    105.2,
+    58.1
+   ],
+   "backshear_km_median": 11.9
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1662,
@@ -1328,6 +1616,18 @@
   "storm_wind_reports": 10,
   "storm_max_hail_in": 1.0,
   "storm_max_gust_kt": 61.0,
+  "goes": {
+   "coldest_c": -66.8,
+   "echo_to_minus50C_min": -10,
+   "echo_to_anvil_1000km2_min": 11,
+   "ot_fraction": 0.42,
+   "ot_diam_km_median": 8.1,
+   "anvil_major_minor_km": [
+    139.1,
+    63.1
+   ],
+   "backshear_km_median": 29.1
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2245,
@@ -1368,6 +1668,18 @@
   "storm_wind_reports": 26,
   "storm_max_hail_in": 2.0,
   "storm_max_gust_kt": 71.0,
+  "goes": {
+   "coldest_c": -70.0,
+   "echo_to_minus50C_min": -2,
+   "echo_to_anvil_1000km2_min": 34,
+   "ot_fraction": 0.82,
+   "ot_diam_km_median": 9.4,
+   "anvil_major_minor_km": [
+    257.2,
+    216.1
+   ],
+   "backshear_km_median": 37.7
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1099,
@@ -1408,6 +1720,18 @@
   "storm_wind_reports": 6,
   "storm_max_hail_in": 2.25,
   "storm_max_gust_kt": 60.0,
+  "goes": {
+   "coldest_c": -64.6,
+   "echo_to_minus50C_min": -7,
+   "echo_to_anvil_1000km2_min": 63,
+   "ot_fraction": 0.5,
+   "ot_diam_km_median": 10.2,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 222,
@@ -1448,6 +1772,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -80.0,
+   "echo_to_minus50C_min": -1,
+   "echo_to_anvil_1000km2_min": 17,
+   "ot_fraction": 0.47,
+   "ot_diam_km_median": 7.9,
+   "anvil_major_minor_km": [
+    88.9,
+    30.0
+   ],
+   "backshear_km_median": 5.2
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 765,
@@ -1490,6 +1826,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.25,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -35.0,
+   "echo_to_minus50C_min": null,
+   "echo_to_anvil_1000km2_min": null,
+   "ot_fraction": null,
+   "ot_diam_km_median": null,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 540,
@@ -1530,6 +1878,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -66.7,
+   "echo_to_minus50C_min": 51,
+   "echo_to_anvil_1000km2_min": 100,
+   "ot_fraction": 0.34,
+   "ot_diam_km_median": 6.5,
+   "anvil_major_minor_km": [
+    142.5,
+    83.2
+   ],
+   "backshear_km_median": 11.8
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2487,
@@ -1570,6 +1930,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 2.5,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -57.5,
+   "echo_to_minus50C_min": 239,
+   "echo_to_anvil_1000km2_min": null,
+   "ot_fraction": null,
+   "ot_diam_km_median": null,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 445,
@@ -1610,6 +1982,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 2.5,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -75.6,
+   "echo_to_minus50C_min": -3,
+   "echo_to_anvil_1000km2_min": 18,
+   "ot_fraction": 0.58,
+   "ot_diam_km_median": 13.5,
+   "anvil_major_minor_km": [
+    138.6,
+    105.4
+   ],
+   "backshear_km_median": 19.5
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1753,
@@ -1650,6 +2034,18 @@
   "storm_wind_reports": 3,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": 70.0,
+  "goes": {
+   "coldest_c": -78.4,
+   "echo_to_minus50C_min": 72,
+   "echo_to_anvil_1000km2_min": 113,
+   "ot_fraction": 0.4,
+   "ot_diam_km_median": 13.1,
+   "anvil_major_minor_km": [
+    163.7,
+    69.2
+   ],
+   "backshear_km_median": 11.1
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 598,
@@ -1690,6 +2086,18 @@
   "storm_wind_reports": 2,
   "storm_max_hail_in": 3.5,
   "storm_max_gust_kt": 71.0,
+  "goes": {
+   "coldest_c": -74.3,
+   "echo_to_minus50C_min": 17,
+   "echo_to_anvil_1000km2_min": 17,
+   "ot_fraction": 0.41,
+   "ot_diam_km_median": 10.0,
+   "anvil_major_minor_km": [
+    108.7,
+    92.5
+   ],
+   "backshear_km_median": 9.6
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1035,
@@ -1730,6 +2138,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 1.75,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -68.1,
+   "echo_to_minus50C_min": 24,
+   "echo_to_anvil_1000km2_min": 25,
+   "ot_fraction": 0.12,
+   "ot_diam_km_median": 13.3,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1437,
@@ -1770,6 +2190,18 @@
   "storm_wind_reports": 8,
   "storm_max_hail_in": 0.88,
   "storm_max_gust_kt": 65.0,
+  "goes": {
+   "coldest_c": -79.8,
+   "echo_to_minus50C_min": 35,
+   "echo_to_anvil_1000km2_min": 60,
+   "ot_fraction": 0.72,
+   "ot_diam_km_median": 8.9,
+   "anvil_major_minor_km": [
+    112.0,
+    52.2
+   ],
+   "backshear_km_median": 6.3
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2180,
@@ -1810,6 +2242,18 @@
   "storm_wind_reports": 7,
   "storm_max_hail_in": 1.75,
   "storm_max_gust_kt": 78.0,
+  "goes": {
+   "coldest_c": -71.1,
+   "echo_to_minus50C_min": 31,
+   "echo_to_anvil_1000km2_min": 147,
+   "ot_fraction": 1.0,
+   "ot_diam_km_median": 10.5,
+   "anvil_major_minor_km": [
+    154.9,
+    91.5
+   ],
+   "backshear_km_median": 16.7
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1646,
@@ -1850,6 +2294,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -64.5,
+   "echo_to_minus50C_min": 12,
+   "echo_to_anvil_1000km2_min": 30,
+   "ot_fraction": 0.0,
+   "ot_diam_km_median": null,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 623,
@@ -1890,6 +2346,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": null,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -77.0,
+   "echo_to_minus50C_min": -8,
+   "echo_to_anvil_1000km2_min": 87,
+   "ot_fraction": 0.0,
+   "ot_diam_km_median": null,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2609,
@@ -1930,6 +2398,18 @@
   "storm_wind_reports": 0,
   "storm_max_hail_in": 3.3,
   "storm_max_gust_kt": null,
+  "goes": {
+   "coldest_c": -71.0,
+   "echo_to_minus50C_min": 37,
+   "echo_to_anvil_1000km2_min": 91,
+   "ot_fraction": 0.59,
+   "ot_diam_km_median": 8.0,
+   "anvil_major_minor_km": [
+    109.7,
+    63.8
+   ],
+   "backshear_km_median": 13.9
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 2265,
@@ -1970,6 +2450,18 @@
   "storm_wind_reports": 7,
   "storm_max_hail_in": 2.0,
   "storm_max_gust_kt": 80.0,
+  "goes": {
+   "coldest_c": -77.2,
+   "echo_to_minus50C_min": -9,
+   "echo_to_anvil_1000km2_min": -2,
+   "ot_fraction": 0.29,
+   "ot_diam_km_median": 6.4,
+   "anvil_major_minor_km": [
+    null,
+    null
+   ],
+   "backshear_km_median": null
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1399,
@@ -2010,6 +2502,18 @@
   "storm_wind_reports": 1,
   "storm_max_hail_in": 1.5,
   "storm_max_gust_kt": 50.0,
+  "goes": {
+   "coldest_c": -72.6,
+   "echo_to_minus50C_min": 20,
+   "echo_to_anvil_1000km2_min": 20,
+   "ot_fraction": 0.44,
+   "ot_diam_km_median": 9.4,
+   "anvil_major_minor_km": [
+    283.1,
+    170.2
+   ],
+   "backshear_km_median": 71.8
+  },
   "sounding": "hrrr_inflow",
   "env": {
    "mlcape": 1652,

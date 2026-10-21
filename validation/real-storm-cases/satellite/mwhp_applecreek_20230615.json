@@ -1,0 +1,5687 @@
+{
+ "case": "mwhp_applecreek_20230615",
+ "frame_centre_latlon": [
+  41.031,
+  -82.308
+ ],
+ "parallax_height_km": 12,
+ "method": "GOES-16 ABI L2 CMIP band 13; positions in km east/north of frame_centre, navigated at the cloud top (parallax-corrected); anvil = connected <= -50 C region touching the storm; OT after Bedka et al. 2010",
+ "summary": {
+  "scans": 59,
+  "sectors": [
+   "CONUS"
+  ],
+  "first_own_minus50C_top_utc": "2023-06-15T22:41:17",
+  "first_anvil_1000km2_utc": "2023-06-15T23:51:17",
+  "coldest_c": -64.6,
+  "coldest_utc": "2023-06-16T00:21:17",
+  "isolated_until_utc": null,
+  "first_echo_to_minus50C_min": -7,
+  "first_echo_to_anvil_1000km2_min": 63,
+  "shield_growth_first_hour_after_1000km2": {
+   "mean_km2_per_min": 125.8,
+   "mean_radial_spread_ms": 3.7
+  },
+  "largest_connected_shield_during_radar_life": {
+   "utc": "2023-06-16T01:31:17",
+   "area_km2": 40645
+  },
+  "growth_first_hour_after_1000km2": {
+   "mean_km2_per_min": null,
+   "mean_radial_spread_ms": null,
+   "minutes_used": 0
+  },
+  "max_growth_km2_per_min_isolated": null,
+  "largest_anvil_during_radar_life": {
+   "utc": "2023-06-16T00:01:17",
+   "area_km2_median_filtered": 1908,
+   "area_km2": 4594,
+   "extent_major_km": 106.1,
+   "extent_minor_km": 85.6,
+   "ellipse_major_km": 102.9,
+   "ellipse_minor_km": 78.1,
+   "major_axis_deg": 53,
+   "downstream_to_deg": 257,
+   "backshear_km": 13.2,
+   "upwind_of_radar_core_km": 5.5,
+   "downstream_reach_km": 93.5,
+   "edge_shared_with_other_anvils": 0.38,
+   "edge_of_box": false
+  },
+  "overshooting_tops": {
+   "scans_considered": 8,
+   "fraction_of_scans_with_ot": 0.5,
+   "episodes": 2,
+   "median_episode_min": 10.0,
+   "longest_episode_min": 10.0,
+   "diam_km_median_max": [
+    10.2,
+    15.3
+   ],
+   "depth_k_median_max": [
+    6.9,
+    7.7
+   ],
+   "note": "diameter is resolution-limited: one 2 km ABI pixel is ~2.5-3.5 km here, so OTs under ~5 km look ~5 km"
+  }
+ },
+ "scans": [
+  {
+   "utc": "2023-06-15T22:21:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -60.5,
+    45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 61.9,
+   "coldest_k": 213.4,
+   "coldest_c": -59.7,
+   "updraft_xy_km": [
+    -84.5,
+    74.0
+   ],
+   "updraft_from_radar_core_km": 37.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1195,
+    "centroid_xy_km": [
+     -72.1,
+     83.8
+    ],
+    "ellipse_major_km": 58.0,
+    "ellipse_minor_km": 31.4,
+    "major_axis_deg": 110,
+    "extent_major_km": 58.3,
+    "extent_minor_km": 38.4,
+    "downstream_to_deg": 52,
+    "updraft_to_centroid_km": 15.8,
+    "downstream_reach_km": 35.0,
+    "backshear_km": 6.7,
+    "upwind_of_radar_core_km": 7.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.92,
+    "connected_shield_km2": 18610,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:26:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -60.5,
+    45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 62.8,
+   "coldest_k": 212.1,
+   "coldest_c": -61.1,
+   "updraft_xy_km": [
+    -82.3,
+    73.9
+   ],
+   "updraft_from_radar_core_km": 36.2,
+   "ots": [
+    {
+     "x": -82.33101164188663,
+     "y": 73.92058844793705,
+     "bt_k": 212.1,
+     "depth_k": 7.7,
+     "diam_km": 4.1
+    }
+   ],
+   "anvil": {
+    "area_km2": 1802,
+    "centroid_xy_km": [
+     -81.9,
+     72.5
+    ],
+    "ellipse_major_km": 77.4,
+    "ellipse_minor_km": 40.2,
+    "major_axis_deg": 13,
+    "extent_major_km": 71.6,
+    "extent_minor_km": 44.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.73,
+    "connected_shield_km2": 19855,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:31:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -60.5,
+    45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 63.8,
+   "coldest_k": 213.0,
+   "coldest_c": -60.2,
+   "updraft_xy_km": [
+    -80.9,
+    61.3
+   ],
+   "updraft_from_radar_core_km": 26.1,
+   "ots": [
+    {
+     "x": -80.92507450865551,
+     "y": 61.28145747467813,
+     "bt_k": 213.0,
+     "depth_k": 7.4,
+     "diam_km": 6.5
+    }
+   ],
+   "anvil": {
+    "area_km2": 170,
+    "centroid_xy_km": [
+     -82.3,
+     65.7
+    ],
+    "ellipse_major_km": 17.4,
+    "ellipse_minor_km": 13.5,
+    "major_axis_deg": 134,
+    "extent_major_km": 17.7,
+    "extent_minor_km": 13.4,
+    "downstream_to_deg": 343,
+    "updraft_to_centroid_km": 4.6,
+    "downstream_reach_km": 11.4,
+    "backshear_km": 4.5,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 20950,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:36:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -60.5,
+    45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 64.7,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    -76.6,
+    61.2
+   ],
+   "updraft_from_radar_core_km": 22.8,
+   "ots": [
+    {
+     "x": -76.62174680002556,
+     "y": 61.17870038444483,
+     "bt_k": 212.6,
+     "depth_k": 7.4,
+     "diam_km": 10.4
+    }
+   ],
+   "anvil": {
+    "area_km2": 142,
+    "centroid_xy_km": [
+     -79.1,
+     65.6
+    ],
+    "ellipse_major_km": 16.7,
+    "ellipse_minor_km": 11.9,
+    "major_axis_deg": 152,
+    "extent_major_km": 16.0,
+    "extent_minor_km": 11.0,
+    "downstream_to_deg": 331,
+    "updraft_to_centroid_km": 5.0,
+    "downstream_reach_km": 12.1,
+    "backshear_km": 4.0,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 21842,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -60.5,
+    45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 65.6,
+   "coldest_k": 212.1,
+   "coldest_c": -61.1,
+   "updraft_xy_km": [
+    -79.5,
+    67.5
+   ],
+   "updraft_from_radar_core_km": 29.5,
+   "ots": [
+    {
+     "x": -79.47254415975365,
+     "y": 67.54532136180605,
+     "bt_k": 212.1,
+     "depth_k": 8.2,
+     "diam_km": 11.9
+    },
+    {
+     "x": -68.36143170696556,
+     "y": 64.13110692730292,
+     "bt_k": 214.1,
+     "depth_k": 6.6,
+     "diam_km": 13.9
+    }
+   ],
+   "anvil": {
+    "area_km2": 169,
+    "centroid_xy_km": [
+     -74.1,
+     64.5
+    ],
+    "ellipse_major_km": 21.1,
+    "ellipse_minor_km": 11.1,
+    "major_axis_deg": 100,
+    "extent_major_km": 17.6,
+    "extent_minor_km": 9.1,
+    "downstream_to_deg": 119,
+    "updraft_to_centroid_km": 6.2,
+    "downstream_reach_km": 15.1,
+    "backshear_km": 3.8,
+    "upwind_of_radar_core_km": 31.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 21679,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:46:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -60.5,
+    45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 66.5,
+   "coldest_k": 211.5,
+   "coldest_c": -61.6,
+   "updraft_xy_km": [
+    -68.4,
+    64.1
+   ],
+   "updraft_from_radar_core_km": 20.7,
+   "ots": [
+    {
+     "x": -68.36143170696556,
+     "y": 64.13110692730292,
+     "bt_k": 211.5,
+     "depth_k": 8.8,
+     "diam_km": 10.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 102,
+    "centroid_xy_km": [
+     -68.4,
+     64.1
+    ],
+    "ellipse_major_km": 12.9,
+    "ellipse_minor_km": 10.4,
+    "major_axis_deg": 108,
+    "extent_major_km": 10.8,
+    "extent_minor_km": 8.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 20552,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:51:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -59.9,
+    44.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -73.6,
+     26.6
+    ],
+    [
+     -1.9,
+     84.5
+    ],
+    [
+     -15.6,
+     100.8
+    ],
+    [
+     21.2,
+     103.6
+    ],
+    [
+     -21.7,
+     104.8
+    ]
+   ],
+   "solar_zenith_deg": 67.5,
+   "coldest_k": 211.9,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -73.8,
+    54.8
+   ],
+   "updraft_from_radar_core_km": 17.6,
+   "ots": [
+    {
+     "x": -73.77837440283335,
+     "y": 54.82151418471489,
+     "bt_k": 211.9,
+     "depth_k": 8.6,
+     "diam_km": 8.7
+    }
+   ],
+   "anvil": {
+    "area_km2": 250,
+    "centroid_xy_km": [
+     -71.4,
+     58.4
+    ],
+    "ellipse_major_km": 19.5,
+    "ellipse_minor_km": 17.1,
+    "major_axis_deg": 85,
+    "extent_major_km": 15.2,
+    "extent_minor_km": 13.6,
+    "downstream_to_deg": 33,
+    "updraft_to_centroid_km": 4.3,
+    "downstream_reach_km": 13.0,
+    "backshear_km": 4.7,
+    "upwind_of_radar_core_km": 3.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 22320,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T22:56:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -56.9,
+    39.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.1,
+     70.9
+    ],
+    [
+     -41.1,
+     90.3
+    ],
+    [
+     38.9,
+     99.4
+    ],
+    [
+     25.6,
+     103.2
+    ],
+    [
+     -72.3,
+     105.2
+    ]
+   ],
+   "solar_zenith_deg": 68.4,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    -67.3,
+    54.7
+   ],
+   "updraft_from_radar_core_km": 18.7,
+   "ots": [
+    {
+     "x": -67.33267512953702,
+     "y": 54.66961539017015,
+     "bt_k": 210.6,
+     "depth_k": 9.3,
+     "diam_km": 7.1
+    }
+   ],
+   "anvil": {
+    "area_km2": 1593,
+    "centroid_xy_km": [
+     -63.7,
+     43.2
+    ],
+    "ellipse_major_km": 56.3,
+    "ellipse_minor_km": 37.2,
+    "major_axis_deg": 141,
+    "extent_major_km": 59.5,
+    "extent_minor_km": 38.4,
+    "downstream_to_deg": 163,
+    "updraft_to_centroid_km": 12.0,
+    "downstream_reach_km": 37.5,
+    "backshear_km": 16.6,
+    "upwind_of_radar_core_km": 34.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.48,
+    "connected_shield_km2": 23253,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -53.8,
+    34.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.1,
+     70.9
+    ],
+    [
+     -41.1,
+     90.3
+    ],
+    [
+     38.9,
+     99.4
+    ],
+    [
+     25.6,
+     103.2
+    ],
+    [
+     -72.3,
+     105.2
+    ]
+   ],
+   "solar_zenith_deg": 69.4,
+   "coldest_k": 214.2,
+   "coldest_c": -59.0,
+   "updraft_xy_km": [
+    -62.7,
+    51.4
+   ],
+   "updraft_from_radar_core_km": 19.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 155,
+    "centroid_xy_km": [
+     -59.1,
+     55.0
+    ],
+    "ellipse_major_km": 17.2,
+    "ellipse_minor_km": 12.1,
+    "major_axis_deg": 179,
+    "extent_major_km": 12.8,
+    "extent_minor_km": 9.4,
+    "downstream_to_deg": 45,
+    "updraft_to_centroid_km": 5.1,
+    "downstream_reach_km": 11.9,
+    "backshear_km": 2.0,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 23724,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:06:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -53.1,
+    31.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.1,
+     70.9
+    ],
+    [
+     -41.1,
+     90.3
+    ],
+    [
+     38.9,
+     99.4
+    ],
+    [
+     25.6,
+     103.2
+    ],
+    [
+     -72.3,
+     105.2
+    ]
+   ],
+   "solar_zenith_deg": 70.3,
+   "coldest_k": 212.9,
+   "coldest_c": -60.3,
+   "updraft_xy_km": [
+    -52.6,
+    57.5
+   ],
+   "updraft_from_radar_core_km": 26.1,
+   "ots": [
+    {
+     "x": -52.63508724480641,
+     "y": 57.47201271142591,
+     "bt_k": 212.9,
+     "depth_k": 7.5,
+     "diam_km": 9.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 149,
+    "centroid_xy_km": [
+     -53.8,
+     56.1
+    ],
+    "ellipse_major_km": 16.9,
+    "ellipse_minor_km": 11.8,
+    "major_axis_deg": 121,
+    "extent_major_km": 15.1,
+    "extent_minor_km": 10.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 24286,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:11:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -53.2,
+    29.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -82.1,
+     42.5
+    ],
+    [
+     -74.9,
+     53.7
+    ],
+    [
+     -14.5,
+     63.9
+    ],
+    [
+     -17.4,
+     68.8
+    ],
+    [
+     39.4,
+     72.3
+    ],
+    [
+     19.0,
+     81.1
+    ],
+    [
+     -9.5,
+     101.5
+    ],
+    [
+     36.4,
+     102.5
+    ],
+    [
+     -60.3,
+     103.2
+    ],
+    [
+     20.8,
+     103.2
+    ]
+   ],
+   "solar_zenith_deg": 71.2,
+   "coldest_k": 213.7,
+   "coldest_c": -59.5,
+   "updraft_xy_km": [
+    -57.4,
+    41.9
+   ],
+   "updraft_from_radar_core_km": 13.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 656,
+    "centroid_xy_km": [
+     -57.0,
+     32.4
+    ],
+    "ellipse_major_km": 49.5,
+    "ellipse_minor_km": 25.4,
+    "major_axis_deg": 141,
+    "extent_major_km": 48.4,
+    "extent_minor_km": 31.3,
+    "downstream_to_deg": 178,
+    "updraft_to_centroid_km": 9.5,
+    "downstream_reach_km": 24.6,
+    "backshear_km": 16.5,
+    "upwind_of_radar_core_km": 29.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.96,
+    "connected_shield_km2": 24580,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:16:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -53.0,
+    27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -82.1,
+     42.5
+    ],
+    [
+     -74.9,
+     53.7
+    ],
+    [
+     -14.5,
+     63.9
+    ],
+    [
+     -17.4,
+     68.8
+    ],
+    [
+     39.4,
+     72.3
+    ],
+    [
+     19.0,
+     81.1
+    ],
+    [
+     -9.5,
+     101.5
+    ],
+    [
+     36.4,
+     102.5
+    ],
+    [
+     -60.3,
+     103.2
+    ],
+    [
+     20.8,
+     103.2
+    ]
+   ],
+   "solar_zenith_deg": 72.1,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    -57.5,
+    23.1
+   ],
+   "updraft_from_radar_core_km": 6.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 173,
+    "centroid_xy_km": [
+     -51.7,
+     24.2
+    ],
+    "ellipse_major_km": 18.0,
+    "ellipse_minor_km": 12.8,
+    "major_axis_deg": 115,
+    "extent_major_km": 16.6,
+    "extent_minor_km": 11.5,
+    "downstream_to_deg": 80,
+    "updraft_to_centroid_km": 6.0,
+    "downstream_reach_km": 12.8,
+    "backshear_km": 0.2,
+    "upwind_of_radar_core_km": 5.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 25296,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:21:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -47.6,
+    28.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -112.9,
+     3.6
+    ],
+    [
+     -65.1,
+     18.0
+    ],
+    [
+     -8.2,
+     50.1
+    ],
+    [
+     -2.9,
+     55.1
+    ],
+    [
+     15.1,
+     58.8
+    ],
+    [
+     -0.1,
+     66.7
+    ],
+    [
+     39.6,
+     73.2
+    ],
+    [
+     28.9,
+     75.8
+    ],
+    [
+     38.3,
+     79.3
+    ],
+    [
+     21.1,
+     82.6
+    ],
+    [
+     -35.2,
+     82.5
+    ],
+    [
+     27.8,
+     90.2
+    ],
+    [
+     -44.3,
+     90.9
+    ],
+    [
+     18.9,
+     96.5
+    ],
+    [
+     -4.5,
+     100.5
+    ],
+    [
+     -52.8,
+     102.1
+    ],
+    [
+     11.1,
+     99.2
+    ],
+    [
+     31.9,
+     102.5
+    ],
+    [
+     4.7,
+     104.4
+    ],
+    [
+     13.2,
+     105.7
+    ]
+   ],
+   "solar_zenith_deg": 73.1,
+   "coldest_k": 212.0,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -46.7,
+    41.6
+   ],
+   "updraft_from_radar_core_km": 13.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 830,
+    "centroid_xy_km": [
+     -49.7,
+     34.1
+    ],
+    "ellipse_major_km": 44.2,
+    "ellipse_minor_km": 27.9,
+    "major_axis_deg": 158,
+    "extent_major_km": 41.9,
+    "extent_minor_km": 33.8,
+    "downstream_to_deg": 202,
+    "updraft_to_centroid_km": 8.1,
+    "downstream_reach_km": 33.1,
+    "backshear_km": 9.9,
+    "upwind_of_radar_core_km": 22.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 25634,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:26:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -44.0,
+    27.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -107.9,
+     3.8
+    ],
+    [
+     -56.3,
+     15.0
+    ],
+    [
+     -73.4,
+     15.5
+    ],
+    [
+     22.9,
+     40.6
+    ],
+    [
+     28.9,
+     40.2
+    ],
+    [
+     27.5,
+     44.6
+    ],
+    [
+     32.8,
+     47.7
+    ],
+    [
+     23.1,
+     55.1
+    ],
+    [
+     1.2,
+     56.9
+    ],
+    [
+     9.4,
+     60.0
+    ],
+    [
+     -22.9,
+     81.2
+    ],
+    [
+     -0.2,
+     68.2
+    ],
+    [
+     42.2,
+     75.4
+    ],
+    [
+     35.2,
+     77.2
+    ],
+    [
+     1.6,
+     81.6
+    ],
+    [
+     23.9,
+     83.7
+    ],
+    [
+     22.2,
+     98.6
+    ],
+    [
+     -46.9,
+     99.7
+    ],
+    [
+     -38.4,
+     90.6
+    ],
+    [
+     3.4,
+     105.1
+    ]
+   ],
+   "solar_zenith_deg": 74.0,
+   "coldest_k": 211.9,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -52.4,
+    35.5
+   ],
+   "updraft_from_radar_core_km": 11.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 735,
+    "centroid_xy_km": [
+     -42.4,
+     30.7
+    ],
+    "ellipse_major_km": 45.9,
+    "ellipse_minor_km": 23.9,
+    "major_axis_deg": 145,
+    "extent_major_km": 44.2,
+    "extent_minor_km": 28.9,
+    "downstream_to_deg": 116,
+    "updraft_to_centroid_km": 11.1,
+    "downstream_reach_km": 34.1,
+    "backshear_km": 8.6,
+    "upwind_of_radar_core_km": 19.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 25998,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:31:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -40.5,
+    27.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -101.2,
+     3.7
+    ],
+    [
+     -65.1,
+     15.0
+    ],
+    [
+     35.1,
+     34.0
+    ],
+    [
+     30.7,
+     53.7
+    ],
+    [
+     -18.8,
+     81.0
+    ],
+    [
+     31.4,
+     71.2
+    ],
+    [
+     40.8,
+     77.8
+    ],
+    [
+     22.9,
+     76.2
+    ],
+    [
+     9.3,
+     79.1
+    ],
+    [
+     4.0,
+     82.5
+    ],
+    [
+     -5.0,
+     85.6
+    ],
+    [
+     -42.6,
+     97.4
+    ],
+    [
+     27.0,
+     97.4
+    ],
+    [
+     19.6,
+     88.1
+    ],
+    [
+     0.8,
+     100.2
+    ]
+   ],
+   "solar_zenith_deg": 74.9,
+   "coldest_k": 211.4,
+   "coldest_c": -61.7,
+   "updraft_xy_km": [
+    -52.4,
+    35.5
+   ],
+   "updraft_from_radar_core_km": 14.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 462,
+    "centroid_xy_km": [
+     -42.5,
+     35.7
+    ],
+    "ellipse_major_km": 32.9,
+    "ellipse_minor_km": 18.6,
+    "major_axis_deg": 166,
+    "extent_major_km": 28.9,
+    "extent_minor_km": 16.6,
+    "downstream_to_deg": 89,
+    "updraft_to_centroid_km": 9.9,
+    "downstream_reach_km": 18.1,
+    "backshear_km": 0.0,
+    "upwind_of_radar_core_km": 10.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 27001,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:36:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -37.0,
+    28.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -101.2,
+     3.7
+    ],
+    [
+     -65.1,
+     15.0
+    ],
+    [
+     35.1,
+     34.0
+    ],
+    [
+     30.7,
+     53.7
+    ],
+    [
+     -18.8,
+     81.0
+    ],
+    [
+     31.4,
+     71.2
+    ],
+    [
+     40.8,
+     77.8
+    ],
+    [
+     22.9,
+     76.2
+    ],
+    [
+     9.3,
+     79.1
+    ],
+    [
+     4.0,
+     82.5
+    ],
+    [
+     -5.0,
+     85.6
+    ],
+    [
+     -42.6,
+     97.4
+    ],
+    [
+     27.0,
+     97.4
+    ],
+    [
+     19.6,
+     88.1
+    ],
+    [
+     0.8,
+     100.2
+    ]
+   ],
+   "solar_zenith_deg": 75.8,
+   "coldest_k": 211.0,
+   "coldest_c": -62.2,
+   "updraft_xy_km": [
+    -45.7,
+    32.2
+   ],
+   "updraft_from_radar_core_km": 9.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 730,
+    "centroid_xy_km": [
+     -51.9,
+     35.8
+    ],
+    "ellipse_major_km": 59.9,
+    "ellipse_minor_km": 19.1,
+    "major_axis_deg": 102,
+    "extent_major_km": 58.5,
+    "extent_minor_km": 18.3,
+    "downstream_to_deg": 300,
+    "updraft_to_centroid_km": 7.2,
+    "downstream_reach_km": 41.4,
+    "backshear_km": 16.8,
+    "upwind_of_radar_core_km": 7.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.73,
+    "connected_shield_km2": 28142,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -34.9,
+    27.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -89.2,
+     3.0
+    ],
+    [
+     -107.4,
+     5.5
+    ],
+    [
+     -58.2,
+     13.3
+    ],
+    [
+     -78.2,
+     10.8
+    ],
+    [
+     -113.4,
+     19.9
+    ],
+    [
+     36.2,
+     45.6
+    ],
+    [
+     -9.8,
+     55.1
+    ],
+    [
+     -23.5,
+     86.9
+    ],
+    [
+     36.3,
+     72.1
+    ],
+    [
+     23.3,
+     72.8
+    ],
+    [
+     41.7,
+     79.3
+    ],
+    [
+     -1.0,
+     78.8
+    ],
+    [
+     7.9,
+     82.0
+    ],
+    [
+     26.7,
+     96.1
+    ],
+    [
+     4.7,
+     99.0
+    ],
+    [
+     35.5,
+     103.7
+    ]
+   ],
+   "solar_zenith_deg": 76.8,
+   "coldest_k": 209.9,
+   "coldest_c": -63.2,
+   "updraft_xy_km": [
+    -45.4,
+    29.1
+   ],
+   "updraft_from_radar_core_km": 10.6,
+   "ots": [
+    {
+     "x": -45.37545887346693,
+     "y": 29.089981916125158,
+     "bt_k": 209.9,
+     "depth_k": 6.6,
+     "diam_km": 18.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 401,
+    "centroid_xy_km": [
+     -38.2,
+     32.1
+    ],
+    "ellipse_major_km": 29.9,
+    "ellipse_minor_km": 17.8,
+    "major_axis_deg": 95,
+    "extent_major_km": 25.9,
+    "extent_minor_km": 14.0,
+    "downstream_to_deg": 67,
+    "updraft_to_centroid_km": 7.7,
+    "downstream_reach_km": 20.3,
+    "backshear_km": 4.8,
+    "upwind_of_radar_core_km": 13.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 29115,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:46:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -32.2,
+    24.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -69.1,
+     7.0
+    ],
+    [
+     -49.9,
+     11.1
+    ],
+    [
+     7.8,
+     24.5
+    ],
+    [
+     46.8,
+     41.5
+    ],
+    [
+     42.0,
+     30.3
+    ],
+    [
+     16.0,
+     32.6
+    ],
+    [
+     66.4,
+     38.2
+    ],
+    [
+     60.2,
+     42.4
+    ],
+    [
+     65.0,
+     45.5
+    ],
+    [
+     28.0,
+     49.8
+    ],
+    [
+     32.6,
+     49.0
+    ],
+    [
+     22.9,
+     52.5
+    ],
+    [
+     55.7,
+     63.6
+    ],
+    [
+     34.1,
+     58.4
+    ],
+    [
+     70.9,
+     59.1
+    ],
+    [
+     -8.8,
+     67.4
+    ],
+    [
+     68.3,
+     67.4
+    ],
+    [
+     73.1,
+     67.0
+    ],
+    [
+     36.6,
+     69.4
+    ]
+   ],
+   "solar_zenith_deg": 77.7,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    -38.6,
+    25.8
+   ],
+   "updraft_from_radar_core_km": 6.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1498,
+    "centroid_xy_km": [
+     -47.4,
+     31.5
+    ],
+    "ellipse_major_km": 62.5,
+    "ellipse_minor_km": 44.4,
+    "major_axis_deg": 107,
+    "extent_major_km": 66.8,
+    "extent_minor_km": 56.2,
+    "downstream_to_deg": 303,
+    "updraft_to_centroid_km": 10.4,
+    "downstream_reach_km": 48.2,
+    "backshear_km": 16.2,
+    "upwind_of_radar_core_km": 10.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.71,
+    "connected_shield_km2": 29951,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:51:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -28.9,
+    21.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -65.6,
+     3.8
+    ],
+    [
+     17.5,
+     21.3
+    ],
+    [
+     51.9,
+     42.0
+    ],
+    [
+     20.5,
+     33.5
+    ],
+    [
+     60.2,
+     44.5
+    ],
+    [
+     30.0,
+     49.9
+    ],
+    [
+     58.8,
+     50.7
+    ],
+    [
+     72.8,
+     50.1
+    ],
+    [
+     44.8,
+     54.2
+    ],
+    [
+     68.2,
+     54.2
+    ],
+    [
+     80.5,
+     59.3
+    ],
+    [
+     57.9,
+     64.8
+    ],
+    [
+     52.1,
+     60.7
+    ],
+    [
+     72.8,
+     61.4
+    ],
+    [
+     -4.0,
+     66.6
+    ],
+    [
+     43.1,
+     65.0
+    ],
+    [
+     32.8,
+     66.3
+    ],
+    [
+     71.8,
+     68.6
+    ],
+    [
+     77.6,
+     68.8
+    ]
+   ],
+   "solar_zenith_deg": 78.6,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    -50.6,
+    38.6
+   ],
+   "updraft_from_radar_core_km": 27.7,
+   "ots": [
+    {
+     "x": -50.6390606504831,
+     "y": 38.59650644866243,
+     "bt_k": 210.6,
+     "depth_k": 7.7,
+     "diam_km": 9.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 193,
+    "centroid_xy_km": [
+     -29.9,
+     20.8
+    ],
+    "ellipse_major_km": 18.1,
+    "ellipse_minor_km": 14.4,
+    "major_axis_deg": 93,
+    "extent_major_km": 14.9,
+    "extent_minor_km": 9.8,
+    "downstream_to_deg": 131,
+    "updraft_to_centroid_km": 27.3,
+    "downstream_reach_km": 35.8,
+    "backshear_km": 0.0,
+    "upwind_of_radar_core_km": 8.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 30822,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-15T23:56:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -25.2,
+    19.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -65.6,
+     3.8
+    ],
+    [
+     17.5,
+     21.3
+    ],
+    [
+     51.9,
+     42.0
+    ],
+    [
+     20.5,
+     33.5
+    ],
+    [
+     60.2,
+     44.5
+    ],
+    [
+     30.0,
+     49.9
+    ],
+    [
+     58.8,
+     50.7
+    ],
+    [
+     72.8,
+     50.1
+    ],
+    [
+     44.8,
+     54.2
+    ],
+    [
+     68.2,
+     54.2
+    ],
+    [
+     80.5,
+     59.3
+    ],
+    [
+     57.9,
+     64.8
+    ],
+    [
+     52.1,
+     60.7
+    ],
+    [
+     72.8,
+     61.4
+    ],
+    [
+     -4.0,
+     66.6
+    ],
+    [
+     43.1,
+     65.0
+    ],
+    [
+     32.8,
+     66.3
+    ],
+    [
+     71.8,
+     68.6
+    ],
+    [
+     77.6,
+     68.8
+    ]
+   ],
+   "solar_zenith_deg": 79.5,
+   "coldest_k": 210.2,
+   "coldest_c": -63.0,
+   "updraft_xy_km": [
+    -27.7,
+    22.4
+   ],
+   "updraft_from_radar_core_km": 4.2,
+   "ots": [
+    {
+     "x": -27.650693656874793,
+     "y": 22.44811284238173,
+     "bt_k": 210.2,
+     "depth_k": 7.0,
+     "diam_km": 7.1
+    }
+   ],
+   "anvil": {
+    "area_km2": 1410,
+    "centroid_xy_km": [
+     -49.2,
+     30.0
+    ],
+    "ellipse_major_km": 60.9,
+    "ellipse_minor_km": 34.3,
+    "major_axis_deg": 121,
+    "extent_major_km": 61.7,
+    "extent_minor_km": 39.3,
+    "downstream_to_deg": 289,
+    "updraft_to_centroid_km": 22.9,
+    "downstream_reach_km": 55.6,
+    "backshear_km": 5.3,
+    "upwind_of_radar_core_km": 1.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.63,
+    "connected_shield_km2": 31236,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -21.8,
+    16.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -59.8,
+     5.5
+    ],
+    [
+     12.2,
+     11.5
+    ],
+    [
+     16.0,
+     18.1
+    ],
+    [
+     60.4,
+     26.0
+    ],
+    [
+     35.1,
+     26.1
+    ],
+    [
+     70.4,
+     28.7
+    ],
+    [
+     57.3,
+     41.5
+    ],
+    [
+     -70.6,
+     31.1
+    ],
+    [
+     74.8,
+     38.6
+    ],
+    [
+     46.9,
+     40.4
+    ],
+    [
+     33.1,
+     48.2
+    ],
+    [
+     76.1,
+     50.2
+    ],
+    [
+     13.1,
+     52.5
+    ],
+    [
+     44.8,
+     56.0
+    ],
+    [
+     59.3,
+     64.9
+    ],
+    [
+     1.5,
+     65.6
+    ],
+    [
+     77.6,
+     65.0
+    ],
+    [
+     48.1,
+     62.8
+    ],
+    [
+     85.8,
+     65.9
+    ],
+    [
+     41.1,
+     65.2
+    ]
+   ],
+   "solar_zenith_deg": 80.4,
+   "coldest_k": 211.9,
+   "coldest_c": -61.2,
+   "updraft_xy_km": [
+    -28.8,
+    13.1
+   ],
+   "updraft_from_radar_core_km": 8.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 4594,
+    "centroid_xy_km": [
+     -64.3,
+     5.0
+    ],
+    "ellipse_major_km": 102.9,
+    "ellipse_minor_km": 78.1,
+    "major_axis_deg": 53,
+    "extent_major_km": 106.1,
+    "extent_minor_km": 85.6,
+    "downstream_to_deg": 257,
+    "updraft_to_centroid_km": 36.4,
+    "downstream_reach_km": 93.5,
+    "backshear_km": 13.2,
+    "upwind_of_radar_core_km": 5.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.38,
+    "connected_shield_km2": 34399,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:06:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -18.9,
+    13.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     69.0,
+     24.3
+    ],
+    [
+     34.3,
+     30.9
+    ],
+    [
+     47.4,
+     24.5
+    ],
+    [
+     64.2,
+     49.4
+    ],
+    [
+     83.6,
+     36.4
+    ],
+    [
+     31.4,
+     46.5
+    ],
+    [
+     25.2,
+     48.7
+    ],
+    [
+     15.7,
+     54.2
+    ],
+    [
+     6.4,
+     63.8
+    ],
+    [
+     82.8,
+     61.4
+    ],
+    [
+     57.9,
+     69.4
+    ]
+   ],
+   "solar_zenith_deg": 81.3,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    -28.2,
+    6.9
+   ],
+   "updraft_from_radar_core_km": 11.4,
+   "ots": [
+    {
+     "x": -28.205305688617425,
+     "y": 6.878130533021156,
+     "bt_k": 210.7,
+     "depth_k": 6.7,
+     "diam_km": 15.3
+    }
+   ],
+   "anvil": {
+    "area_km2": 1908,
+    "centroid_xy_km": [
+     -40.0,
+     35.4
+    ],
+    "ellipse_major_km": 67.5,
+    "ellipse_minor_km": 47.5,
+    "major_axis_deg": 130,
+    "extent_major_km": 69.0,
+    "extent_minor_km": 50.2,
+    "downstream_to_deg": 337,
+    "updraft_to_centroid_km": 30.9,
+    "downstream_reach_km": 58.3,
+    "backshear_km": 10.7,
+    "upwind_of_radar_core_km": 13.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.87,
+    "connected_shield_km2": 35153,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:11:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -15.6,
+    9.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     75.6,
+     21.3
+    ],
+    [
+     44.2,
+     23.6
+    ],
+    [
+     67.8,
+     49.2
+    ],
+    [
+     63.4,
+     29.1
+    ],
+    [
+     38.7,
+     31.4
+    ],
+    [
+     80.7,
+     32.3
+    ],
+    [
+     30.9,
+     34.9
+    ],
+    [
+     83.5,
+     36.1
+    ],
+    [
+     66.0,
+     46.5
+    ],
+    [
+     62.3,
+     49.9
+    ],
+    [
+     11.9,
+     62.1
+    ],
+    [
+     46.5,
+     68.3
+    ],
+    [
+     81.2,
+     68.8
+    ]
+   ],
+   "solar_zenith_deg": 82.2,
+   "coldest_k": 209.6,
+   "coldest_c": -63.5,
+   "updraft_xy_km": [
+    -25.8,
+    3.7
+   ],
+   "updraft_from_radar_core_km": 11.6,
+   "ots": [
+    {
+     "x": -25.764624074359674,
+     "y": 3.7145341146686226,
+     "bt_k": 209.6,
+     "depth_k": 6.8,
+     "diam_km": 11.2
+    }
+   ],
+   "anvil": {
+    "area_km2": 8541,
+    "centroid_xy_km": [
+     -35.7,
+     -5.2
+    ],
+    "ellipse_major_km": 138.5,
+    "ellipse_minor_km": 90.1,
+    "major_axis_deg": 110,
+    "extent_major_km": 142.1,
+    "extent_minor_km": 101.1,
+    "downstream_to_deg": 228,
+    "updraft_to_centroid_km": 13.3,
+    "downstream_reach_km": 70.4,
+    "backshear_km": 34.6,
+    "upwind_of_radar_core_km": 23.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.28,
+    "connected_shield_km2": 35954,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:16:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -11.8,
+    4.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     75.6,
+     21.3
+    ],
+    [
+     44.2,
+     23.6
+    ],
+    [
+     67.8,
+     49.2
+    ],
+    [
+     63.4,
+     29.1
+    ],
+    [
+     38.7,
+     31.4
+    ],
+    [
+     80.7,
+     32.3
+    ],
+    [
+     30.9,
+     34.9
+    ],
+    [
+     83.5,
+     36.1
+    ],
+    [
+     66.0,
+     46.5
+    ],
+    [
+     62.3,
+     49.9
+    ],
+    [
+     11.9,
+     62.1
+    ],
+    [
+     46.5,
+     68.3
+    ],
+    [
+     81.2,
+     68.8
+    ]
+   ],
+   "solar_zenith_deg": 83.1,
+   "coldest_k": 209.5,
+   "coldest_c": -63.6,
+   "updraft_xy_km": [
+    -36.7,
+    7.1
+   ],
+   "updraft_from_radar_core_km": 25.0,
+   "ots": [
+    {
+     "x": -36.7197453388521,
+     "y": 7.065806428082536,
+     "bt_k": 209.5,
+     "depth_k": 7.1,
+     "diam_km": 10.8
+    }
+   ],
+   "anvil": {
+    "area_km2": 139,
+    "centroid_xy_km": [
+     -34.6,
+     5.1
+    ],
+    "ellipse_major_km": 15.5,
+    "ellipse_minor_km": 12.5,
+    "major_axis_deg": 178,
+    "extent_major_km": 12.5,
+    "extent_minor_km": 9.1,
+    "downstream_to_deg": 133,
+    "updraft_to_centroid_km": 2.9,
+    "downstream_reach_km": 9.5,
+    "backshear_km": 3.9,
+    "upwind_of_radar_core_km": 23.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 36669,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:21:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -7.7,
+    0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     86.9,
+     16.8
+    ],
+    [
+     79.0,
+     20.6
+    ],
+    [
+     68.1,
+     49.0
+    ],
+    [
+     86.4,
+     27.5
+    ],
+    [
+     70.2,
+     29.2
+    ],
+    [
+     72.4,
+     46.2
+    ],
+    [
+     22.7,
+     50.4
+    ],
+    [
+     16.1,
+     62.0
+    ],
+    [
+     -15.3,
+     69.4
+    ]
+   ],
+   "solar_zenith_deg": 84.0,
+   "coldest_k": 208.6,
+   "coldest_c": -64.6,
+   "updraft_xy_km": [
+    -26.1,
+    6.8
+   ],
+   "updraft_from_radar_core_km": 19.5,
+   "ots": [
+    {
+     "x": -26.077332567657795,
+     "y": 6.831609437725044,
+     "bt_k": 208.6,
+     "depth_k": 6.8,
+     "diam_km": 16.1
+    }
+   ],
+   "anvil": {
+    "area_km2": 192,
+    "centroid_xy_km": [
+     -26.1,
+     5.6
+    ],
+    "ellipse_major_km": 21.3,
+    "ellipse_minor_km": 11.9,
+    "major_axis_deg": 175,
+    "extent_major_km": 16.4,
+    "extent_minor_km": 8.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37292,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:26:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -4.8,
+    -1.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.0,
+     7.7
+    ],
+    [
+     29.2,
+     16.5
+    ],
+    [
+     84.8,
+     20.5
+    ],
+    [
+     66.9,
+     20.1
+    ],
+    [
+     51.9,
+     24.7
+    ],
+    [
+     80.6,
+     37.2
+    ],
+    [
+     48.7,
+     28.4
+    ],
+    [
+     45.6,
+     30.0
+    ],
+    [
+     72.6,
+     30.7
+    ],
+    [
+     77.7,
+     62.2
+    ],
+    [
+     19.8,
+     61.3
+    ],
+    [
+     -9.9,
+     68.2
+    ]
+   ],
+   "solar_zenith_deg": 84.9,
+   "coldest_k": 209.2,
+   "coldest_c": -63.9,
+   "updraft_xy_km": [
+    -19.4,
+    3.6
+   ],
+   "updraft_from_radar_core_km": 15.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 231,
+    "centroid_xy_km": [
+     -18.3,
+     4.3
+    ],
+    "ellipse_major_km": 23.7,
+    "ellipse_minor_km": 14.4,
+    "major_axis_deg": 152,
+    "extent_major_km": 20.8,
+    "extent_minor_km": 14.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37255,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:31:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -2.2,
+    -3.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -57.2,
+     -0.4
+    ],
+    [
+     44.7,
+     32.0
+    ],
+    [
+     87.8,
+     23.4
+    ],
+    [
+     16.3,
+     23.7
+    ],
+    [
+     20.4,
+     29.5
+    ],
+    [
+     84.9,
+     42.0
+    ],
+    [
+     59.5,
+     45.1
+    ],
+    [
+     24.3,
+     60.5
+    ],
+    [
+     77.0,
+     63.3
+    ],
+    [
+     -5.3,
+     66.3
+    ]
+   ],
+   "solar_zenith_deg": 85.8,
+   "coldest_k": 209.8,
+   "coldest_c": -63.3,
+   "updraft_xy_km": [
+    -8.8,
+    3.3
+   ],
+   "updraft_from_radar_core_km": 9.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 463,
+    "centroid_xy_km": [
+     -11.6,
+     8.4
+    ],
+    "ellipse_major_km": 28.3,
+    "ellipse_minor_km": 21.7,
+    "major_axis_deg": 171,
+    "extent_major_km": 24.1,
+    "extent_minor_km": 17.9,
+    "downstream_to_deg": 331,
+    "updraft_to_centroid_km": 5.8,
+    "downstream_reach_km": 19.8,
+    "backshear_km": 6.8,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37158,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:36:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    0.5,
+    -4.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -57.2,
+     -0.4
+    ],
+    [
+     44.7,
+     32.0
+    ],
+    [
+     87.8,
+     23.4
+    ],
+    [
+     16.3,
+     23.7
+    ],
+    [
+     20.4,
+     29.5
+    ],
+    [
+     84.9,
+     42.0
+    ],
+    [
+     59.5,
+     45.1
+    ],
+    [
+     24.3,
+     60.5
+    ],
+    [
+     77.0,
+     63.3
+    ],
+    [
+     -5.3,
+     66.3
+    ]
+   ],
+   "solar_zenith_deg": 86.6,
+   "coldest_k": 209.9,
+   "coldest_c": -63.2,
+   "updraft_xy_km": [
+    -21.8,
+    6.7
+   ],
+   "updraft_from_radar_core_km": 25.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1628,
+    "centroid_xy_km": [
+     -15.1,
+     7.0
+    ],
+    "ellipse_major_km": 51.7,
+    "ellipse_minor_km": 45.5,
+    "major_axis_deg": 124,
+    "extent_major_km": 54.6,
+    "extent_minor_km": 51.9,
+    "downstream_to_deg": 88,
+    "updraft_to_centroid_km": 6.7,
+    "downstream_reach_km": 31.5,
+    "backshear_km": 15.9,
+    "upwind_of_radar_core_km": 37.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37379,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    3.8,
+    -6.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -70.5,
+     -8.7
+    ],
+    [
+     46.4,
+     31.3
+    ],
+    [
+     8.2,
+     21.0
+    ],
+    [
+     67.2,
+     24.9
+    ],
+    [
+     79.1,
+     27.7
+    ],
+    [
+     0.2,
+     47.5
+    ],
+    [
+     16.4,
+     61.7
+    ],
+    [
+     62.5,
+     58.2
+    ],
+    [
+     82.0,
+     64.3
+    ],
+    [
+     65.1,
+     64.3
+    ],
+    [
+     57.2,
+     65.4
+    ]
+   ],
+   "solar_zenith_deg": 87.5,
+   "coldest_k": 210.8,
+   "coldest_c": -62.3,
+   "updraft_xy_km": [
+    -0.3,
+    3.2
+   ],
+   "updraft_from_radar_core_km": 10.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 211,
+    "centroid_xy_km": [
+     2.0,
+     1.8
+    ],
+    "ellipse_major_km": 22.5,
+    "ellipse_minor_km": 13.3,
+    "major_axis_deg": 180,
+    "extent_major_km": 18.6,
+    "extent_minor_km": 12.4,
+    "downstream_to_deg": 122,
+    "updraft_to_centroid_km": 2.6,
+    "downstream_reach_km": 11.1,
+    "backshear_km": 5.6,
+    "upwind_of_radar_core_km": 14.3,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37233,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:46:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    7.1,
+    -9.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -74.7,
+     -8.5
+    ],
+    [
+     24.5,
+     11.3
+    ],
+    [
+     31.3,
+     14.4
+    ],
+    [
+     -69.2,
+     18.9
+    ],
+    [
+     54.3,
+     14.0
+    ],
+    [
+     35.4,
+     45.0
+    ],
+    [
+     7.7,
+     33.2
+    ],
+    [
+     77.9,
+     24.4
+    ],
+    [
+     28.0,
+     23.7
+    ],
+    [
+     55.7,
+     41.1
+    ],
+    [
+     72.1,
+     41.8
+    ],
+    [
+     67.3,
+     63.3
+    ]
+   ],
+   "solar_zenith_deg": 88.4,
+   "coldest_k": 209.6,
+   "coldest_c": -63.5,
+   "updraft_xy_km": [
+    -26.1,
+    6.8
+   ],
+   "updraft_from_radar_core_km": 36.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 258,
+    "centroid_xy_km": [
+     -25.8,
+     8.8
+    ],
+    "ellipse_major_km": 22.5,
+    "ellipse_minor_km": 15.5,
+    "major_axis_deg": 158,
+    "extent_major_km": 20.1,
+    "extent_minor_km": 14.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37296,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:51:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    9.9,
+    -10.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -69.0,
+     -2.9
+    ],
+    [
+     58.8,
+     26.7
+    ],
+    [
+     -61.0,
+     17.1
+    ],
+    [
+     28.5,
+     15.4
+    ],
+    [
+     13.6,
+     32.4
+    ],
+    [
+     27.6,
+     37.2
+    ],
+    [
+     80.8,
+     37.9
+    ],
+    [
+     22.8,
+     58.4
+    ],
+    [
+     73.4,
+     62.2
+    ]
+   ],
+   "solar_zenith_deg": 89.2,
+   "coldest_k": 209.4,
+   "coldest_c": -63.8,
+   "updraft_xy_km": [
+    -21.8,
+    6.7
+   ],
+   "updraft_from_radar_core_km": 36.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 159,
+    "centroid_xy_km": [
+     -19.6,
+     3.8
+    ],
+    "ellipse_major_km": 17.6,
+    "ellipse_minor_km": 11.9,
+    "major_axis_deg": 175,
+    "extent_major_km": 13.2,
+    "extent_minor_km": 8.6,
+    "downstream_to_deg": 142,
+    "updraft_to_centroid_km": 3.7,
+    "downstream_reach_km": 10.6,
+    "backshear_km": 4.0,
+    "upwind_of_radar_core_km": 37.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37432,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T00:56:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    12.6,
+    -12.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -69.0,
+     -2.9
+    ],
+    [
+     58.8,
+     26.7
+    ],
+    [
+     -61.0,
+     17.1
+    ],
+    [
+     28.5,
+     15.4
+    ],
+    [
+     13.6,
+     32.4
+    ],
+    [
+     27.6,
+     37.2
+    ],
+    [
+     80.8,
+     37.9
+    ],
+    [
+     22.8,
+     58.4
+    ],
+    [
+     73.4,
+     62.2
+    ]
+   ],
+   "solar_zenith_deg": 90.0,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    -20.0,
+    9.8
+   ],
+   "updraft_from_radar_core_km": 39.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 159,
+    "centroid_xy_km": [
+     -19.8,
+     6.4
+    ],
+    "ellipse_major_km": 18.1,
+    "ellipse_minor_km": 11.6,
+    "major_axis_deg": 163,
+    "extent_major_km": 14.9,
+    "extent_minor_km": 9.9,
+    "downstream_to_deg": 177,
+    "updraft_to_centroid_km": 3.4,
+    "downstream_reach_km": 9.7,
+    "backshear_km": 3.4,
+    "upwind_of_radar_core_km": 27.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37826,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    15.4,
+    -13.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     39.4,
+     -18.6
+    ],
+    [
+     -75.9,
+     -16.5
+    ],
+    [
+     38.5,
+     2.8
+    ],
+    [
+     -53.4,
+     15.7
+    ],
+    [
+     36.7,
+     16.0
+    ],
+    [
+     64.7,
+     26.4
+    ],
+    [
+     72.4,
+     15.8
+    ],
+    [
+     12.0,
+     18.3
+    ],
+    [
+     20.2,
+     31.6
+    ],
+    [
+     45.1,
+     20.5
+    ],
+    [
+     39.5,
+     24.1
+    ],
+    [
+     80.4,
+     33.1
+    ],
+    [
+     32.4,
+     35.5
+    ],
+    [
+     25.1,
+     58.2
+    ],
+    [
+     76.2,
+     63.3
+    ]
+   ],
+   "solar_zenith_deg": 90.9,
+   "coldest_k": 211.7,
+   "coldest_c": -61.4,
+   "updraft_xy_km": [
+    -8.2,
+    -2.9
+   ],
+   "updraft_from_radar_core_km": 25.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 309,
+    "centroid_xy_km": [
+     14.8,
+     -7.4
+    ],
+    "ellipse_major_km": 25.6,
+    "ellipse_minor_km": 23.0,
+    "major_axis_deg": 164,
+    "extent_major_km": 28.9,
+    "extent_minor_km": 24.6,
+    "downstream_to_deg": 101,
+    "updraft_to_centroid_km": 23.4,
+    "downstream_reach_km": 37.6,
+    "backshear_km": 0.0,
+    "upwind_of_radar_core_km": 11.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38113,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:06:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    19.0,
+    -16.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     4.7,
+     -22.4
+    ],
+    [
+     -72.3,
+     -19.0
+    ],
+    [
+     17.2,
+     7.6
+    ],
+    [
+     70.2,
+     8.7
+    ],
+    [
+     -45.2,
+     13.8
+    ],
+    [
+     68.1,
+     24.4
+    ],
+    [
+     39.1,
+     12.5
+    ],
+    [
+     40.1,
+     16.4
+    ],
+    [
+     28.5,
+     29.0
+    ],
+    [
+     42.9,
+     39.1
+    ],
+    [
+     -28.1,
+     39.6
+    ],
+    [
+     28.3,
+     56.9
+    ],
+    [
+     -27.1,
+     59.8
+    ],
+    [
+     79.3,
+     63.7
+    ]
+   ],
+   "solar_zenith_deg": 91.7,
+   "coldest_k": 212.9,
+   "coldest_c": -60.3,
+   "updraft_xy_km": [
+    16.3,
+    -15.8
+   ],
+   "updraft_from_radar_core_km": 2.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 263,
+    "centroid_xy_km": [
+     14.0,
+     -10.1
+    ],
+    "ellipse_major_km": 32.9,
+    "ellipse_minor_km": 14.5,
+    "major_axis_deg": 156,
+    "extent_major_km": 27.9,
+    "extent_minor_km": 15.4,
+    "downstream_to_deg": 337,
+    "updraft_to_centroid_km": 6.2,
+    "downstream_reach_km": 20.9,
+    "backshear_km": 6.8,
+    "upwind_of_radar_core_km": 5.6,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38514,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:11:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    21.8,
+    -16.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     78.5,
+     3.0
+    ],
+    [
+     -34.4,
+     3.1
+    ],
+    [
+     -38.1,
+     11.7
+    ],
+    [
+     71.8,
+     18.7
+    ],
+    [
+     33.4,
+     13.6
+    ],
+    [
+     47.9,
+     18.2
+    ],
+    [
+     34.9,
+     30.3
+    ],
+    [
+     79.2,
+     25.5
+    ],
+    [
+     81.6,
+     28.2
+    ],
+    [
+     72.9,
+     32.3
+    ],
+    [
+     45.6,
+     39.2
+    ],
+    [
+     31.7,
+     55.5
+    ],
+    [
+     -20.1,
+     58.8
+    ],
+    [
+     77.6,
+     64.2
+    ]
+   ],
+   "solar_zenith_deg": 92.5,
+   "coldest_k": 212.3,
+   "coldest_c": -60.9,
+   "updraft_xy_km": [
+    -1.2,
+    -9.2
+   ],
+   "updraft_from_radar_core_km": 24.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 448,
+    "centroid_xy_km": [
+     13.9,
+     -40.7
+    ],
+    "ellipse_major_km": 33.9,
+    "ellipse_minor_km": 18.9,
+    "major_axis_deg": 92,
+    "extent_major_km": 31.6,
+    "extent_minor_km": 19.0,
+    "downstream_to_deg": 154,
+    "updraft_to_centroid_km": 34.9,
+    "downstream_reach_km": 47.4,
+    "backshear_km": 0.0,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38689,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:16:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    24.5,
+    -17.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.1,
+     -36.4
+    ],
+    [
+     76.1,
+     17.4
+    ],
+    [
+     50.7,
+     7.3
+    ],
+    [
+     -32.6,
+     8.3
+    ],
+    [
+     40.1,
+     8.5
+    ],
+    [
+     58.2,
+     18.0
+    ],
+    [
+     49.4,
+     16.5
+    ],
+    [
+     39.4,
+     29.9
+    ],
+    [
+     34.2,
+     53.9
+    ],
+    [
+     -29.7,
+     49.5
+    ],
+    [
+     -15.7,
+     56.2
+    ],
+    [
+     80.1,
+     62.1
+    ]
+   ],
+   "solar_zenith_deg": 93.3,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    10.4,
+    2.9
+   ],
+   "updraft_from_radar_core_km": 24.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2023-06-16T01:21:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    27.7,
+    -18.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.1,
+     -36.4
+    ],
+    [
+     76.1,
+     17.4
+    ],
+    [
+     50.7,
+     7.3
+    ],
+    [
+     -32.6,
+     8.3
+    ],
+    [
+     40.1,
+     8.5
+    ],
+    [
+     58.2,
+     18.0
+    ],
+    [
+     49.4,
+     16.5
+    ],
+    [
+     39.4,
+     29.9
+    ],
+    [
+     34.2,
+     53.9
+    ],
+    [
+     -29.7,
+     49.5
+    ],
+    [
+     -15.7,
+     56.2
+    ],
+    [
+     80.1,
+     62.1
+    ]
+   ],
+   "solar_zenith_deg": 94.1,
+   "coldest_k": 211.4,
+   "coldest_c": -61.7,
+   "updraft_xy_km": [
+    -1.2,
+    -9.2
+   ],
+   "updraft_from_radar_core_km": 30.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 672,
+    "centroid_xy_km": [
+     -7.2,
+     -2.5
+    ],
+    "ellipse_major_km": 49.9,
+    "ellipse_minor_km": 18.5,
+    "major_axis_deg": 165,
+    "extent_major_km": 51.6,
+    "extent_minor_km": 17.3,
+    "downstream_to_deg": 318,
+    "updraft_to_centroid_km": 9.0,
+    "downstream_reach_km": 36.5,
+    "backshear_km": 14.4,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 40204,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:26:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    30.6,
+    -18.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     50.0,
+     -43.0
+    ],
+    [
+     -71.3,
+     -27.6
+    ],
+    [
+     43.3,
+     -4.1
+    ],
+    [
+     38.0,
+     1.6
+    ],
+    [
+     2.1,
+     24.2
+    ],
+    [
+     44.8,
+     5.8
+    ],
+    [
+     54.2,
+     8.5
+    ],
+    [
+     -5.2,
+     13.4
+    ],
+    [
+     74.9,
+     17.3
+    ],
+    [
+     81.7,
+     13.4
+    ],
+    [
+     62.8,
+     14.8
+    ],
+    [
+     1.2,
+     15.2
+    ],
+    [
+     55.1,
+     19.1
+    ],
+    [
+     59.4,
+     22.1
+    ],
+    [
+     51.3,
+     35.6
+    ],
+    [
+     36.4,
+     37.5
+    ],
+    [
+     39.6,
+     51.4
+    ],
+    [
+     34.9,
+     44.1
+    ],
+    [
+     -44.2,
+     45.1
+    ],
+    [
+     -12.9,
+     53.4
+    ]
+   ],
+   "solar_zenith_deg": 94.9,
+   "coldest_k": 210.4,
+   "coldest_c": -62.7,
+   "updraft_xy_km": [
+    1.8,
+    -18.6
+   ],
+   "updraft_from_radar_core_km": 28.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 184,
+    "centroid_xy_km": [
+     6.0,
+     -14.5
+    ],
+    "ellipse_major_km": 21.1,
+    "ellipse_minor_km": 11.6,
+    "major_axis_deg": 178,
+    "extent_major_km": 15.9,
+    "extent_minor_km": 9.0,
+    "downstream_to_deg": 45,
+    "updraft_to_centroid_km": 5.8,
+    "downstream_reach_km": 13.8,
+    "backshear_km": 2.0,
+    "upwind_of_radar_core_km": 22.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 40241,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:31:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    33.4,
+    -20.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     54.3,
+     -43.4
+    ],
+    [
+     -76.4,
+     -31.3
+    ],
+    [
+     55.2,
+     3.6
+    ],
+    [
+     59.9,
+     8.4
+    ],
+    [
+     21.0,
+     15.3
+    ],
+    [
+     71.5,
+     12.8
+    ],
+    [
+     -2.2,
+     12.4
+    ],
+    [
+     -37.8,
+     17.2
+    ],
+    [
+     0.0,
+     29.4
+    ],
+    [
+     79.6,
+     19.4
+    ],
+    [
+     46.9,
+     48.4
+    ],
+    [
+     28.2,
+     42.9
+    ],
+    [
+     -37.0,
+     43.9
+    ],
+    [
+     -5.6,
+     52.2
+    ],
+    [
+     -29.1,
+     55.3
+    ],
+    [
+     27.6,
+     58.4
+    ]
+   ],
+   "solar_zenith_deg": 95.7,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    10.3,
+    -18.8
+   ],
+   "updraft_from_radar_core_km": 23.2,
+   "ots": [],
+   "anvil": {
+    "area_km2": 249,
+    "centroid_xy_km": [
+     11.7,
+     -16.3
+    ],
+    "ellipse_major_km": 23.9,
+    "ellipse_minor_km": 14.0,
+    "major_axis_deg": 1,
+    "extent_major_km": 18.6,
+    "extent_minor_km": 13.4,
+    "downstream_to_deg": 30,
+    "updraft_to_centroid_km": 2.8,
+    "downstream_reach_km": 13.2,
+    "backshear_km": 7.1,
+    "upwind_of_radar_core_km": 17.4,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 40645,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:36:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    36.2,
+    -21.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.7,
+     34.9
+    ],
+    [
+     -4.8,
+     7.6
+    ],
+    [
+     -29.8,
+     16.4
+    ],
+    [
+     46.2,
+     34.2
+    ],
+    [
+     65.3,
+     36.5
+    ],
+    [
+     44.3,
+     39.1
+    ],
+    [
+     52.7,
+     46.2
+    ],
+    [
+     -27.6,
+     42.9
+    ],
+    [
+     59.8,
+     51.8
+    ],
+    [
+     53.2,
+     52.0
+    ],
+    [
+     43.9,
+     53.1
+    ],
+    [
+     -24.1,
+     54.4
+    ],
+    [
+     39.2,
+     57.7
+    ]
+   ],
+   "solar_zenith_deg": 96.5,
+   "coldest_k": 211.3,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    15.8,
+    -9.6
+   ],
+   "updraft_from_radar_core_km": 23.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 807,
+    "centroid_xy_km": [
+     25.5,
+     -12.1
+    ],
+    "ellipse_major_km": 39.0,
+    "ellipse_minor_km": 27.9,
+    "major_axis_deg": 38,
+    "extent_major_km": 40.5,
+    "extent_minor_km": 30.2,
+    "downstream_to_deg": 105,
+    "updraft_to_centroid_km": 10.1,
+    "downstream_reach_km": 26.8,
+    "backshear_km": 3.1,
+    "upwind_of_radar_core_km": 26.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 40794,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    39.1,
+    -22.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     7.7,
+     34.9
+    ],
+    [
+     -4.8,
+     7.6
+    ],
+    [
+     -29.8,
+     16.4
+    ],
+    [
+     46.2,
+     34.2
+    ],
+    [
+     65.3,
+     36.5
+    ],
+    [
+     44.3,
+     39.1
+    ],
+    [
+     52.7,
+     46.2
+    ],
+    [
+     -27.6,
+     42.9
+    ],
+    [
+     59.8,
+     51.8
+    ],
+    [
+     53.2,
+     52.0
+    ],
+    [
+     43.9,
+     53.1
+    ],
+    [
+     -24.1,
+     54.4
+    ],
+    [
+     39.2,
+     57.7
+    ]
+   ],
+   "solar_zenith_deg": 97.2,
+   "coldest_k": 211.2,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    21.4,
+    -25.2
+   ],
+   "updraft_from_radar_core_km": 17.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 885,
+    "centroid_xy_km": [
+     31.4,
+     -12.7
+    ],
+    "ellipse_major_km": 39.7,
+    "ellipse_minor_km": 29.8,
+    "major_axis_deg": 26,
+    "extent_major_km": 39.0,
+    "extent_minor_km": 31.8,
+    "downstream_to_deg": 39,
+    "updraft_to_centroid_km": 15.9,
+    "downstream_reach_km": 35.7,
+    "backshear_km": 4.8,
+    "upwind_of_radar_core_km": 17.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 40841,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:46:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    42.3,
+    -23.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     53.3,
+     -44.4
+    ],
+    [
+     49.0,
+     -41.6
+    ],
+    [
+     -46.5,
+     -35.3
+    ],
+    [
+     65.4,
+     -17.8
+    ],
+    [
+     19.4,
+     -1.7
+    ],
+    [
+     1.6,
+     -0.3
+    ],
+    [
+     6.8,
+     10.6
+    ],
+    [
+     30.9,
+     13.0
+    ],
+    [
+     -23.0,
+     14.7
+    ],
+    [
+     11.4,
+     36.9
+    ],
+    [
+     74.1,
+     35.3
+    ],
+    [
+     67.9,
+     44.1
+    ],
+    [
+     -0.5,
+     40.3
+    ],
+    [
+     39.6,
+     48.0
+    ],
+    [
+     21.1,
+     68.1
+    ],
+    [
+     29.0,
+     68.8
+    ]
+   ],
+   "solar_zenith_deg": 98.0,
+   "coldest_k": 211.5,
+   "coldest_c": -61.6,
+   "updraft_xy_km": [
+    27.8,
+    -25.3
+   ],
+   "updraft_from_radar_core_km": 14.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 347,
+    "centroid_xy_km": [
+     29.9,
+     -20.2
+    ],
+    "ellipse_major_km": 26.4,
+    "ellipse_minor_km": 20.5,
+    "major_axis_deg": 170,
+    "extent_major_km": 22.5,
+    "extent_minor_km": 21.2,
+    "downstream_to_deg": 23,
+    "updraft_to_centroid_km": 5.5,
+    "downstream_reach_km": 16.9,
+    "backshear_km": 7.0,
+    "upwind_of_radar_core_km": 14.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 39841,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:51:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    44.1,
+    -25.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     69.3,
+     -15.7
+    ],
+    [
+     124.7,
+     -14.6
+    ],
+    [
+     97.8,
+     -14.0
+    ],
+    [
+     114.3,
+     -13.5
+    ],
+    [
+     28.4,
+     -7.4
+    ],
+    [
+     106.5,
+     -7.5
+    ],
+    [
+     116.6,
+     -5.4
+    ],
+    [
+     97.0,
+     -5.2
+    ],
+    [
+     9.0,
+     -3.2
+    ],
+    [
+     21.6,
+     3.7
+    ],
+    [
+     112.5,
+     1.4
+    ],
+    [
+     86.3,
+     3.4
+    ],
+    [
+     109.0,
+     6.1
+    ],
+    [
+     120.2,
+     8.7
+    ],
+    [
+     -15.0,
+     12.6
+    ],
+    [
+     117.1,
+     23.2
+    ],
+    [
+     19.3,
+     35.8
+    ],
+    [
+     40.6,
+     23.4
+    ],
+    [
+     38.0,
+     27.5
+    ],
+    [
+     105.8,
+     27.7
+    ],
+    [
+     77.3,
+     41.0
+    ],
+    [
+     44.3,
+     45.9
+    ],
+    [
+     59.6,
+     45.8
+    ],
+    [
+     116.8,
+     50.5
+    ],
+    [
+     66.6,
+     50.4
+    ],
+    [
+     125.3,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 98.7,
+   "coldest_k": 211.6,
+   "coldest_c": -61.5,
+   "updraft_xy_km": [
+    36.5,
+    -28.6
+   ],
+   "updraft_from_radar_core_km": 8.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 281,
+    "centroid_xy_km": [
+     36.1,
+     -20.3
+    ],
+    "ellipse_major_km": 27.5,
+    "ellipse_minor_km": 13.6,
+    "major_axis_deg": 8,
+    "extent_major_km": 22.8,
+    "extent_minor_km": 12.7,
+    "downstream_to_deg": 357,
+    "updraft_to_centroid_km": 8.3,
+    "downstream_reach_km": 18.8,
+    "backshear_km": 3.1,
+    "upwind_of_radar_core_km": 6.2,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38916,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T01:56:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    46.1,
+    -26.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     82.8,
+     -23.7
+    ],
+    [
+     110.9,
+     -22.4
+    ],
+    [
+     74.9,
+     -15.5
+    ],
+    [
+     103.5,
+     -13.8
+    ],
+    [
+     25.4,
+     -14.7
+    ],
+    [
+     89.5,
+     -13.4
+    ],
+    [
+     34.9,
+     -12.6
+    ],
+    [
+     87.8,
+     -7.9
+    ],
+    [
+     103.1,
+     2.4
+    ],
+    [
+     122.3,
+     -4.8
+    ],
+    [
+     27.6,
+     1.7
+    ],
+    [
+     90.7,
+     3.7
+    ],
+    [
+     119.4,
+     22.0
+    ],
+    [
+     -8.7,
+     10.5
+    ],
+    [
+     26.8,
+     9.8
+    ],
+    [
+     80.7,
+     10.1
+    ],
+    [
+     7.2,
+     10.5
+    ],
+    [
+     105.3,
+     12.8
+    ],
+    [
+     26.2,
+     37.0
+    ],
+    [
+     80.2,
+     34.2
+    ],
+    [
+     53.4,
+     44.6
+    ],
+    [
+     82.2,
+     42.3
+    ],
+    [
+     123.7,
+     49.3
+    ],
+    [
+     74.2,
+     48.4
+    ],
+    [
+     81.7,
+     51.1
+    ],
+    [
+     88.8,
+     49.5
+    ]
+   ],
+   "solar_zenith_deg": 99.4,
+   "coldest_k": 212.6,
+   "coldest_c": -60.6,
+   "updraft_xy_km": [
+    38.6,
+    -28.6
+   ],
+   "updraft_from_radar_core_km": 7.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 437,
+    "centroid_xy_km": [
+     41.7,
+     -24.2
+    ],
+    "ellipse_major_km": 28.8,
+    "ellipse_minor_km": 23.4,
+    "major_axis_deg": 176,
+    "extent_major_km": 25.4,
+    "extent_minor_km": 23.5,
+    "downstream_to_deg": 35,
+    "updraft_to_centroid_km": 5.4,
+    "downstream_reach_km": 17.8,
+    "backshear_km": 9.5,
+    "upwind_of_radar_core_km": 15.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37906,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    47.9,
+    -27.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     82.8,
+     -23.7
+    ],
+    [
+     110.9,
+     -22.4
+    ],
+    [
+     74.9,
+     -15.5
+    ],
+    [
+     103.5,
+     -13.8
+    ],
+    [
+     25.4,
+     -14.7
+    ],
+    [
+     89.5,
+     -13.4
+    ],
+    [
+     34.9,
+     -12.6
+    ],
+    [
+     87.8,
+     -7.9
+    ],
+    [
+     103.1,
+     2.4
+    ],
+    [
+     122.3,
+     -4.8
+    ],
+    [
+     27.6,
+     1.7
+    ],
+    [
+     90.7,
+     3.7
+    ],
+    [
+     119.4,
+     22.0
+    ],
+    [
+     -8.7,
+     10.5
+    ],
+    [
+     26.8,
+     9.8
+    ],
+    [
+     80.7,
+     10.1
+    ],
+    [
+     7.2,
+     10.5
+    ],
+    [
+     105.3,
+     12.8
+    ],
+    [
+     26.2,
+     37.0
+    ],
+    [
+     80.2,
+     34.2
+    ],
+    [
+     53.4,
+     44.6
+    ],
+    [
+     82.2,
+     42.3
+    ],
+    [
+     123.7,
+     49.3
+    ],
+    [
+     74.2,
+     48.4
+    ],
+    [
+     81.7,
+     51.1
+    ],
+    [
+     88.8,
+     49.5
+    ]
+   ],
+   "solar_zenith_deg": 100.2,
+   "coldest_k": 213.0,
+   "coldest_c": -60.2,
+   "updraft_xy_km": [
+    39.2,
+    -34.8
+   ],
+   "updraft_from_radar_core_km": 11.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 5064,
+    "centroid_xy_km": [
+     35.1,
+     -54.2
+    ],
+    "ellipse_major_km": 106.5,
+    "ellipse_minor_km": 75.0,
+    "major_axis_deg": 112,
+    "extent_major_km": 134.1,
+    "extent_minor_km": 76.4,
+    "downstream_to_deg": 192,
+    "updraft_to_centroid_km": 19.8,
+    "downstream_reach_km": 54.9,
+    "backshear_km": 23.2,
+    "upwind_of_radar_core_km": 13.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.6,
+    "connected_shield_km2": 37597,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:06:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    47.4,
+    -26.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     120.5,
+     -29.3
+    ],
+    [
+     85.3,
+     -22.2
+    ],
+    [
+     114.3,
+     -20.3
+    ],
+    [
+     79.9,
+     -18.2
+    ],
+    [
+     98.9,
+     -17.3
+    ],
+    [
+     103.8,
+     -16.8
+    ],
+    [
+     69.8,
+     -8.7
+    ],
+    [
+     108.4,
+     -12.6
+    ],
+    [
+     91.4,
+     -9.8
+    ],
+    [
+     116.3,
+     -4.4
+    ],
+    [
+     34.5,
+     0.8
+    ],
+    [
+     107.3,
+     -5.1
+    ],
+    [
+     125.4,
+     -5.3
+    ],
+    [
+     111.4,
+     -1.9
+    ],
+    [
+     98.4,
+     4.4
+    ],
+    [
+     90.5,
+     0.7
+    ],
+    [
+     -25.7,
+     2.4
+    ],
+    [
+     -1.4,
+     8.2
+    ],
+    [
+     119.7,
+     8.0
+    ],
+    [
+     -22.5,
+     11.5
+    ],
+    [
+     121.4,
+     23.3
+    ],
+    [
+     31.7,
+     21.4
+    ],
+    [
+     21.5,
+     25.2
+    ],
+    [
+     42.4,
+     41.6
+    ],
+    [
+     79.6,
+     33.0
+    ],
+    [
+     89.4,
+     32.4
+    ],
+    [
+     85.0,
+     34.2
+    ],
+    [
+     98.0,
+     42.2
+    ],
+    [
+     111.7,
+     46.8
+    ],
+    [
+     92.7,
+     48.5
+    ],
+    [
+     103.1,
+     48.7
+    ],
+    [
+     117.3,
+     51.1
+    ]
+   ],
+   "solar_zenith_deg": 100.8,
+   "coldest_k": 211.2,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    26.2,
+    -31.4
+   ],
+   "updraft_from_radar_core_km": 21.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1465,
+    "centroid_xy_km": [
+     6.1,
+     -35.8
+    ],
+    "ellipse_major_km": 84.0,
+    "ellipse_minor_km": 25.9,
+    "major_axis_deg": 96,
+    "extent_major_km": 80.5,
+    "extent_minor_km": 28.5,
+    "downstream_to_deg": 258,
+    "updraft_to_centroid_km": 20.6,
+    "downstream_reach_km": 54.9,
+    "backshear_km": 23.4,
+    "upwind_of_radar_core_km": 1.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.9,
+    "connected_shield_km2": 37981,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:11:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    48.5,
+    -27.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 101.5,
+   "coldest_k": 210.6,
+   "coldest_c": -62.5,
+   "updraft_xy_km": [
+    32.6,
+    -31.6
+   ],
+   "updraft_from_radar_core_km": 16.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 488,
+    "centroid_xy_km": [
+     23.0,
+     -33.2
+    ],
+    "ellipse_major_km": 59.4,
+    "ellipse_minor_km": 16.2,
+    "major_axis_deg": 102,
+    "extent_major_km": 61.7,
+    "extent_minor_km": 17.2,
+    "downstream_to_deg": 260,
+    "updraft_to_centroid_km": 9.7,
+    "downstream_reach_km": 47.5,
+    "backshear_km": 9.6,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38643,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:16:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 102.2,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    43.1,
+    -31.8
+   ],
+   "updraft_from_radar_core_km": 7.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1120,
+    "centroid_xy_km": [
+     11.4,
+     -35.2
+    ],
+    "ellipse_major_km": 96.2,
+    "ellipse_minor_km": 26.6,
+    "major_axis_deg": 89,
+    "extent_major_km": 74.5,
+    "extent_minor_km": 34.0,
+    "downstream_to_deg": 264,
+    "updraft_to_centroid_km": 31.9,
+    "downstream_reach_km": 65.0,
+    "backshear_km": 8.2,
+    "upwind_of_radar_core_km": 1.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.87,
+    "connected_shield_km2": 38520,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:21:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 102.8,
+   "coldest_k": 211.3,
+   "coldest_c": -61.9,
+   "updraft_xy_km": [
+    51.5,
+    -31.9
+   ],
+   "updraft_from_radar_core_km": 5.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 2934,
+    "centroid_xy_km": [
+     29.7,
+     -46.7
+    ],
+    "ellipse_major_km": 78.3,
+    "ellipse_minor_km": 55.0,
+    "major_axis_deg": 92,
+    "extent_major_km": 72.9,
+    "extent_minor_km": 46.6,
+    "downstream_to_deg": 236,
+    "updraft_to_centroid_km": 26.4,
+    "downstream_reach_km": 64.8,
+    "backshear_km": 11.4,
+    "upwind_of_radar_core_km": 10.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.91,
+    "connected_shield_km2": 38100,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:26:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 103.5,
+   "coldest_k": 210.7,
+   "coldest_c": -62.4,
+   "updraft_xy_km": [
+    18.9,
+    -43.6
+   ],
+   "updraft_from_radar_core_km": 34.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 3941,
+    "centroid_xy_km": [
+     30.9,
+     -45.1
+    ],
+    "ellipse_major_km": 90.2,
+    "ellipse_minor_km": 60.2,
+    "major_axis_deg": 99,
+    "extent_major_km": 90.5,
+    "extent_minor_km": 56.1,
+    "downstream_to_deg": 97,
+    "updraft_to_centroid_km": 12.1,
+    "downstream_reach_km": 58.0,
+    "backshear_km": 31.2,
+    "upwind_of_radar_core_km": 59.1,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.9,
+    "connected_shield_km2": 37867,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:31:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 104.1,
+   "coldest_k": 210.8,
+   "coldest_c": -62.3,
+   "updraft_xy_km": [
+    27.3,
+    -43.8
+   ],
+   "updraft_from_radar_core_km": 27.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 331,
+    "centroid_xy_km": [
+     24.9,
+     -42.3
+    ],
+    "ellipse_major_km": 31.5,
+    "ellipse_minor_km": 13.7,
+    "major_axis_deg": 94,
+    "extent_major_km": 26.7,
+    "extent_minor_km": 10.3,
+    "downstream_to_deg": 301,
+    "updraft_to_centroid_km": 2.9,
+    "downstream_reach_km": 16.5,
+    "backshear_km": 10.9,
+    "upwind_of_radar_core_km": 1.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 37852,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:36:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 104.7,
+   "coldest_k": 211.1,
+   "coldest_c": -62.0,
+   "updraft_xy_km": [
+    24.0,
+    -53.0
+   ],
+   "updraft_from_radar_core_km": 36.0,
+   "ots": [],
+   "anvil": {
+    "area_km2": 324,
+    "centroid_xy_km": [
+     32.7,
+     -44.5
+    ],
+    "ellipse_major_km": 37.1,
+    "ellipse_minor_km": 12.0,
+    "major_axis_deg": 87,
+    "extent_major_km": 29.7,
+    "extent_minor_km": 9.8,
+    "downstream_to_deg": 46,
+    "updraft_to_centroid_km": 12.1,
+    "downstream_reach_km": 25.6,
+    "backshear_km": 1.0,
+    "upwind_of_radar_core_km": 37.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38242,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 105.3,
+   "coldest_k": 211.5,
+   "coldest_c": -61.6,
+   "updraft_xy_km": [
+    25.8,
+    -49.9
+   ],
+   "updraft_from_radar_core_km": 32.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 389,
+    "centroid_xy_km": [
+     26.9,
+     -44.1
+    ],
+    "ellipse_major_km": 67.1,
+    "ellipse_minor_km": 11.4,
+    "major_axis_deg": 98,
+    "extent_major_km": 70.5,
+    "extent_minor_km": 14.0,
+    "downstream_to_deg": 11,
+    "updraft_to_centroid_km": 5.9,
+    "downstream_reach_km": 11.3,
+    "backshear_km": 3.3,
+    "upwind_of_radar_core_km": 30.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 1.0,
+    "connected_shield_km2": 38249,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:46:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 105.9,
+   "coldest_k": 211.6,
+   "coldest_c": -61.5,
+   "updraft_xy_km": [
+    36.6,
+    -53.2
+   ],
+   "updraft_from_radar_core_km": 28.9,
+   "ots": [],
+   "anvil": {
+    "area_km2": 1555,
+    "centroid_xy_km": [
+     26.6,
+     -46.2
+    ],
+    "ellipse_major_km": 81.9,
+    "ellipse_minor_km": 28.9,
+    "major_axis_deg": 82,
+    "extent_major_km": 77.6,
+    "extent_minor_km": 31.1,
+    "downstream_to_deg": 305,
+    "updraft_to_centroid_km": 12.3,
+    "downstream_reach_km": 45.0,
+    "backshear_km": 20.2,
+    "upwind_of_radar_core_km": 25.0,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.96,
+    "connected_shield_km2": 37982,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:51:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -14.5,
+     -52.4
+    ],
+    [
+     -30.4,
+     -49.5
+    ],
+    [
+     86.9,
+     -25.4
+    ],
+    [
+     89.0,
+     -8.5
+    ],
+    [
+     118.4,
+     -18.3
+    ],
+    [
+     119.2,
+     -13.1
+    ],
+    [
+     39.7,
+     -1.2
+    ],
+    [
+     120.1,
+     -5.5
+    ],
+    [
+     -22.5,
+     0.8
+    ],
+    [
+     57.5,
+     -0.7
+    ],
+    [
+     7.6,
+     4.5
+    ],
+    [
+     112.4,
+     6.7
+    ],
+    [
+     -15.0,
+     10.3
+    ],
+    [
+     124.4,
+     21.4
+    ],
+    [
+     42.7,
+     40.5
+    ],
+    [
+     85.9,
+     30.5
+    ],
+    [
+     92.8,
+     32.6
+    ],
+    [
+     81.3,
+     35.1
+    ],
+    [
+     103.7,
+     42.2
+    ],
+    [
+     80.3,
+     45.4
+    ],
+    [
+     122.2,
+     50.3
+    ]
+   ],
+   "solar_zenith_deg": 106.5,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    60.8,
+    -41.4
+   ],
+   "updraft_from_radar_core_km": 18.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 2737,
+    "centroid_xy_km": [
+     37.7,
+     -55.9
+    ],
+    "ellipse_major_km": 82.5,
+    "ellipse_minor_km": 46.2,
+    "major_axis_deg": 102,
+    "extent_major_km": 86.3,
+    "extent_minor_km": 48.9,
+    "downstream_to_deg": 238,
+    "updraft_to_centroid_km": 27.2,
+    "downstream_reach_km": 59.7,
+    "backshear_km": 10.2,
+    "upwind_of_radar_core_km": 12.5,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.88,
+    "connected_shield_km2": 37626,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T02:56:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.1,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    28.2,
+    -53.0
+   ],
+   "updraft_from_radar_core_km": 33.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35808,
+    "centroid_xy_km": [
+     132.4,
+     -30.1
+    ],
+    "ellipse_major_km": 260.8,
+    "ellipse_minor_km": 191.2,
+    "major_axis_deg": 88,
+    "extent_major_km": 291.7,
+    "extent_minor_km": 210.5,
+    "downstream_to_deg": 78,
+    "updraft_to_centroid_km": 106.7,
+    "downstream_reach_km": 248.5,
+    "backshear_km": 37.8,
+    "upwind_of_radar_core_km": 63.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 36355,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T03:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 107.6,
+   "coldest_k": 212.6,
+   "coldest_c": -60.5,
+   "updraft_xy_km": [
+    39.2,
+    -59.4
+   ],
+   "updraft_from_radar_core_km": 33.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35185,
+    "centroid_xy_km": [
+     136.7,
+     -31.7
+    ],
+    "ellipse_major_km": 258.5,
+    "ellipse_minor_km": 189.3,
+    "major_axis_deg": 89,
+    "extent_major_km": 294.7,
+    "extent_minor_km": 214.5,
+    "downstream_to_deg": 74,
+    "updraft_to_centroid_km": 101.3,
+    "downstream_reach_km": 242.1,
+    "backshear_km": 35.6,
+    "upwind_of_radar_core_km": 53.9,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.05,
+    "connected_shield_km2": 45135,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T03:06:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.2,
+   "coldest_k": 213.3,
+   "coldest_c": -59.8,
+   "updraft_xy_km": [
+    49.5,
+    -56.5
+   ],
+   "updraft_from_radar_core_km": 29.5,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35478,
+    "centroid_xy_km": [
+     138.0,
+     -34.0
+    ],
+    "ellipse_major_km": 261.6,
+    "ellipse_minor_km": 189.4,
+    "major_axis_deg": 87,
+    "extent_major_km": 300.8,
+    "extent_minor_km": 212.6,
+    "downstream_to_deg": 76,
+    "updraft_to_centroid_km": 91.3,
+    "downstream_reach_km": 241.8,
+    "backshear_km": 50.0,
+    "upwind_of_radar_core_km": 56.8,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.07,
+    "connected_shield_km2": 45580,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2023-06-16T03:11:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    49.0,
+    -27.1
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 108.7,
+   "coldest_k": 213.4,
+   "coldest_c": -59.7,
+   "updraft_xy_km": [
+    60.0,
+    -56.7
+   ],
+   "updraft_from_radar_core_km": 31.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35860,
+    "centroid_xy_km": [
+     133.9,
+     -37.5
+    ],
+    "ellipse_major_km": 277.0,
+    "ellipse_minor_km": 183.6,
+    "major_axis_deg": 84,
+    "extent_major_km": 336.3,
+    "extent_minor_km": 197.6,
+    "downstream_to_deg": 75,
+    "updraft_to_centroid_km": 76.4,
+    "downstream_reach_km": 237.2,
+    "backshear_km": 89.9,
+    "upwind_of_radar_core_km": 86.7,
+    "touches_other_anvil": true,
+    "edge_shared_with_other_anvils": 0.06,
+    "connected_shield_km2": 45262,
+    "edge_of_box": false
+   }
+  }
+ ]
+}

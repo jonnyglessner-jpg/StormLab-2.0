@@ -7,6 +7,8 @@ Joins, per case in validation/real-storm-cases/catalog.json:
     motion, highest 50 dBZ top, largest 40 dBZ area, splits
   - the SPC reports matched to that track (radar/<case>_spc_reports.json): this storm's tornado / hail / wind reports
   - the catalog's SPC tornado list (the box around the case) and the case's primary sounding (inflow if present)
+  - GOES cloud tops (satellite/<case>.json from fetch_goes.py): coldest top, share of scans with an overshooting top,
+    median anvil size while it was mostly free of neighbours
 and runs track-quality checks, because the tracker follows "the nearest 40 dBZ cell" and can lose or swap storms:
   - the strongest tornado must fall inside the tracked life (else the track ended early or followed a neighbour)
   - the box's tornadoes should mostly be matched to the track (else another storm made them, or the track drifted)
@@ -70,6 +72,15 @@ def outcome_groups(rows):
     return L + [""]
 
 
+def sat(g):
+    if not g:
+        return "-"
+    a = g["anvil_major_minor_km"]
+    anv = f"{a[0]:.0f}x{a[1]:.0f}" if a and None not in a else "-"
+    otf = "-" if g["ot_fraction"] is None else f"{g['ot_fraction']:.0%}"
+    return f"{g['coldest_c']} / {otf} / {anv}"
+
+
 def main():
     cat = json.loads((CASES / "catalog.json").read_text())["cases"]
     runs = json.loads((RADAR / "lifecycle_runs.json").read_text()) if (RADAR / "lifecycle_runs.json").exists() else {}
@@ -110,6 +121,16 @@ def main():
                 row["flags"].append("none of the box's tornadoes matched to this track")
             if c["role"] == "null" and r["tornado_reports"]:
                 row["flags"].append("null case, but tornado reports match this track")
+        sf = CASES / "satellite" / f"{cid}.json"
+        if sf.exists():
+            g = json.loads(sf.read_text())["summary"]
+            ot = g.get("overshooting_tops") or {}
+            shp = g.get("shape_mostly_free_scans_over_1000km2") or {}
+            row["goes"] = {"coldest_c": g.get("coldest_c"), "echo_to_minus50C_min": g.get("first_echo_to_minus50C_min"),
+                           "echo_to_anvil_1000km2_min": g.get("first_echo_to_anvil_1000km2_min"),
+                           "ot_fraction": ot.get("fraction_of_scans_with_ot"), "ot_diam_km_median": (ot.get("diam_km_median_max") or [None])[0],
+                           "anvil_major_minor_km": [shp.get("extent_major_km_median"), shp.get("extent_minor_km_median")],
+                           "backshear_km_median": (shp.get("backshear_km_median_p90") or [None])[0]}
         src, d = primary_sounding(cid)
         row["sounding"] = src
         row["env"] = {k: d.get(k) for k in ("mlcape", "mllcl_m_agl", "srh1", "srh3", "shear6_kt", "sr_anvil_kt")}
@@ -128,7 +149,7 @@ def main():
         if not pr:
             continue
         L += [f"## {p}", "", "| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | "
-              "MLCAPE / LCL / SRH1 / S06 | Flags |", "|---|---|---|---|---|---|---|---|---|---|"]
+              "Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |", "|---|---|---|---|---|---|---|---|---|---|---|"]
         for r in sorted(pr, key=lambda r: (r["role"], r["case"])):
             mot = r.get("motion")
             e = r["env"]
@@ -136,7 +157,7 @@ def main():
             L.append(f"| {r['case']} | {r['role']} | {r.get('life_h', '-')} ({r.get('end', '-')}) | "
                      f"{f'{mot['from_deg']} / {mot['kt']}' if mot else '-'} | {r.get('top50_km', '-')} | {r.get('area40_km2', '-')} | "
                      f"{r.get('storm_tornado_reports', '-')} / {r['box_tornadoes']} ({r['box_max']}) | {r.get('storm_max_hail_in', '-')} | "
-                     f"{env} | {'; '.join(r['flags'])} |")
+                     f"{sat(r.get('goes'))} | {env} | {'; '.join(r['flags'])} |")
         L.append("")
     (CASES / "outcomes.json").write_text(json.dumps(rows, indent=1))
     (CASES / "OUTCOMES.md").write_text("\n".join(L), encoding="utf-8")

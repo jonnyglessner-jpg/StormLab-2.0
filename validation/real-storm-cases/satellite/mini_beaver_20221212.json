@@ -1,0 +1,11100 @@
+{
+ "case": "mini_beaver_20221212",
+ "frame_centre_latlon": [
+  36.562,
+  -100.769
+ ],
+ "parallax_height_km": 12,
+ "method": "GOES-16 ABI L2 CMIP band 13; positions in km east/north of frame_centre, navigated at the cloud top (parallax-corrected); anvil = connected <= -50 C region touching the storm; OT after Bedka et al. 2010",
+ "summary": {
+  "scans": 284,
+  "sectors": [
+   "CONUS",
+   "M2"
+  ],
+  "first_own_minus50C_top_utc": "2022-12-13T05:27:55",
+  "first_anvil_1000km2_utc": null,
+  "coldest_c": -57.5,
+  "coldest_utc": "2022-12-13T05:40:55",
+  "isolated_until_utc": "2022-12-13T05:41:17",
+  "first_echo_to_minus50C_min": 239,
+  "first_echo_to_anvil_1000km2_min": null
+ },
+ "scans": [
+  {
+   "utc": "2022-12-13T00:58:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 106.7,
+   "coldest_k": 237.2,
+   "coldest_c": -36.0,
+   "updraft_xy_km": [
+    -61.3,
+    -70.7
+   ],
+   "updraft_from_radar_core_km": 23.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 107.3,
+   "coldest_k": 237.7,
+   "coldest_c": -35.5,
+   "updraft_xy_km": [
+    -58.9,
+    -70.8
+   ],
+   "updraft_from_radar_core_km": 24.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:00:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 107.1,
+   "coldest_k": 237.7,
+   "coldest_c": -35.4,
+   "updraft_xy_km": [
+    -57.4,
+    -68.1
+   ],
+   "updraft_from_radar_core_km": 22.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:01:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 107.3,
+   "coldest_k": 237.7,
+   "coldest_c": -35.4,
+   "updraft_xy_km": [
+    -61.3,
+    -70.7
+   ],
+   "updraft_from_radar_core_km": 23.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:02:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 107.5,
+   "coldest_k": 238.2,
+   "coldest_c": -34.9,
+   "updraft_xy_km": [
+    -58.9,
+    -70.8
+   ],
+   "updraft_from_radar_core_km": 24.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:03:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 107.7,
+   "coldest_k": 237.4,
+   "coldest_c": -35.8,
+   "updraft_xy_km": [
+    -57.4,
+    -68.1
+   ],
+   "updraft_from_radar_core_km": 22.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:04:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 107.9,
+   "coldest_k": 239.1,
+   "coldest_c": -34.1,
+   "updraft_xy_km": [
+    -66.3,
+    -70.4
+   ],
+   "updraft_from_radar_core_km": 22.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:05:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 108.1,
+   "coldest_k": 239.3,
+   "coldest_c": -33.9,
+   "updraft_xy_km": [
+    -68.7,
+    -70.3
+   ],
+   "updraft_from_radar_core_km": 22.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:06:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 108.3,
+   "coldest_k": 238.4,
+   "coldest_c": -34.8,
+   "updraft_xy_km": [
+    -67.2,
+    -67.5
+   ],
+   "updraft_from_radar_core_km": 19.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:07:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 108.5,
+   "coldest_k": 238.5,
+   "coldest_c": -34.6,
+   "updraft_xy_km": [
+    -64.8,
+    -67.7
+   ],
+   "updraft_from_radar_core_km": 20.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:08:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 108.7,
+   "coldest_k": 238.1,
+   "coldest_c": -35.1,
+   "updraft_xy_km": [
+    -65.8,
+    -64.8
+   ],
+   "updraft_from_radar_core_km": 17.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:11:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 109.2,
+   "coldest_k": 238.4,
+   "coldest_c": -34.8,
+   "updraft_xy_km": [
+    -61.8,
+    -62.3
+   ],
+   "updraft_from_radar_core_km": 15.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:10:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 109.1,
+   "coldest_k": 237.5,
+   "coldest_c": -35.7,
+   "updraft_xy_km": [
+    -61.8,
+    -62.3
+   ],
+   "updraft_from_radar_core_km": 15.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:11:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 109.2,
+   "coldest_k": 238.3,
+   "coldest_c": -34.9,
+   "updraft_xy_km": [
+    -61.8,
+    -62.3
+   ],
+   "updraft_from_radar_core_km": 15.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:12:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 109.4,
+   "coldest_k": 238.2,
+   "coldest_c": -35.0,
+   "updraft_xy_km": [
+    -57.8,
+    -59.7
+   ],
+   "updraft_from_radar_core_km": 15.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:13:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 109.6,
+   "coldest_k": 238.3,
+   "coldest_c": -34.9,
+   "updraft_xy_km": [
+    -60.3,
+    -59.5
+   ],
+   "updraft_from_radar_core_km": 13.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:14:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 109.8,
+   "coldest_k": 238.5,
+   "coldest_c": -34.7,
+   "updraft_xy_km": [
+    -57.8,
+    -59.7
+   ],
+   "updraft_from_radar_core_km": 15.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:15:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 110.0,
+   "coldest_k": 238.5,
+   "coldest_c": -34.7,
+   "updraft_xy_km": [
+    -56.4,
+    -57.0
+   ],
+   "updraft_from_radar_core_km": 14.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:16:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 110.2,
+   "coldest_k": 238.9,
+   "coldest_c": -34.3,
+   "updraft_xy_km": [
+    -58.8,
+    -56.8
+   ],
+   "updraft_from_radar_core_km": 12.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:17:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 110.4,
+   "coldest_k": 238.6,
+   "coldest_c": -34.6,
+   "updraft_xy_km": [
+    -56.4,
+    -57.0
+   ],
+   "updraft_from_radar_core_km": 14.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:18:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 110.6,
+   "coldest_k": 239.8,
+   "coldest_c": -33.4,
+   "updraft_xy_km": [
+    -56.4,
+    -57.0
+   ],
+   "updraft_from_radar_core_km": 14.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:21:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 111.2,
+   "coldest_k": 240.1,
+   "coldest_c": -33.0,
+   "updraft_xy_km": [
+    -59.8,
+    -53.9
+   ],
+   "updraft_from_radar_core_km": 9.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:20:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 111.0,
+   "coldest_k": 239.9,
+   "coldest_c": -33.2,
+   "updraft_xy_km": [
+    -59.8,
+    -53.9
+   ],
+   "updraft_from_radar_core_km": 9.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:21:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 111.2,
+   "coldest_k": 239.7,
+   "coldest_c": -33.5,
+   "updraft_xy_km": [
+    -59.8,
+    -53.9
+   ],
+   "updraft_from_radar_core_km": 9.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:22:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 111.4,
+   "coldest_k": 240.6,
+   "coldest_c": -32.5,
+   "updraft_xy_km": [
+    -57.3,
+    -54.1
+   ],
+   "updraft_from_radar_core_km": 11.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:23:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 111.6,
+   "coldest_k": 239.8,
+   "coldest_c": -33.3,
+   "updraft_xy_km": [
+    -58.3,
+    -51.2
+   ],
+   "updraft_from_radar_core_km": 9.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:24:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 111.8,
+   "coldest_k": 240.5,
+   "coldest_c": -32.7,
+   "updraft_xy_km": [
+    -58.9,
+    -70.8
+   ],
+   "updraft_from_radar_core_km": 24.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:25:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 112.0,
+   "coldest_k": 239.4,
+   "coldest_c": -33.7,
+   "updraft_xy_km": [
+    -73.2,
+    -78.4
+   ],
+   "updraft_from_radar_core_km": 31.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:26:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 112.2,
+   "coldest_k": 239.4,
+   "coldest_c": -33.8,
+   "updraft_xy_km": [
+    -69.3,
+    -75.8
+   ],
+   "updraft_from_radar_core_km": 28.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:27:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 112.4,
+   "coldest_k": 238.8,
+   "coldest_c": -34.3,
+   "updraft_xy_km": [
+    -69.3,
+    -75.8
+   ],
+   "updraft_from_radar_core_km": 28.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:28:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -67.0,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 112.6,
+   "coldest_k": 238.1,
+   "coldest_c": -35.1,
+   "updraft_xy_km": [
+    -65.3,
+    -73.3
+   ],
+   "updraft_from_radar_core_km": 25.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:31:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -66.3,
+    -47.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 113.2,
+   "coldest_k": 236.0,
+   "coldest_c": -37.1,
+   "updraft_xy_km": [
+    -59.9,
+    -68.0
+   ],
+   "updraft_from_radar_core_km": 21.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:30:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -65.5,
+    -46.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -36.7,
+     -58.7
+    ],
+    [
+     -14.2,
+     -39.7
+    ],
+    [
+     -50.8,
+     -41.6
+    ],
+    [
+     -38.5,
+     -34.5
+    ],
+    [
+     -24.9,
+     -16.7
+    ]
+   ],
+   "solar_zenith_deg": 113.0,
+   "coldest_k": 237.5,
+   "coldest_c": -35.6,
+   "updraft_xy_km": [
+    -61.3,
+    -70.7
+   ],
+   "updraft_from_radar_core_km": 24.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:31:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -64.7,
+    -45.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -30.2,
+     -52.3
+    ],
+    [
+     -34.3,
+     -52.5
+    ],
+    [
+     -64.1,
+     -40.7
+    ],
+    [
+     -9.9,
+     -32.9
+    ],
+    [
+     -38.9,
+     -30.9
+    ],
+    [
+     -18.4,
+     -11.3
+    ]
+   ],
+   "solar_zenith_deg": 113.2,
+   "coldest_k": 236.7,
+   "coldest_c": -36.5,
+   "updraft_xy_km": [
+    -59.9,
+    -68.0
+   ],
+   "updraft_from_radar_core_km": 22.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:32:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -64.0,
+    -45.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -30.2,
+     -52.3
+    ],
+    [
+     -34.3,
+     -52.5
+    ],
+    [
+     -64.1,
+     -40.7
+    ],
+    [
+     -9.9,
+     -32.9
+    ],
+    [
+     -38.9,
+     -30.9
+    ],
+    [
+     -18.4,
+     -11.3
+    ]
+   ],
+   "solar_zenith_deg": 113.4,
+   "coldest_k": 236.9,
+   "coldest_c": -36.2,
+   "updraft_xy_km": [
+    -63.8,
+    -70.5
+   ],
+   "updraft_from_radar_core_km": 25.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:33:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -63.2,
+    -44.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -30.2,
+     -52.3
+    ],
+    [
+     -34.3,
+     -52.5
+    ],
+    [
+     -64.1,
+     -40.7
+    ],
+    [
+     -9.9,
+     -32.9
+    ],
+    [
+     -38.9,
+     -30.9
+    ],
+    [
+     -18.4,
+     -11.3
+    ]
+   ],
+   "solar_zenith_deg": 113.6,
+   "coldest_k": 235.3,
+   "coldest_c": -37.8,
+   "updraft_xy_km": [
+    -56.8,
+    -48.5
+   ],
+   "updraft_from_radar_core_km": 7.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:34:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -62.4,
+    -43.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -30.2,
+     -52.3
+    ],
+    [
+     -34.3,
+     -52.5
+    ],
+    [
+     -64.1,
+     -40.7
+    ],
+    [
+     -9.9,
+     -32.9
+    ],
+    [
+     -38.9,
+     -30.9
+    ],
+    [
+     -18.4,
+     -11.3
+    ]
+   ],
+   "solar_zenith_deg": 113.8,
+   "coldest_k": 235.3,
+   "coldest_c": -37.8,
+   "updraft_xy_km": [
+    -55.3,
+    -45.8
+   ],
+   "updraft_from_radar_core_km": 7.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:35:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -61.7,
+    -44.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -30.2,
+     -52.3
+    ],
+    [
+     -34.3,
+     -52.5
+    ],
+    [
+     -64.1,
+     -40.7
+    ],
+    [
+     -9.9,
+     -32.9
+    ],
+    [
+     -38.9,
+     -30.9
+    ],
+    [
+     -18.4,
+     -11.3
+    ]
+   ],
+   "solar_zenith_deg": 114.0,
+   "coldest_k": 234.3,
+   "coldest_c": -38.9,
+   "updraft_xy_km": [
+    -52.9,
+    -45.9
+   ],
+   "updraft_from_radar_core_km": 8.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:36:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -61.0,
+    -45.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -30.2,
+     -52.3
+    ],
+    [
+     -34.3,
+     -52.5
+    ],
+    [
+     -64.1,
+     -40.7
+    ],
+    [
+     -9.9,
+     -32.9
+    ],
+    [
+     -38.9,
+     -30.9
+    ],
+    [
+     -18.4,
+     -11.3
+    ]
+   ],
+   "solar_zenith_deg": 114.2,
+   "coldest_k": 233.2,
+   "coldest_c": -39.9,
+   "updraft_xy_km": [
+    -51.4,
+    -43.2
+   ],
+   "updraft_from_radar_core_km": 9.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:37:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -60.3,
+    -46.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 114.4,
+   "coldest_k": 235.3,
+   "coldest_c": -37.8,
+   "updraft_xy_km": [
+    -51.4,
+    -43.2
+   ],
+   "updraft_from_radar_core_km": 9.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:38:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -59.6,
+    -47.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 114.6,
+   "coldest_k": 236.0,
+   "coldest_c": -37.1,
+   "updraft_xy_km": [
+    -51.4,
+    -43.2
+   ],
+   "updraft_from_radar_core_km": 9.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -58.9,
+    -48.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 115.2,
+   "coldest_k": 237.4,
+   "coldest_c": -35.8,
+   "updraft_xy_km": [
+    -47.5,
+    -54.7
+   ],
+   "updraft_from_radar_core_km": 12.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:40:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -58.3,
+    -49.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 115.0,
+   "coldest_k": 237.5,
+   "coldest_c": -35.7,
+   "updraft_xy_km": [
+    -54.4,
+    -62.7
+   ],
+   "updraft_from_radar_core_km": 13.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:41:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -58.7,
+    -49.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 115.2,
+   "coldest_k": 237.8,
+   "coldest_c": -35.4,
+   "updraft_xy_km": [
+    -49.0,
+    -57.4
+   ],
+   "updraft_from_radar_core_km": 12.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:42:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -59.0,
+    -49.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 115.4,
+   "coldest_k": 238.2,
+   "coldest_c": -35.0,
+   "updraft_xy_km": [
+    -46.0,
+    -52.0
+   ],
+   "updraft_from_radar_core_km": 13.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:43:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -59.4,
+    -49.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 115.6,
+   "coldest_k": 237.8,
+   "coldest_c": -35.3,
+   "updraft_xy_km": [
+    -46.0,
+    -52.0
+   ],
+   "updraft_from_radar_core_km": 13.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:44:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -59.7,
+    -49.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 115.8,
+   "coldest_k": 238.5,
+   "coldest_c": -34.6,
+   "updraft_xy_km": [
+    -48.4,
+    -51.8
+   ],
+   "updraft_from_radar_core_km": 11.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:45:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -60.1,
+    -48.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -27.4,
+     -45.0
+    ],
+    [
+     -58.1,
+     -35.7
+    ],
+    [
+     -5.0,
+     -26.4
+    ],
+    [
+     -31.9,
+     -24.5
+    ],
+    [
+     -17.7,
+     -22.9
+    ],
+    [
+     -16.5,
+     -18.9
+    ]
+   ],
+   "solar_zenith_deg": 116.0,
+   "coldest_k": 237.8,
+   "coldest_c": -35.4,
+   "updraft_xy_km": [
+    -48.4,
+    -51.8
+   ],
+   "updraft_from_radar_core_km": 12.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:46:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -60.5,
+    -48.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 116.2,
+   "coldest_k": 239.4,
+   "coldest_c": -33.8,
+   "updraft_xy_km": [
+    -52.4,
+    -54.4
+   ],
+   "updraft_from_radar_core_km": 9.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:47:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -60.8,
+    -48.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 116.4,
+   "coldest_k": 238.4,
+   "coldest_c": -34.8,
+   "updraft_xy_km": [
+    -60.3,
+    -59.5
+   ],
+   "updraft_from_radar_core_km": 10.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:48:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -61.2,
+    -48.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 116.6,
+   "coldest_k": 236.7,
+   "coldest_c": -36.4,
+   "updraft_xy_km": [
+    -58.8,
+    -56.8
+   ],
+   "updraft_from_radar_core_km": 8.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:51:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -61.5,
+    -48.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 117.2,
+   "coldest_k": 237.1,
+   "coldest_c": -36.0,
+   "updraft_xy_km": [
+    -53.4,
+    -51.5
+   ],
+   "updraft_from_radar_core_km": 8.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:50:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -61.9,
+    -48.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 117.0,
+   "coldest_k": 236.4,
+   "coldest_c": -36.7,
+   "updraft_xy_km": [
+    -54.9,
+    -54.2
+   ],
+   "updraft_from_radar_core_km": 9.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:51:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -62.2,
+    -48.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 117.2,
+   "coldest_k": 236.3,
+   "coldest_c": -36.8,
+   "updraft_xy_km": [
+    -52.4,
+    -54.4
+   ],
+   "updraft_from_radar_core_km": 11.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:52:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -61.5,
+    -47.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 117.4,
+   "coldest_k": 236.9,
+   "coldest_c": -36.3,
+   "updraft_xy_km": [
+    -50.9,
+    -51.7
+   ],
+   "updraft_from_radar_core_km": 11.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:53:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -60.9,
+    -47.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -48.8,
+     -40.4
+    ],
+    [
+     -18.0,
+     -35.1
+    ],
+    [
+     -45.5,
+     -34.5
+    ],
+    [
+     -31.7,
+     -19.2
+    ],
+    [
+     1.3,
+     -15.7
+    ],
+    [
+     -18.7,
+     -13.3
+    ],
+    [
+     11.6,
+     -7.2
+    ]
+   ],
+   "solar_zenith_deg": 117.6,
+   "coldest_k": 237.7,
+   "coldest_c": -35.5,
+   "updraft_xy_km": [
+    -50.9,
+    -51.7
+   ],
+   "updraft_from_radar_core_km": 10.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:54:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -60.3,
+    -46.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -51.2,
+     -42.4
+    ],
+    [
+     -45.8,
+     -28.8
+    ],
+    [
+     -14.2,
+     -29.5
+    ],
+    [
+     5.1,
+     -26.3
+    ],
+    [
+     -29.5,
+     -17.5
+    ],
+    [
+     4.9,
+     -10.6
+    ],
+    [
+     -14.6,
+     -9.5
+    ],
+    [
+     14.6,
+     -2.9
+    ]
+   ],
+   "solar_zenith_deg": 117.8,
+   "coldest_k": 240.1,
+   "coldest_c": -33.1,
+   "updraft_xy_km": [
+    -54.9,
+    -54.2
+   ],
+   "updraft_from_radar_core_km": 9.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:55:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -59.6,
+    -46.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -51.2,
+     -42.4
+    ],
+    [
+     -45.8,
+     -28.8
+    ],
+    [
+     -14.2,
+     -29.5
+    ],
+    [
+     5.1,
+     -26.3
+    ],
+    [
+     -29.5,
+     -17.5
+    ],
+    [
+     4.9,
+     -10.6
+    ],
+    [
+     -14.6,
+     -9.5
+    ],
+    [
+     14.6,
+     -2.9
+    ]
+   ],
+   "solar_zenith_deg": 118.0,
+   "coldest_k": 238.5,
+   "coldest_c": -34.7,
+   "updraft_xy_km": [
+    -53.4,
+    -51.5
+   ],
+   "updraft_from_radar_core_km": 8.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:56:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -59.0,
+    -45.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -51.2,
+     -42.4
+    ],
+    [
+     -45.8,
+     -28.8
+    ],
+    [
+     -14.2,
+     -29.5
+    ],
+    [
+     5.1,
+     -26.3
+    ],
+    [
+     -29.5,
+     -17.5
+    ],
+    [
+     4.9,
+     -10.6
+    ],
+    [
+     -14.6,
+     -9.5
+    ],
+    [
+     14.6,
+     -2.9
+    ]
+   ],
+   "solar_zenith_deg": 118.2,
+   "coldest_k": 240.4,
+   "coldest_c": -32.7,
+   "updraft_xy_km": [
+    -53.4,
+    -51.5
+   ],
+   "updraft_from_radar_core_km": 8.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:57:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -58.4,
+    -45.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -51.2,
+     -42.4
+    ],
+    [
+     -45.8,
+     -28.8
+    ],
+    [
+     -14.2,
+     -29.5
+    ],
+    [
+     5.1,
+     -26.3
+    ],
+    [
+     -29.5,
+     -17.5
+    ],
+    [
+     4.9,
+     -10.6
+    ],
+    [
+     -14.6,
+     -9.5
+    ],
+    [
+     14.6,
+     -2.9
+    ]
+   ],
+   "solar_zenith_deg": 118.4,
+   "coldest_k": 240.7,
+   "coldest_c": -32.4,
+   "updraft_xy_km": [
+    -53.4,
+    -51.5
+   ],
+   "updraft_from_radar_core_km": 8.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T01:58:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -57.7,
+    -44.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -51.2,
+     -42.4
+    ],
+    [
+     -45.8,
+     -28.8
+    ],
+    [
+     -14.2,
+     -29.5
+    ],
+    [
+     5.1,
+     -26.3
+    ],
+    [
+     -29.5,
+     -17.5
+    ],
+    [
+     4.9,
+     -10.6
+    ],
+    [
+     -14.6,
+     -9.5
+    ],
+    [
+     14.6,
+     -2.9
+    ]
+   ],
+   "solar_zenith_deg": 118.6,
+   "coldest_k": 243.4,
+   "coldest_c": -29.7,
+   "updraft_xy_km": [
+    -53.4,
+    -51.5
+   ],
+   "updraft_from_radar_core_km": 8.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:01:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    -57.0,
+    -43.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -34.4,
+     -19.2
+    ],
+    [
+     -9.7,
+     -22.9
+    ],
+    [
+     7.2,
+     -21.6
+    ],
+    [
+     0.9,
+     -12.4
+    ],
+    [
+     10.1,
+     -4.4
+    ],
+    [
+     -8.3,
+     -4.9
+    ],
+    [
+     13.9,
+     12.5
+    ]
+   ],
+   "solar_zenith_deg": 119.2,
+   "coldest_k": 234.3,
+   "coldest_c": -38.9,
+   "updraft_xy_km": [
+    -44.0,
+    -43.6
+   ],
+   "updraft_from_radar_core_km": 13.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:00:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -56.3,
+    -42.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -34.4,
+     -19.2
+    ],
+    [
+     -9.7,
+     -22.9
+    ],
+    [
+     7.2,
+     -21.6
+    ],
+    [
+     0.9,
+     -12.4
+    ],
+    [
+     10.1,
+     -4.4
+    ],
+    [
+     -8.3,
+     -4.9
+    ],
+    [
+     13.9,
+     12.5
+    ]
+   ],
+   "solar_zenith_deg": 119.0,
+   "coldest_k": 235.1,
+   "coldest_c": -38.0,
+   "updraft_xy_km": [
+    -47.9,
+    -46.2
+   ],
+   "updraft_from_radar_core_km": 9.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:01:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -55.6,
+    -42.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -34.4,
+     -19.2
+    ],
+    [
+     -9.7,
+     -22.9
+    ],
+    [
+     7.2,
+     -21.6
+    ],
+    [
+     0.9,
+     -12.4
+    ],
+    [
+     10.1,
+     -4.4
+    ],
+    [
+     -8.3,
+     -4.9
+    ],
+    [
+     13.9,
+     12.5
+    ]
+   ],
+   "solar_zenith_deg": 119.2,
+   "coldest_k": 233.9,
+   "coldest_c": -39.2,
+   "updraft_xy_km": [
+    -46.4,
+    -43.5
+   ],
+   "updraft_from_radar_core_km": 9.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:02:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -54.9,
+    -41.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -34.4,
+     -19.2
+    ],
+    [
+     -9.7,
+     -22.9
+    ],
+    [
+     7.2,
+     -21.6
+    ],
+    [
+     0.9,
+     -12.4
+    ],
+    [
+     10.1,
+     -4.4
+    ],
+    [
+     -8.3,
+     -4.9
+    ],
+    [
+     13.9,
+     12.5
+    ]
+   ],
+   "solar_zenith_deg": 119.4,
+   "coldest_k": 233.4,
+   "coldest_c": -39.7,
+   "updraft_xy_km": [
+    -44.0,
+    -43.6
+   ],
+   "updraft_from_radar_core_km": 11.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:03:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -54.1,
+    -40.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -34.4,
+     -19.2
+    ],
+    [
+     -9.7,
+     -22.9
+    ],
+    [
+     7.2,
+     -21.6
+    ],
+    [
+     0.9,
+     -12.4
+    ],
+    [
+     10.1,
+     -4.4
+    ],
+    [
+     -8.3,
+     -4.9
+    ],
+    [
+     13.9,
+     12.5
+    ]
+   ],
+   "solar_zenith_deg": 119.7,
+   "coldest_k": 231.0,
+   "coldest_c": -42.2,
+   "updraft_xy_km": [
+    -42.5,
+    -40.9
+   ],
+   "updraft_from_radar_core_km": 11.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:04:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -53.3,
+    -40.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -34.4,
+     -19.2
+    ],
+    [
+     -9.7,
+     -22.9
+    ],
+    [
+     7.2,
+     -21.6
+    ],
+    [
+     0.9,
+     -12.4
+    ],
+    [
+     10.1,
+     -4.4
+    ],
+    [
+     -8.3,
+     -4.9
+    ],
+    [
+     13.9,
+     12.5
+    ]
+   ],
+   "solar_zenith_deg": 119.9,
+   "coldest_k": 230.6,
+   "coldest_c": -42.6,
+   "updraft_xy_km": [
+    -41.0,
+    -38.2
+   ],
+   "updraft_from_radar_core_km": 12.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:05:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -52.5,
+    -39.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -5.8,
+     -16.5
+    ],
+    [
+     11.0,
+     -15.6
+    ],
+    [
+     15.4,
+     0.9
+    ],
+    [
+     -2.4,
+     1.4
+    ],
+    [
+     19.6,
+     18.4
+    ],
+    [
+     4.2,
+     49.0
+    ]
+   ],
+   "solar_zenith_deg": 120.1,
+   "coldest_k": 228.2,
+   "coldest_c": -45.0,
+   "updraft_xy_km": [
+    -41.0,
+    -38.2
+   ],
+   "updraft_from_radar_core_km": 11.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:06:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -51.7,
+    -39.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -5.8,
+     -16.5
+    ],
+    [
+     11.0,
+     -15.6
+    ],
+    [
+     15.4,
+     0.9
+    ],
+    [
+     -2.4,
+     1.4
+    ],
+    [
+     19.6,
+     18.4
+    ],
+    [
+     4.2,
+     49.0
+    ]
+   ],
+   "solar_zenith_deg": 120.3,
+   "coldest_k": 229.7,
+   "coldest_c": -43.5,
+   "updraft_xy_km": [
+    -38.5,
+    -38.3
+   ],
+   "updraft_from_radar_core_km": 13.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:07:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -50.9,
+    -38.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -5.8,
+     -16.5
+    ],
+    [
+     11.0,
+     -15.6
+    ],
+    [
+     15.4,
+     0.9
+    ],
+    [
+     -2.4,
+     1.4
+    ],
+    [
+     19.6,
+     18.4
+    ],
+    [
+     4.2,
+     49.0
+    ]
+   ],
+   "solar_zenith_deg": 120.5,
+   "coldest_k": 230.4,
+   "coldest_c": -42.7,
+   "updraft_xy_km": [
+    -37.0,
+    -35.6
+   ],
+   "updraft_from_radar_core_km": 14.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:08:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -50.1,
+    -38.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -5.8,
+     -16.5
+    ],
+    [
+     11.0,
+     -15.6
+    ],
+    [
+     15.4,
+     0.9
+    ],
+    [
+     -2.4,
+     1.4
+    ],
+    [
+     19.6,
+     18.4
+    ],
+    [
+     4.2,
+     49.0
+    ]
+   ],
+   "solar_zenith_deg": 120.7,
+   "coldest_k": 228.9,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    -37.0,
+    -35.6
+   ],
+   "updraft_from_radar_core_km": 13.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:09:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -49.3,
+    -37.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -5.8,
+     -16.5
+    ],
+    [
+     11.0,
+     -15.6
+    ],
+    [
+     15.4,
+     0.9
+    ],
+    [
+     -2.4,
+     1.4
+    ],
+    [
+     19.6,
+     18.4
+    ],
+    [
+     4.2,
+     49.0
+    ]
+   ],
+   "solar_zenith_deg": 120.9,
+   "coldest_k": 227.4,
+   "coldest_c": -45.8,
+   "updraft_xy_km": [
+    -38.0,
+    -32.7
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:10:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -48.5,
+    -37.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -5.8,
+     -16.5
+    ],
+    [
+     11.0,
+     -15.6
+    ],
+    [
+     15.4,
+     0.9
+    ],
+    [
+     -2.4,
+     1.4
+    ],
+    [
+     19.6,
+     18.4
+    ],
+    [
+     4.2,
+     49.0
+    ]
+   ],
+   "solar_zenith_deg": 121.1,
+   "coldest_k": 226.5,
+   "coldest_c": -46.6,
+   "updraft_xy_km": [
+    -35.6,
+    -32.9
+   ],
+   "updraft_from_radar_core_km": 13.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:11:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -47.7,
+    -36.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.8,
+     -10.2
+    ],
+    [
+     16.3,
+     -9.4
+    ],
+    [
+     19.3,
+     6.2
+    ],
+    [
+     15.9,
+     18.3
+    ],
+    [
+     23.9,
+     23.4
+    ],
+    [
+     8.7,
+     54.1
+    ]
+   ],
+   "solar_zenith_deg": 121.3,
+   "coldest_k": 229.0,
+   "coldest_c": -44.2,
+   "updraft_xy_km": [
+    -33.1,
+    -33.0
+   ],
+   "updraft_from_radar_core_km": 15.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:12:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -46.9,
+    -36.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.8,
+     -10.2
+    ],
+    [
+     16.3,
+     -9.4
+    ],
+    [
+     19.3,
+     6.2
+    ],
+    [
+     15.9,
+     18.3
+    ],
+    [
+     23.9,
+     23.4
+    ],
+    [
+     8.7,
+     54.1
+    ]
+   ],
+   "solar_zenith_deg": 121.5,
+   "coldest_k": 230.0,
+   "coldest_c": -43.1,
+   "updraft_xy_km": [
+    -28.1,
+    -19.2
+   ],
+   "updraft_from_radar_core_km": 25.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:13:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -46.2,
+    -35.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.8,
+     -10.2
+    ],
+    [
+     16.3,
+     -9.4
+    ],
+    [
+     19.3,
+     6.2
+    ],
+    [
+     15.9,
+     18.3
+    ],
+    [
+     23.9,
+     23.4
+    ],
+    [
+     8.7,
+     54.1
+    ]
+   ],
+   "solar_zenith_deg": 121.7,
+   "coldest_k": 229.5,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    -25.7,
+    -19.3
+   ],
+   "updraft_from_radar_core_km": 26.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:14:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -45.4,
+    -35.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.8,
+     -10.2
+    ],
+    [
+     16.3,
+     -9.4
+    ],
+    [
+     19.3,
+     6.2
+    ],
+    [
+     15.9,
+     18.3
+    ],
+    [
+     23.9,
+     23.4
+    ],
+    [
+     8.7,
+     54.1
+    ]
+   ],
+   "solar_zenith_deg": 121.9,
+   "coldest_k": 229.5,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    -25.7,
+    -19.3
+   ],
+   "updraft_from_radar_core_km": 25.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:15:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -44.6,
+    -34.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.8,
+     -10.2
+    ],
+    [
+     16.3,
+     -9.4
+    ],
+    [
+     19.3,
+     6.2
+    ],
+    [
+     15.9,
+     18.3
+    ],
+    [
+     23.9,
+     23.4
+    ],
+    [
+     8.7,
+     54.1
+    ]
+   ],
+   "solar_zenith_deg": 122.1,
+   "coldest_k": 230.3,
+   "coldest_c": -42.8,
+   "updraft_xy_km": [
+    -33.1,
+    -33.0
+   ],
+   "updraft_from_radar_core_km": 11.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:16:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -43.8,
+    -33.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -0.8,
+     -10.2
+    ],
+    [
+     16.3,
+     -9.4
+    ],
+    [
+     19.3,
+     6.2
+    ],
+    [
+     15.9,
+     18.3
+    ],
+    [
+     23.9,
+     23.4
+    ],
+    [
+     8.7,
+     54.1
+    ]
+   ],
+   "solar_zenith_deg": 122.4,
+   "coldest_k": 228.4,
+   "coldest_c": -44.8,
+   "updraft_xy_km": [
+    -31.6,
+    -30.3
+   ],
+   "updraft_from_radar_core_km": 12.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:17:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -43.1,
+    -32.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     21.7,
+     -3.6
+    ],
+    [
+     3.4,
+     -3.4
+    ],
+    [
+     23.7,
+     10.6
+    ],
+    [
+     19.3,
+     23.1
+    ],
+    [
+     29.4,
+     28.5
+    ],
+    [
+     13.7,
+     59.9
+    ]
+   ],
+   "solar_zenith_deg": 122.6,
+   "coldest_k": 227.7,
+   "coldest_c": -45.4,
+   "updraft_xy_km": [
+    -30.1,
+    -27.5
+   ],
+   "updraft_from_radar_core_km": 14.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:18:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -42.3,
+    -32.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     21.7,
+     -3.6
+    ],
+    [
+     3.4,
+     -3.4
+    ],
+    [
+     23.7,
+     10.6
+    ],
+    [
+     19.3,
+     23.1
+    ],
+    [
+     29.4,
+     28.5
+    ],
+    [
+     13.7,
+     59.9
+    ]
+   ],
+   "solar_zenith_deg": 122.8,
+   "coldest_k": 226.4,
+   "coldest_c": -46.7,
+   "updraft_xy_km": [
+    -30.1,
+    -27.5
+   ],
+   "updraft_from_radar_core_km": 13.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:19:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -41.5,
+    -31.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     21.7,
+     -3.6
+    ],
+    [
+     3.4,
+     -3.4
+    ],
+    [
+     23.7,
+     10.6
+    ],
+    [
+     19.3,
+     23.1
+    ],
+    [
+     29.4,
+     28.5
+    ],
+    [
+     13.7,
+     59.9
+    ]
+   ],
+   "solar_zenith_deg": 123.0,
+   "coldest_k": 227.6,
+   "coldest_c": -45.6,
+   "updraft_xy_km": [
+    -28.6,
+    -24.8
+   ],
+   "updraft_from_radar_core_km": 14.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:20:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -40.7,
+    -30.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     21.7,
+     -3.6
+    ],
+    [
+     3.4,
+     -3.4
+    ],
+    [
+     23.7,
+     10.6
+    ],
+    [
+     19.3,
+     23.1
+    ],
+    [
+     29.4,
+     28.5
+    ],
+    [
+     13.7,
+     59.9
+    ]
+   ],
+   "solar_zenith_deg": 123.2,
+   "coldest_k": 229.1,
+   "coldest_c": -44.0,
+   "updraft_xy_km": [
+    -24.7,
+    -22.2
+   ],
+   "updraft_from_radar_core_km": 18.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:21:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -39.9,
+    -30.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     21.7,
+     -3.6
+    ],
+    [
+     3.4,
+     -3.4
+    ],
+    [
+     23.7,
+     10.6
+    ],
+    [
+     19.3,
+     23.1
+    ],
+    [
+     29.4,
+     28.5
+    ],
+    [
+     13.7,
+     59.9
+    ]
+   ],
+   "solar_zenith_deg": 123.4,
+   "coldest_k": 229.8,
+   "coldest_c": -43.4,
+   "updraft_xy_km": [
+    -23.2,
+    -19.5
+   ],
+   "updraft_from_radar_core_km": 19.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:22:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -39.2,
+    -29.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 123.6,
+   "coldest_k": 230.0,
+   "coldest_c": -43.2,
+   "updraft_xy_km": [
+    -18.3,
+    -19.8
+   ],
+   "updraft_from_radar_core_km": 23.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:23:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -38.4,
+    -28.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 123.8,
+   "coldest_k": 227.8,
+   "coldest_c": -45.3,
+   "updraft_xy_km": [
+    -28.6,
+    -24.8
+   ],
+   "updraft_from_radar_core_km": 10.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:24:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -37.6,
+    -28.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 124.0,
+   "coldest_k": 227.0,
+   "coldest_c": -46.2,
+   "updraft_xy_km": [
+    -24.7,
+    -22.2
+   ],
+   "updraft_from_radar_core_km": 14.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:25:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -36.8,
+    -27.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 124.2,
+   "coldest_k": 226.8,
+   "coldest_c": -46.4,
+   "updraft_xy_km": [
+    -22.2,
+    -22.4
+   ],
+   "updraft_from_radar_core_km": 15.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:26:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -36.1,
+    -26.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 124.4,
+   "coldest_k": 227.2,
+   "coldest_c": -46.0,
+   "updraft_xy_km": [
+    -20.7,
+    -19.6
+   ],
+   "updraft_from_radar_core_km": 17.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:27:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -35.4,
+    -26.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 124.6,
+   "coldest_k": 227.9,
+   "coldest_c": -45.3,
+   "updraft_xy_km": [
+    -18.7,
+    -11.3
+   ],
+   "updraft_from_radar_core_km": 22.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:28:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -34.6,
+    -25.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     25.5,
+     2.2
+    ],
+    [
+     6.2,
+     2.0
+    ],
+    [
+     26.8,
+     15.3
+    ],
+    [
+     22.6,
+     26.8
+    ],
+    [
+     34.5,
+     34.7
+    ],
+    [
+     18.7,
+     65.6
+    ]
+   ],
+   "solar_zenith_deg": 124.9,
+   "coldest_k": 229.4,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    -17.2,
+    -8.5
+   ],
+   "updraft_from_radar_core_km": 24.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:29:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -33.9,
+    -25.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.7,
+     12.9
+    ],
+    [
+     10.6,
+     9.1
+    ],
+    [
+     42.0,
+     23.9
+    ],
+    [
+     44.3,
+     37.4
+    ],
+    [
+     40.6,
+     42.7
+    ]
+   ],
+   "solar_zenith_deg": 125.1,
+   "coldest_k": 226.8,
+   "coldest_c": -46.4,
+   "updraft_xy_km": [
+    -12.3,
+    -8.8
+   ],
+   "updraft_from_radar_core_km": 27.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:30:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -33.2,
+    -24.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.7,
+     12.9
+    ],
+    [
+     10.6,
+     9.1
+    ],
+    [
+     42.0,
+     23.9
+    ],
+    [
+     44.3,
+     37.4
+    ],
+    [
+     40.6,
+     42.7
+    ]
+   ],
+   "solar_zenith_deg": 125.3,
+   "coldest_k": 228.2,
+   "coldest_c": -45.0,
+   "updraft_xy_km": [
+    -17.2,
+    -8.5
+   ],
+   "updraft_from_radar_core_km": 22.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:31:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -32.5,
+    -23.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.7,
+     12.9
+    ],
+    [
+     10.6,
+     9.1
+    ],
+    [
+     42.0,
+     23.9
+    ],
+    [
+     44.3,
+     37.4
+    ],
+    [
+     40.6,
+     42.7
+    ]
+   ],
+   "solar_zenith_deg": 125.5,
+   "coldest_k": 228.8,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    -14.8,
+    -8.7
+   ],
+   "updraft_from_radar_core_km": 23.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:32:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -31.7,
+    -23.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.7,
+     12.9
+    ],
+    [
+     10.6,
+     9.1
+    ],
+    [
+     42.0,
+     23.9
+    ],
+    [
+     44.3,
+     37.4
+    ],
+    [
+     40.6,
+     42.7
+    ]
+   ],
+   "solar_zenith_deg": 125.7,
+   "coldest_k": 229.8,
+   "coldest_c": -43.4,
+   "updraft_xy_km": [
+    -13.3,
+    -5.9
+   ],
+   "updraft_from_radar_core_km": 25.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:33:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -30.7,
+    -21.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.7,
+     12.9
+    ],
+    [
+     10.6,
+     9.1
+    ],
+    [
+     42.0,
+     23.9
+    ],
+    [
+     44.3,
+     37.4
+    ],
+    [
+     40.6,
+     42.7
+    ]
+   ],
+   "solar_zenith_deg": 125.9,
+   "coldest_k": 228.7,
+   "coldest_c": -44.5,
+   "updraft_xy_km": [
+    -16.3,
+    -11.4
+   ],
+   "updraft_from_radar_core_km": 17.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:34:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -29.5,
+    -20.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.7,
+     12.9
+    ],
+    [
+     10.6,
+     9.1
+    ],
+    [
+     42.0,
+     23.9
+    ],
+    [
+     44.3,
+     37.4
+    ],
+    [
+     40.6,
+     42.7
+    ]
+   ],
+   "solar_zenith_deg": 126.1,
+   "coldest_k": 229.0,
+   "coldest_c": -44.2,
+   "updraft_xy_km": [
+    -14.8,
+    -8.7
+   ],
+   "updraft_from_radar_core_km": 18.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:35:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -28.3,
+    -19.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.3,
+     18.1
+    ],
+    [
+     13.9,
+     14.6
+    ],
+    [
+     46.9,
+     28.7
+    ],
+    [
+     47.0,
+     41.4
+    ],
+    [
+     46.9,
+     50.1
+    ]
+   ],
+   "solar_zenith_deg": 126.3,
+   "coldest_k": 228.1,
+   "coldest_c": -45.1,
+   "updraft_xy_km": [
+    -12.3,
+    -8.8
+   ],
+   "updraft_from_radar_core_km": 19.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:36:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -27.2,
+    -17.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.3,
+     18.1
+    ],
+    [
+     13.9,
+     14.6
+    ],
+    [
+     46.9,
+     28.7
+    ],
+    [
+     47.0,
+     41.4
+    ],
+    [
+     46.9,
+     50.1
+    ]
+   ],
+   "solar_zenith_deg": 126.5,
+   "coldest_k": 229.4,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    -10.8,
+    -6.1
+   ],
+   "updraft_from_radar_core_km": 20.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:37:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -26.0,
+    -16.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.3,
+     18.1
+    ],
+    [
+     13.9,
+     14.6
+    ],
+    [
+     46.9,
+     28.7
+    ],
+    [
+     47.0,
+     41.4
+    ],
+    [
+     46.9,
+     50.1
+    ]
+   ],
+   "solar_zenith_deg": 126.7,
+   "coldest_k": 229.0,
+   "coldest_c": -44.2,
+   "updraft_xy_km": [
+    -8.4,
+    -6.2
+   ],
+   "updraft_from_radar_core_km": 20.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:38:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -24.9,
+    -15.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.3,
+     18.1
+    ],
+    [
+     13.9,
+     14.6
+    ],
+    [
+     46.9,
+     28.7
+    ],
+    [
+     47.0,
+     41.4
+    ],
+    [
+     46.9,
+     50.1
+    ]
+   ],
+   "solar_zenith_deg": 127.0,
+   "coldest_k": 228.8,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    -3.4,
+    -6.5
+   ],
+   "updraft_from_radar_core_km": 23.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:39:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -24.0,
+    -14.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.3,
+     18.1
+    ],
+    [
+     13.9,
+     14.6
+    ],
+    [
+     46.9,
+     28.7
+    ],
+    [
+     47.0,
+     41.4
+    ],
+    [
+     46.9,
+     50.1
+    ]
+   ],
+   "solar_zenith_deg": 127.2,
+   "coldest_k": 228.4,
+   "coldest_c": -44.7,
+   "updraft_xy_km": [
+    -14.3,
+    -3.0
+   ],
+   "updraft_from_radar_core_km": 15.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:40:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -23.1,
+    -13.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     32.3,
+     18.1
+    ],
+    [
+     13.9,
+     14.6
+    ],
+    [
+     46.9,
+     28.7
+    ],
+    [
+     47.0,
+     41.4
+    ],
+    [
+     46.9,
+     50.1
+    ]
+   ],
+   "solar_zenith_deg": 127.4,
+   "coldest_k": 228.1,
+   "coldest_c": -45.0,
+   "updraft_xy_km": [
+    -11.3,
+    -11.7
+   ],
+   "updraft_from_radar_core_km": 11.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:41:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -22.1,
+    -12.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     36.0,
+     22.7
+    ],
+    [
+     18.7,
+     19.0
+    ],
+    [
+     51.8,
+     34.3
+    ],
+    [
+     50.8,
+     46.8
+    ]
+   ],
+   "solar_zenith_deg": 127.6,
+   "coldest_k": 226.8,
+   "coldest_c": -46.4,
+   "updraft_xy_km": [
+    -9.8,
+    -9.0
+   ],
+   "updraft_from_radar_core_km": 12.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:42:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -21.2,
+    -11.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     36.0,
+     22.7
+    ],
+    [
+     18.7,
+     19.0
+    ],
+    [
+     51.8,
+     34.3
+    ],
+    [
+     50.8,
+     46.8
+    ]
+   ],
+   "solar_zenith_deg": 127.8,
+   "coldest_k": 229.5,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    -5.4,
+    -0.7
+   ],
+   "updraft_from_radar_core_km": 19.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:43:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -20.3,
+    -10.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     36.0,
+     22.7
+    ],
+    [
+     18.7,
+     19.0
+    ],
+    [
+     51.8,
+     34.3
+    ],
+    [
+     50.8,
+     46.8
+    ]
+   ],
+   "solar_zenith_deg": 128.0,
+   "coldest_k": 229.6,
+   "coldest_c": -43.5,
+   "updraft_xy_km": [
+    -3.9,
+    2.0
+   ],
+   "updraft_from_radar_core_km": 20.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:44:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -19.5,
+    -10.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     36.0,
+     22.7
+    ],
+    [
+     18.7,
+     19.0
+    ],
+    [
+     51.8,
+     34.3
+    ],
+    [
+     50.8,
+     46.8
+    ]
+   ],
+   "solar_zenith_deg": 128.2,
+   "coldest_k": 228.7,
+   "coldest_c": -44.5,
+   "updraft_xy_km": [
+    -1.4,
+    1.9
+   ],
+   "updraft_from_radar_core_km": 21.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:45:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -18.8,
+    -9.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     36.0,
+     22.7
+    ],
+    [
+     18.7,
+     19.0
+    ],
+    [
+     51.8,
+     34.3
+    ],
+    [
+     50.8,
+     46.8
+    ]
+   ],
+   "solar_zenith_deg": 128.4,
+   "coldest_k": 229.7,
+   "coldest_c": -43.4,
+   "updraft_xy_km": [
+    1.0,
+    1.7
+   ],
+   "updraft_from_radar_core_km": 22.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:46:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -18.1,
+    -9.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     55.3,
+     39.1
+    ],
+    [
+     44.9,
+     40.6
+    ],
+    [
+     53.8,
+     50.4
+    ],
+    [
+     42.5,
+     89.8
+    ]
+   ],
+   "solar_zenith_deg": 128.6,
+   "coldest_k": 228.4,
+   "coldest_c": -44.8,
+   "updraft_xy_km": [
+    9.5,
+    12.6
+   ],
+   "updraft_from_radar_core_km": 35.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:47:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -17.4,
+    -9.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     55.3,
+     39.1
+    ],
+    [
+     44.9,
+     40.6
+    ],
+    [
+     53.8,
+     50.4
+    ],
+    [
+     42.5,
+     89.8
+    ]
+   ],
+   "solar_zenith_deg": 128.8,
+   "coldest_k": 228.5,
+   "coldest_c": -44.6,
+   "updraft_xy_km": [
+    4.0,
+    7.2
+   ],
+   "updraft_from_radar_core_km": 26.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:48:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -16.7,
+    -8.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     55.3,
+     39.1
+    ],
+    [
+     44.9,
+     40.6
+    ],
+    [
+     53.8,
+     50.4
+    ],
+    [
+     42.5,
+     89.8
+    ]
+   ],
+   "solar_zenith_deg": 129.0,
+   "coldest_k": 229.0,
+   "coldest_c": -44.2,
+   "updraft_xy_km": [
+    6.5,
+    7.1
+   ],
+   "updraft_from_radar_core_km": 28.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:49:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -15.9,
+    -8.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     55.3,
+     39.1
+    ],
+    [
+     44.9,
+     40.6
+    ],
+    [
+     53.8,
+     50.4
+    ],
+    [
+     42.5,
+     89.8
+    ]
+   ],
+   "solar_zenith_deg": 129.2,
+   "coldest_k": 227.7,
+   "coldest_c": -45.4,
+   "updraft_xy_km": [
+    -3.9,
+    2.0
+   ],
+   "updraft_from_radar_core_km": 15.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:50:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -15.2,
+    -7.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     55.3,
+     39.1
+    ],
+    [
+     44.9,
+     40.6
+    ],
+    [
+     53.8,
+     50.4
+    ],
+    [
+     42.5,
+     89.8
+    ]
+   ],
+   "solar_zenith_deg": 129.5,
+   "coldest_k": 228.0,
+   "coldest_c": -45.2,
+   "updraft_xy_km": [
+    6.0,
+    15.6
+   ],
+   "updraft_from_radar_core_km": 31.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:51:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -14.5,
+    -6.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     55.3,
+     39.1
+    ],
+    [
+     44.9,
+     40.6
+    ],
+    [
+     53.8,
+     50.4
+    ],
+    [
+     42.5,
+     89.8
+    ]
+   ],
+   "solar_zenith_deg": 129.7,
+   "coldest_k": 228.3,
+   "coldest_c": -44.8,
+   "updraft_xy_km": [
+    8.5,
+    15.5
+   ],
+   "updraft_from_radar_core_km": 31.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:52:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -13.7,
+    -5.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     35.2,
+     28.5
+    ],
+    [
+     32.8,
+     17.6
+    ],
+    [
+     27.5,
+     18.5
+    ],
+    [
+     58.5,
+     43.4
+    ],
+    [
+     64.7,
+     62.0
+    ],
+    [
+     47.2,
+     94.5
+    ]
+   ],
+   "solar_zenith_deg": 129.9,
+   "coldest_k": 230.3,
+   "coldest_c": -42.8,
+   "updraft_xy_km": [
+    -3.9,
+    2.0
+   ],
+   "updraft_from_radar_core_km": 12.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:53:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -13.0,
+    -5.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     35.2,
+     28.5
+    ],
+    [
+     32.8,
+     17.6
+    ],
+    [
+     27.5,
+     18.5
+    ],
+    [
+     58.5,
+     43.4
+    ],
+    [
+     64.7,
+     62.0
+    ],
+    [
+     47.2,
+     94.5
+    ]
+   ],
+   "solar_zenith_deg": 130.1,
+   "coldest_k": 229.9,
+   "coldest_c": -43.2,
+   "updraft_xy_km": [
+    -2.4,
+    4.8
+   ],
+   "updraft_from_radar_core_km": 14.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:54:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -12.3,
+    -4.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     35.2,
+     28.5
+    ],
+    [
+     32.8,
+     17.6
+    ],
+    [
+     27.5,
+     18.5
+    ],
+    [
+     58.5,
+     43.4
+    ],
+    [
+     64.7,
+     62.0
+    ],
+    [
+     47.2,
+     94.5
+    ]
+   ],
+   "solar_zenith_deg": 130.3,
+   "coldest_k": 226.4,
+   "coldest_c": -46.8,
+   "updraft_xy_km": [
+    -2.4,
+    4.8
+   ],
+   "updraft_from_radar_core_km": 13.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:55:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -11.5,
+    -3.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     35.2,
+     28.5
+    ],
+    [
+     32.8,
+     17.6
+    ],
+    [
+     27.5,
+     18.5
+    ],
+    [
+     58.5,
+     43.4
+    ],
+    [
+     64.7,
+     62.0
+    ],
+    [
+     47.2,
+     94.5
+    ]
+   ],
+   "solar_zenith_deg": 130.5,
+   "coldest_k": 226.5,
+   "coldest_c": -46.6,
+   "updraft_xy_km": [
+    -0.9,
+    7.5
+   ],
+   "updraft_from_radar_core_km": 15.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:56:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -10.7,
+    -2.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     35.2,
+     28.5
+    ],
+    [
+     32.8,
+     17.6
+    ],
+    [
+     27.5,
+     18.5
+    ],
+    [
+     58.5,
+     43.4
+    ],
+    [
+     64.7,
+     62.0
+    ],
+    [
+     47.2,
+     94.5
+    ]
+   ],
+   "solar_zenith_deg": 130.7,
+   "coldest_k": 225.7,
+   "coldest_c": -47.5,
+   "updraft_xy_km": [
+    1.6,
+    7.4
+   ],
+   "updraft_from_radar_core_km": 15.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:57:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -9.8,
+    -2.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     35.2,
+     28.5
+    ],
+    [
+     32.8,
+     17.6
+    ],
+    [
+     27.5,
+     18.5
+    ],
+    [
+     58.5,
+     43.4
+    ],
+    [
+     64.7,
+     62.0
+    ],
+    [
+     47.2,
+     94.5
+    ]
+   ],
+   "solar_zenith_deg": 130.9,
+   "coldest_k": 227.4,
+   "coldest_c": -45.8,
+   "updraft_xy_km": [
+    3.0,
+    10.1
+   ],
+   "updraft_from_radar_core_km": 17.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:58:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -9.0,
+    -1.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     39.5,
+     31.4
+    ],
+    [
+     57.0,
+     48.1
+    ],
+    [
+     69.2,
+     68.8
+    ],
+    [
+     52.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 131.1,
+   "coldest_k": 229.4,
+   "coldest_c": -43.8,
+   "updraft_xy_km": [
+    4.0,
+    7.2
+   ],
+   "updraft_from_radar_core_km": 15.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T02:59:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -8.2,
+    -0.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     39.5,
+     31.4
+    ],
+    [
+     57.0,
+     48.1
+    ],
+    [
+     69.2,
+     68.8
+    ],
+    [
+     52.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 131.3,
+   "coldest_k": 228.3,
+   "coldest_c": -44.8,
+   "updraft_xy_km": [
+    -2.9,
+    -0.9
+   ],
+   "updraft_from_radar_core_km": 5.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:00:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -7.4,
+    0.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     39.5,
+     31.4
+    ],
+    [
+     57.0,
+     48.1
+    ],
+    [
+     69.2,
+     68.8
+    ],
+    [
+     52.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 131.5,
+   "coldest_k": 229.6,
+   "coldest_c": -43.5,
+   "updraft_xy_km": [
+    -0.4,
+    -1.0
+   ],
+   "updraft_from_radar_core_km": 7.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:01:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -6.4,
+    0.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     39.5,
+     31.4
+    ],
+    [
+     57.0,
+     48.1
+    ],
+    [
+     69.2,
+     68.8
+    ],
+    [
+     52.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 131.7,
+   "coldest_k": 229.6,
+   "coldest_c": -43.5,
+   "updraft_xy_km": [
+    1.0,
+    1.7
+   ],
+   "updraft_from_radar_core_km": 7.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:02:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -5.4,
+    0.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     39.5,
+     31.4
+    ],
+    [
+     57.0,
+     48.1
+    ],
+    [
+     69.2,
+     68.8
+    ],
+    [
+     52.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 132.0,
+   "coldest_k": 230.0,
+   "coldest_c": -43.1,
+   "updraft_xy_km": [
+    8.0,
+    9.8
+   ],
+   "updraft_from_radar_core_km": 16.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:03:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -4.4,
+    1.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 132.2,
+   "coldest_k": 229.4,
+   "coldest_c": -43.8,
+   "updraft_xy_km": [
+    2.5,
+    4.5
+   ],
+   "updraft_from_radar_core_km": 7.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:04:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -3.4,
+    1.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 132.4,
+   "coldest_k": 228.9,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    4.0,
+    7.2
+   ],
+   "updraft_from_radar_core_km": 9.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:05:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -2.4,
+    1.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 132.6,
+   "coldest_k": 230.4,
+   "coldest_c": -42.7,
+   "updraft_xy_km": [
+    6.5,
+    7.1
+   ],
+   "updraft_from_radar_core_km": 10.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:06:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -1.4,
+    2.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 132.8,
+   "coldest_k": 230.0,
+   "coldest_c": -43.2,
+   "updraft_xy_km": [
+    3.5,
+    1.6
+   ],
+   "updraft_from_radar_core_km": 4.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:07:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    -0.6,
+    2.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 133.0,
+   "coldest_k": 229.8,
+   "coldest_c": -43.4,
+   "updraft_xy_km": [
+    3.5,
+    1.6
+   ],
+   "updraft_from_radar_core_km": 4.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:08:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    0.1,
+    3.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 133.2,
+   "coldest_k": 228.6,
+   "coldest_c": -44.5,
+   "updraft_xy_km": [
+    6.0,
+    1.4
+   ],
+   "updraft_from_radar_core_km": 6.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:09:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    0.9,
+    3.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     42.7,
+     34.5
+    ],
+    [
+     72.9,
+     74.2
+    ],
+    [
+     73.6,
+     92.4
+    ],
+    [
+     71.6,
+     96.8
+    ]
+   ],
+   "solar_zenith_deg": 133.4,
+   "coldest_k": 228.8,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    8.4,
+    1.3
+   ],
+   "updraft_from_radar_core_km": 7.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:10:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    1.6,
+    3.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.2,
+     32.1
+    ],
+    [
+     57.5,
+     44.2
+    ],
+    [
+     61.5,
+     64.1
+    ],
+    [
+     74.7,
+     77.7
+    ],
+    [
+     84.9,
+     86.4
+    ],
+    [
+     76.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 133.6,
+   "coldest_k": 228.0,
+   "coldest_c": -45.2,
+   "updraft_xy_km": [
+    6.0,
+    1.4
+   ],
+   "updraft_from_radar_core_km": 5.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:11:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    2.3,
+    4.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.2,
+     32.1
+    ],
+    [
+     57.5,
+     44.2
+    ],
+    [
+     61.5,
+     64.1
+    ],
+    [
+     74.7,
+     77.7
+    ],
+    [
+     84.9,
+     86.4
+    ],
+    [
+     76.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 133.8,
+   "coldest_k": 226.2,
+   "coldest_c": -47.0,
+   "updraft_xy_km": [
+    8.4,
+    1.3
+   ],
+   "updraft_from_radar_core_km": 6.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:12:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    3.0,
+    4.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.2,
+     32.1
+    ],
+    [
+     57.5,
+     44.2
+    ],
+    [
+     61.5,
+     64.1
+    ],
+    [
+     74.7,
+     77.7
+    ],
+    [
+     84.9,
+     86.4
+    ],
+    [
+     76.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 134.0,
+   "coldest_k": 226.0,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    9.9,
+    4.1
+   ],
+   "updraft_from_radar_core_km": 6.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:13:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    3.9,
+    5.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.2,
+     32.1
+    ],
+    [
+     57.5,
+     44.2
+    ],
+    [
+     61.5,
+     64.1
+    ],
+    [
+     74.7,
+     77.7
+    ],
+    [
+     84.9,
+     86.4
+    ],
+    [
+     76.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 134.2,
+   "coldest_k": 225.1,
+   "coldest_c": -48.1,
+   "updraft_xy_km": [
+    12.4,
+    3.9
+   ],
+   "updraft_from_radar_core_km": 8.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:14:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    5.0,
+    5.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.2,
+     32.1
+    ],
+    [
+     57.5,
+     44.2
+    ],
+    [
+     61.5,
+     64.1
+    ],
+    [
+     74.7,
+     77.7
+    ],
+    [
+     84.9,
+     86.4
+    ],
+    [
+     76.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 134.5,
+   "coldest_k": 227.0,
+   "coldest_c": -46.1,
+   "updraft_xy_km": [
+    14.8,
+    3.8
+   ],
+   "updraft_from_radar_core_km": 10.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:15:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    6.0,
+    6.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     34.2,
+     32.1
+    ],
+    [
+     57.5,
+     44.2
+    ],
+    [
+     61.5,
+     64.1
+    ],
+    [
+     74.7,
+     77.7
+    ],
+    [
+     84.9,
+     86.4
+    ],
+    [
+     76.0,
+     97.2
+    ]
+   ],
+   "solar_zenith_deg": 134.7,
+   "coldest_k": 225.9,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    18.8,
+    6.4
+   ],
+   "updraft_from_radar_core_km": 12.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:16:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    7.1,
+    7.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.6,
+     34.8
+    ],
+    [
+     55.6,
+     44.9
+    ],
+    [
+     79.3,
+     64.0
+    ],
+    [
+     70.6,
+     71.8
+    ],
+    [
+     77.0,
+     75.5
+    ],
+    [
+     84.9,
+     92.7
+    ]
+   ],
+   "solar_zenith_deg": 134.9,
+   "coldest_k": 226.5,
+   "coldest_c": -46.6,
+   "updraft_xy_km": [
+    9.9,
+    4.1
+   ],
+   "updraft_from_radar_core_km": 4.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:17:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    8.1,
+    7.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.6,
+     34.8
+    ],
+    [
+     55.6,
+     44.9
+    ],
+    [
+     79.3,
+     64.0
+    ],
+    [
+     70.6,
+     71.8
+    ],
+    [
+     77.0,
+     75.5
+    ],
+    [
+     84.9,
+     92.7
+    ]
+   ],
+   "solar_zenith_deg": 135.1,
+   "coldest_k": 223.8,
+   "coldest_c": -49.4,
+   "updraft_xy_km": [
+    12.4,
+    3.9
+   ],
+   "updraft_from_radar_core_km": 5.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:18:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    9.2,
+    8.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.6,
+     34.8
+    ],
+    [
+     55.6,
+     44.9
+    ],
+    [
+     79.3,
+     64.0
+    ],
+    [
+     70.6,
+     71.8
+    ],
+    [
+     77.0,
+     75.5
+    ],
+    [
+     84.9,
+     92.7
+    ]
+   ],
+   "solar_zenith_deg": 135.3,
+   "coldest_k": 223.8,
+   "coldest_c": -49.4,
+   "updraft_xy_km": [
+    13.9,
+    6.7
+   ],
+   "updraft_from_radar_core_km": 5.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:19:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    10.1,
+    9.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.6,
+     34.8
+    ],
+    [
+     55.6,
+     44.9
+    ],
+    [
+     79.3,
+     64.0
+    ],
+    [
+     70.6,
+     71.8
+    ],
+    [
+     77.0,
+     75.5
+    ],
+    [
+     84.9,
+     92.7
+    ]
+   ],
+   "solar_zenith_deg": 135.5,
+   "coldest_k": 224.1,
+   "coldest_c": -49.0,
+   "updraft_xy_km": [
+    13.9,
+    6.7
+   ],
+   "updraft_from_radar_core_km": 4.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:20:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    10.7,
+    9.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.6,
+     34.8
+    ],
+    [
+     55.6,
+     44.9
+    ],
+    [
+     79.3,
+     64.0
+    ],
+    [
+     70.6,
+     71.8
+    ],
+    [
+     77.0,
+     75.5
+    ],
+    [
+     84.9,
+     92.7
+    ]
+   ],
+   "solar_zenith_deg": 135.7,
+   "coldest_k": 223.2,
+   "coldest_c": -50.0,
+   "updraft_xy_km": [
+    15.4,
+    9.4
+   ],
+   "updraft_from_radar_core_km": 4.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:21:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    11.3,
+    10.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     28.6,
+     34.8
+    ],
+    [
+     55.6,
+     44.9
+    ],
+    [
+     79.3,
+     64.0
+    ],
+    [
+     70.6,
+     71.8
+    ],
+    [
+     77.0,
+     75.5
+    ],
+    [
+     84.9,
+     92.7
+    ]
+   ],
+   "solar_zenith_deg": 135.9,
+   "coldest_k": 224.0,
+   "coldest_c": -49.2,
+   "updraft_xy_km": [
+    17.8,
+    9.3
+   ],
+   "updraft_from_radar_core_km": 6.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:22:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    11.9,
+    11.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     59.0,
+     49.2
+    ],
+    [
+     19.1,
+     40.1
+    ],
+    [
+     93.7,
+     87.1
+    ],
+    [
+     97.9,
+     95.9
+    ],
+    [
+     89.0,
+     96.5
+    ]
+   ],
+   "solar_zenith_deg": 136.1,
+   "coldest_k": 224.4,
+   "coldest_c": -48.7,
+   "updraft_xy_km": [
+    21.8,
+    11.9
+   ],
+   "updraft_from_radar_core_km": 9.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:23:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    12.6,
+    11.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     59.0,
+     49.2
+    ],
+    [
+     19.1,
+     40.1
+    ],
+    [
+     93.7,
+     87.1
+    ],
+    [
+     97.9,
+     95.9
+    ],
+    [
+     89.0,
+     96.5
+    ]
+   ],
+   "solar_zenith_deg": 136.3,
+   "coldest_k": 225.2,
+   "coldest_c": -48.0,
+   "updraft_xy_km": [
+    24.2,
+    11.7
+   ],
+   "updraft_from_radar_core_km": 11.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:24:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    13.2,
+    12.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     59.0,
+     49.2
+    ],
+    [
+     19.1,
+     40.1
+    ],
+    [
+     93.7,
+     87.1
+    ],
+    [
+     97.9,
+     95.9
+    ],
+    [
+     89.0,
+     96.5
+    ]
+   ],
+   "solar_zenith_deg": 136.5,
+   "coldest_k": 225.5,
+   "coldest_c": -47.7,
+   "updraft_xy_km": [
+    25.7,
+    14.5
+   ],
+   "updraft_from_radar_core_km": 12.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:25:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    13.8,
+    13.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     59.0,
+     49.2
+    ],
+    [
+     19.1,
+     40.1
+    ],
+    [
+     93.7,
+     87.1
+    ],
+    [
+     97.9,
+     95.9
+    ],
+    [
+     89.0,
+     96.5
+    ]
+   ],
+   "solar_zenith_deg": 136.7,
+   "coldest_k": 225.2,
+   "coldest_c": -48.0,
+   "updraft_xy_km": [
+    29.7,
+    17.1
+   ],
+   "updraft_from_radar_core_km": 16.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:26:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    14.5,
+    13.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     59.0,
+     49.2
+    ],
+    [
+     19.1,
+     40.1
+    ],
+    [
+     93.7,
+     87.1
+    ],
+    [
+     97.9,
+     95.9
+    ],
+    [
+     89.0,
+     96.5
+    ]
+   ],
+   "solar_zenith_deg": 136.9,
+   "coldest_k": 223.3,
+   "coldest_c": -49.9,
+   "updraft_xy_km": [
+    19.3,
+    12.0
+   ],
+   "updraft_from_radar_core_km": 5.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:27:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    15.2,
+    13.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     59.0,
+     49.2
+    ],
+    [
+     19.1,
+     40.1
+    ],
+    [
+     93.7,
+     87.1
+    ],
+    [
+     97.9,
+     95.9
+    ],
+    [
+     89.0,
+     96.5
+    ]
+   ],
+   "solar_zenith_deg": 137.1,
+   "coldest_k": 223.5,
+   "coldest_c": -49.6,
+   "updraft_xy_km": [
+    20.8,
+    14.8
+   ],
+   "updraft_from_radar_core_km": 5.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:28:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    15.8,
+    13.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     22.2,
+     43.3
+    ],
+    [
+     25.8,
+     47.4
+    ],
+    [
+     59.1,
+     66.2
+    ],
+    [
+     75.3,
+     88.5
+    ],
+    [
+     96.1,
+     92.9
+    ]
+   ],
+   "solar_zenith_deg": 137.3,
+   "coldest_k": 225.6,
+   "coldest_c": -47.5,
+   "updraft_xy_km": [
+    38.5,
+    19.4
+   ],
+   "updraft_from_radar_core_km": 23.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:29:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    16.5,
+    14.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     22.2,
+     43.3
+    ],
+    [
+     25.8,
+     47.4
+    ],
+    [
+     59.1,
+     66.2
+    ],
+    [
+     75.3,
+     88.5
+    ],
+    [
+     96.1,
+     92.9
+    ]
+   ],
+   "solar_zenith_deg": 137.5,
+   "coldest_k": 225.9,
+   "coldest_c": -47.3,
+   "updraft_xy_km": [
+    24.7,
+    17.4
+   ],
+   "updraft_from_radar_core_km": 8.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:30:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    17.2,
+    14.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     22.2,
+     43.3
+    ],
+    [
+     25.8,
+     47.4
+    ],
+    [
+     59.1,
+     66.2
+    ],
+    [
+     75.3,
+     88.5
+    ],
+    [
+     96.1,
+     92.9
+    ]
+   ],
+   "solar_zenith_deg": 137.8,
+   "coldest_k": 226.2,
+   "coldest_c": -47.0,
+   "updraft_xy_km": [
+    44.9,
+    21.9
+   ],
+   "updraft_from_radar_core_km": 28.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:31:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    17.8,
+    14.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     22.2,
+     43.3
+    ],
+    [
+     25.8,
+     47.4
+    ],
+    [
+     59.1,
+     66.2
+    ],
+    [
+     75.3,
+     88.5
+    ],
+    [
+     96.1,
+     92.9
+    ]
+   ],
+   "solar_zenith_deg": 138.0,
+   "coldest_k": 226.7,
+   "coldest_c": -46.5,
+   "updraft_xy_km": [
+    46.4,
+    24.7
+   ],
+   "updraft_from_radar_core_km": 30.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:32:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    18.5,
+    15.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     22.2,
+     43.3
+    ],
+    [
+     25.8,
+     47.4
+    ],
+    [
+     59.1,
+     66.2
+    ],
+    [
+     75.3,
+     88.5
+    ],
+    [
+     96.1,
+     92.9
+    ]
+   ],
+   "solar_zenith_deg": 138.2,
+   "coldest_k": 227.2,
+   "coldest_c": -45.9,
+   "updraft_xy_km": [
+    29.7,
+    17.1
+   ],
+   "updraft_from_radar_core_km": 11.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:33:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    19.2,
+    15.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     22.2,
+     43.3
+    ],
+    [
+     25.8,
+     47.4
+    ],
+    [
+     59.1,
+     66.2
+    ],
+    [
+     75.3,
+     88.5
+    ],
+    [
+     96.1,
+     92.9
+    ]
+   ],
+   "solar_zenith_deg": 138.4,
+   "coldest_k": 225.7,
+   "coldest_c": -47.5,
+   "updraft_xy_km": [
+    23.3,
+    14.6
+   ],
+   "updraft_from_radar_core_km": 4.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:34:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    19.8,
+    16.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -22.0,
+     -50.0
+    ],
+    [
+     -13.7,
+     -44.8
+    ],
+    [
+     -8.7,
+     -26.1
+    ],
+    [
+     58.9,
+     82.9
+    ]
+   ],
+   "solar_zenith_deg": 138.6,
+   "coldest_k": 224.1,
+   "coldest_c": -49.0,
+   "updraft_xy_km": [
+    24.7,
+    17.4
+   ],
+   "updraft_from_radar_core_km": 5.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:35:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    20.5,
+    16.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -22.0,
+     -50.0
+    ],
+    [
+     -13.7,
+     -44.8
+    ],
+    [
+     -8.7,
+     -26.1
+    ],
+    [
+     58.9,
+     82.9
+    ]
+   ],
+   "solar_zenith_deg": 138.8,
+   "coldest_k": 224.3,
+   "coldest_c": -48.9,
+   "updraft_xy_km": [
+    26.2,
+    20.1
+   ],
+   "updraft_from_radar_core_km": 6.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:36:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    21.1,
+    17.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -22.0,
+     -50.0
+    ],
+    [
+     -13.7,
+     -44.8
+    ],
+    [
+     -8.7,
+     -26.1
+    ],
+    [
+     58.9,
+     82.9
+    ]
+   ],
+   "solar_zenith_deg": 139.0,
+   "coldest_k": 222.2,
+   "coldest_c": -51.0,
+   "updraft_xy_km": [
+    28.7,
+    20.0
+   ],
+   "updraft_from_radar_core_km": 8.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:37:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    21.8,
+    17.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -22.0,
+     -50.0
+    ],
+    [
+     -13.7,
+     -44.8
+    ],
+    [
+     -8.7,
+     -26.1
+    ],
+    [
+     58.9,
+     82.9
+    ]
+   ],
+   "solar_zenith_deg": 139.2,
+   "coldest_k": 223.5,
+   "coldest_c": -49.7,
+   "updraft_xy_km": [
+    30.2,
+    22.8
+   ],
+   "updraft_from_radar_core_km": 9.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:38:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    22.2,
+    18.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -22.0,
+     -50.0
+    ],
+    [
+     -13.7,
+     -44.8
+    ],
+    [
+     -8.7,
+     -26.1
+    ],
+    [
+     58.9,
+     82.9
+    ]
+   ],
+   "solar_zenith_deg": 139.4,
+   "coldest_k": 223.0,
+   "coldest_c": -50.1,
+   "updraft_xy_km": [
+    32.6,
+    22.6
+   ],
+   "updraft_from_radar_core_km": 11.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:39:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    22.7,
+    18.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -22.0,
+     -50.0
+    ],
+    [
+     -13.7,
+     -44.8
+    ],
+    [
+     -8.7,
+     -26.1
+    ],
+    [
+     58.9,
+     82.9
+    ]
+   ],
+   "solar_zenith_deg": 139.6,
+   "coldest_k": 224.0,
+   "coldest_c": -49.2,
+   "updraft_xy_km": [
+    35.1,
+    22.5
+   ],
+   "updraft_from_radar_core_km": 13.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:40:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    23.2,
+    18.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -13.5,
+     -33.3
+    ],
+    [
+     66.1,
+     70.8
+    ]
+   ],
+   "solar_zenith_deg": 139.8,
+   "coldest_k": 222.6,
+   "coldest_c": -50.5,
+   "updraft_xy_km": [
+    31.1,
+    19.9
+   ],
+   "updraft_from_radar_core_km": 8.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:41:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    23.7,
+    19.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -13.5,
+     -33.3
+    ],
+    [
+     66.1,
+     70.8
+    ]
+   ],
+   "solar_zenith_deg": 140.0,
+   "coldest_k": 222.9,
+   "coldest_c": -50.3,
+   "updraft_xy_km": [
+    32.6,
+    22.6
+   ],
+   "updraft_from_radar_core_km": 9.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:42:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    24.2,
+    19.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -13.5,
+     -33.3
+    ],
+    [
+     66.1,
+     70.8
+    ]
+   ],
+   "solar_zenith_deg": 140.2,
+   "coldest_k": 221.8,
+   "coldest_c": -51.3,
+   "updraft_xy_km": [
+    35.1,
+    22.5
+   ],
+   "updraft_from_radar_core_km": 11.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:43:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    24.8,
+    20.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -13.5,
+     -33.3
+    ],
+    [
+     66.1,
+     70.8
+    ]
+   ],
+   "solar_zenith_deg": 140.4,
+   "coldest_k": 222.1,
+   "coldest_c": -51.0,
+   "updraft_xy_km": [
+    36.6,
+    25.2
+   ],
+   "updraft_from_radar_core_km": 12.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:44:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    25.9,
+    21.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -13.5,
+     -33.3
+    ],
+    [
+     66.1,
+     70.8
+    ]
+   ],
+   "solar_zenith_deg": 140.6,
+   "coldest_k": 224.1,
+   "coldest_c": -49.1,
+   "updraft_xy_km": [
+    41.5,
+    24.9
+   ],
+   "updraft_from_radar_core_km": 16.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:45:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    27.0,
+    21.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -13.5,
+     -33.3
+    ],
+    [
+     66.1,
+     70.8
+    ]
+   ],
+   "solar_zenith_deg": 140.8,
+   "coldest_k": 223.6,
+   "coldest_c": -49.5,
+   "updraft_xy_km": [
+    43.0,
+    27.7
+   ],
+   "updraft_from_radar_core_km": 17.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:46:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    28.2,
+    22.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -10.1,
+     -28.5
+    ],
+    [
+     0.7,
+     -15.6
+    ],
+    [
+     83.0,
+     71.1
+    ],
+    [
+     56.8,
+     68.0
+    ],
+    [
+     53.9,
+     90.0
+    ]
+   ],
+   "solar_zenith_deg": 141.0,
+   "coldest_k": 224.5,
+   "coldest_c": -48.6,
+   "updraft_xy_km": [
+    41.5,
+    24.9
+   ],
+   "updraft_from_radar_core_km": 13.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:47:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    29.3,
+    23.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -10.1,
+     -28.5
+    ],
+    [
+     0.7,
+     -15.6
+    ],
+    [
+     83.0,
+     71.1
+    ],
+    [
+     56.8,
+     68.0
+    ],
+    [
+     53.9,
+     90.0
+    ]
+   ],
+   "solar_zenith_deg": 141.2,
+   "coldest_k": 224.6,
+   "coldest_c": -48.5,
+   "updraft_xy_km": [
+    35.1,
+    22.5
+   ],
+   "updraft_from_radar_core_km": 5.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:48:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    30.4,
+    24.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -10.1,
+     -28.5
+    ],
+    [
+     0.7,
+     -15.6
+    ],
+    [
+     83.0,
+     71.1
+    ],
+    [
+     56.8,
+     68.0
+    ],
+    [
+     53.9,
+     90.0
+    ]
+   ],
+   "solar_zenith_deg": 141.4,
+   "coldest_k": 224.2,
+   "coldest_c": -48.9,
+   "updraft_xy_km": [
+    36.6,
+    25.2
+   ],
+   "updraft_from_radar_core_km": 6.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:49:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    31.5,
+    25.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -10.1,
+     -28.5
+    ],
+    [
+     0.7,
+     -15.6
+    ],
+    [
+     83.0,
+     71.1
+    ],
+    [
+     56.8,
+     68.0
+    ],
+    [
+     53.9,
+     90.0
+    ]
+   ],
+   "solar_zenith_deg": 141.6,
+   "coldest_k": 222.2,
+   "coldest_c": -51.0,
+   "updraft_xy_km": [
+    39.0,
+    25.1
+   ],
+   "updraft_from_radar_core_km": 7.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:50:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    32.4,
+    25.8
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -10.1,
+     -28.5
+    ],
+    [
+     0.7,
+     -15.6
+    ],
+    [
+     83.0,
+     71.1
+    ],
+    [
+     56.8,
+     68.0
+    ],
+    [
+     53.9,
+     90.0
+    ]
+   ],
+   "solar_zenith_deg": 141.8,
+   "coldest_k": 223.5,
+   "coldest_c": -49.7,
+   "updraft_xy_km": [
+    34.1,
+    25.4
+   ],
+   "updraft_from_radar_core_km": 1.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:51:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    33.4,
+    26.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -10.1,
+     -28.5
+    ],
+    [
+     0.7,
+     -15.6
+    ],
+    [
+     83.0,
+     71.1
+    ],
+    [
+     56.8,
+     68.0
+    ],
+    [
+     53.9,
+     90.0
+    ]
+   ],
+   "solar_zenith_deg": 142.1,
+   "coldest_k": 221.1,
+   "coldest_c": -52.1,
+   "updraft_xy_km": [
+    36.6,
+    25.2
+   ],
+   "updraft_from_radar_core_km": 3.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:52:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    34.3,
+    27.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -4.3,
+     -21.3
+    ],
+    [
+     89.1,
+     69.0
+    ],
+    [
+     62.5,
+     63.2
+    ],
+    [
+     61.7,
+     73.7
+    ],
+    [
+     71.3,
+     86.5
+    ]
+   ],
+   "solar_zenith_deg": 142.3,
+   "coldest_k": 219.0,
+   "coldest_c": -54.1,
+   "updraft_xy_km": [
+    38.1,
+    28.0
+   ],
+   "updraft_from_radar_core_km": 3.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:53:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    35.2,
+    27.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -4.3,
+     -21.3
+    ],
+    [
+     89.1,
+     69.0
+    ],
+    [
+     62.5,
+     63.2
+    ],
+    [
+     61.7,
+     73.7
+    ],
+    [
+     71.3,
+     86.5
+    ]
+   ],
+   "solar_zenith_deg": 142.5,
+   "coldest_k": 219.8,
+   "coldest_c": -53.4,
+   "updraft_xy_km": [
+    39.6,
+    30.8
+   ],
+   "updraft_from_radar_core_km": 5.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:54:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    36.2,
+    28.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -4.3,
+     -21.3
+    ],
+    [
+     89.1,
+     69.0
+    ],
+    [
+     62.5,
+     63.2
+    ],
+    [
+     61.7,
+     73.7
+    ],
+    [
+     71.3,
+     86.5
+    ]
+   ],
+   "solar_zenith_deg": 142.7,
+   "coldest_k": 219.8,
+   "coldest_c": -53.3,
+   "updraft_xy_km": [
+    42.0,
+    30.6
+   ],
+   "updraft_from_radar_core_km": 6.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:55:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    37.2,
+    28.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -4.3,
+     -21.3
+    ],
+    [
+     89.1,
+     69.0
+    ],
+    [
+     62.5,
+     63.2
+    ],
+    [
+     61.7,
+     73.7
+    ],
+    [
+     71.3,
+     86.5
+    ]
+   ],
+   "solar_zenith_deg": 142.9,
+   "coldest_k": 221.1,
+   "coldest_c": -52.1,
+   "updraft_xy_km": [
+    43.5,
+    33.4
+   ],
+   "updraft_from_radar_core_km": 7.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:56:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    38.3,
+    29.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -4.3,
+     -21.3
+    ],
+    [
+     89.1,
+     69.0
+    ],
+    [
+     62.5,
+     63.2
+    ],
+    [
+     61.7,
+     73.7
+    ],
+    [
+     71.3,
+     86.5
+    ]
+   ],
+   "solar_zenith_deg": 143.1,
+   "coldest_k": 223.2,
+   "coldest_c": -50.0,
+   "updraft_xy_km": [
+    46.0,
+    33.2
+   ],
+   "updraft_from_radar_core_km": 8.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:57:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    39.4,
+    29.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -4.3,
+     -21.3
+    ],
+    [
+     89.1,
+     69.0
+    ],
+    [
+     62.5,
+     63.2
+    ],
+    [
+     61.7,
+     73.7
+    ],
+    [
+     71.3,
+     86.5
+    ]
+   ],
+   "solar_zenith_deg": 143.3,
+   "coldest_k": 224.6,
+   "coldest_c": -48.5,
+   "updraft_xy_km": [
+    48.4,
+    33.1
+   ],
+   "updraft_from_radar_core_km": 9.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:58:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    40.5,
+    30.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.3,
+     -31.8
+    ],
+    [
+     -4.1,
+     -17.4
+    ],
+    [
+     5.1,
+     -7.3
+    ],
+    [
+     92.5,
+     70.9
+    ],
+    [
+     79.1,
+     62.7
+    ],
+    [
+     76.3,
+     87.3
+    ],
+    [
+     82.2,
+     81.9
+    ],
+    [
+     66.6,
+     84.3
+    ]
+   ],
+   "solar_zenith_deg": 143.5,
+   "coldest_k": 224.6,
+   "coldest_c": -48.6,
+   "updraft_xy_km": [
+    41.1,
+    33.5
+   ],
+   "updraft_from_radar_core_km": 3.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T03:59:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    41.6,
+    30.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.3,
+     -31.8
+    ],
+    [
+     -4.1,
+     -17.4
+    ],
+    [
+     5.1,
+     -7.3
+    ],
+    [
+     92.5,
+     70.9
+    ],
+    [
+     79.1,
+     62.7
+    ],
+    [
+     76.3,
+     87.3
+    ],
+    [
+     82.2,
+     81.9
+    ],
+    [
+     66.6,
+     84.3
+    ]
+   ],
+   "solar_zenith_deg": 143.7,
+   "coldest_k": 224.3,
+   "coldest_c": -48.9,
+   "updraft_xy_km": [
+    42.6,
+    36.3
+   ],
+   "updraft_from_radar_core_km": 5.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:00:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    42.7,
+    31.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.3,
+     -31.8
+    ],
+    [
+     -4.1,
+     -17.4
+    ],
+    [
+     5.1,
+     -7.3
+    ],
+    [
+     92.5,
+     70.9
+    ],
+    [
+     79.1,
+     62.7
+    ],
+    [
+     76.3,
+     87.3
+    ],
+    [
+     82.2,
+     81.9
+    ],
+    [
+     66.6,
+     84.3
+    ]
+   ],
+   "solar_zenith_deg": 143.9,
+   "coldest_k": 224.8,
+   "coldest_c": -48.3,
+   "updraft_xy_km": [
+    44.0,
+    39.0
+   ],
+   "updraft_from_radar_core_km": 8.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:01:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    43.7,
+    31.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.3,
+     -31.8
+    ],
+    [
+     -4.1,
+     -17.4
+    ],
+    [
+     5.1,
+     -7.3
+    ],
+    [
+     92.5,
+     70.9
+    ],
+    [
+     79.1,
+     62.7
+    ],
+    [
+     76.3,
+     87.3
+    ],
+    [
+     82.2,
+     81.9
+    ],
+    [
+     66.6,
+     84.3
+    ]
+   ],
+   "solar_zenith_deg": 144.1,
+   "coldest_k": 224.1,
+   "coldest_c": -49.0,
+   "updraft_xy_km": [
+    56.9,
+    44.0
+   ],
+   "updraft_from_radar_core_km": 18.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:02:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    44.6,
+    32.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.3,
+     -31.8
+    ],
+    [
+     -4.1,
+     -17.4
+    ],
+    [
+     5.1,
+     -7.3
+    ],
+    [
+     92.5,
+     70.9
+    ],
+    [
+     79.1,
+     62.7
+    ],
+    [
+     76.3,
+     87.3
+    ],
+    [
+     82.2,
+     81.9
+    ],
+    [
+     66.6,
+     84.3
+    ]
+   ],
+   "solar_zenith_deg": 144.3,
+   "coldest_k": 224.6,
+   "coldest_c": -48.5,
+   "updraft_xy_km": [
+    60.8,
+    46.6
+   ],
+   "updraft_from_radar_core_km": 21.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:03:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    45.5,
+    32.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -7.3,
+     -31.8
+    ],
+    [
+     -4.1,
+     -17.4
+    ],
+    [
+     5.1,
+     -7.3
+    ],
+    [
+     92.5,
+     70.9
+    ],
+    [
+     79.1,
+     62.7
+    ],
+    [
+     76.3,
+     87.3
+    ],
+    [
+     82.2,
+     81.9
+    ],
+    [
+     66.6,
+     84.3
+    ]
+   ],
+   "solar_zenith_deg": 144.5,
+   "coldest_k": 224.1,
+   "coldest_c": -49.0,
+   "updraft_xy_km": [
+    63.3,
+    46.5
+   ],
+   "updraft_from_radar_core_km": 22.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:04:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    46.4,
+    33.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -3.9,
+     -27.1
+    ],
+    [
+     0.9,
+     -10.7
+    ],
+    [
+     4.1,
+     -6.1
+    ],
+    [
+     10.9,
+     -0.6
+    ],
+    [
+     94.6,
+     71.4
+    ],
+    [
+     62.4,
+     69.6
+    ],
+    [
+     -9.5,
+     62.6
+    ],
+    [
+     81.9,
+     66.8
+    ],
+    [
+     76.1,
+     71.2
+    ],
+    [
+     71.9,
+     73.8
+    ],
+    [
+     79.7,
+     88.7
+    ]
+   ],
+   "solar_zenith_deg": 144.7,
+   "coldest_k": 225.1,
+   "coldest_c": -48.0,
+   "updraft_xy_km": [
+    65.7,
+    46.4
+   ],
+   "updraft_from_radar_core_km": 23.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:05:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    47.2,
+    33.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -3.9,
+     -27.1
+    ],
+    [
+     0.9,
+     -10.7
+    ],
+    [
+     4.1,
+     -6.1
+    ],
+    [
+     10.9,
+     -0.6
+    ],
+    [
+     94.6,
+     71.4
+    ],
+    [
+     62.4,
+     69.6
+    ],
+    [
+     -9.5,
+     62.6
+    ],
+    [
+     81.9,
+     66.8
+    ],
+    [
+     76.1,
+     71.2
+    ],
+    [
+     71.9,
+     73.8
+    ],
+    [
+     79.7,
+     88.7
+    ]
+   ],
+   "solar_zenith_deg": 144.9,
+   "coldest_k": 225.6,
+   "coldest_c": -47.5,
+   "updraft_xy_km": [
+    58.4,
+    46.8
+   ],
+   "updraft_from_radar_core_km": 17.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:06:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    48.1,
+    34.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -3.9,
+     -27.1
+    ],
+    [
+     0.9,
+     -10.7
+    ],
+    [
+     4.1,
+     -6.1
+    ],
+    [
+     10.9,
+     -0.6
+    ],
+    [
+     94.6,
+     71.4
+    ],
+    [
+     62.4,
+     69.6
+    ],
+    [
+     -9.5,
+     62.6
+    ],
+    [
+     81.9,
+     66.8
+    ],
+    [
+     76.1,
+     71.2
+    ],
+    [
+     71.9,
+     73.8
+    ],
+    [
+     79.7,
+     88.7
+    ]
+   ],
+   "solar_zenith_deg": 145.1,
+   "coldest_k": 224.9,
+   "coldest_c": -48.3,
+   "updraft_xy_km": [
+    59.8,
+    49.6
+   ],
+   "updraft_from_radar_core_km": 19.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:07:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    49.1,
+    34.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -3.9,
+     -27.1
+    ],
+    [
+     0.9,
+     -10.7
+    ],
+    [
+     4.1,
+     -6.1
+    ],
+    [
+     10.9,
+     -0.6
+    ],
+    [
+     94.6,
+     71.4
+    ],
+    [
+     62.4,
+     69.6
+    ],
+    [
+     -9.5,
+     62.6
+    ],
+    [
+     81.9,
+     66.8
+    ],
+    [
+     76.1,
+     71.2
+    ],
+    [
+     71.9,
+     73.8
+    ],
+    [
+     79.7,
+     88.7
+    ]
+   ],
+   "solar_zenith_deg": 145.3,
+   "coldest_k": 223.9,
+   "coldest_c": -49.3,
+   "updraft_xy_km": [
+    62.3,
+    49.4
+   ],
+   "updraft_from_radar_core_km": 19.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:08:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    50.1,
+    35.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     -3.9,
+     -27.1
+    ],
+    [
+     0.9,
+     -10.7
+    ],
+    [
+     4.1,
+     -6.1
+    ],
+    [
+     10.9,
+     -0.6
+    ],
+    [
+     94.6,
+     71.4
+    ],
+    [
+     62.4,
+     69.6
+    ],
+    [
+     -9.5,
+     62.6
+    ],
+    [
+     81.9,
+     66.8
+    ],
+    [
+     76.1,
+     71.2
+    ],
+    [
+     71.9,
+     73.8
+    ],
+    [
+     79.7,
+     88.7
+    ]
+   ],
+   "solar_zenith_deg": 145.5,
+   "coldest_k": 224.0,
+   "coldest_c": -49.2,
+   "updraft_xy_km": [
+    64.8,
+    49.3
+   ],
+   "updraft_from_radar_core_km": 20.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:09:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    51.0,
+    36.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     0.5,
+     -20.6
+    ],
+    [
+     3.4,
+     -5.7
+    ],
+    [
+     19.5,
+     5.2
+    ],
+    [
+     96.0,
+     72.0
+    ],
+    [
+     -6.2,
+     65.8
+    ],
+    [
+     71.2,
+     70.1
+    ],
+    [
+     82.4,
+     91.4
+    ]
+   ],
+   "solar_zenith_deg": 145.7,
+   "coldest_k": 224.0,
+   "coldest_c": -49.2,
+   "updraft_xy_km": [
+    67.2,
+    49.1
+   ],
+   "updraft_from_radar_core_km": 20.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:10:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    52.0,
+    36.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     0.5,
+     -20.6
+    ],
+    [
+     3.4,
+     -5.7
+    ],
+    [
+     19.5,
+     5.2
+    ],
+    [
+     96.0,
+     72.0
+    ],
+    [
+     -6.2,
+     65.8
+    ],
+    [
+     71.2,
+     70.1
+    ],
+    [
+     82.4,
+     91.4
+    ]
+   ],
+   "solar_zenith_deg": 145.9,
+   "coldest_k": 227.6,
+   "coldest_c": -45.5,
+   "updraft_xy_km": [
+    63.8,
+    52.2
+   ],
+   "updraft_from_radar_core_km": 19.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:11:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    53.0,
+    37.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     0.5,
+     -20.6
+    ],
+    [
+     3.4,
+     -5.7
+    ],
+    [
+     19.5,
+     5.2
+    ],
+    [
+     96.0,
+     72.0
+    ],
+    [
+     -6.2,
+     65.8
+    ],
+    [
+     71.2,
+     70.1
+    ],
+    [
+     82.4,
+     91.4
+    ]
+   ],
+   "solar_zenith_deg": 146.1,
+   "coldest_k": 228.3,
+   "coldest_c": -44.8,
+   "updraft_xy_km": [
+    63.8,
+    52.2
+   ],
+   "updraft_from_radar_core_km": 18.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:12:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    53.9,
+    38.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     0.5,
+     -20.6
+    ],
+    [
+     3.4,
+     -5.7
+    ],
+    [
+     19.5,
+     5.2
+    ],
+    [
+     96.0,
+     72.0
+    ],
+    [
+     -6.2,
+     65.8
+    ],
+    [
+     71.2,
+     70.1
+    ],
+    [
+     82.4,
+     91.4
+    ]
+   ],
+   "solar_zenith_deg": 146.3,
+   "coldest_k": 229.3,
+   "coldest_c": -43.8,
+   "updraft_xy_km": [
+    66.2,
+    52.0
+   ],
+   "updraft_from_radar_core_km": 18.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:13:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    55.0,
+    38.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     0.5,
+     -20.6
+    ],
+    [
+     3.4,
+     -5.7
+    ],
+    [
+     19.5,
+     5.2
+    ],
+    [
+     96.0,
+     72.0
+    ],
+    [
+     -6.2,
+     65.8
+    ],
+    [
+     71.2,
+     70.1
+    ],
+    [
+     82.4,
+     91.4
+    ]
+   ],
+   "solar_zenith_deg": 146.5,
+   "coldest_k": 229.6,
+   "coldest_c": -43.5,
+   "updraft_xy_km": [
+    56.9,
+    44.0
+   ],
+   "updraft_from_radar_core_km": 5.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:14:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    56.0,
+    39.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     0.5,
+     -20.6
+    ],
+    [
+     3.4,
+     -5.7
+    ],
+    [
+     19.5,
+     5.2
+    ],
+    [
+     96.0,
+     72.0
+    ],
+    [
+     -6.2,
+     65.8
+    ],
+    [
+     71.2,
+     70.1
+    ],
+    [
+     82.4,
+     91.4
+    ]
+   ],
+   "solar_zenith_deg": 146.7,
+   "coldest_k": 229.3,
+   "coldest_c": -43.8,
+   "updraft_xy_km": [
+    58.4,
+    46.8
+   ],
+   "updraft_from_radar_core_km": 8.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:15:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    57.0,
+    39.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     44.3,
+     -65.3
+    ],
+    [
+     3.4,
+     -17.9
+    ],
+    [
+     8.4,
+     -0.0
+    ],
+    [
+     27.0,
+     11.4
+    ],
+    [
+     97.6,
+     74.2
+    ],
+    [
+     -3.3,
+     69.9
+    ],
+    [
+     81.7,
+     74.9
+    ],
+    [
+     87.0,
+     89.9
+    ]
+   ],
+   "solar_zenith_deg": 146.9,
+   "coldest_k": 228.9,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    72.6,
+    54.5
+   ],
+   "updraft_from_radar_core_km": 21.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:16:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    58.1,
+    40.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     44.3,
+     -65.3
+    ],
+    [
+     3.4,
+     -17.9
+    ],
+    [
+     8.4,
+     -0.0
+    ],
+    [
+     27.0,
+     11.4
+    ],
+    [
+     97.6,
+     74.2
+    ],
+    [
+     -3.3,
+     69.9
+    ],
+    [
+     81.7,
+     74.9
+    ],
+    [
+     87.0,
+     89.9
+    ]
+   ],
+   "solar_zenith_deg": 147.1,
+   "coldest_k": 228.7,
+   "coldest_c": -44.5,
+   "updraft_xy_km": [
+    62.3,
+    49.4
+   ],
+   "updraft_from_radar_core_km": 10.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:17:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    59.1,
+    40.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     44.3,
+     -65.3
+    ],
+    [
+     3.4,
+     -17.9
+    ],
+    [
+     8.4,
+     -0.0
+    ],
+    [
+     27.0,
+     11.4
+    ],
+    [
+     97.6,
+     74.2
+    ],
+    [
+     -3.3,
+     69.9
+    ],
+    [
+     81.7,
+     74.9
+    ],
+    [
+     87.0,
+     89.9
+    ]
+   ],
+   "solar_zenith_deg": 147.3,
+   "coldest_k": 229.4,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    63.8,
+    52.2
+   ],
+   "updraft_from_radar_core_km": 12.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:18:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    60.1,
+    41.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     44.3,
+     -65.3
+    ],
+    [
+     3.4,
+     -17.9
+    ],
+    [
+     8.4,
+     -0.0
+    ],
+    [
+     27.0,
+     11.4
+    ],
+    [
+     97.6,
+     74.2
+    ],
+    [
+     -3.3,
+     69.9
+    ],
+    [
+     81.7,
+     74.9
+    ],
+    [
+     87.0,
+     89.9
+    ]
+   ],
+   "solar_zenith_deg": 147.5,
+   "coldest_k": 229.5,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    66.2,
+    52.0
+   ],
+   "updraft_from_radar_core_km": 12.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:19:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    61.1,
+    41.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     44.3,
+     -65.3
+    ],
+    [
+     3.4,
+     -17.9
+    ],
+    [
+     8.4,
+     -0.0
+    ],
+    [
+     27.0,
+     11.4
+    ],
+    [
+     97.6,
+     74.2
+    ],
+    [
+     -3.3,
+     69.9
+    ],
+    [
+     81.7,
+     74.9
+    ],
+    [
+     87.0,
+     89.9
+    ]
+   ],
+   "solar_zenith_deg": 147.7,
+   "coldest_k": 228.6,
+   "coldest_c": -44.5,
+   "updraft_xy_km": [
+    70.6,
+    46.1
+   ],
+   "updraft_from_radar_core_km": 10.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:20:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    62.1,
+    42.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.2,
+     -14.4
+    ],
+    [
+     15.1,
+     7.6
+    ],
+    [
+     33.4,
+     17.9
+    ],
+    [
+     41.0,
+     47.9
+    ],
+    [
+     45.8,
+     54.8
+    ],
+    [
+     109.3,
+     96.6
+    ],
+    [
+     -0.8,
+     73.9
+    ],
+    [
+     87.0,
+     77.6
+    ]
+   ],
+   "solar_zenith_deg": 147.9,
+   "coldest_k": 228.8,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    73.1,
+    45.9
+   ],
+   "updraft_from_radar_core_km": 11.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:21:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    63.0,
+    42.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.2,
+     -14.4
+    ],
+    [
+     15.1,
+     7.6
+    ],
+    [
+     33.4,
+     17.9
+    ],
+    [
+     41.0,
+     47.9
+    ],
+    [
+     45.8,
+     54.8
+    ],
+    [
+     109.3,
+     96.6
+    ],
+    [
+     -0.8,
+     73.9
+    ],
+    [
+     87.0,
+     77.6
+    ]
+   ],
+   "solar_zenith_deg": 148.1,
+   "coldest_k": 229.1,
+   "coldest_c": -44.1,
+   "updraft_xy_km": [
+    74.6,
+    48.7
+   ],
+   "updraft_from_radar_core_km": 13.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:22:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    64.0,
+    43.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.2,
+     -14.4
+    ],
+    [
+     15.1,
+     7.6
+    ],
+    [
+     33.4,
+     17.9
+    ],
+    [
+     41.0,
+     47.9
+    ],
+    [
+     45.8,
+     54.8
+    ],
+    [
+     109.3,
+     96.6
+    ],
+    [
+     -0.8,
+     73.9
+    ],
+    [
+     87.0,
+     77.6
+    ]
+   ],
+   "solar_zenith_deg": 148.3,
+   "coldest_k": 230.3,
+   "coldest_c": -42.8,
+   "updraft_xy_km": [
+    73.2,
+    60.2
+   ],
+   "updraft_from_radar_core_km": 19.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:23:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    64.9,
+    43.4
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.2,
+     -14.4
+    ],
+    [
+     15.1,
+     7.6
+    ],
+    [
+     33.4,
+     17.9
+    ],
+    [
+     41.0,
+     47.9
+    ],
+    [
+     45.8,
+     54.8
+    ],
+    [
+     109.3,
+     96.6
+    ],
+    [
+     -0.8,
+     73.9
+    ],
+    [
+     87.0,
+     77.6
+    ]
+   ],
+   "solar_zenith_deg": 148.5,
+   "coldest_k": 231.4,
+   "coldest_c": -41.8,
+   "updraft_xy_km": [
+    78.5,
+    51.3
+   ],
+   "updraft_from_radar_core_km": 15.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:24:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    65.6,
+    43.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.2,
+     -14.4
+    ],
+    [
+     15.1,
+     7.6
+    ],
+    [
+     33.4,
+     17.9
+    ],
+    [
+     41.0,
+     47.9
+    ],
+    [
+     45.8,
+     54.8
+    ],
+    [
+     109.3,
+     96.6
+    ],
+    [
+     -0.8,
+     73.9
+    ],
+    [
+     87.0,
+     77.6
+    ]
+   ],
+   "solar_zenith_deg": 148.7,
+   "coldest_k": 232.1,
+   "coldest_c": -41.1,
+   "updraft_xy_km": [
+    73.2,
+    60.2
+   ],
+   "updraft_from_radar_core_km": 18.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:25:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    66.3,
+    44.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     5.2,
+     -14.4
+    ],
+    [
+     15.1,
+     7.6
+    ],
+    [
+     33.4,
+     17.9
+    ],
+    [
+     41.0,
+     47.9
+    ],
+    [
+     45.8,
+     54.8
+    ],
+    [
+     109.3,
+     96.6
+    ],
+    [
+     -0.8,
+     73.9
+    ],
+    [
+     87.0,
+     77.6
+    ]
+   ],
+   "solar_zenith_deg": 148.9,
+   "coldest_k": 232.9,
+   "coldest_c": -40.3,
+   "updraft_xy_km": [
+    70.1,
+    40.4
+   ],
+   "updraft_from_radar_core_km": 5.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:26:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    66.9,
+    44.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     9.2,
+     -8.9
+    ],
+    [
+     20.4,
+     15.8
+    ],
+    [
+     39.5,
+     23.8
+    ],
+    [
+     40.2,
+     37.8
+    ],
+    [
+     44.5,
+     52.3
+    ],
+    [
+     113.7,
+     97.3
+    ],
+    [
+     95.5,
+     71.8
+    ],
+    [
+     2.6,
+     78.8
+    ]
+   ],
+   "solar_zenith_deg": 149.1,
+   "coldest_k": 232.8,
+   "coldest_c": -40.3,
+   "updraft_xy_km": [
+    71.6,
+    43.2
+   ],
+   "updraft_from_radar_core_km": 4.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:27:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    67.6,
+    45.2
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     9.2,
+     -8.9
+    ],
+    [
+     20.4,
+     15.8
+    ],
+    [
+     39.5,
+     23.8
+    ],
+    [
+     40.2,
+     37.8
+    ],
+    [
+     44.5,
+     52.3
+    ],
+    [
+     113.7,
+     97.3
+    ],
+    [
+     95.5,
+     71.8
+    ],
+    [
+     2.6,
+     78.8
+    ]
+   ],
+   "solar_zenith_deg": 149.3,
+   "coldest_k": 232.1,
+   "coldest_c": -41.0,
+   "updraft_xy_km": [
+    75.0,
+    40.1
+   ],
+   "updraft_from_radar_core_km": 9.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:28:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    68.2,
+    45.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     9.2,
+     -8.9
+    ],
+    [
+     20.4,
+     15.8
+    ],
+    [
+     39.5,
+     23.8
+    ],
+    [
+     40.2,
+     37.8
+    ],
+    [
+     44.5,
+     52.3
+    ],
+    [
+     113.7,
+     97.3
+    ],
+    [
+     95.5,
+     71.8
+    ],
+    [
+     2.6,
+     78.8
+    ]
+   ],
+   "solar_zenith_deg": 149.5,
+   "coldest_k": 232.1,
+   "coldest_c": -41.0,
+   "updraft_xy_km": [
+    76.5,
+    42.9
+   ],
+   "updraft_from_radar_core_km": 8.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:29:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    68.9,
+    46.0
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     9.2,
+     -8.9
+    ],
+    [
+     20.4,
+     15.8
+    ],
+    [
+     39.5,
+     23.8
+    ],
+    [
+     40.2,
+     37.8
+    ],
+    [
+     44.5,
+     52.3
+    ],
+    [
+     113.7,
+     97.3
+    ],
+    [
+     95.5,
+     71.8
+    ],
+    [
+     2.6,
+     78.8
+    ]
+   ],
+   "solar_zenith_deg": 149.7,
+   "coldest_k": 230.8,
+   "coldest_c": -42.3,
+   "updraft_xy_km": [
+    73.5,
+    37.3
+   ],
+   "updraft_from_radar_core_km": 9.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:30:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    69.8,
+    46.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     9.2,
+     -8.9
+    ],
+    [
+     20.4,
+     15.8
+    ],
+    [
+     39.5,
+     23.8
+    ],
+    [
+     40.2,
+     37.8
+    ],
+    [
+     44.5,
+     52.3
+    ],
+    [
+     113.7,
+     97.3
+    ],
+    [
+     95.5,
+     71.8
+    ],
+    [
+     2.6,
+     78.8
+    ]
+   ],
+   "solar_zenith_deg": 149.9,
+   "coldest_k": 228.4,
+   "coldest_c": -44.7,
+   "updraft_xy_km": [
+    75.0,
+    40.1
+   ],
+   "updraft_from_radar_core_km": 8.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:31:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    70.7,
+    46.9
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     9.2,
+     -8.9
+    ],
+    [
+     20.4,
+     15.8
+    ],
+    [
+     39.5,
+     23.8
+    ],
+    [
+     40.2,
+     37.8
+    ],
+    [
+     44.5,
+     52.3
+    ],
+    [
+     113.7,
+     97.3
+    ],
+    [
+     95.5,
+     71.8
+    ],
+    [
+     2.6,
+     78.8
+    ]
+   ],
+   "solar_zenith_deg": 150.1,
+   "coldest_k": 226.5,
+   "coldest_c": -46.6,
+   "updraft_xy_km": [
+    77.4,
+    40.0
+   ],
+   "updraft_from_radar_core_km": 9.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:32:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    71.6,
+    47.3
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.3,
+     -8.4
+    ],
+    [
+     15.4,
+     2.2
+    ],
+    [
+     23.4,
+     22.3
+    ],
+    [
+     45.6,
+     31.9
+    ],
+    [
+     45.6,
+     43.8
+    ],
+    [
+     43.1,
+     55.3
+    ],
+    [
+     99.6,
+     66.8
+    ],
+    [
+     119.5,
+     98.3
+    ],
+    [
+     80.1,
+     79.1
+    ],
+    [
+     86.0,
+     71.7
+    ],
+    [
+     7.2,
+     85.3
+    ],
+    [
+     100.4,
+     79.6
+    ]
+   ],
+   "solar_zenith_deg": 150.3,
+   "coldest_k": 224.9,
+   "coldest_c": -48.2,
+   "updraft_xy_km": [
+    78.9,
+    42.7
+   ],
+   "updraft_from_radar_core_km": 8.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:33:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    72.5,
+    47.7
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.3,
+     -8.4
+    ],
+    [
+     15.4,
+     2.2
+    ],
+    [
+     23.4,
+     22.3
+    ],
+    [
+     45.6,
+     31.9
+    ],
+    [
+     45.6,
+     43.8
+    ],
+    [
+     43.1,
+     55.3
+    ],
+    [
+     99.6,
+     66.8
+    ],
+    [
+     119.5,
+     98.3
+    ],
+    [
+     80.1,
+     79.1
+    ],
+    [
+     86.0,
+     71.7
+    ],
+    [
+     7.2,
+     85.3
+    ],
+    [
+     100.4,
+     79.6
+    ]
+   ],
+   "solar_zenith_deg": 150.5,
+   "coldest_k": 225.9,
+   "coldest_c": -47.3,
+   "updraft_xy_km": [
+    81.4,
+    42.6
+   ],
+   "updraft_from_radar_core_km": 10.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:34:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    73.4,
+    48.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.3,
+     -8.4
+    ],
+    [
+     15.4,
+     2.2
+    ],
+    [
+     23.4,
+     22.3
+    ],
+    [
+     45.6,
+     31.9
+    ],
+    [
+     45.6,
+     43.8
+    ],
+    [
+     43.1,
+     55.3
+    ],
+    [
+     99.6,
+     66.8
+    ],
+    [
+     119.5,
+     98.3
+    ],
+    [
+     80.1,
+     79.1
+    ],
+    [
+     86.0,
+     71.7
+    ],
+    [
+     7.2,
+     85.3
+    ],
+    [
+     100.4,
+     79.6
+    ]
+   ],
+   "solar_zenith_deg": 150.7,
+   "coldest_k": 224.4,
+   "coldest_c": -48.7,
+   "updraft_xy_km": [
+    85.3,
+    45.2
+   ],
+   "updraft_from_radar_core_km": 12.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:35:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    74.3,
+    48.5
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.3,
+     -8.4
+    ],
+    [
+     15.4,
+     2.2
+    ],
+    [
+     23.4,
+     22.3
+    ],
+    [
+     45.6,
+     31.9
+    ],
+    [
+     45.6,
+     43.8
+    ],
+    [
+     43.1,
+     55.3
+    ],
+    [
+     99.6,
+     66.8
+    ],
+    [
+     119.5,
+     98.3
+    ],
+    [
+     80.1,
+     79.1
+    ],
+    [
+     86.0,
+     71.7
+    ],
+    [
+     7.2,
+     85.3
+    ],
+    [
+     100.4,
+     79.6
+    ]
+   ],
+   "solar_zenith_deg": 150.8,
+   "coldest_k": 226.0,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    86.8,
+    48.0
+   ],
+   "updraft_from_radar_core_km": 12.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:36:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    75.1,
+    49.1
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.3,
+     -8.4
+    ],
+    [
+     15.4,
+     2.2
+    ],
+    [
+     23.4,
+     22.3
+    ],
+    [
+     45.6,
+     31.9
+    ],
+    [
+     45.6,
+     43.8
+    ],
+    [
+     43.1,
+     55.3
+    ],
+    [
+     99.6,
+     66.8
+    ],
+    [
+     119.5,
+     98.3
+    ],
+    [
+     80.1,
+     79.1
+    ],
+    [
+     86.0,
+     71.7
+    ],
+    [
+     7.2,
+     85.3
+    ],
+    [
+     100.4,
+     79.6
+    ]
+   ],
+   "solar_zenith_deg": 151.0,
+   "coldest_k": 226.8,
+   "coldest_c": -46.3,
+   "updraft_xy_km": [
+    89.3,
+    47.9
+   ],
+   "updraft_from_radar_core_km": 14.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:37:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    75.9,
+    49.6
+   ],
+   "radar_other_cells_xy_km": [
+    [
+     11.3,
+     -8.4
+    ],
+    [
+     15.4,
+     2.2
+    ],
+    [
+     23.4,
+     22.3
+    ],
+    [
+     45.6,
+     31.9
+    ],
+    [
+     45.6,
+     43.8
+    ],
+    [
+     43.1,
+     55.3
+    ],
+    [
+     99.6,
+     66.8
+    ],
+    [
+     119.5,
+     98.3
+    ],
+    [
+     80.1,
+     79.1
+    ],
+    [
+     86.0,
+     71.7
+    ],
+    [
+     7.2,
+     85.3
+    ],
+    [
+     100.4,
+     79.6
+    ]
+   ],
+   "solar_zenith_deg": 151.2,
+   "coldest_k": 229.4,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    94.1,
+    47.6
+   ],
+   "updraft_from_radar_core_km": 18.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:38:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    76.7,
+    50.1
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 151.4,
+   "coldest_k": 227.4,
+   "coldest_c": -45.8,
+   "updraft_xy_km": [
+    80.4,
+    45.5
+   ],
+   "updraft_from_radar_core_km": 5.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:39:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    77.5,
+    50.7
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 151.6,
+   "coldest_k": 226.0,
+   "coldest_c": -47.1,
+   "updraft_xy_km": [
+    82.9,
+    45.4
+   ],
+   "updraft_from_radar_core_km": 7.6,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:40:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    78.3,
+    51.2
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 151.8,
+   "coldest_k": 225.6,
+   "coldest_c": -47.6,
+   "updraft_xy_km": [
+    84.4,
+    48.1
+   ],
+   "updraft_from_radar_core_km": 6.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:41:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.1,
+    51.8
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 152.0,
+   "coldest_k": 226.0,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    85.9,
+    50.9
+   ],
+   "updraft_from_radar_core_km": 6.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:42:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 152.2,
+   "coldest_k": 226.5,
+   "coldest_c": -46.6,
+   "updraft_xy_km": [
+    88.3,
+    50.8
+   ],
+   "updraft_from_radar_core_km": 9.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:43:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 152.4,
+   "coldest_k": 226.7,
+   "coldest_c": -46.5,
+   "updraft_xy_km": [
+    93.2,
+    50.5
+   ],
+   "updraft_from_radar_core_km": 14.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:44:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 152.5,
+   "coldest_k": 226.0,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    94.7,
+    53.3
+   ],
+   "updraft_from_radar_core_km": 15.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:45:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 152.7,
+   "coldest_k": 226.0,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    96.2,
+    56.0
+   ],
+   "updraft_from_radar_core_km": 17.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:46:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 152.9,
+   "coldest_k": 227.6,
+   "coldest_c": -45.6,
+   "updraft_xy_km": [
+    58.0,
+    69.7
+   ],
+   "updraft_from_radar_core_km": 27.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:47:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 153.1,
+   "coldest_k": 228.5,
+   "coldest_c": -44.6,
+   "updraft_xy_km": [
+    102.6,
+    58.5
+   ],
+   "updraft_from_radar_core_km": 24.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:48:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 153.3,
+   "coldest_k": 229.2,
+   "coldest_c": -44.0,
+   "updraft_xy_km": [
+    115.3,
+    63.5
+   ],
+   "updraft_from_radar_core_km": 37.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:49:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 153.5,
+   "coldest_k": 230.0,
+   "coldest_c": -43.2,
+   "updraft_xy_km": [
+    106.5,
+    61.2
+   ],
+   "updraft_from_radar_core_km": 28.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:50:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 153.6,
+   "coldest_k": 230.1,
+   "coldest_c": -43.0,
+   "updraft_xy_km": [
+    112.0,
+    66.6
+   ],
+   "updraft_from_radar_core_km": 35.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:51:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 153.8,
+   "coldest_k": 229.4,
+   "coldest_c": -43.7,
+   "updraft_xy_km": [
+    113.5,
+    69.4
+   ],
+   "updraft_from_radar_core_km": 38.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:52:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 154.0,
+   "coldest_k": 228.5,
+   "coldest_c": -44.6,
+   "updraft_xy_km": [
+    95.8,
+    64.6
+   ],
+   "updraft_from_radar_core_km": 20.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:53:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 154.2,
+   "coldest_k": 228.6,
+   "coldest_c": -44.6,
+   "updraft_xy_km": [
+    93.3,
+    64.8
+   ],
+   "updraft_from_radar_core_km": 19.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:54:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 154.4,
+   "coldest_k": 227.4,
+   "coldest_c": -45.8,
+   "updraft_xy_km": [
+    94.8,
+    67.6
+   ],
+   "updraft_from_radar_core_km": 22.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:55:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 154.5,
+   "coldest_k": 227.8,
+   "coldest_c": -45.3,
+   "updraft_xy_km": [
+    93.3,
+    64.8
+   ],
+   "updraft_from_radar_core_km": 19.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:56:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 154.7,
+   "coldest_k": 227.0,
+   "coldest_c": -46.1,
+   "updraft_xy_km": [
+    94.8,
+    67.6
+   ],
+   "updraft_from_radar_core_km": 22.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:57:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 154.9,
+   "coldest_k": 226.7,
+   "coldest_c": -46.4,
+   "updraft_xy_km": [
+    96.3,
+    70.4
+   ],
+   "updraft_from_radar_core_km": 25.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:58:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 155.1,
+   "coldest_k": 225.6,
+   "coldest_c": -47.5,
+   "updraft_xy_km": [
+    98.8,
+    70.2
+   ],
+   "updraft_from_radar_core_km": 26.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T04:59:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 155.2,
+   "coldest_k": 225.1,
+   "coldest_c": -48.1,
+   "updraft_xy_km": [
+    102.7,
+    72.9
+   ],
+   "updraft_from_radar_core_km": 31.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:00:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 155.4,
+   "coldest_k": 224.9,
+   "coldest_c": -48.2,
+   "updraft_xy_km": [
+    104.2,
+    75.6
+   ],
+   "updraft_from_radar_core_km": 34.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:01:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 155.6,
+   "coldest_k": 223.3,
+   "coldest_c": -49.9,
+   "updraft_xy_km": [
+    97.3,
+    67.4
+   ],
+   "updraft_from_radar_core_km": 23.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:02:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 155.8,
+   "coldest_k": 221.2,
+   "coldest_c": -52.0,
+   "updraft_xy_km": [
+    98.8,
+    70.2
+   ],
+   "updraft_from_radar_core_km": 26.8,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:03:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 155.9,
+   "coldest_k": 223.0,
+   "coldest_c": -50.2,
+   "updraft_xy_km": [
+    102.7,
+    72.9
+   ],
+   "updraft_from_radar_core_km": 31.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:04:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 156.1,
+   "coldest_k": 222.3,
+   "coldest_c": -50.9,
+   "updraft_xy_km": [
+    105.2,
+    72.7
+   ],
+   "updraft_from_radar_core_km": 33.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:05:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 156.3,
+   "coldest_k": 223.0,
+   "coldest_c": -50.1,
+   "updraft_xy_km": [
+    106.7,
+    75.5
+   ],
+   "updraft_from_radar_core_km": 36.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:06:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 156.5,
+   "coldest_k": 224.1,
+   "coldest_c": -49.0,
+   "updraft_xy_km": [
+    109.1,
+    75.4
+   ],
+   "updraft_from_radar_core_km": 38.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:07:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 156.6,
+   "coldest_k": 223.6,
+   "coldest_c": -49.6,
+   "updraft_xy_km": [
+    104.2,
+    75.6
+   ],
+   "updraft_from_radar_core_km": 34.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:08:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 156.8,
+   "coldest_k": 224.3,
+   "coldest_c": -48.9,
+   "updraft_xy_km": [
+    105.7,
+    78.4
+   ],
+   "updraft_from_radar_core_km": 37.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:09:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 157.0,
+   "coldest_k": 224.8,
+   "coldest_c": -48.3,
+   "updraft_xy_km": [
+    108.2,
+    78.3
+   ],
+   "updraft_from_radar_core_km": 39.1,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:10:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 157.1,
+   "coldest_k": 226.3,
+   "coldest_c": -46.9,
+   "updraft_xy_km": [
+    105.7,
+    78.4
+   ],
+   "updraft_from_radar_core_km": 37.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:11:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 157.3,
+   "coldest_k": 228.8,
+   "coldest_c": -44.3,
+   "updraft_xy_km": [
+    99.9,
+    81.6
+   ],
+   "updraft_from_radar_core_km": 36.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:12:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 157.5,
+   "coldest_k": 228.1,
+   "coldest_c": -45.1,
+   "updraft_xy_km": [
+    101.4,
+    84.4
+   ],
+   "updraft_from_radar_core_km": 39.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:13:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 157.6,
+   "coldest_k": 227.0,
+   "coldest_c": -46.2,
+   "updraft_xy_km": [
+    102.3,
+    81.5
+   ],
+   "updraft_from_radar_core_km": 37.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:14:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 157.8,
+   "coldest_k": 225.8,
+   "coldest_c": -47.3,
+   "updraft_xy_km": [
+    104.8,
+    81.4
+   ],
+   "updraft_from_radar_core_km": 39.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:15:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 158.0,
+   "coldest_k": 226.2,
+   "coldest_c": -47.0,
+   "updraft_xy_km": [
+    116.3,
+    60.6
+   ],
+   "updraft_from_radar_core_km": 38.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:16:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 158.1,
+   "coldest_k": 225.4,
+   "coldest_c": -47.7,
+   "updraft_xy_km": [
+    116.3,
+    60.6
+   ],
+   "updraft_from_radar_core_km": 38.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:17:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 158.3,
+   "coldest_k": 228.2,
+   "coldest_c": -45.0,
+   "updraft_xy_km": [
+    115.3,
+    63.5
+   ],
+   "updraft_from_radar_core_km": 37.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:18:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 158.5,
+   "coldest_k": 225.9,
+   "coldest_c": -47.2,
+   "updraft_xy_km": [
+    113.8,
+    60.8
+   ],
+   "updraft_from_radar_core_km": 35.7,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:19:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 158.6,
+   "coldest_k": 224.9,
+   "coldest_c": -48.3,
+   "updraft_xy_km": [
+    115.3,
+    63.5
+   ],
+   "updraft_from_radar_core_km": 37.9,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:20:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": [],
+   "solar_zenith_deg": 158.8,
+   "coldest_k": 227.3,
+   "coldest_c": -45.9,
+   "updraft_xy_km": [
+    54.4,
+    44.2
+   ],
+   "updraft_from_radar_core_km": 26.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:21:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 158.9,
+   "coldest_k": 224.8,
+   "coldest_c": -48.4,
+   "updraft_xy_km": [
+    53.4,
+    47.1
+   ],
+   "updraft_from_radar_core_km": 26.3,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:22:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 159.1,
+   "coldest_k": 223.6,
+   "coldest_c": -49.6,
+   "updraft_xy_km": [
+    54.9,
+    49.8
+   ],
+   "updraft_from_radar_core_km": 24.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:23:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 159.3,
+   "coldest_k": 223.2,
+   "coldest_c": -49.9,
+   "updraft_xy_km": [
+    57.4,
+    49.7
+   ],
+   "updraft_from_radar_core_km": 22.0,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:24:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 159.4,
+   "coldest_k": 221.7,
+   "coldest_c": -51.4,
+   "updraft_xy_km": [
+    58.9,
+    52.5
+   ],
+   "updraft_from_radar_core_km": 20.4,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:25:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 159.6,
+   "coldest_k": 220.0,
+   "coldest_c": -53.2,
+   "updraft_xy_km": [
+    60.4,
+    55.2
+   ],
+   "updraft_from_radar_core_km": 19.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:26:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 159.7,
+   "coldest_k": 220.3,
+   "coldest_c": -52.8,
+   "updraft_xy_km": [
+    61.9,
+    58.0
+   ],
+   "updraft_from_radar_core_km": 18.5,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:27:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 159.9,
+   "coldest_k": 220.0,
+   "coldest_c": -53.1,
+   "updraft_xy_km": [
+    65.8,
+    60.7
+   ],
+   "updraft_from_radar_core_km": 16.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 28,
+    "centroid_xy_km": [
+     65.1,
+     59.3
+    ],
+    "ellipse_major_km": 7.7,
+    "ellipse_minor_km": 4.9,
+    "major_axis_deg": 142,
+    "extent_major_km": 4.5,
+    "extent_minor_km": 2.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 28,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:28:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.0,
+   "coldest_k": 219.5,
+   "coldest_c": -53.7,
+   "updraft_xy_km": [
+    65.8,
+    60.7
+   ],
+   "updraft_from_radar_core_km": 16.1,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35,
+    "centroid_xy_km": [
+     66.6,
+     61.2
+    ],
+    "ellipse_major_km": 9.9,
+    "ellipse_minor_km": 4.9,
+    "major_axis_deg": 167,
+    "extent_major_km": 6.1,
+    "extent_minor_km": 2.7,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 35,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:29:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.2,
+   "coldest_k": 219.8,
+   "coldest_c": -53.4,
+   "updraft_xy_km": [
+    67.3,
+    63.4
+   ],
+   "updraft_from_radar_core_km": 16.6,
+   "ots": [],
+   "anvil": {
+    "area_km2": 56,
+    "centroid_xy_km": [
+     67.0,
+     59.9
+    ],
+    "ellipse_major_km": 13.5,
+    "ellipse_minor_km": 7.7,
+    "major_axis_deg": 14,
+    "extent_major_km": 9.2,
+    "extent_minor_km": 5.7,
+    "downstream_to_deg": 185,
+    "updraft_to_centroid_km": 3.6,
+    "downstream_reach_km": 8.6,
+    "backshear_km": 0.1,
+    "upwind_of_radar_core_km": 10.5,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 56,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:30:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.3,
+   "coldest_k": 219.8,
+   "coldest_c": -53.4,
+   "updraft_xy_km": [
+    68.8,
+    66.2
+   ],
+   "updraft_from_radar_core_km": 17.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 49,
+    "centroid_xy_km": [
+     69.1,
+     65.4
+    ],
+    "ellipse_major_km": 10.3,
+    "ellipse_minor_km": 6.8,
+    "major_axis_deg": 138,
+    "extent_major_km": 7.4,
+    "extent_minor_km": 4.7,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 49,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:31:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.5,
+   "coldest_k": 219.8,
+   "coldest_c": -53.4,
+   "updraft_xy_km": [
+    67.8,
+    69.1
+   ],
+   "updraft_from_radar_core_km": 20.7,
+   "ots": [],
+   "anvil": {
+    "area_km2": 49,
+    "centroid_xy_km": [
+     70.6,
+     68.2
+    ],
+    "ellipse_major_km": 10.3,
+    "ellipse_minor_km": 6.8,
+    "major_axis_deg": 138,
+    "extent_major_km": 7.4,
+    "extent_minor_km": 4.7,
+    "downstream_to_deg": 110,
+    "updraft_to_centroid_km": 2.9,
+    "downstream_reach_km": 6.6,
+    "backshear_km": -0.0,
+    "upwind_of_radar_core_km": 16.6,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 49,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:32:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.6,
+   "coldest_k": 219.2,
+   "coldest_c": -53.9,
+   "updraft_xy_km": [
+    70.3,
+    69.0
+   ],
+   "updraft_from_radar_core_km": 19.3,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35,
+    "centroid_xy_km": [
+     71.6,
+     69.5
+    ],
+    "ellipse_major_km": 11.4,
+    "ellipse_minor_km": 4.3,
+    "major_axis_deg": 147,
+    "extent_major_km": 7.4,
+    "extent_minor_km": 2.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 35,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:33:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.8,
+   "coldest_k": 218.6,
+   "coldest_c": -54.5,
+   "updraft_xy_km": [
+    74.2,
+    71.6
+   ],
+   "updraft_from_radar_core_km": 20.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 42,
+    "centroid_xy_km": [
+     73.4,
+     71.7
+    ],
+    "ellipse_major_km": 10.9,
+    "ellipse_minor_km": 6.8,
+    "major_axis_deg": 111,
+    "extent_major_km": 7.0,
+    "extent_minor_km": 4.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 42,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:34:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 160.9,
+   "coldest_k": 219.3,
+   "coldest_c": -53.9,
+   "updraft_xy_km": [
+    75.7,
+    74.4
+   ],
+   "updraft_from_radar_core_km": 22.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 42,
+    "centroid_xy_km": [
+     76.3,
+     73.9
+    ],
+    "ellipse_major_km": 11.2,
+    "ellipse_minor_km": 5.4,
+    "major_axis_deg": 136,
+    "extent_major_km": 7.4,
+    "extent_minor_km": 3.4,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 42,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:35:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.1,
+   "coldest_k": 220.0,
+   "coldest_c": -53.2,
+   "updraft_xy_km": [
+    77.2,
+    77.2
+   ],
+   "updraft_from_radar_core_km": 25.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 42,
+    "centroid_xy_km": [
+     77.8,
+     76.7
+    ],
+    "ellipse_major_km": 11.3,
+    "ellipse_minor_km": 5.4,
+    "major_axis_deg": 136,
+    "extent_major_km": 7.4,
+    "extent_minor_km": 3.4,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 42,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:36:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.2,
+   "coldest_k": 218.9,
+   "coldest_c": -54.2,
+   "updraft_xy_km": [
+    69.3,
+    71.9
+   ],
+   "updraft_from_radar_core_km": 22.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 35,
+    "centroid_xy_km": [
+     79.6,
+     78.8
+    ],
+    "ellipse_major_km": 10.2,
+    "ellipse_minor_km": 4.8,
+    "major_axis_deg": 120,
+    "extent_major_km": 6.7,
+    "extent_minor_km": 3.2,
+    "downstream_to_deg": 56,
+    "updraft_to_centroid_km": 12.4,
+    "downstream_reach_km": 14.3,
+    "backshear_km": 0.0,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 35,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:37:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.4,
+   "coldest_k": 217.8,
+   "coldest_c": -55.3,
+   "updraft_xy_km": [
+    71.8,
+    71.8
+   ],
+   "updraft_from_radar_core_km": 21.2,
+   "ots": [],
+   "anvil": null
+  },
+  {
+   "utc": "2022-12-13T05:38:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.5,
+   "coldest_k": 217.7,
+   "coldest_c": -55.5,
+   "updraft_xy_km": [
+    73.3,
+    74.6
+   ],
+   "updraft_from_radar_core_km": 23.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 49,
+    "centroid_xy_km": [
+     73.3,
+     74.6
+    ],
+    "ellipse_major_km": 13.1,
+    "ellipse_minor_km": 5.0,
+    "major_axis_deg": 134,
+    "extent_major_km": 9.2,
+    "extent_minor_km": 3.2,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 49,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:39:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.6,
+   "coldest_k": 216.3,
+   "coldest_c": -56.8,
+   "updraft_xy_km": [
+    74.8,
+    77.3
+   ],
+   "updraft_from_radar_core_km": 25.8,
+   "ots": [],
+   "anvil": {
+    "area_km2": 64,
+    "centroid_xy_km": [
+     74.8,
+     76.4
+    ],
+    "ellipse_major_km": 13.7,
+    "ellipse_minor_km": 6.3,
+    "major_axis_deg": 146,
+    "extent_major_km": 10.4,
+    "extent_minor_km": 4.8,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 64,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:40:55",
+   "sector": "M2",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.8,
+   "coldest_k": 215.7,
+   "coldest_c": -57.5,
+   "updraft_xy_km": [
+    76.2,
+    80.1
+   ],
+   "updraft_from_radar_core_km": 28.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 64,
+    "centroid_xy_km": [
+     77.2,
+     78.2
+    ],
+    "ellipse_major_km": 13.7,
+    "ellipse_minor_km": 6.3,
+    "major_axis_deg": 146,
+    "extent_major_km": 10.4,
+    "extent_minor_km": 4.8,
+    "downstream_to_deg": 155,
+    "updraft_to_centroid_km": 2.2,
+    "downstream_reach_km": 7.3,
+    "backshear_km": 3.1,
+    "upwind_of_radar_core_km": 29.9,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 64,
+    "edge_of_box": false
+   }
+  },
+  {
+   "utc": "2022-12-13T05:41:17",
+   "sector": "CONUS",
+   "storm_xy_km": [
+    79.3,
+    51.9
+   ],
+   "radar_other_cells_xy_km": null,
+   "solar_zenith_deg": 161.9,
+   "coldest_k": 217.0,
+   "coldest_c": -56.2,
+   "updraft_xy_km": [
+    76.2,
+    80.1
+   ],
+   "updraft_from_radar_core_km": 28.4,
+   "ots": [],
+   "anvil": {
+    "area_km2": 120,
+    "centroid_xy_km": [
+     81.0,
+     82.2
+    ],
+    "ellipse_major_km": 16.0,
+    "ellipse_minor_km": 10.9,
+    "major_axis_deg": 35,
+    "extent_major_km": 12.6,
+    "extent_minor_km": 9.1,
+    "downstream_to_deg": 66,
+    "updraft_to_centroid_km": 5.1,
+    "downstream_reach_km": 11.6,
+    "backshear_km": 0.3,
+    "upwind_of_radar_core_km": 0.0,
+    "touches_other_anvil": false,
+    "edge_shared_with_other_anvils": 0.0,
+    "connected_shield_km2": 120,
+    "edge_of_box": false
+   }
+  }
+ ]
+}

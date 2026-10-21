@@ -20,90 +20,90 @@ version (Thompson et al. 2003 form, mixed-layer CAPE and LCL), not SPC's effecti
 
 ## plains_lp
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| bnd_plainview_20230523 | boundary | 3.29 (merged) | 308 / 7.6 | 12.7 | 3435 | 0 / 0 (none) | 1.5 | 1652 / 1560 / 31 / 41 |  |
-| bnd_stratford_20230528 | boundary | 5.07 (merged) | 137 / 6.1 | 13.7 | 2424 | 1 / 1 (EFU) | 3.3 | 2265 / 1149 / 22 / 23 |  |
-| lp_clarks_20220818 | calibrate | 2.98 (died) | 331 / 16.1 | 12.2 | 585 | 0 / 0 (none) | 2.75 | 1718 / 1808 / 47 / 45 |  |
-| lp_earth_20210516 | calibrate | 3.81 (collapsed_new_cell_on_outflow) | 264 / 9.5 | 14.5 | 582 | 1 / 1 (EFU) | 1.5 | 2518 / 1514 / 46 / 27 |  |
-| lp_hope_20220603 | calibrate | 4.45 (died) | 277 / 8.4 | 9.2 | 58 | 0 / 0 (none) | 1.0 | 1755 / 1132 / 43 / 35 |  |
-| lp_manchester_20220513 | calibrate | 2.07 (merged) | 326 / 7.6 | 11.9 | 321 | 0 / 0 (none) | 1.25 | 2308 / 1423 / 22 / 37 |  |
-| lp_rushcenter_20220421 | calibrate | 2.6 (died) | 224 / 17.8 | 14.2 | 484 | 0 / 0 (none) | 0.75 | 2619 / 803 / 178 / 44 |  |
-| lp_taiban_20230527 | holdout | 4.53 (died) | 268 / 12.6 | 13.5 | 187 | 0 / 0 (none) | 1.75 | 1899 / 1289 / 67 / 51 |  |
-| null_fortsumner_20210522 | null | 0.5 (merged) | 196 / 34.8 | 9.5 | 936 | 0 / 0 (none) | None | 623 / 1830 / 40 / 35 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| bnd_plainview_20230523 | boundary | 3.29 (merged) | 308 / 7.6 | 12.7 | 3435 | 0 / 0 (none) | 1.5 | -72.6 / 44% / 283x170 | 1652 / 1560 / 31 / 41 |  |
+| bnd_stratford_20230528 | boundary | 5.07 (merged) | 137 / 6.1 | 13.7 | 2424 | 1 / 1 (EFU) | 3.3 | -71.0 / 59% / 110x64 | 2265 / 1149 / 22 / 23 |  |
+| lp_clarks_20220818 | calibrate | 2.98 (died) | 331 / 16.1 | 12.2 | 585 | 0 / 0 (none) | 2.75 | -63.5 / 55% / 96x53 | 1718 / 1808 / 47 / 45 |  |
+| lp_earth_20210516 | calibrate | 3.81 (collapsed_new_cell_on_outflow) | 264 / 9.5 | 14.5 | 582 | 1 / 1 (EFU) | 1.5 | -70.8 / 44% / 84x43 | 2518 / 1514 / 46 / 27 |  |
+| lp_hope_20220603 | calibrate | 4.45 (died) | 277 / 8.4 | 9.2 | 58 | 0 / 0 (none) | 1.0 | -69.1 / 50% / 139x52 | 1755 / 1132 / 43 / 35 |  |
+| lp_manchester_20220513 | calibrate | 2.07 (merged) | 326 / 7.6 | 11.9 | 321 | 0 / 0 (none) | 1.25 | -73.0 / 29% / 108x75 | 2308 / 1423 / 22 / 37 |  |
+| lp_rushcenter_20220421 | calibrate | 2.6 (died) | 224 / 17.8 | 14.2 | 484 | 0 / 0 (none) | 0.75 | -73.9 / 65% / 91x56 | 2619 / 803 / 178 / 44 |  |
+| lp_taiban_20230527 | holdout | 4.53 (died) | 268 / 12.6 | 13.5 | 187 | 0 / 0 (none) | 1.75 | -67.8 / 29% / - | 1899 / 1289 / 67 / 51 |  |
+| null_fortsumner_20210522 | null | 0.5 (merged) | 196 / 34.8 | 9.5 | 936 | 0 / 0 (none) | None | -64.5 / 0% / - | 623 / 1830 / 40 / 35 |  |
 
 ## plains_classic
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| classic_arnold_20240607 | calibrate | 3.31 (merged) | 311 / 20.6 | 13.1 | 2823 | 1 / 1 (EF2) | 1.75 | 1662 / 1163 / 118 / 67 | passed 7 km from KLNX (cone of silence) |
-| classic_forsan_20210517 | calibrate | 3.7 (merged) | 259 / 11.4 | 13.3 | 3701 | 1 / 1 (EF2) | 4.25 | 2012 / 1739 / 41 / 52 |  |
-| classic_lamar_20220607 | calibrate | 9.36 (merged) | 301 / 21.4 | 13.7 | 2084 | 2 / 1 (EFU) | 3.5 | 2046 / 1520 / 68 / 75 |  |
-| classic_pilger_20140616 | calibrate | 2.86 (died) | 231 / 27.1 | 16.5 | 1520 | 6 / 6 (EF4) | 1.25 | 3367 / 592 / 274 / 52 |  |
-| classic_rozel_20130518 | calibrate | 2.61 (merged) | 204 / 16.4 | 16.0 | 2163 | 2 / 3 (EF4) | 2.0 | 1256 / 3013 / 53 / 24 |  |
-| classic_selden_20210524 | calibrate | 4.24 (died) | 229 / 10.8 | 13.3 | 919 | 3 / 3 (EF1) | 1.75 | 2024 / 718 / 114 / 45 |  |
-| ddc_20160524 | calibrate | 2.02 (merged) | 179 / 14.2 | 14.8 | 4240 | 11 / 18 (EF3) | 5.0 | 3772 / 1132 / 46 / 28 | passed 9 km from KDDC (cone of silence) |
-| classic_akron_20250523 | holdout | 3.38 (died) | 312 / 18.2 | 12.5 | 1479 | 2 / 2 (EF2) | 3.1 | 2144 / 1750 / 86 / 57 |  |
-| classic_andover_20220429 | holdout | 2.48 (merged) | 242 / 21.8 | 12.9 | 2407 | 4 / 4 (EF3) | 2.5 | 2321 / 1449 / 227 / 47 |  |
-| null_brule_20220727 | null | 6.61 (merged) | 329 / 23.4 | 12.3 | 787 | 0 / 0 (none) | None | 598 / 1816 / 53 / 47 |  |
-| null_maywood_20220609 | null | 4.16 (merged) | 322 / 25.1 | 13.3 | 1784 | 0 / 0 (none) | 2.5 | 1753 / 1333 / 62 / 58 |  |
-| null_sterling_20240601 | null | 3.3 (merged) | 294 / 15.4 | 11.3 | 1035 | 0 / 0 (none) | 1.75 | 1437 / 1915 / 21 / 40 |  |
-| null_tescott_20220917 | null | 2.5 (merged) | 278 / 14.5 | 13.9 | 1409 | 0 / 0 (none) | 1.75 | 1646 / 2557 / 69 / 41 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| classic_arnold_20240607 | calibrate | 3.31 (merged) | 311 / 20.6 | 13.1 | 2823 | 1 / 1 (EF2) | 1.75 | -72.6 / 64% / 105x58 | 1662 / 1163 / 118 / 67 | passed 7 km from KLNX (cone of silence) |
+| classic_forsan_20210517 | calibrate | 3.7 (merged) | 259 / 11.4 | 13.3 | 3701 | 1 / 1 (EF2) | 4.25 | -74.1 / 71% / 79x43 | 2012 / 1739 / 41 / 52 |  |
+| classic_lamar_20220607 | calibrate | 9.36 (merged) | 301 / 21.4 | 13.7 | 2084 | 2 / 1 (EFU) | 3.5 | -82.0 / 33% / 136x44 | 2046 / 1520 / 68 / 75 |  |
+| classic_pilger_20140616 | calibrate | 2.86 (died) | 231 / 27.1 | 16.5 | 1520 | 6 / 6 (EF4) | 1.25 | - | 3367 / 592 / 274 / 52 |  |
+| classic_rozel_20130518 | calibrate | 2.61 (merged) | 204 / 16.4 | 16.0 | 2163 | 2 / 3 (EF4) | 2.0 | - | 1256 / 3013 / 53 / 24 |  |
+| classic_selden_20210524 | calibrate | 4.24 (died) | 229 / 10.8 | 13.3 | 919 | 3 / 3 (EF1) | 1.75 | -70.8 / 11% / 155x81 | 2024 / 718 / 114 / 45 |  |
+| ddc_20160524 | calibrate | 2.02 (merged) | 179 / 14.2 | 14.8 | 4240 | 11 / 18 (EF3) | 5.0 | - | 3772 / 1132 / 46 / 28 | passed 9 km from KDDC (cone of silence) |
+| classic_akron_20250523 | holdout | 3.38 (died) | 312 / 18.2 | 12.5 | 1479 | 2 / 2 (EF2) | 3.1 | -70.5 / 52% / 137x69 | 2144 / 1750 / 86 / 57 |  |
+| classic_andover_20220429 | holdout | 2.48 (merged) | 242 / 21.8 | 12.9 | 2407 | 4 / 4 (EF3) | 2.5 | -74.9 / 41% / 125x110 | 2321 / 1449 / 227 / 47 |  |
+| null_brule_20220727 | null | 6.61 (merged) | 329 / 23.4 | 12.3 | 787 | 0 / 0 (none) | None | -78.4 / 40% / 164x69 | 598 / 1816 / 53 / 47 |  |
+| null_maywood_20220609 | null | 4.16 (merged) | 322 / 25.1 | 13.3 | 1784 | 0 / 0 (none) | 2.5 | -75.6 / 58% / 139x105 | 1753 / 1333 / 62 / 58 |  |
+| null_sterling_20240601 | null | 3.3 (merged) | 294 / 15.4 | 11.3 | 1035 | 0 / 0 (none) | 1.75 | -68.1 / 12% / - | 1437 / 1915 / 21 / 40 |  |
+| null_tescott_20220917 | null | 2.5 (merged) | 278 / 14.5 | 13.9 | 1409 | 0 / 0 (none) | 1.75 | -71.1 / 100% / 155x92 | 1646 / 2557 / 69 / 41 |  |
 
 ## plains_hp
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| bnd_grady_20230524 | boundary | 2.92 (died) | 311 / 14.5 | 14.0 | 3676 | 2 / 2 (EFU) | 2.0 | 1399 / 2103 / 65 / 60 |  |
-| hp_amarillo_20230518 | calibrate | 4.18 (died) | 231 / 8.2 | 11.6 | 10295 | 1 / 1 (EF0) | None | 821 / 940 / 200 / 36 | passed 8 km from KAMA (cone of silence) |
-| hp_elreno_20130531 | calibrate | 4.73 (died) | 269 / 22.6 | 16.8 | 5321 | 10 / 12 (EF3) | 5.9 | 4766 / 853 / 150 / 57 | passed 8 km from KTLX (cone of silence) |
-| hp_linwood_20190528 | calibrate | 4.16 (merged) | 227 / 28.0 | 13.5 | 2605 | 3 / 2 (EF4) | None | 2354 / 615 / 292 / 50 |  |
-| hp_moore_20130520 | calibrate | 4.04 (died) | 242 / 25.3 | 14.3 | 2241 | 2 / 1 (EF5) | 2.5 | 3073 / 910 / 76 / 53 | passed 15 km from KTLX (cone of silence) |
-| hp_morton_20220523 | calibrate | 8.27 (collapsed_new_cell_on_outflow) | 260 / 12.8 | 13.8 | 1725 | 9 / 9 (EF2) | 2.25 | 1958 / 1403 / 88 / 47 | passed 8 km from KLBB (cone of silence) |
-| hp_manhattan_20220611 | holdout | 4.93 (died) | 342 / 32.1 | 16.5 | 4927 | 2 / 3 (EF2) | 1.0 | 3341 / 1433 / 88 / 46 | passed 18 km from KTWX (cone of silence) |
-| null_burlington_20230813 | null | 3.86 (merged) | 292 / 26.8 | 15.5 | 2866 | 0 / 0 (none) | 0.88 | 2180 / 985 / 35 / 42 |  |
-| null_hobbs_20220601 | null | 3.07 (died) | 239 / 21.5 | 9.7 | 1150 | 0 / 0 (none) | None | 2609 / 1179 / 81 / 41 |  |
-| null_sanjon_20230525 | null | 3.37 (merged) | 301 / 8.2 | 13.3 | 983 | 0 / 0 (none) | 3.5 | 1035 / 1281 / 104 / 44 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| bnd_grady_20230524 | boundary | 2.92 (died) | 311 / 14.5 | 14.0 | 3676 | 2 / 2 (EFU) | 2.0 | -77.2 / 29% / - | 1399 / 2103 / 65 / 60 |  |
+| hp_amarillo_20230518 | calibrate | 4.18 (died) | 231 / 8.2 | 11.6 | 10295 | 1 / 1 (EF0) | None | -77.3 / 39% / - | 821 / 940 / 200 / 36 | passed 8 km from KAMA (cone of silence) |
+| hp_elreno_20130531 | calibrate | 4.73 (died) | 269 / 22.6 | 16.8 | 5321 | 10 / 12 (EF3) | 5.9 | - | 4766 / 853 / 150 / 57 | passed 8 km from KTLX (cone of silence) |
+| hp_linwood_20190528 | calibrate | 4.16 (merged) | 227 / 28.0 | 13.5 | 2605 | 3 / 2 (EF4) | None | -76.6 / 83% / 127x52 | 2354 / 615 / 292 / 50 |  |
+| hp_moore_20130520 | calibrate | 4.04 (died) | 242 / 25.3 | 14.3 | 2241 | 2 / 1 (EF5) | 2.5 | - | 3073 / 910 / 76 / 53 | passed 15 km from KTLX (cone of silence) |
+| hp_morton_20220523 | calibrate | 8.27 (collapsed_new_cell_on_outflow) | 260 / 12.8 | 13.8 | 1725 | 9 / 9 (EF2) | 2.25 | -76.6 / 26% / 73x63 | 1958 / 1403 / 88 / 47 | passed 8 km from KLBB (cone of silence) |
+| hp_manhattan_20220611 | holdout | 4.93 (died) | 342 / 32.1 | 16.5 | 4927 | 2 / 3 (EF2) | 1.0 | -84.3 / 33% / - | 3341 / 1433 / 88 / 46 | passed 18 km from KTWX (cone of silence) |
+| null_burlington_20230813 | null | 3.86 (merged) | 292 / 26.8 | 15.5 | 2866 | 0 / 0 (none) | 0.88 | -79.8 / 72% / 112x52 | 2180 / 985 / 35 / 42 |  |
+| null_hobbs_20220601 | null | 3.07 (died) | 239 / 21.5 | 9.7 | 1150 | 0 / 0 (none) | None | -77.0 / 0% / - | 2609 / 1179 / 81 / 41 |  |
+| null_sanjon_20230525 | null | 3.37 (merged) | 301 / 8.2 | 13.3 | 983 | 0 / 0 (none) | 3.5 | -74.3 / 41% / 109x92 | 1035 / 1281 / 104 / 44 |  |
 
 ## dixie_classic
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| dixie_smithville_20110427 | calibrate | 1.15 (merged) | 236 / 55.6 | 14.7 | 993 | 1 / 4 (EF5) | 1.75 | 3015 / 725 / 376 / 73 | passed 14 km from KGWX (cone of silence) |
-| dixie_tuscaloosa_20110427 | calibrate | 6.12 (merged) | 236 / 47.0 | 16.2 | 1605 | 6 / 4 (EF4) | 2.75 | 3015 / 725 / 376 / 73 |  |
-| dixie_beauregard_20190303 | holdout | 5.82 (died) | 247 / 38.6 | 10.3 | 13153 | 1 / 3 (EF4) | None | 304 / 593 / 328 / 60 | passed 12 km from KMXX (cone of silence) |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| dixie_smithville_20110427 | calibrate | 1.15 (merged) | 236 / 55.6 | 14.7 | 993 | 1 / 4 (EF5) | 1.75 | - | 3015 / 725 / 376 / 73 | passed 14 km from KGWX (cone of silence) |
+| dixie_tuscaloosa_20110427 | calibrate | 6.12 (merged) | 236 / 47.0 | 16.2 | 1605 | 6 / 4 (EF4) | 2.75 | - | 3015 / 725 / 376 / 73 |  |
+| dixie_beauregard_20190303 | holdout | 5.82 (died) | 247 / 38.6 | 10.3 | 13153 | 1 / 3 (EF4) | None | -70.8 / 17% / - | 304 / 593 / 328 / 60 | passed 12 km from KMXX (cone of silence) |
 
 ## dixie_hp
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| dixiehp_bassfield_20200412 | calibrate | 3.29 (merged) | 235 / 41.6 | 11.6 | 7283 | 2 / 3 (EF4) | None | 2694 / 766 / 316 / 57 |  |
-| dixiehp_mayfield_20211210 | calibrate | 3.24 (merged) | 236 / 45.5 | 13.4 | 6004 | 9 / 1 (EF4) | 1.75 | 1474 / 983 / 239 / 66 |  |
-| dixiehp_rollingfork_20230324 | calibrate | 4.81 (died) | 228 / 42.3 | 13.5 | 3746 | 2 / 1 (EF4) | None | 1368 / 738 / 245 / 55 |  |
-| dixiehp_moundville_20210317 | holdout | 5.71 (merged) | 221 / 24.7 | 12.0 | 6264 | 7 / 5 (EF1) | None | 1367 / 595 / 184 / 49 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| dixiehp_bassfield_20200412 | calibrate | 3.29 (merged) | 235 / 41.6 | 11.6 | 7283 | 2 / 3 (EF4) | None | -77.3 / 47% / 175x97 | 2694 / 766 / 316 / 57 |  |
+| dixiehp_mayfield_20211210 | calibrate | 3.24 (merged) | 236 / 45.5 | 13.4 | 6004 | 9 / 1 (EF4) | 1.75 | -77.7 / 72% / 121x60 | 1474 / 983 / 239 / 66 |  |
+| dixiehp_rollingfork_20230324 | calibrate | 4.81 (died) | 228 / 42.3 | 13.5 | 3746 | 2 / 1 (EF4) | None | -73.7 / 0% / 77x33 | 1368 / 738 / 245 / 55 |  |
+| dixiehp_moundville_20210317 | holdout | 5.71 (merged) | 221 / 24.7 | 12.0 | 6264 | 7 / 5 (EF1) | None | -73.8 / 30% / 124x104 | 1367 / 595 / 184 / 49 |  |
 
 ## midwest_classic
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| mw_keota_20230331 | calibrate | 5.29 (collapsed_new_cell_on_outflow) | 236 / 40.7 | 11.6 | 2891 | 9 / 7 (EF4) | 2.75 | 1600 / 977 / 132 / 70 |  |
-| mw_lewistown_20230404 | calibrate | 4.07 (died) | 247 / 41.2 | 13.8 | 2564 | 5 / 5 (EF3) | 4.0 | 1046 / 1629 / 389 / 74 |  |
-| mw_washington_20131117 | calibrate | 1.97 (merged) | 229 / 41.4 | 9.4 | 2748 | 2 / 3 (EF4) | 1.0 | 1340 / 633 / 312 / 63 |  |
-| mw_lakeview_20240314 | holdout | 3.09 (merged) | 274 / 40.4 | 11.6 | 1799 | 4 / 4 (EF3) | 2.75 | 1331 / 791 / 227 / 67 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| mw_keota_20230331 | calibrate | 5.29 (collapsed_new_cell_on_outflow) | 236 / 40.7 | 11.6 | 2891 | 9 / 7 (EF4) | 2.75 | -70.0 / 55% / 146x116 | 1600 / 977 / 132 / 70 |  |
+| mw_lewistown_20230404 | calibrate | 4.07 (died) | 247 / 41.2 | 13.8 | 2564 | 5 / 5 (EF3) | 4.0 | -79.2 / 46% / - | 1046 / 1629 / 389 / 74 |  |
+| mw_washington_20131117 | calibrate | 1.97 (merged) | 229 / 41.4 | 9.4 | 2748 | 2 / 3 (EF4) | 1.0 | - | 1340 / 633 / 312 / 63 |  |
+| mw_lakeview_20240314 | holdout | 3.09 (merged) | 274 / 40.4 | 11.6 | 1799 | 4 / 4 (EF3) | 2.75 | -76.0 / 83% / - | 1331 / 791 / 227 / 67 |  |
 
 ## midwest_hp
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| mwhp_greenfield_20240521 | calibrate | 4.23 (died) | 223 / 53.1 | 13.4 | 6708 | 5 / 5 (EF4) | 1.0 | 2245 / 700 / 145 / 64 | passed 9 km from KDMX (cone of silence) |
-| mwhp_mendota_20240227 | calibrate | 3.21 (died) | 236 / 25.0 | 12.2 | 4390 | 10 / 4 (EF0) | 2.0 | 1099 / 1413 / 52 / 48 |  |
-| mwhp_applecreek_20230615 | holdout | 3.39 (died) | 299 / 21.2 | 11.2 | 4208 | 10 / 1 (EF0) | 2.25 | 222 / 1430 / 118 / 48 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| mwhp_greenfield_20240521 | calibrate | 4.23 (died) | 223 / 53.1 | 13.4 | 6708 | 5 / 5 (EF4) | 1.0 | -66.8 / 42% / 139x63 | 2245 / 700 / 145 / 64 | passed 9 km from KDMX (cone of silence) |
+| mwhp_mendota_20240227 | calibrate | 3.21 (died) | 236 / 25.0 | 12.2 | 4390 | 10 / 4 (EF0) | 2.0 | -70.0 / 82% / 257x216 | 1099 / 1413 / 52 / 48 |  |
+| mwhp_applecreek_20230615 | holdout | 3.39 (died) | 299 / 21.2 | 11.2 | 4208 | 10 / 1 (EF0) | 2.25 | -64.6 / 50% / - | 222 / 1430 / 118 / 48 |  |
 
 ## minisupercell
 
-| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | MLCAPE / LCL / SRH1 / S06 | Flags |
-|---|---|---|---|---|---|---|---|---|---|
-| mini_beaver_20221212 | calibrate | 3.22 (merged) | 236 / 30.6 | 8.5 | 1888 | 2 / 2 (EF0) | 2.5 | 445 / 671 / 425 / 81 |  |
-| mini_gainesville_20240204 | calibrate | 4.39 (died) | 215 / 21.8 | 7.9 | 126 | 3 / 1 (EF1) | 1.25 | 540 / 726 / 109 / 29 | passed 4 km from KJAX (cone of silence) |
-| mini_milton_20241009 | calibrate | 1.88 (died) | 169 / 39.7 | 6.7 | 4390 | 2 / 15 (EF3) | None | 765 / 1177 / 232 / 51 |  |
-| mini_sycamore_20210809 | calibrate | 3.03 (merged) | 272 / 17.2 | 11.0 | 676 | 4 / 10 (EF1) | None | 2487 / 680 / 94 / 35 |  |
+| Case | Role | Radar life h (end) | Motion from° kt | Top50 km | A40 km² | Tor matched / box (max) | Hail in | Coldest top °C / OT share / anvil km | MLCAPE / LCL / SRH1 / S06 | Flags |
+|---|---|---|---|---|---|---|---|---|---|---|
+| mini_beaver_20221212 | calibrate | 3.22 (merged) | 236 / 30.6 | 8.5 | 1888 | 2 / 2 (EF0) | 2.5 | -57.5 / - / - | 445 / 671 / 425 / 81 |  |
+| mini_gainesville_20240204 | calibrate | 4.39 (died) | 215 / 21.8 | 7.9 | 126 | 3 / 1 (EF1) | 1.25 | -35.0 / - / - | 540 / 726 / 109 / 29 | passed 4 km from KJAX (cone of silence) |
+| mini_milton_20241009 | calibrate | 1.88 (died) | 169 / 39.7 | 6.7 | 4390 | 2 / 15 (EF3) | None | -80.0 / 47% / 89x30 | 765 / 1177 / 232 / 51 |  |
+| mini_sycamore_20210809 | calibrate | 3.03 (merged) | 272 / 17.2 | 11.0 | 676 | 4 / 10 (EF1) | None | -66.7 / 34% / 142x83 | 2487 / 680 / 94 / 35 |  |

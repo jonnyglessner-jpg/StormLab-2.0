@@ -1,4 +1,4 @@
-"""Measure a storm's anvil and overshooting tops from GOES-16 ABI cloud-top imagery.
+"""Measure a storm's anvil and overshooting tops from GOES-East (GOES-16, GOES-19 from April 2025) ABI cloud-top imagery.
 
   python tools/fetch_goes.py --case lp_earth_20210516 [--every 1 --height-km 12]
 
@@ -49,6 +49,15 @@ RAW = ROOT / "data" / "raw" / "goes"
 OUT = ROOT / "validation" / "real-storm-cases" / "satellite"
 RADAR = ROOT / "validation" / "real-storm-cases" / "radar"
 BUCKET = "https://noaa-goes16.s3.amazonaws.com/"
+SAT = "16"
+GOES19_EAST = datetime(2025, 4, 7)   # GOES-19 replaced GOES-16 as GOES-East on 2025-04-07
+
+
+def use_satellite(n):
+    """Point the downloads at GOES-<n> (16 or 19: the GOES-East satellites; same scan sectors and file names)."""
+    global BUCKET, SAT
+    SAT = str(n)
+    BUCKET = f"https://noaa-goes{SAT}.s3.amazonaws.com/"
 R_E = 6371.0
 ANVIL_K = 223.15
 BOX = 300          # km half-width of the analysed area
@@ -95,7 +104,7 @@ def keys_for(product, band, t0, t1):
     while h <= t1:
         pre = f"{sector_dir}/{h:%Y}/{h.timetuple().tm_yday:03d}/{h:%H}/OR_ABI-L2-{product}-M"
         for k in list_keys(pre):
-            if f"C{band:02d}_G16" in k:
+            if f"C{band:02d}_G{SAT}" in k:
                 t = scan_time(k)
                 if t0 <= t <= t1:
                     out[t] = k
@@ -340,6 +349,7 @@ def main():
     ap.add_argument("--every", type=float, default=1, help="minutes between analysed scans")
     ap.add_argument("--height-km", type=float, default=12, help="cloud-top height used for the parallax correction")
     ap.add_argument("--resummarise", action="store_true", help="recompute the summary and quick-looks from the saved JSON")
+    ap.add_argument("--sat", default="auto", help="16 | 19 | auto (GOES-19 from 2025-04-07, else GOES-16)")
     a = ap.parse_args()
     if a.resummarise:
         f = OUT / f"{a.case}.json"
@@ -367,6 +377,8 @@ def main():
         tt = [datetime.fromisoformat(x["utc"]) for x in v]
         la = [x["latlon"][0] for x in v]; lo = [x["latlon"][1] for x in v]
         t0 = tt[0] - timedelta(minutes=a.pad_before_min); t1 = tt[-1] + timedelta(minutes=a.pad_after_min)
+    use_satellite(a.sat if a.sat != "auto" else (19 if t0 >= GOES19_EAST else 16))
+    print(f"GOES-{SAT}")
     lat0, lon0 = float(np.mean(la)), float(np.mean(lo))      # fixed local frame for the case
     secs = np.array([(t - tt[0]).total_seconds() for t in tt])
     vol_t = [datetime.fromisoformat(x["utc"]) for x in lc["volumes"]] if lc else []
@@ -451,7 +463,7 @@ def main():
     summary = summarise(scans, lc, a)
     OUT.mkdir(parents=True, exist_ok=True)
     res = {"case": a.case, "frame_centre_latlon": [round(lat0, 3), round(lon0, 3)], "parallax_height_km": a.height_km,
-           "method": "GOES-16 ABI L2 CMIP band 13; positions in km east/north of frame_centre, navigated at the cloud top "
+           "method": f"GOES-{SAT} ABI L2 CMIP band 13; positions in km east/north of frame_centre, navigated at the cloud top "
                      "(parallax-corrected); anvil = connected <= -50 C region touching the storm; OT after Bedka et al. 2010",
            "summary": summary, "scans": scans}
     f = OUT / f"{a.case}.json"
@@ -637,7 +649,7 @@ def quicklooks(res, a, lat0, lon0, tt, la, lo):
                     ax2.plot(trx, try_, "y-", lw=1)
                     ax2.set_xlim(ax.get_xlim()); ax2.set_ylim(ax.get_ylim()); ax2.set_aspect("equal")
                     ax2.set_title(f"visible (band 2, 0.5 km) {st:%H:%M}Z, sun zenith {x['solar_zenith_deg']:.0f} deg")
-        fig.suptitle(f"{a.case}  GOES-16 {x['sector']}  (navigated at {a.height_km:.0f} km: parallax-corrected)")
+        fig.suptitle(f"{a.case}  GOES-{SAT} {x['sector']}  (navigated at {a.height_km:.0f} km: parallax-corrected)")
         p = OUT / f"{a.case}_{st:%H%M}.png"
         fig.savefig(p, dpi=90, bbox_inches="tight"); plt.close(fig)
         print(f"  quick-look {p.name}")

@@ -372,7 +372,9 @@ float3 tornadoField(float3 q)
     float arms = 0.5 + 0.5 * sin(ang * 4.0 + log(max(dustD, 0.01) / dr) * 6.0 + q.z / dr * 3.0);
     float wisps = ss(0.3, 0.8, 0.4 * arms + 0.6 * fine);
     float clumps = lerp(1.0, 0.4 + 0.6 * wisps, ss(0.35, 1.1, radial));
-    float debris = S_tor3.z * (whirl * clumps * 14.0 + sheath * (0.7 + 0.3 * fine) * 9.0);
+    // big and opaque (data/reference/tornadoes/NOTES.md): the inner whirl and the sheath round the funnel's foot hide what
+    // is behind them; only the streamers at the rim stay thin
+    float debris = S_tor3.z * (whirl * clumps * 30.0 + sheath * (0.7 + 0.3 * fine) * 20.0);
     return float3(funnel, debris, tone);
 }
 
@@ -391,23 +393,37 @@ float tornadoSun(float3 q)
     return exp(-od);
 }
 
-// The low horizon a funnel's side faces (horizontal unit n): 2 degrees up, out to ~10 km, through cloud and rain on the
-// same terms as tornadoSun. SkyVis traces at 8 degrees, which from under the base hits the base; the strip of horizon
-// below that is what lights a shadowed funnel's lower part, and rain curtains, not the base, are what hide it.
-float tornadoHorizon(float3 q, float2 n)
+// The low horizon a funnel's side faces (horizontal unit n), out to ~8 km, through cloud and rain on the same terms as
+// tornadoSun. SkyVis traces at 8 degrees, which from under the base hits the base; the strip of horizon below that is
+// what lights a shadowed funnel's lower part, and rain curtains, not the base, are what hide it. A vertical surface takes
+// that light from the whole half of the horizon in front of it, so this averages three bearings (the normal and 50
+// degrees either side) at 2 and 7 degrees up: a single ray switched on and off as it grazed a rain shaft or the base's
+// edge, and painted hard-edged pale patches on the funnel.
+float horizonRay(float3 q, float3 d)
 {
-    float3 d = float3(n * 0.9994, 0.035);
     float od = 0.0, a = 0.0, s = 0.3;
     float L = S_grid.z;
-    [unroll] for (int k = 0; k < 7; k++)
+    [unroll] for (int k = 0; k < 6; k++)
     {
         float3 p = q + d * (a + 0.5 * s);
         if (abs(p.x) > L || abs(p.y) > L) break;
         float4 dn = _Dens.SampleLevel(sampler_LinearClamp, uvw(p), 0);
         od += (ss(0.2, 0.4, dn.r) * 2.7 + saturate(dn.g - 0.2)) * s;
-        a += s; s *= 1.5;
+        a += s; s *= 1.6;
     }
     return exp(-od);
+}
+float tornadoHorizon(float3 q, float2 n)
+{
+    float2 l = float2(n.x * 0.643 - n.y * 0.766, n.x * 0.766 + n.y * 0.643);
+    float2 r = float2(n.x * 0.643 + n.y * 0.766, n.y * 0.643 - n.x * 0.766);
+    float v = 0.0;
+    [unroll] for (int j = 0; j < 2; j++)
+    {
+        float sz = j == 0 ? 0.035 : 0.122, cz = sqrt(1.0 - sz * sz);
+        v += 0.5 * horizonRay(q, float3(n * cz, sz)) + 0.25 * (horizonRay(q, float3(l * cz, sz)) + horizonRay(q, float3(r * cz, sz)));
+    }
+    return 0.5 * v;
 }
 
 // a satellite tornado orbiting the main one: slender, turning counter-clockwise, hanging from the same wall cloud with its top
@@ -861,8 +877,10 @@ void March(uint3 gid : SV_DispatchThreadID)
                     // translucent one is a soft, thin veil
                     float ghost = S_tor8.z;
                     // a wedge's envelope has a soft rim: rain and debris thin it out over its outer tenth or so
+                    // Opaque unless it is a ghost: 3.5x the cloud's extinction is optical depth 4 across 30 m, so a rope or
+                    // the narrow foot of a cone does not show the horizon through it (1.3x was about 1). A ghost keeps its thin veil
                     float e = 0.06 + 1.5 * g_fp + 0.25 * ghost + (S_tor4.w > 0.5 ? 0.09 : 0.0);
-                    float bf = ss(0.3 - e, 0.3 + e, tv.x) * _MP.x * 1.3 * lerp(1.0, 0.18, ghost);
+                    float bf = ss(0.3 - e, 0.3 + e, tv.x) * _MP.x * 3.5 * lerp(1.0, 0.067, ghost);
                     float hz = saturate(q.z / max(S_base.x, 0.3));
                     float alb = S_tor8.x > 0.0 ? S_tor8.x : 1.0;
                     float tone = tf.x >= max(av.x, sat.x) ? tf.z : 1.0;
@@ -894,8 +912,10 @@ void March(uint3 gid : SV_DispatchThreadID)
                         // of the 0.21), the strip seen under the base's edge, take their visibility from tornadoHorizon
                         // instead, in the direction this side faces.
                         float4 svT = _SkyVis.SampleLevel(sampler_LinearClamp, tc, 0);
+                        // blended by the near field's weight, not switched where it starts: a switch drew a seam
+                        // across the funnel at the near box's floor
                         float capV = svT.r, sideV = 1.0;
-                        if (wN > 0.0) { float4 nlT = _NearLight.SampleLevel(sampler_LinearClamp, nearUvw(q), 0); capV = nlT.g; sideV = nlT.b; }
+                        if (wN > 0.0) { float4 nlT = _NearLight.SampleLevel(sampler_LinearClamp, nearUvw(q), 0); capV = lerp(capV, nlT.g, wN); sideV = lerp(1.0, nlT.b, wN); }
                         float visN = saturate(svT.b + (svT.a - svT.b) * cs);
                         float3 horL = max(g_hor + (g_horK - g_hor) * cs, 0.6 * g_hor);
                         float3 horN = horL * (0.07 * visN * sideV + 0.14 * tornadoHorizon(q, g_torN));
@@ -923,7 +943,8 @@ void March(uint3 gid : SV_DispatchThreadID)
                     if (phys && wN > 0.0)
                     {
                         float4 nl = _NearLight.SampleLevel(sampler_LinearClamp, nearUvw(q), 0);
-                        parent = sunz * cloudSun(nl.r, 0.0, 1.0) + 0.5 * (0.18 * g_zen * nl.g + 0.477 * g_mid * sv.g * nl.b + 0.342 * horLight(sv) * nl.b) * _PL2.x + skyFill() + groundLight(q, sunc);
+                        float3 nearParent = sunz * cloudSun(nl.r, 0.0, 1.0) + 0.5 * (0.18 * g_zen * nl.g + 0.477 * g_mid * sv.g * nl.b + 0.342 * horLight(sv) * nl.b) * _PL2.x + skyFill() + groundLight(q, sunc);
+                        parent = lerp(parent, nearParent, wN);
                     }
                     be += bf; Lc += lerp(c * cc, parent, join) * bf;
                 }
@@ -931,7 +952,7 @@ void March(uint3 gid : SV_DispatchThreadID)
                 {
                     // dust and debris: lit like the ground beneath
                     float lit = saturate(0.5 + 0.5 * dot(g_torN, safeNorm(_Sun.xy, float2(1, 0))));
-                    float od = tv.y * max(S_tor2.x * S_tor6.w, 0.08);
+                    float od = 0.5 * tv.y * max(S_tor2.x * S_tor6.w, 0.08);   // (0.5: its shading as calibrated before the denser whirl)
                     float shade = exp(-od * (0.15 + 0.65 * (1.0 - lit)));
                     float3 tl = sunz * tsun * (0.25 + 0.65 * lit) * shade + (skyc * (0.3 + 0.5 * lt.g) + hzLight * 0.8) * (0.65 + 0.35 * shade) + bounceC * 0.3;
                     be += tv.y; Lc += tl * soil * tv.y;

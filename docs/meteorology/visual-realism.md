@@ -85,13 +85,18 @@ own sun test and horizon light or it vanishes against the base. White comes only
 white only while it is actively sunlit). Out of the sun its side is a vertical surface lit by the horizon it faces, and
 the side the viewer sees faces the viewer, so its tone depends on where the viewer stands: the march takes that
 horizon's brightness and visibility from the sky bands and SkyVis, by side (brighter toward the sun's bearing). A
-uniform "side light" all round made the funnel pale from every angle. The RFD horseshoe lip must not hang down over the
-funnel. Test cameras must follow a long-lived tornado (it travels ~50 km).
+uniform "side light" all round made the funnel pale from every angle. The low-horizon trace must average bearings and
+heights (it uses ±50° and 2°/7°): one ray switched on and off as it grazed rain shafts and the base's edge, and drew
+hard-edged pale patches on the upper funnel. Anything that switches where the near field starts (rather than blending
+by its weight) draws a seam across the funnel. The funnel is opaque (3.5x cloud extinction) unless it is a ghost; 1.3x
+is only optical depth ~1 across a 30 m rope. The RFD horseshoe lip must not hang down over the funnel. Test cameras
+must follow a long-lived tornado (it travels ~50 km).
 
 ## Debris
 
 - **Big and opaque:** 2–6 funnel widths across, 100–400 m tall, often sheathing the lower third of the funnel and
-  hiding its condensation.
+  hiding its condensation. The march's inner whirl and sheath are dense enough to hide the horizon behind them; at
+  half that density the debris read as a see-through haze.
 - **Colour follows the soil:** tan to red-brown on the Plains, dark grey-brown over wet Midwest fields, near black
   with vegetation and building debris.
 - Ragged outer edge with clumps and flying debris; a smoother inner sheath hugging the funnel.

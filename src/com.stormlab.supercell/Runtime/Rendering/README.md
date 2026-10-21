@@ -91,6 +91,17 @@ by the wrong objects, tick `invertCompositeFlip` or `invertDepthFlip`.
 
 ## Test and results
 
+For repeatable base-feature reviews, run `DesignedSkinTests.RunFromCommandLine -designedOnly anatomy`
+with the same Unity batch command below. This uses a fixed Plains seed and mature cone, with inflow, rear-slot,
+aerial, side-lit, backlit and interior cameras, plus the inflow camera without the near volume. It writes
+`Screenshots/anatomy_*.png` and `validation/reports/AnatomySkinReport.md`. Use `-designedOnly sheet` to check
+all nine tornado shapes. The batch run fails on logged rendering errors as well as missing tornadoes.
+
+The low cloud and clear-slot boundaries share rotating water-cloud texture. The horseshoe has a rounded lip,
+the near-field layers use continuous angular variation and subdued underside shading, and the exposed interior
+keeps billows rather than plate bands. Funnel lighting blends into the parent cloud over the upper flare;
+debris retains a dense center with irregular outer streamers, filtered texture and local self-shading.
+
 `tests/SupercellLabTest`: the scene `Assets/Scenes/SupercellSkinTest.unity` has a `SupercellRunner` on
 `validation/soundings/ddc_20160524_hrrr.json` (copied to `Assets/StormData`), a `StormSkin`, a camera and the sun. Its
 URP asset `Assets/Settings/SkinTest_URP.asset` carries the feature. Headless run (do not pass `-nographics`):

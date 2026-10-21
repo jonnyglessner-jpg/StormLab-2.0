@@ -1,6 +1,6 @@
 # Designed storm render test
 
-2026-10-20 00:24, AMD Radeon RX 7900 XT, Unity 6000.6.6f1.
+2026-10-21 02:13, AMD Radeon RX 7900 XT, Unity 6000.6.6f1.
 
 ## Tornado shapes
 
@@ -22,18 +22,18 @@ Sheet: `designed_tornado_sheet.png`, in the order Rope, Cone, Stovepipe / Wedge,
 
 | Tile | Preset / region | Seed | Tornado | Life | Look | Shot at |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | plains / Plains | 10 | EF3 Stovepipe 162 m | Stovepipe | Ragged, brightness 0.84, red soil, dirt 0.41, lean 62 m | 0.45 of its life, Stovepipe tornado |
-| 2 | plains / Plains | 28 | EF2 Cone 197 m | Cone | Laminar, brightness 0.89, red soil, dirt 0.16, lean 147 m | 0.45 of its life, Cone tornado |
-| 3 | plains / Plains | 46 | EF1 ElephantTrunk 77 m | ElephantTrunk > Rope | Ragged, brightness 0.80, tan soil, dirt 0.14, lean 218 m | 0.45 of its life, Elephant-trunk tornado |
-| 4 | ohio / Midwest | 65 | EF0 ElephantTrunk 59 m | ElephantTrunk > Rope | Laminar, brightness 0.99, dark soil, dirt 0.05, lean 52 m | 0.45 of its life, Elephant-trunk tornado |
-| 5 | dixie / Dixie | 84 | EF1 Cone 225 m | Cone | Ragged, brightness 0.72, red clay soil, dirt 0.11, lean 69 m | 0.45 of its life, Cone tornado |
-| 6 | dryline / Plains | 124 | EF1 Sidewinder 124 m | ElephantTrunk > Sidewinder | Ragged, brightness 1.01, red soil, dirt 0.21, lean 408 m | 0.45 of its life, Sidewinder tornado |
+| 1 | plains / Plains | 10 | EF3 Stovepipe 162 m | Stovepipe | Ragged, brightness 0.81, red soil, dirt 0.41, lean 62 m | 0.45 of its life, Stovepipe tornado |
+| 2 | plains / Plains | 28 | EF2 Cone 197 m | Cone | Laminar, brightness 0.86, red soil, dirt 0.16, lean 147 m | 0.45 of its life, Cone tornado |
+| 3 | plains / Plains | 46 | EF1 ElephantTrunk 77 m | ElephantTrunk > Rope | Ragged, brightness 0.78, tan soil, dirt 0.14, lean 218 m | 0.45 of its life, Elephant-trunk tornado |
+| 4 | ohio / Midwest | 65 | EF0 ElephantTrunk 59 m | ElephantTrunk > Rope | Laminar, brightness 0.96, dark soil, dirt 0.05, lean 52 m | 0.45 of its life, Elephant-trunk tornado |
+| 5 | dixie / Dixie | 84 | EF1 Cone 225 m | Cone | Ragged, brightness 0.78, red clay soil, dirt 0.11, lean 69 m | 0.45 of its life, Cone tornado |
+| 6 | dryline / Plains | 124 | EF1 Sidewinder 124 m | ElephantTrunk > Sidewinder | Ragged, brightness 1.05, red soil, dirt 0.21, lean 408 m | 0.45 of its life, Sidewinder tornado |
 
 Sheets: `designed_tornado_variety.png` (chaser south-east, in the inflow, looking into the storm) and `designed_tornado_variety_sunlit.png` (chaser toward the sun, bearing -88), left to right, top to bottom.
 
 ## Life of one tornado
 
-Seed 43, EF5 2202 m, 79 min: Stovepipe > Wedge > Stovepipe, satellite at 0.42; Ragged, brightness 0.65, red soil, dirt 0.54, lean 25 m.
+Seed 43, EF5 2202 m, 79 min: Stovepipe > Wedge > Stovepipe, satellite at 0.42; Ragged, brightness 0.63, red soil, dirt 0.54, lean 25 m.
 
 | Tile | Fraction of life | Stage | Funnel radius ground / top |
 | --- | --- | --- | --- |

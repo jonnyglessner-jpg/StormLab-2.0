@@ -8,7 +8,7 @@
 //   Screenshots/designed_timelapse.png        one multi-cycle storm every 10 min from a chaser following it
 // and validation/reports/DesignedSkinReport.md. Batch (never -nographics):
 //   Unity.exe -batchmode -projectPath <SupercellLabTest> -executeMethod DesignedSkinTests.RunFromCommandLine -logFile designed.log
-//   [-designedOnly sheet|variety|life|timelapse]
+//   [-designedOnly sheet|variety|life|timelapse|anatomy]
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,13 +37,21 @@ public static class DesignedSkinTests
     public static void RunFromCommandLine()
     {
         bool ok;
+        bool renderError = false;
+        Application.LogCallback checkError = (message, stack, type) =>
+        {
+            if (type == LogType.Error || type == LogType.Exception || type == LogType.Assert)
+                renderError = true;
+        };
+        Application.logMessageReceived += checkError;
         try
         {
             var a = System.Environment.GetCommandLineArgs(); int i = Array.IndexOf(a, "-designedOnly");
             ok = Run(i >= 0 && i + 1 < a.Length ? a[i + 1] : null);
         }
         catch (Exception e) { Debug.LogException(e); ok = false; }
-        EditorApplication.Exit(ok ? 0 : 1);
+        finally { Application.logMessageReceived -= checkError; }
+        EditorApplication.Exit(ok && !renderError ? 0 : 1);
     }
 
     static void Sync() { var b = new ComputeBuffer(1, 4); var a = new int[1]; b.GetData(a); b.Release(); }
@@ -270,6 +278,65 @@ public static class DesignedSkinTests
             }
         }
 
+        if (only == "anatomy")
+        {
+            // Fixed seed, camera and clock for reviewing the joins between the funnel, base and RFD.
+            // Keep these separate from the variety sheet: its close cameras hide most of the clear slot.
+            var st = runner.Spawn(new FixedEnvironment(plains), Vector2.zero, 1, ClimoRegion.Plains);
+            var cyc = st.cycles.First(c => c.tornado != null);
+            var tg = cyc.tornado;
+            tg.ef = 2; tg.widthM = 350; tg.vmax = TornadoClimatology.SampleVmax(2, 0.5);
+            tg.rcKm = C.Clamp(0.175 * 29.0 / tg.vmax, 0.012, 0.6);
+            tg.lifeS = 1500; tg.rainWrap = 0;
+            StormGenome.Reshape(tg, TornadoShape.Cone, st.CharacterAt(tg.formS), 7);
+            tg.phases = null; tg.satellite = false; tg.leanKm = 0;
+            cyc.occludeS = tg.formS + 1300; cyc.endS = tg.EndS + 300;
+            foreach (var c in st.cycles.Where(c => c.index > cyc.index))
+            {
+                c.wallS += 9000; c.occludeS += 9000; c.endS += 9000;
+                if (c.tornado != null) c.tornado.formS += 9000;
+            }
+            float T = (float)(tg.formS + 600);
+            Settle(skin, T);
+            var tor = st.TornadoAt(T);
+            if (!tor.on) { ok = false; Debug.LogError("[Anatomy] expected a mature tornado"); }
+            var g = KmToWorld(skin, tor.ground);
+            var u = KmToWorld(skin, st.UpdraftAt(T));
+            float zb = (float)st.CharacterAt(T).zb * 1000;
+            var sun = skin.SunDirVol;
+            float sunAz = Mathf.Atan2(sun.x, sun.y) * Mathf.Rad2Deg;
+            var p = skin.Params;
+            var rf = p[Slot.Rfdb]; var fwd = p[Slot.F];
+            Vector2 rear = new Vector2(Mathf.Cos(2.18f) * fwd.x + Mathf.Sin(2.18f) * fwd.z,
+                Mathf.Cos(2.18f) * fwd.y + Mathf.Sin(2.18f) * fwd.w);
+            Vector2 slotEye = new Vector2(rf.x, rf.y) + rear * (rf.z + 1.2f);
+            var slotAt = skin.VolToWorld(new Vector3(rf.x, rf.y, zb / 1000 + 0.55f));
+            var views = new (string name, Vector3 from, Vector3 at, float fov)[]
+            {
+                ("inflow", g + Bearing(140) * 8000 + Vector3.up * 2, u + Vector3.up * zb, 55),
+                ("slot", g + Bearing(250) * 6500 + Vector3.up * 700, u + Vector3.up * (zb + 650), 65),
+                ("aerial", u + Bearing(225) * 9500 + Vector3.up * (zb + 5500), u + Vector3.up * zb, 65),
+                ("funnel", g + Bearing(sunAz + 60) * 2300 + Vector3.up * 2, g + Vector3.up * (zb * 0.42f), 48),
+                ("backlit", g + Bearing(sunAz + 180) * 3200 + Vector3.up * 2, g + Vector3.up * (zb * 0.48f), 48),
+                ("interior", skin.VolToWorld(new Vector3(slotEye.x, slotEye.y, Mathf.Max(0.1f, zb / 1000 - 0.25f))), slotAt, 75),
+            };
+            rep.AppendLine("## Anatomy review").AppendLine().AppendLine("Fixed Plains seed 1, mature cone. Inflow, rear clear slot, aerial, side-lit funnel, backlit funnel and a view into the rear opening.").AppendLine();
+            var tiles = new List<Texture2D>();
+            foreach (var v in views)
+            {
+                Pose(cam, v.from, v.at, v.fov); skin.ResetHistory(cam);
+                var tex = Shot(cam, 1280, 720); Save(tex, "anatomy_" + v.name); tiles.Add(tex);
+                Debug.Log("[Anatomy] captured " + v.name);
+            }
+            // Same camera with the near volume disabled: coarse and fine cloud must join coherently.
+            skin.nearField = false;
+            Pose(cam, views[0].from, views[0].at, views[0].fov); skin.ResetHistory(cam);
+            var coarse = Shot(cam, 1280, 720); Save(coarse, "anatomy_coarse"); tiles.Add(coarse);
+            var sheet = Sheet(tiles, 3); Save(sheet, "anatomy_sheet"); Object.DestroyImmediate(sheet);
+            foreach (var tex in tiles) Object.DestroyImmediate(tex);
+            rep.AppendLine("`anatomy_sheet.png`: inflow / slot / aerial; funnel / backlit / interior; coarse-only inflow.");
+        }
+
         if (only == null || only == "timelapse")
         {
             // a storm with at least three cycles and two tornadoes
@@ -305,7 +372,7 @@ public static class DesignedSkinTests
 
         skin.Release();
         Object.DestroyImmediate(runner);
-        File.WriteAllText(Path.Combine(OutDir, "DesignedSkinReport.md"), rep.ToString());
+        File.WriteAllText(Path.Combine(OutDir, only == "anatomy" ? "AnatomySkinReport.md" : "DesignedSkinReport.md"), rep.ToString());
         Debug.Log($"[Designed] render test {(ok ? "PASS" : "FAIL")}; screenshots in {ShotDir}");
         return ok;
     }

@@ -45,7 +45,8 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
     float2 uc0 = mesoCentre(0.0);
     float lift = S_tower.z > 0.0 ? baseLift() + underbellyRise(p.xy - uc0) : 0.0;
     float2 dr0 = rot2(p.xy - uc0, -spinLow * clock);
-    float rip = (n3(float3(dr0 * 0.45, 0.31)) - 0.5) * 0.06 + (n3(float3(dr0 * 1.7, 0.77)) - 0.5) * 0.025;
+    float cloudTex = baseCloudTexture(p, 1.0);
+    float rip = (cloudTex - 0.5) * 0.22 + (n3(float3(dr0 * 1.7, 0.77)) - 0.5) * 0.025;
     float zbase = zb + lift + rip;
     float fBase = saturate(0.5 + (p.z - zbase) / 0.5);
 
@@ -67,13 +68,13 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
         float ang = atan2(drr.y, drr.x);
         float av = vaultAngle(d);
         float sp = max(S_plates.y, 0.15);
-        float wob = n3(float3(ang * 0.32, r * 0.15, zr * 0.6) + float3(0.6, 0.3, 0.1));
-        float phase = zr / sp + 0.85 * ang / 6.2832 - 0.55 * (1.0 - abs(av) / 3.1416) + 0.6 * (wob - 0.5);
+        float wob = n3(float3(drr * 0.32, zr * 0.6) + float3(0.6, 0.3, 0.1));
+        float phase = zr / sp + 0.18 * sin(ang) - 0.35 * cos(av) + 0.8 * (wob - 0.5);
         float g = frac(phase);
         float ledge = ss(0.0, 0.1, g) * pow(1.0 - g, 1.3);
-        float A = (0.12 + 0.2 * plAmt) * (0.7 + 0.6 * n3(float3(ang * 0.5, floor(phase) * 0.37, 0.2)));
+        float A = (0.07 + 0.12 * plAmt) * (0.7 + 0.6 * wob);
         // each plate a little narrower than the one below it: a stack, widest at the saucer at the base
-        float Rb = radAt + A * (ledge - 0.45) - 0.5 * A * max(zr, 0.0) / sp + (n3(float3(drr * 1.3, zr * 2.2) + float3(0.1, 0.4, 0.7)) - 0.5) * 0.08;
+        float Rb = radAt + A * (ledge - 0.45) - 0.18 * A * max(zr, 0.0) / sp + (cloudTex - 0.5) * 0.16;
         // the barrel ends where the plates end; above, the tower from the storm volume carries on
         float top = ss(Hb - 0.15, Hb + 0.35, zr);
         fBar = saturate(0.5 + (Rb - r) / 0.5) - top;
@@ -85,7 +86,9 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
     // underside becomes the flat base above; near the barrel the threshold rises so its soft skirt recedes behind
     // the plates
     float4 s = _Dens.SampleLevel(sampler_LinearClamp, stormUvw(float3(p.xy, max(p.z, zbase + 0.35))), 0);
-    float turb = saturate((s.a - 0.3) / 0.7) * ss(zb + 0.4, zb + 1.4, p.z);
+    float slot = clearSlot(p);
+    float interior = ss(0.01, 0.3, slot);
+    float turb = max(saturate((s.a - 0.3) / 0.7) * ss(zb + 0.4, zb + 1.4, p.z), 0.5 * interior);
     float dd = 0.0;
     if (s.r > 0.05)
     {
@@ -99,13 +102,20 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
     float fC = 0.5 + (s.r - thr) * 1.3 + dd;
     float f = min(max(fC, fBar), fBase);
     // the clear slot cuts the plates and the sharpened cloud too
-    f -= 0.8 * clearSlot(p);
+    f -= 0.8 * slot;
+    // The slot exposes water cloud. Break up the regular plates here, while retaining
+    // a crisp LCL away from the circulation and leaving the opening empty.
+    f += (cloudTex - 0.5) * 0.2 * interior * ss(0.15, 0.45, f);
+    under *= 1.0 - 0.85 * interior;
 
     // ---- 1.0's near-ground features at full detail: wall cloud, tail cloud, scud, horseshoe lip, anti-meso, inflow tail
     float nf = nearField(p, 1.0);
     float fN = 0.5 + (nf - 0.3) * 1.6;
     float mat = turb * (1.0 - saturate(wB * 1.5));
-    if (fN > f) { mat = lerp(mat, 0.45, ss(0.3, 0.6, fN)); f = fN; }
+    // Smooth union rounds the wall-cloud / lip attachment instead of leaving a crease.
+    float blend = saturate(1.0 - abs(fN - f) / 0.16);
+    if (fN > f) mat = lerp(mat, 0.45, ss(0.3, 0.6, fN));
+    f = max(f, fN) + blend * blend * 0.04;
     _OutN[id] = float4(saturate(f), mat, saturate(under), 1.0);
 }
 

@@ -154,6 +154,22 @@ float vaultAngle(float2 d) { float2 v = S_tail.xy; return atan2(v.x * d.y - v.y 
 // The rotating updraft's own base sits a little above the simulated LCL, exposing the lowered rim (wall cloud and
 // horseshoe lip, which hang down to and below the LCL) without detaching their upper connection. Only while it rotates.
 float baseLift() { return 0.62 * ss(0.0, 0.02, S_tilt.w); }
+// Shared water-cloud texture for the underside, exposed slot and low cloud. Cartesian
+// coordinates keep it continuous across the back of the circulation (no atan2 seam).
+float3 baseCloudFrame(float3 p)
+{
+    float zr = p.z - S_base.x;
+    float2 c = mesoCentre(zr);
+    float spin = S_mesov.z != 0.0 ? S_mesov.z : S_tilt.w;
+    return float3(rot2(p.xy - c, -spin * S_base.z), zr);
+}
+float baseCloudTexture(float3 p, float fine)
+{
+    float3 q = baseCloudFrame(p);
+    float broad = n3k(q * float3(1.0, 1.0, 1.6), 0.42, float3(0.21, 0.67, 0.43));
+    float small = lerp(0.5, ridge(q * float3(1.0, 1.0, 1.35), 1.25, float3(0.2, 0.6, 0.3)), fine);
+    return 0.65 * broad + 0.35 * small;
+}
 // how much of the horseshoe's arc is drawn at an angle th round the surge (grows round from the east as it matures)
 float horseshoeArc(float th) { return ss(lerp(0.92, -0.55, S_rfdb.w), lerp(0.99, -0.33, S_rfdb.w), cos(th + 0.96)); }
 // One rear-opening cut for the whole cloud, including the apron, low cloud and the near field: a pocket inside the
@@ -175,7 +191,8 @@ float clearSlot(float3 p)
     float2 db = p.xy - S_rfdb.xy - S_tilt.xy * max(zr, 0.0) - rear * (S_tower.y * 0.45 * middle);
     float u = dot(db, rear); float v = abs(dot(db, float2(-rear.y, rear.x)));
     float Rs = S_rfdb.z;
-    float n = (n3(p * float3(0.35, 0.35, 0.25) + float3(0.7, 0.7, 0.1)) - 0.5) * 0.08 * (1.0 - middle);
+    // Rounded billows continue up the inside wall and ceiling; the cut is not a polished tube.
+    float n = (baseCloudTexture(p, 0.0) - 0.5) * lerp(0.28, 0.16, middle);
     float arch = 1.0 - middle;
     float feather = lerp(0.25, 0.85, middle);
     float pocket = ss(Rs * 0.82 * arch + feather, max(Rs * 0.6 * arch - feather * 0.25, 0.03), length(db) + n);
@@ -262,14 +279,15 @@ float nearField(float3 p, float fine)
             float2 dr = rot2(dw, -S_wall2.y * clock);
             float n = 0.5 * n3(float3(dr * 0.5, p.z * 1.0)) + 0.5 * lerp(0.5, n3(float3(dr * 1.9, p.z * 2.2) + float3(0.3, 0.7, 0.2)), fine);
             float ang = atan2(dr.y, dr.x);
-            float fringe = lerp(0.5, n3(float3(ang * 1.3, rw * 0.8, p.z * 0.6) + float3(0.1, 0.9, 0.5)), fine);
+            float fringe = lerp(0.5, n3k(float3(dr, p.z * 0.6), 1.3, float3(0.1, 0.9, 0.5)), fine);
             // broad, subtle lobes turn with the texture, so its rotation reads even inside the RFD's still outline
             float lobe = 0.07 * cos(3.0 * ang + 0.8) + 0.035 * sin(5.0 * ang - 0.4);
             float contourR = Rw * (1.0 + lobe);
-            float bowl = 1.0 - pow(min(rw / contourR, 1.0), 2.4);
+            float bowl = 1.0 - pow(saturate(rw / max(contourR, 0.001)), 2.4);
             // a smooth, solid lowering; the ragged fringe is only round its outer edge
             float rim = ss(0.6 * contourR, 0.95 * contourR, rw);
-            float bot = zb - lw * (0.15 + 0.85 * bowl + 0.1 * cos(2.0 * ang + 0.5)) + (n - 0.5) * 0.04 - (fringe - 0.5) * 0.16 * rim;
+            float cloudTex = baseCloudTexture(p, fine);
+            float bot = zb - lw * (0.15 + 0.85 * bowl + 0.06 * cos(2.0 * ang + 0.5)) + (cloudTex - 0.5) * 0.16 - (fringe - 0.5) * 0.12 * rim;
             // it joins up into the rotating barrel above instead of ending at the base
             float join = ss(zb - 0.1, zb + 1.0, p.z);
             float w = ss(contourR + 0.15 + join * 0.8, contourR - 0.2 + join * 0.8, rw + (n - 0.5) * 0.35) * ss(bot - 0.03, bot + 0.05, p.z) * ss(zb + 1.8, zb + 0.9, p.z);
@@ -278,7 +296,7 @@ float nearField(float3 p, float fine)
                 float hb = ss(S_rfdb.z * 0.85, S_rfdb.z * 0.55, length(p.xy - S_rfdb.xy) + (n - 0.5) * 0.7) * ss(Rw * 0.9, Rw * 1.2, rw);
                 w *= 1.0 - 0.4 * S_rfdb.w * hb;
             }
-            v = max(v, S_wall.w * w);
+            v = max(v, S_wall.w * w * (0.9 + 0.2 * cloudTex));
             // tail cloud: aimed at the inner part of the inflow (beaver) tail
             float2 beaverRoot = S_up.xy + S_f.xy * 2.5 + S_f.zw * 0.5;
             float2 beaverNormal = float2(-S_tail.y, S_tail.x);
@@ -309,18 +327,21 @@ float nearField(float3 p, float fine)
         {
             float th = atan2(dot(db, S_f.zw), dot(db, S_f.xy));
             float am = horseshoeArc(th);
-            float2 dl = rot2(db, -0.06 * clock);
+            float lipSpin = S_mesov.z != 0.0 ? S_mesov.z : S_tilt.w;
+            float2 dl = rot2(db, -lipSpin * clock);
             float nl = 0.6 * n3(float3(dl * 0.6, p.z * 1.2) + float3(0.2, 0.4, 0.9)) + 0.4 * lerp(0.5, n3(float3(dl * 2.2, p.z * 2.6) + float3(0.8, 0.1, 0.3)), fine);
             float north = ss(0.3, 1.0, cos(th - 0.9)); float south = ss(0.5, 1.0, cos(th + 2.97));
             float D = S_rfdb.w * (0.16 + 0.08 * south + 0.15 * north + 0.25 * S_wall2.x * north) * (0.85 + 0.3 * nl);
             // the base's edge: a wedge of rising cloud whose underside slants up gently toward the slot and more gently
             // outward into the base, smooth, without torn fragments under it
-            float x = rb - Rs + (nl - 0.5) * 0.3;
+            float cloudTex = baseCloudTexture(p, fine);
+            float x = rb - Rs + (cloudTex - 0.5) * 0.4;
             float join = ss(zb - 0.1, zb + 0.9, p.z);
-            float prof = saturate(1.0 - max(-x, 0.0) / (0.5 + 0.2 * join) - max(x, 0.0) / (0.4 + 0.6 * join));
-            float bot = zb - D * prof * prof * (3.0 - 2.0 * prof) - (nl - 0.5) * 0.06;
+            float xr = x / (x < 0.0 ? 0.65 + 0.25 * join : 0.75 + 0.6 * join);
+            float prof = sqrt(saturate(1.0 - xr * xr));
+            float bot = zb - D * prof - (cloudTex - 0.5) * 0.14;
             float wisp = lerp(0.5, n3(float3(dl * 3.0, p.z * 6.0) + float3(0.4, 0.9, 0.2)), fine);
-            float lip = am * ss(0.0, 0.25, prof) * ss(bot - 0.04 - wisp * 0.03, bot + 0.15, p.z) * ss(zb + 1.4, zb + 0.8, p.z);
+            float lip = am * ss(0.0, 0.35, prof) * ss(bot - 0.04 - wisp * 0.03, bot + 0.15, p.z) * ss(zb + 1.4, zb + 0.95, p.z);
             float mR0 = S_tower.y * (1.0 + baseFlare(0.0)) + mesoExtra(0.0);
             float cover = ss(mR0 + 0.2, mR0 - 1.2, length(p.xy - mesoCentre(0.0)));
             v = max(v, S_rfdb.w * lip * cover);

@@ -224,7 +224,7 @@ void Build(uint3 gid : SV_DispatchThreadID)
         float apronBase = zb + baseLift() + underbellyRise(p.xy - mesoCentre(0.0));
         float apron = S_rfdb.w * arc * inner * ss(ar + 0.5, ar - 0.5, length(p.xy - ac) + n * 0.35)
             * ss(apronBase - 0.15, apronBase + 0.35, p.z) * ss(3.5, 2.5, zr);
-        mw += apron * apron; ms += apron * apron * water(0.12);
+        mw += apron * apron; ms += apron * apron * water(0.32);
         cloud = max(cloud, apron);
     }
 

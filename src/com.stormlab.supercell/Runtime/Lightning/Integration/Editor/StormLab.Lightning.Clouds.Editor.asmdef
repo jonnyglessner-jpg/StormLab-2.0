@@ -1,0 +1,6 @@
+{
+  "name": "StormLab.Lightning.Clouds.Editor",
+  "references": ["StormLab.Lightning", "StormLab.Lightning.Clouds", "StormLab.Supercell", "Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

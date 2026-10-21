@@ -1,0 +1,5 @@
+{
+  "name": "StormLab.Lightning.Clouds",
+  "references": ["StormLab.Lightning", "StormLab.Supercell"],
+  "autoReferenced": true
+}

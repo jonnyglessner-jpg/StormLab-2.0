@@ -5,6 +5,7 @@
       "depth": 0,
       "source": "local",
       "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
         "com.unity.render-pipelines.universal": "17.0.0"
       }
     },
@@ -128,6 +129,12 @@
     "com.unity.modules.animation": {
       "version": "1.0.0",
       "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
+    "com.unity.modules.audio": {
+      "version": "1.0.0",
+      "depth": 1,
       "source": "builtin",
       "dependencies": {}
     },

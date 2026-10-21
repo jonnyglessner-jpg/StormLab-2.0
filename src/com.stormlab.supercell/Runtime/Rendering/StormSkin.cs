@@ -143,6 +143,8 @@ namespace StormLab.Supercell.Rendering
         public IWindSource ActiveWind => Designed != null ? (IWindSource)DesignedWind : Wind;
         public SkinVolume Volume { get; private set; }
         public NearVolume Near { get; private set; }
+        /// <summary>Optional local lighting adapter. Null preserves the normal cloud path.</summary>
+        [System.NonSerialized] public IStormTransientLighting TransientLighting;
         public readonly SkinParams Params = new SkinParams();
         /// <summary>volume centre in grid metres</summary>
         public Vector2 Centre { get; private set; }
@@ -446,7 +448,7 @@ namespace StormLab.Supercell.Rendering
         sealed class CamState
         {
             public RenderTexture cur, dist; public readonly RenderTexture[] hist = new RenderTexture[2]; public int h;
-            public Vector3 prevPos, prevFwd, prevRight, prevUp; public bool valid; public int frame;
+            public Vector3 prevPos, prevFwd, prevRight, prevUp; public bool valid, wasTransient; public int frame;
             public void Shift(Vector2 s) { prevPos -= new Vector3(s.x, s.y, 0); }
             public void Ensure(int w, int hh)
             {
@@ -454,7 +456,7 @@ namespace StormLab.Supercell.Rendering
                 Dispose();
                 cur = RT(w, hh, RenderTextureFormat.ARGBHalf); dist = RT(w, hh, RenderTextureFormat.RFloat);
                 hist[0] = RT(w, hh, RenderTextureFormat.ARGBHalf); hist[1] = RT(w, hh, RenderTextureFormat.ARGBHalf);
-                valid = false;
+                valid = false; wasTransient = false;
             }
             static RenderTexture RT(int w, int h, RenderTextureFormat f)
             {
@@ -531,8 +533,14 @@ namespace StormLab.Supercell.Rendering
             cmd.SetComputeTextureParam(marchCs, kM, "_Noise", noise);
             cmd.SetComputeTextureParam(marchCs, kM, "_Out", st.cur);
             cmd.SetComputeTextureParam(marchCs, kM, "_OutDist", st.dist);
-            cmd.SetComputeVectorParam(marchCs, "_TP", new Vector4(st.valid ? temporalBlend : 1f, checkerboard ? 1 : 0, 0, 0));
-            cmd.DispatchCompute(marchCs, kM, checkerboard ? ((w + 1) / 2 + 7) / 8 : (w + 7) / 8, (h + 7) / 8, 1);
+            cmd.SetComputeIntParam(marchCs, "_TransientLightOn", 0);
+            cmd.SetComputeTextureParam(marchCs, kM, "_TransientLightTex", SkinVolume.Calm);
+            bool transient = TransientLighting != null && TransientLighting.RecordLighting(cmd, this, cam, marchCs, kM);
+            bool fresh = transient || st.wasTransient;
+            bool useCheckerboard = checkerboard && !fresh;
+            cmd.SetComputeVectorParam(marchCs, "_TP", new Vector4(st.valid && !fresh ? temporalBlend : 1f, useCheckerboard ? 1 : 0, 0, 0));
+            cmd.DispatchCompute(marchCs, kM, useCheckerboard ? ((w + 1) / 2 + 7) / 8 : (w + 7) / 8, (h + 7) / 8, 1);
+            st.wasTransient = transient;
             // temporal resolve into the other history buffer
             var src = st.hist[st.h]; var dst = st.hist[1 - st.h];
             cmd.SetComputeTextureParam(marchCs, kR, "_Cur", st.cur);

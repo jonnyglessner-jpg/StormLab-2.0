@@ -1,0 +1,281 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
+using NVector3 = System.Numerics.Vector3;
+
+namespace StormLab.Supercell.Lightning
+{
+    public readonly struct LightningIllumination
+    {
+        public readonly Vector3 position;
+        public readonly float intensity;
+        public readonly FlashKind kind;
+        public LightningIllumination(Vector3 position, float intensity, FlashKind kind)
+        { this.position = position; this.intensity = intensity; this.kind = kind; }
+    }
+
+    /// <summary>Independent lightning presentation. Does not read or mutate the brain, genome or cloud renderer.</summary>
+    [DefaultExecutionOrder(110)]
+    public sealed class LightningSystem : MonoBehaviour
+    {
+        public LightningSettings settings = new LightningSettings();
+        [Tooltip("Local preview clock. Disable and call SampleAt(playbackSeconds) to follow a storm clock.")]
+        public bool advanceClock = true;
+        [Min(0)] public float timeScale = 1;
+        public double playbackSeconds;
+        [Tooltip("World ground plane in metres. Charge heights are relative to this plane.")]
+        public float groundY;
+        [Tooltip("Hide internal channels until the cloud renderer supports lightning transmittance.")]
+        public bool showInCloudChannels;
+        [Min(.1f)] public float channelWidthM = 3;
+        [Tooltip("Minimum apparent core width. Prevents distant channels breaking into isolated pixels.")]
+        [Range(.5f, 3)] public float minimumPixelWidth = 1.2f;
+        [Min(0)] public float emission = 8;
+        [Range(1, 24)] public int maxVisibleFlashes = 8;
+        public Transform observer;
+        public bool thunder = true;
+        [Range(-60, 50)] public float temperatureC = 20;
+        [Min(0)] public float audibleRangeM = 20000;
+
+        // The future cloud adapter can read this immediately after SampleAt/LateUpdate.
+        // Intensities are artistic relative radiance, not calibrated watts or lux.
+        public IReadOnlyList<LightningIllumination> Illumination => illumination;
+        /// <summary>Owned by this system; an optional cloud adapter may configure its attenuation inputs.</summary>
+        public Material ChannelMaterial => material;
+        public event Action<LightningFlash> FlashStarted;
+        /// <summary>Optional storm-history adapter. Return the charge region's horizontal centre at emission time.
+        /// Its y is the base altitude for the charge-height settings. Enables replay of a moving storm.</summary>
+        public Func<double, Vector3> CellCentreAtTime;
+        /// <summary>Optional terrain sampling in world metres; used for ground attachments.</summary>
+        public Func<Vector3, float> TerrainHeight;
+
+        sealed class Visual
+        {
+            public LightningFlash flash;
+            public GameObject root;
+            public LineRenderer[] lines;
+            public Light light;
+        }
+        sealed class Voice
+        {
+            public AudioSource source;
+            public AudioClip clip;
+            public double endsAt;
+        }
+        readonly List<FlashEvent> events = new List<FlashEvent>();
+        readonly Dictionary<long, Visual> active = new Dictionary<long, Visual>();
+        readonly List<long> expired = new List<long>();
+        readonly List<LightningIllumination> illumination = new List<LightningIllumination>();
+        readonly List<Voice> voices = new List<Voice>();
+        Material material;
+        double previous = double.NaN;
+        long consideredThrough = -1;
+
+        void LateUpdate()
+        {
+            if (advanceClock) { playbackSeconds += Time.deltaTime * timeScale; SampleAt(playbackSeconds); }
+            CleanupVoices();
+        }
+
+        public void SampleAt(double seconds)
+        {
+            if (double.IsNaN(seconds) || double.IsInfinity(seconds) || seconds < 0 || seconds > 1e9)
+                throw new ArgumentOutOfRangeException(nameof(seconds));
+            settings.Validate();
+            double dt = seconds - previous;
+            bool seek = double.IsNaN(previous) || dt < 0 || dt > .25;
+            if (seek) ClearPresentation();
+            double exposureStart = seek ? seconds : previous;
+            expired.Clear();
+            foreach (var pair in active)
+                if (seconds - pair.Value.flash.Event.time > 1) expired.Add(pair.Key);
+            foreach (long key in expired) { Release(active[key].root); active.Remove(key); }
+            LightningSchedule.Query(settings, Math.Max(-1e-6, seconds - 1), seconds, events);
+            // At high rates the newest flashes win; all allocation budgets remain bounded.
+            for (int i = Math.Max(0, events.Count - maxVisibleFlashes); i < events.Count; i++)
+            {
+                FlashEvent e = events[i];
+                if (active.ContainsKey(e.id) || e.id <= consideredThrough) continue;
+                consideredThrough = e.id;
+                var centre = transform.position; centre.y = groundY;
+                if (CellCentreAtTime != null) centre = CellCentreAtTime(e.time);
+                var flash = LightningFlash.Create(e, settings, ToNumerics(centre), groundY,
+                    TerrainHeight == null ? null : p => TerrainHeight(ToUnity(p)));
+                if (seconds - e.time > flash.Duration && e.time < exposureStart) continue;
+                if (active.Count >= maxVisibleFlashes)
+                {
+                    long oldest = long.MaxValue;
+                    foreach (long key in active.Keys) oldest = Math.Min(oldest, key);
+                    if (oldest >= e.id) continue;
+                    Release(active[oldest].root); active.Remove(oldest);
+                }
+                var visual = BuildVisual(flash);
+                active.Add(e.id, visual);
+                FlashStarted?.Invoke(flash);
+                if (!seek && thunder && Math.Abs(timeScale - 1) < .01f && e.time > previous)
+                    PlayThunder(flash, seconds - e.time);
+            }
+            illumination.Clear();
+            foreach (var pair in active)
+            {
+                var visual = pair.Value; var flash = visual.flash;
+                double age = seconds - flash.Event.time;
+                float intensity = flash.Intensity(exposureStart - flash.Event.time, age);
+                bool visible = flash.Event.kind != FlashKind.InCloud || showInCloudChannels;
+                float progress = flash.LeaderProgress(age);
+                for (int c = 0; c < visual.lines.Length; c++)
+                {
+                    var line = visual.lines[c]; var channel = flash.Channels[c];
+                    float power = intensity * channel.brightness;
+                    // Failed side leaders are mostly visible during the first return stroke.
+                    if (!channel.main && age > flash.StrokeTimes[0] + .06) power *= .08f;
+                    if (age < LightningFlash.LeaderSeconds) power = .008f * channel.brightness;
+                    line.enabled = visible && power > .0005f;
+                    line.positionCount = Math.Max(2, (int)(channel.points.Length * progress));
+                    for (int p = 0; p < line.positionCount; p++) line.SetPosition(p, ToUnity(channel.points[p]));
+                    var colour = new Color(power, power * .96f, power * 1.08f, 1);
+                    line.startColor = colour; line.endColor = channel.main ? colour : new Color(0, 0, 0, 0);
+                }
+                visual.light.intensity = intensity * 12;
+                if (intensity > .0005f)
+                {
+                    var path = flash.Channels[0].points;
+                    // An extended discharge lights more than its initiation point. Bound the source count per flash.
+                    for (int sample = 0; sample < 4; sample++)
+                        illumination.Add(new LightningIllumination(ToUnity(path[sample * (path.Length - 1) / 3]), intensity * .25f, flash.Event.kind));
+                }
+            }
+            previous = seconds; playbackSeconds = seconds;
+        }
+
+        Visual BuildVisual(LightningFlash flash)
+        {
+            if (!material)
+            {
+                Shader shader = Resources.Load<Shader>("StormLightning");
+                if (!shader) throw new InvalidOperationException("StormLightning shader is missing.");
+                material = new Material(shader) { name = "Lightning emission (runtime)", hideFlags = HideFlags.DontSave };
+            }
+            material.SetColor("_Color", new Color(emission, emission, emission, 1));
+            var root = new GameObject("Lightning " + flash.Event.id); root.layer=gameObject.layer; root.transform.SetParent(transform, false);
+            root.hideFlags = HideFlags.DontSave;
+            root.AddComponent<LightningGeneratedVisual>();
+            var lines = new LineRenderer[flash.Channels.Length];
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var channel = flash.Channels[i]; var go = new GameObject(i == 0 ? "Return channel" : "Side leader");
+                go.layer=gameObject.layer;
+                go.hideFlags = HideFlags.DontSave;
+                go.transform.SetParent(root.transform, false);
+                var line = go.AddComponent<LineRenderer>(); lines[i] = line;
+                line.enabled = false;
+                line.sharedMaterial = material; line.useWorldSpace = true;
+                line.widthMultiplier = channelWidthM * (channel.main ? 1 : .4f);
+                if (!channel.main) line.widthCurve = AnimationCurve.Linear(0, 1, 1, .15f);
+                line.numCornerVertices = 2; line.numCapVertices = 2;
+                line.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                line.receiveShadows = false; line.textureMode = LineTextureMode.Stretch;
+                line.positionCount = channel.points.Length;
+                for (int p = 0; p < channel.points.Length; p++) line.SetPosition(p, ToUnity(channel.points[p]));
+            }
+            var light = root.AddComponent<Light>(); light.type = LightType.Point;
+            light.intensity = 0;
+            light.transform.position = flash.Event.kind == FlashKind.InCloud ? ToUnity(flash.LightPosition) :
+                ToUnity(flash.Channels[0].points[128]) + Vector3.up * 120;
+            light.color = new Color(.86f, .9f, 1); light.range = 6000; light.shadows = LightShadows.None;
+            return new Visual { flash = flash, root = root, lines = lines, light = light };
+        }
+
+        void PlayThunder(LightningFlash flash, double lateSeconds)
+        {
+            CleanupVoices();
+            if (voices.Count >= 16) return;
+            Transform ear = observer;
+            if (!ear && Camera.main) ear = Camera.main.transform;
+            if (!ear) return;
+            var path = flash.Channels[0].points;
+            float distance = float.MaxValue;
+            foreach (var p in path) distance = Math.Min(distance, NVector3.Distance(p, ToNumerics(ear.position)));
+            if (distance > audibleRangeM) return;
+            var sound = LightningThunder.Synthesize(flash, ToNumerics(ear.position), temperatureC);
+            var clip = AudioClip.Create("Procedural thunder", sound.samples.Length, 1, ThunderSound.SampleRate, false);
+            clip.hideFlags = HideFlags.DontSave;
+            clip.SetData(sound.samples, 0);
+            var go = new GameObject("Delayed thunder"); go.transform.SetParent(transform, false);
+            go.hideFlags = HideFlags.DontSave;
+            go.AddComponent<LightningGeneratedVisual>().clip = clip;
+            var source = go.AddComponent<AudioSource>(); source.playOnAwake = false; source.clip = clip;
+            // Distance filtering and attenuation are already baked in; apply only listener-relative pan here.
+            source.spatialBlend = 0;
+            source.panStereo = Vector3.Dot(ear.right, (ToUnity(flash.LightPosition) - ear.position).normalized) * .75f;
+            double delay = Math.Max(0, sound.delaySeconds - lateSeconds);
+            source.PlayScheduled(AudioSettings.dspTime + delay);
+            voices.Add(new Voice { source = source, clip = clip, endsAt = AudioSettings.dspTime + delay + clip.length + .1 });
+        }
+
+        void CleanupVoices()
+        {
+            for (int i = voices.Count - 1; i >= 0; i--)
+                if (AudioSettings.dspTime >= voices[i].endsAt)
+                { Release(voices[i].source.gameObject); Release(voices[i].clip); voices.RemoveAt(i); }
+        }
+
+        /// <summary>Call after changing rate, seed, geometry or origin to begin a new presentation segment.</summary>
+        public void ResetPlayback() { ClearPresentation(); previous = double.NaN; }
+        void ClearPresentation()
+        {
+            foreach (var visual in active.Values) Release(visual.root);
+            active.Clear(); illumination.Clear();
+            consideredThrough = -1;
+            foreach (var voice in voices) { voice.source.Stop(); Release(voice.source.gameObject); Release(voice.clip); }
+            voices.Clear();
+            // Serialized children can outlive the nonserialized dictionaries across an editor reload.
+            // Sweep owned roots too, including the exact legacy shape created before ownership markers.
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                var child = transform.GetChild(i);
+                if (!child.gameObject.activeSelf && Application.isPlaying) continue; // Already queued for destruction.
+                var generated = child.GetComponent<LightningGeneratedVisual>();
+                var legacy = child.Find("Return channel");
+                var line = legacy ? legacy.GetComponent<LineRenderer>() : null;
+                bool legacyChannel = child.name.StartsWith("Lightning ", StringComparison.Ordinal) &&
+                    long.TryParse(child.name.Substring(10), out _) && child.GetComponent<Light>() &&
+                    line && line.sharedMaterial && line.sharedMaterial.shader.name == "StormLab/Lightning";
+                if (!generated && !legacyChannel) continue;
+                if (generated && generated.clip) Release(generated.clip);
+                Release(child.gameObject);
+            }
+        }
+        void OnEnable() { ResetPlayback(); RenderPipelineManager.beginCameraRendering += PrepareCamera; }
+        void OnDisable() { RenderPipelineManager.beginCameraRendering -= PrepareCamera; ResetPlayback(); }
+        void PrepareCamera(ScriptableRenderContext context, Camera camera)
+            => PrepareForCamera(camera);
+        /// <summary>Also call before explicit render requests, which can bypass pipeline camera callbacks.</summary>
+        public void PrepareForCamera(Camera camera)
+        {
+            if (!camera || camera.pixelHeight <= 0) return;
+            foreach (var visual in active.Values)
+            for (int i = 0; i < visual.lines.Length; i++)
+            {
+                var channel = visual.flash.Channels[i];
+                var midpoint = channel.points[channel.points.Length / 2];
+                float depth = Math.Max(1, Vector3.Dot(ToUnity(midpoint) - camera.transform.position, camera.transform.forward));
+                float metresPerPixel = camera.orthographic ? 2 * camera.orthographicSize / camera.pixelHeight :
+                    2 * depth * Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad * .5f) / camera.pixelHeight;
+                float core = Math.Max(channelWidthM * (channel.main ? 1 : .4f), metresPerPixel * minimumPixelWidth);
+                visual.lines[i].widthMultiplier = core * 6;
+            }
+        }
+        void OnDestroy() { if (material) Release(material); }
+        static void Release(UnityEngine.Object obj)
+        {
+            if (!obj) return;
+            // Destroy is deferred in Play mode; stop drawing/playing immediately on reset or seek.
+            if (obj is GameObject go) go.SetActive(false);
+            if (Application.isPlaying) Destroy(obj); else DestroyImmediate(obj);
+        }
+        static NVector3 ToNumerics(Vector3 p) => new NVector3(p.x, p.y, p.z);
+        static Vector3 ToUnity(NVector3 p) => new Vector3(p.X, p.Y, p.Z);
+    }
+}

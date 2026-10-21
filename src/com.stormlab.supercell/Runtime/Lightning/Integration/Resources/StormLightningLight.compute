@@ -1,0 +1,43 @@
+#pragma kernel BuildLight
+#pragma kernel Probe
+#pragma kernel FillMedium
+#include "Packages/com.stormlab.supercell/Runtime/Lightning/Shaders/StormLightningMedium.hlsl"
+RWTexture3D<float4> _SLLightOut;
+float4 _SLLights[8]; // volume km, relative intensity
+int _SLLightCount;
+float4 _SLLightSettings; // gain, soft radius km, scattering extinction scale, trace sample budget
+float4 _SLGrid; // xyz output dimensions
+
+[numthreads(4,4,4)]
+void BuildLight(uint3 id:SV_DispatchThreadID)
+{
+    if(any(id>=(uint3)_SLGrid.xyz)) return;
+    float3 uv=(id+.5)/_SLGrid.xyz;
+    float3 p=float3((uv.xy-.5)*2*_SLVolume.x,uv.z*_SLVolume.y);
+    float3 radiance=0;
+    [loop] for(int i=0;i<_SLLightCount;i++)
+    {
+        float d2=dot(p-_SLLights[i].xyz,p-_SLLights[i].xyz);
+        float r2=_SLLightSettings.y*_SLLightSettings.y;
+        float tau=slOpticalDepth(p,_SLLights[i].xyz,(int)_SLLightSettings.w,_SLLightSettings.z);
+        radiance+=float3(.84,.91,1)*(_SLLightSettings.x*_SLLights[i].w*r2/(r2+d2))*exp(-tau);
+    }
+    _SLLightOut[id]=float4(radiance,0);
+}
+
+// GPU validation uses the very same optical-depth function as the channel shader.
+float4 _SLProbeA,_SLProbeB;
+RWStructuredBuffer<float> _SLProbeOut;
+[numthreads(1,1,1)]
+void Probe(uint3 id:SV_DispatchThreadID)
+{ _SLProbeOut[0]=exp(-slOpticalDepth(_SLProbeA.xyz,_SLProbeB.xyz,384,1)); }
+
+RWTexture3D<float4> _SLTestDens;
+float4 _SLSolid;
+[numthreads(4,4,4)]
+void FillMedium(uint3 id:SV_DispatchThreadID)
+{
+    uint x,y,z; _SLTestDens.GetDimensions(x,y,z);
+    if(any(id>=uint3(x,y,z))) return;
+    _SLTestDens[id]=_SLSolid;
+}

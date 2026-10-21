@@ -13,6 +13,8 @@ Texture3D<float4> _NearTex;     // near field: r field (0.5 = surface), g materi
 Texture3D<float4> _NearLight;   // near light: r sun optical depth, g sky from above, b sky from the side
 Texture3D<float4> _SkyVis;      // sky visibility on the light grid: zenith cap, mid ring, horizon, horizon toward the key light
 Texture2D<float2> _Ground;      // how lit the ground is: r key light, g sky
+Texture3D<float4> _TransientLightTex; // optional instantaneous local radiance, in the storm volume frame
+int _TransientLightOn;
 // x near box height km (0 = no near field)
 float4 _NearP;
 // x: blend weight of the new frame (1 = no history), y: 1 = checkerboard (each frame marches half the pixels)
@@ -841,6 +843,10 @@ void March(uint3 gid : SV_DispatchThreadID)
             prevBe = be;
             if (be > 0.0005)
             {
+                // Lightning is local scattered radiance, not a change to density or a screen-wide flash.
+                // Undo night adaptation here: that gain belongs to faint ambient illumination, not a bright discharge.
+                if (_TransientLightOn != 0)
+                    Lc += be * _TransientLightTex.SampleLevel(sampler_LinearClamp, tc, 0).rgb / max(_Night.x, 1.0);
                 float a = 1.0 - exp(-be * dt);
                 float haze = 1.0 - exp(-t / 110.0);
                 float3 c = lerp(Lc / be, hazec, ((uint)_Dbg.x & 16u) ? 0.0 : haze * 0.9);

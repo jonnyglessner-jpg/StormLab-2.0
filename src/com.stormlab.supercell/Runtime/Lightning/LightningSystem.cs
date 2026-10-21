@@ -49,6 +49,14 @@ namespace StormLab.Supercell.Lightning
         public Func<double, Vector3> CellCentreAtTime;
         /// <summary>Optional terrain sampling in world metres; used for ground attachments.</summary>
         public Func<Vector3, float> TerrainHeight;
+        /// <summary>When connected, null means no valid cloud anchors: suppress this event rather than emit in clear air.</summary>
+        public Func<FlashEvent, LightningAnchors?> ResolveCloudAnchors;
+        public bool TryGetFlash(long id, out LightningFlash flash)
+        {
+            bool found = active.TryGetValue(id, out var visual);
+            flash = found ? visual.flash : null;
+            return found;
+        }
 
         sealed class Visual
         {
@@ -98,10 +106,12 @@ namespace StormLab.Supercell.Lightning
                 FlashEvent e = events[i];
                 if (active.ContainsKey(e.id) || e.id <= consideredThrough) continue;
                 consideredThrough = e.id;
+                LightningAnchors? anchors = ResolveCloudAnchors?.Invoke(e);
+                if (ResolveCloudAnchors != null && !anchors.HasValue) continue;
                 var centre = transform.position; centre.y = groundY;
                 if (CellCentreAtTime != null) centre = CellCentreAtTime(e.time);
                 var flash = LightningFlash.Create(e, settings, ToNumerics(centre), groundY,
-                    TerrainHeight == null ? null : p => TerrainHeight(ToUnity(p)));
+                    TerrainHeight == null ? null : p => TerrainHeight(ToUnity(p)), anchors);
                 if (seconds - e.time > flash.Duration && e.time < exposureStart) continue;
                 if (active.Count >= maxVisibleFlashes)
                 {

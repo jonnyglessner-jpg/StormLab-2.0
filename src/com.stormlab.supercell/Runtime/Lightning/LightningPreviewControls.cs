@@ -56,10 +56,14 @@ namespace StormLab.Supercell.Lightning
             lightning.ResetPlayback(); lightning.SampleAt(cursor);
             Vector3 centre=lightning.transform.position; centre.y=lightning.groundY;
             if(lightning.CellCentreAtTime!=null) centre=lightning.CellCentreAtTime(catalogue[selected].time);
-            var flash = LightningFlash.Create(catalogue[selected], lightning.settings,
-                new System.Numerics.Vector3(centre.x,centre.y,centre.z),lightning.groundY);
-            var end = flash.Channels[0].points[128];
-            target = new Vector3(end.X, lightning.groundY, end.Z);
+            // Frame the geometry actually accepted by the cloud adapter, including displaced anvil origins.
+            if (lightning.TryGetFlash(catalogue[selected].id, out var flash))
+            {
+                var end = flash.Channels[0].points[128];
+                var start = flash.Channels[0].points[0];
+                target = new Vector3((start.X + end.X) * .5f, lightning.groundY, (start.Z + end.Z) * .5f);
+            }
+            else target = centre;
             FrameCamera();
         }
         public void FrameCamera()

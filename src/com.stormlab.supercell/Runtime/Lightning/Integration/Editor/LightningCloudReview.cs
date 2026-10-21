@@ -48,6 +48,8 @@ namespace StormLab.Supercell.Lightning.EditorTools
                 ChannelChecks(skin,bridge,camera,root,folder,results);
                 skin.ResetVolume();
                 for(float t=1710;t<=1800;t+=10) skin.StepTo(t,t);
+                AnchorChecks(skin,bridge,results);
+                CaptureAnchoredStrike(skin,bridge,camera,root,folder,results);
                 var up=skin.Params[Slot.Up];
                 var aim=new Vector3(up.x,up.y,4.5f);
                 camera.transform.position=skin.VolToWorld(aim+new Vector3(12,-20,-4.3f));
@@ -122,6 +124,82 @@ namespace StormLab.Supercell.Lightning.EditorTools
             var shader=Resources.Load<ComputeShader>("StormLightningLight"); int kernel=shader.FindKernel("FillMedium");
             shader.SetVector("_SLSolid",value); shader.SetTexture(kernel,"_SLTestDens",skin.Volume.Dens);
             shader.Dispatch(kernel,(skin.Volume.NV+3)/4,(skin.Volume.NV+3)/4,(skin.Volume.NZ+3)/4);
+        }
+
+        static void AnchorChecks(StormSkin skin,LightningCloudBridge bridge,List<string> results)
+        {
+            var anvil=skin.Params[Slot.Anvil];
+            skin.Params[Slot.Anvil]=Vector4.zero;
+            Fill(skin,new Color(0,.9f,0,1)); // Heavy rain without cloud must not count as an origin.
+            foreach(FlashKind kind in Enum.GetValues(typeof(FlashKind)))
+                Require(!bridge.ResolveAnchors(new FlashEvent(0,0,42,kind)).HasValue,"Reject rain-only/clear origin: "+kind,results);
+            skin.Params[Slot.Anvil]=anvil;
+            skin.ResetVolume();
+            for(float t=1710;t<=1800;t+=10) skin.StepTo(t,t);
+            var bas=skin.Params[Slot.Base];
+            foreach(FlashKind kind in Enum.GetValues(typeof(FlashKind)))
+            {
+                int accepted=0;
+                for(uint seed=1;seed<=12;seed++)
+                {
+                    var e=new FlashEvent(seed,0,seed,kind);
+                    var anchors=bridge.ResolveAnchors(e);
+                    if(!anchors.HasValue) continue;
+                    accepted++;
+                    var again=bridge.ResolveAnchors(e);
+                    Require(again.HasValue && anchors.Value.origin==again.Value.origin && anchors.Value.inCloudTarget==again.Value.inCloudTarget,
+                        "Cloud anchors replay: "+kind+" seed "+seed,results);
+                    var flash=LightningFlash.Create(e,new LightningSettings(),System.Numerics.Vector3.Zero,skin.groundHeight,null,anchors);
+                    Require(flash.Channels[0].points[0]==anchors.Value.origin,"Actual channel retains cloud origin",results);
+                    if(kind==FlashKind.InCloud)
+                        Require(flash.Channels[0].points[128]==anchors.Value.inCloudTarget,"In-cloud target stays anchored",results);
+                    else
+                        Require(flash.Channels[0].points[128].Y==skin.groundHeight,"Cloud-origin channel reaches ground",results);
+                    if(kind==FlashKind.PositiveGround)
+                        Require(skin.WorldToVol(new Vector3(anchors.Value.origin.X,anchors.Value.origin.Y,anchors.Value.origin.Z)).z>bas.x+(bas.y-bas.x)*.55f,
+                            "Positive source is in upper cloud/anvil",results);
+                }
+                Require(accepted>0,"Real storm supplies cloud anchors: "+kind,results);
+                results.Add($"Cloud anchors accepted: {kind} {accepted}/12");
+            }
+        }
+
+        static void CaptureAnchoredStrike(StormSkin skin,LightningCloudBridge bridge,Camera camera,GameObject parent,string folder,List<string> results)
+        {
+            var go=new GameObject("Anvil strike fixture"); go.layer=31; go.transform.SetParent(parent.transform);
+            var rig=go.AddComponent<LightningSystem>(); rig.advanceClock=false; rig.thunder=false;
+            rig.settings.flashesPerMinute=24; rig.settings.groundFraction=1; rig.settings.positiveGroundFraction=1;
+            rig.settings.cellRadiusM=3500; rig.groundY=skin.groundHeight;
+            float oldFraction=bridge.positiveAnvilFraction;
+            bool oldBackdrop=skin.drawBackdrop;
+            try
+            {
+                bridge.lightning=rig; bridge.positiveAnvilFraction=1; bridge.externalSources=null; bridge.Connect();
+                var events=new List<FlashEvent>(); LightningSchedule.Query(rig.settings,0,60,events);
+                var e=events[0]; rig.SampleAt(e.time+.036);
+                Require(rig.TryGetFlash(e.id,out var flash),"Cloud-connected system accepts real anvil strike",results);
+                var a=flash.Channels[0].points[0]; var b=flash.Channels[0].points[128];
+                var origin=new Vector3(a.X,a.Y,a.Z); var end=new Vector3(b.X,b.Y,b.Z);
+                var up=skin.Params[Slot.Up]; var bas=skin.Params[Slot.Base]; var tilt=skin.Params[Slot.Tilt];
+                var tower=skin.Params[Slot.Tower]; var p=skin.WorldToVol(origin);
+                var projected=skin.VolToWorld(new Vector3(up.x+tilt.x*(p.z-bas.x),up.y+tilt.y*(p.z-bas.x),0));
+                Vector3 outward=origin-projected; outward.y=0;
+                Require(outward.magnitude>tower.y*1200,"Positive strike can originate in anvil beside the tower",results);
+                outward.Normalize();
+                skin.drawBackdrop=true;
+                camera.transform.position=end+outward*26000+Vector3.up*150;
+                camera.transform.LookAt((origin+end)*.5f);
+                bridge.RefreshChannelOcclusion(); rig.PrepareForCamera(camera);
+                using(var image=CaptureImage(camera,2))
+                    File.WriteAllBytes(Path.Combine(folder,"positive_anvil_to_ground.png"),image.image.EncodeToPNG());
+                results.Add($"Anvil strike origin={origin}; ground={end}; origin height={a.Y-skin.groundHeight:0}m");
+            }
+            finally
+            {
+                rig.ResetPlayback(); bridge.lightning=null; bridge.positiveAnvilFraction=oldFraction;
+                skin.drawBackdrop=oldBackdrop;
+                bridge.externalSources=Array.Empty<LightningIllumination>(); bridge.Connect(); Object.DestroyImmediate(go);
+            }
         }
 
         static void ChannelChecks(StormSkin skin,LightningCloudBridge bridge,Camera camera,GameObject parent,string folder,List<string> results)

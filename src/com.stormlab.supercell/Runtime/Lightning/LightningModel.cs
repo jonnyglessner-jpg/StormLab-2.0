@@ -99,6 +99,14 @@ namespace StormLab.Supercell.Lightning
         { this.points = points; this.brightness = brightness; this.main = main; }
     }
 
+    /// <summary>Cloud-validated world-space anchors supplied by an optional renderer adapter.</summary>
+    public readonly struct LightningAnchors
+    {
+        public readonly Vector3 origin, inCloudTarget;
+        public LightningAnchors(Vector3 origin, Vector3 inCloudTarget)
+        { this.origin = origin; this.inCloudTarget = inCloudTarget; }
+    }
+
     public sealed class LightningFlash
     {
         public readonly FlashEvent Event;
@@ -113,7 +121,7 @@ namespace StormLab.Supercell.Lightning
 
         /// <summary>Coordinates are world metres, y up. Ground is a flat plane; a terrain adapter may supply the endpoint height.</summary>
         public static LightningFlash Create(FlashEvent e, LightningSettings settings, Vector3 centre, float groundY,
-            Func<Vector3, float> terrainHeight = null)
+            Func<Vector3, float> terrainHeight = null, LightningAnchors? anchors = null)
         {
             settings.Validate();
             var rng = new LightningRandom(e.seed);
@@ -126,6 +134,19 @@ namespace StormLab.Supercell.Lightning
             else
             {
                 end = centre + offset + Disk(ref rng, settings.cellRadiusM * (e.kind == FlashKind.PositiveGround ? 1.7f : .65f));
+            }
+            if (anchors.HasValue)
+            {
+                var placement = anchors.Value;
+                if (!Finite(placement.origin) || !Finite(placement.inCloudTarget) || placement.origin.Y <= groundY)
+                    throw new ArgumentOutOfRangeException(nameof(anchors));
+                if (e.kind == FlashKind.InCloud) end = placement.inCloudTarget;
+                else { end.X += placement.origin.X - start.X; end.Z += placement.origin.Z - start.Z; }
+                start = placement.origin;
+                if (Vector3.DistanceSquared(start, end) < 1) throw new ArgumentOutOfRangeException(nameof(anchors));
+            }
+            if (e.kind != FlashKind.InCloud)
+            {
                 end.Y = terrainHeight == null ? groundY : terrainHeight(end);
                 if (!LightningSettings.Finite(end.Y)) throw new ArgumentOutOfRangeException(nameof(terrainHeight));
             }
@@ -156,6 +177,8 @@ namespace StormLab.Supercell.Lightning
             for (int i = 1; i < count; i++) strokes[i] = strokes[i - 1] + rng.Range(.035f, .095f);
             return new LightningFlash(e, channels.ToArray(), strokes, start);
         }
+
+        static bool Finite(Vector3 p) => LightningSettings.Finite(p.X) && LightningSettings.Finite(p.Y) && LightningSettings.Finite(p.Z);
 
         static Vector3 Disk(ref LightningRandom rng, float radius)
         {

@@ -45,6 +45,7 @@ For a game clock rather than the preview clock:
 var bridge = lightning.gameObject.AddComponent<LightningCloudBridge>();
 bridge.lightning = lightning;
 bridge.skin = skin;
+bridge.Connect(); // Install cloud anchoring before the first SampleAt call.
 lightning.advanceClock = false;
 // Supply the storm's position AT emission time, in world metres, for moving-storm replay.
 lightning.CellCentreAtTime = seconds => StormCentreAt(seconds);
@@ -58,6 +59,24 @@ lightning.SampleAt(skin.playbackTime);
 altitude for charge heights. Without a history adapter, the component uses its current transform x/z and `groundY`.
 Ground attachment can sample terrain, and intermediate channel vertices are kept above sampled ground.
 Segments do not continuously trace terrain or buildings for collision.
+
+Cloud-connected flashes now obtain their origins from the skin's current cloud field rather than fixed charge
+heights. A deterministic GPU search checks 128 source candidates and, for in-cloud flashes, a second set of 128
+terminal candidates. An accepted point needs cloud extinction of at least 0.5/km both at the point and 150 metres
+away along each axis; rain alone does not qualify. If no suitable cloud anchor exists, the scheduled event is
+suppressed, including its light and thunder. The standalone geometry preview still uses synthetic charge heights.
+
+Positive-ground flashes preferentially sample the upper cloud and the anvil flanking the tilted updraft above
+the mesocyclone. `positiveAnvilFraction` defaults to 0.7 as a tunable presentation choice, not an observed universal
+polarity statistic. The search can fall back to a valid upper-core origin; the ground endpoint follows the selected
+origin's horizontal displacement and samples terrain. A single connected channel spans the full descent.
+See [NOAA's positive lightning explanation](https://www.noaa.gov/jetstream/lightning/positive-and-negative-side-of-lightning).
+
+Anchoring uses the same coarse cloud, analytic anvil and near-field medium as channel occlusion; fine billow edges
+can still differ from the full cloud march. It performs one 4 KiB synchronous GPU readback per newly considered
+event, with none on ordinary held frames. Its cost at high flash rates has not been profiled. Replay requires the
+same cloud snapshot at emission, as well as the same seed and terrain. Advance the skin to the desired time before
+sampling lightning. This remains a presentation model, not a charge/electric-field solver.
 
 `FlashStarted` supplies the complete immutable-by-convention channel geometry and event metadata. `Illumination`
 supplies active source positions, kinds and relative brightness, without allocating a new list each frame.
@@ -83,11 +102,15 @@ striations and analytic tornado details can differ at their edges. Source shadow
 Near-field/far-anvil sampling is implemented, but the automated review concentrates on macro cloud and rain.
 Per-camera light builds and per-fragment channel traces need GPU profiling before a production performance claim.
 
-Outside Play, **Capture Cloud Integration Review** runs ten GPU/image checks and writes six PNGs plus `checks.txt`
+Outside Play, **Capture Cloud Integration Review** runs GPU/image and origin checks and writes seven PNGs plus `checks.txt`
 under `validation/lightning/out/clouds/`. These include real cloud flash-off/on/after images and actual bolt-shader
 clear/buried/foreground images. Tests use temporary objects and restore the previous active skin. On D3D12 the review
 passed: empty-air/foreground transmission 1, opaque-cloud transmission below 0.000001, and one kilometre of the rain
 fixture transmitted about 0.189. The first frame after a pulse returned close to the unlit image.
+The origin checks reject rain-only locations, replay anchors across 12 seeds of each flash type, preserve the actual
+channel endpoints, and render `positive_anvil_to_ground.png` from a ground-level viewpoint. The anvil example starts
+about 12.3 km above ground beside the tower. **Check Channel Lifecycle** also checks that rejected origins emit no
+channels or illumination and are not queried again every frame.
 
 ## Behaviour and replay
 

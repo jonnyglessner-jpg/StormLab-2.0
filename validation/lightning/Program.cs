@@ -51,6 +51,17 @@ static class Program
             Vector3.Zero, 0, p => 300 + p.X * .01f);
         var attachment = terrainFlash.Channels[0].points.Last();
         Check(Math.Abs(attachment.Y - (300 + attachment.X * .01f)) < .001f, "Terrain attachment adapter");
+        foreach (FlashKind kind in Enum.GetValues<FlashKind>())
+        {
+            var e = new FlashEvent(0,0,42,kind);
+            var anchors = new LightningAnchors(new Vector3(16000,12500,-4000),new Vector3(20000,11000,-6000));
+            var anchored = LightningFlash.Create(e,settings,Vector3.Zero,120,p=>120+p.X*.001f,anchors);
+            var path = anchored.Channels[0].points;
+            Check(path[0]==anchors.origin && anchored.LightPosition==anchors.origin,"Cloud adapter origin preserved");
+            Check(kind==FlashKind.InCloud ? path.Last()==anchors.inCloudTarget : Math.Abs(path.Last().Y-(120+path.Last().X*.001f))<.001f,
+                "Cloud anchors preserve in-cloud targets and terrain attachments");
+            Check(path.All(p=>float.IsFinite(p.X)&&float.IsFinite(p.Y)&&float.IsFinite(p.Z)),"Long anvil channel finite");
+        }
         var thunderFlash = LightningFlash.Create(whole[0], settings, Vector3.Zero, 0);
         var sound = LightningThunder.Synthesize(thunderFlash, new Vector3(0, 2, -10000));
         var soundAgain = LightningThunder.Synthesize(thunderFlash, new Vector3(0, 2, -10000));

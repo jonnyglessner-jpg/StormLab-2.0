@@ -44,6 +44,13 @@ namespace StormLab.Supercell.Lightning.EditorTools
                     UnityEngine.Object.DestroyImmediate(marker);
                 active.Clear(); rig.ResetPlayback();
                 Require(root.transform.childCount == 1, "Legacy orphan removed", ref checks);
+                int resolverCalls=0;
+                rig.ResolveCloudAnchors=e=> { resolverCalls++; return null; };
+                rig.SampleAt(peak); rig.SampleAt(peak+.001);
+                Require(resolverCalls==1,"Rejected origin is not retried every frame",ref checks);
+                Require(root.GetComponentsInChildren<LineRenderer>(true).Length==0 && rig.Illumination.Count==0,
+                    "No channel or illumination without a cloud origin",ref checks);
+                rig.ResolveCloudAnchors=null;
                 string folder = Path.GetFullPath(Path.Combine(Application.dataPath, "../../../validation/lightning/out"));
                 Directory.CreateDirectory(folder);
                 File.WriteAllText(Path.Combine(folder, "lifecycle-checks.txt"), $"PASS: {checks} channel lifecycle checks");

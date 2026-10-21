@@ -20,6 +20,9 @@ namespace StormLab.Supercell.Lightning
         [Range(24,96)] public int gridWidth = 64;
         [Range(12,48)] public int gridHeight = 24;
         public bool channelOcclusion = true;
+        [Tooltip("Reject flashes without an origin inside the current cloud field. In-cloud flashes require both endpoints inside cloud.")]
+        public bool anchorChannelsToCloud = true;
+        [Range(0,1)] public float positiveAnvilFraction = .7f;
         /// <summary>Optional external local-light source list. Null uses the LightningSystem's channel samples.</summary>
         [NonSerialized] public IReadOnlyList<LightningIllumination> externalSources;
 
@@ -28,6 +31,9 @@ namespace StormLab.Supercell.Lightning
         Texture3D noise;
         RenderTexture lightField;
         StormSkin boundSkin;
+        LightningSystem boundLightning;
+        ComputeBuffer anchorBuffer;
+        readonly Vector4[] anchorCandidates = new Vector4[256];
         readonly Vector4[] sources = new Vector4[8];
 
         void OnEnable() { Attach(); }
@@ -35,6 +41,13 @@ namespace StormLab.Supercell.Lightning
         void Attach()
         {
             if (!lightning) lightning = GetComponent<LightningSystem>();
+            if (boundLightning != lightning || (lightning && anchorChannelsToCloud && lightning.ResolveCloudAnchors != ResolveAnchors) ||
+                (lightning && !anchorChannelsToCloud && lightning.ResolveCloudAnchors == ResolveAnchors))
+            {
+                if (boundLightning && boundLightning.ResolveCloudAnchors == ResolveAnchors) boundLightning.ResolveCloudAnchors = null;
+                boundLightning = lightning;
+                if (boundLightning && anchorChannelsToCloud) boundLightning.ResolveCloudAnchors = ResolveAnchors;
+            }
             if (boundSkin == skin) return;
             if (boundSkin && ReferenceEquals(boundSkin.TransientLighting,this)) boundSkin.TransientLighting = null;
             boundSkin = skin;
@@ -44,6 +57,41 @@ namespace StormLab.Supercell.Lightning
                     throw new InvalidOperationException("This storm already has a transient lighting adapter.");
                 boundSkin.TransientLighting = this;
             }
+        }
+
+        /// <summary>Call after assigning the adapter fields from editor or preview setup code.</summary>
+        public void Connect() { Attach(); }
+
+        /// <summary>Search the same coarse cloud/near/anvil medium used for channel occlusion; no clear-air fallback.</summary>
+        public LightningAnchors? ResolveAnchors(FlashEvent e)
+        {
+            if (!isActiveAndEnabled || !skin || skin.Volume == null || !skin.ReadyToRender) return null;
+            EnsureAssets();
+            if (anchorBuffer == null) anchorBuffer = new ComputeBuffer(256,16);
+            int kernel = compute.FindKernel("FindAnchors");
+            using (var cmd = new CommandBuffer { name = "Lightning cloud anchors" })
+            {
+                BindMedium(cmd,compute,kernel);
+                cmd.SetComputeIntParam(compute,"_SLAnchorSeed",unchecked((int)e.seed));
+                cmd.SetComputeIntParam(compute,"_SLAnchorKind",(int)e.kind);
+                cmd.SetComputeFloatParam(compute,"_SLAnvilFraction",positiveAnvilFraction);
+                cmd.SetComputeBufferParam(compute,kernel,"_SLAnchors",anchorBuffer);
+                cmd.DispatchCompute(compute,kernel,4,1,1);
+                Graphics.ExecuteCommandBuffer(cmd);
+            }
+            // One small synchronous readback per new event, never per rendered frame.
+            anchorBuffer.GetData(anchorCandidates);
+            int origin = -1, target = -1;
+            for (int i = 0; i < 128; i++)
+                if (anchorCandidates[i].w >= .5f) { origin = i; break; }
+            if (origin < 0) return null;
+            for (int i = 128; i < 256; i++)
+                if (anchorCandidates[i].w >= .5f && Vector3.Distance(anchorCandidates[origin],anchorCandidates[i]) >= .5f)
+                { target = i; break; }
+            if (e.kind == FlashKind.InCloud && target < 0) return null;
+            Vector3 a = skin.VolToWorld(anchorCandidates[origin]);
+            Vector3 b = skin.VolToWorld(anchorCandidates[target < 0 ? origin : target]);
+            return new LightningAnchors(new System.Numerics.Vector3(a.x,a.y,a.z),new System.Numerics.Vector3(b.x,b.y,b.z));
         }
 
         public bool RecordLighting(CommandBuffer cmd, StormSkin target, Camera camera, ComputeShader march, int kernel)
@@ -133,6 +181,9 @@ namespace StormLab.Supercell.Lightning
         Vector4 VolumeSettings() => new Vector4(skin.Volume.L,skin.Volume.ZT,skin.Volume.cloudMax,skin.Volume.rainMax);
         void OnDisable()
         {
+            if(boundLightning && boundLightning.ResolveCloudAnchors==ResolveAnchors) boundLightning.ResolveCloudAnchors=null;
+            boundLightning=null;
+            if(anchorBuffer!=null) { anchorBuffer.Release(); anchorBuffer=null; }
             if(boundSkin && ReferenceEquals(boundSkin.TransientLighting,this)) boundSkin.TransientLighting=null;
             boundSkin=null;
             if(lightning && lightning.ChannelMaterial) lightning.ChannelMaterial.SetFloat("_SLActive",0);

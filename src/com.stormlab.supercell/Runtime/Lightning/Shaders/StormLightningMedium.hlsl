@@ -21,7 +21,7 @@ float slSmooth(float a, float b, float v) { float t = saturate((v-a)/(b-a)); ret
 
 // Coarse extinction matching the skin's water/ice thresholds, near-field replacement and rain curtain.
 // It deliberately omits the march's camera-filtered sub-voxel billows, not a second moving cloud field.
-float slExtinction(float3 p)
+float2 slMedium(float3 p)
 {
     bool inVolume = all(abs(p.xy) < _SLVolume.x) && p.z >= 0 && p.z < _SLVolume.y;
     float4 s = inVolume ? _SLDens.SampleLevel(sl_LinearClamp, slUVW(p), 0) : 0;
@@ -58,8 +58,9 @@ float slExtinction(float3 p)
     if (inVolume && nearWeight < 1 && p.z < S_base.x+1.2 && s.b > .05)
         cloud += (1-nearWeight)*slSmooth(.22,.38,nearField(p,0))*.8;
     float rain = s.g*s.g*slSmooth(.2,.5,s.g)*_SLVolume.w;
-    return max(0,cloud*_SLVolume.z+rain);
+    return max(0,float2(cloud*_SLVolume.z,rain));
 }
+float slExtinction(float3 p) { float2 medium=slMedium(p); return medium.x+medium.y; }
 
 // Slab intersection handles parallel and negative directions without a sign-changing epsilon.
 bool slBox(float3 origin,float3 direction,float3 low,float3 high,out float enter,out float leave)

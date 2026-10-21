@@ -27,6 +27,8 @@ namespace StormLab.Supercell.Lightning
             skin.playing=false; skin.playbackTime=stormSeconds; skin.Activate();
             var up=skin.Params[Slot.Up]; lightning.transform.position=skin.VolToWorld(new Vector3(up.x,up.y,0));
             lightning.groundY=skin.groundHeight;
+            var bridge=lightning.GetComponent<LightningCloudBridge>();
+            if(bridge) bridge.Connect();
         }
     }
 }

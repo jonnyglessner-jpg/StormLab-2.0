@@ -135,10 +135,55 @@ channels or illumination and are not queried again every frame.
   This version is not yet pooled or GPU-profiled.
 
 Changing rate, fractions, charge geometry, seed or origin changes the procedural history; call `ResetPlayback()`
-after edits. For evolving rates, record fixed-setting segments and their start times in a future storm adapter.
-Flash rates, polarity fractions, heights and reach are tunable presentation assumptions. They are **not** inferred
-from CAPE, EF rating, case-study identity or the current hydrometeor fields. No charge-separation or electric-field
-solver is implemented. The positive/negative styles represent broad appearance differences, not complete polarity physics.
+after edits. Without a storm adapter, flash rates, polarity fractions, heights and reach are fixed tunable
+presentation assumptions. No charge-separation or electric-field solver is implemented. The positive/negative styles
+represent broad appearance differences, not complete polarity physics.
+
+## Storm-driven activity (age and intensity)
+
+`LightningSystem.ActivityAtTime` takes a function of playback time that returns a `LightningActivity`: total flashes
+per minute over the storm, the share that reach the ground, and the positive share of those. While it is set, the
+settings' rate and fractions are ignored. Candidates are drawn at `settings.maxFlashesPerMinute` (default 120) and each
+is kept with probability rate / ceiling, with its type drawn from the fractions at its time. The acceptance draws use
+their own stream, so a candidate's time and geometry seed never move. Replay, seeking and frame partitioning stay exact
+as long as the function depends only on time. Rates above the ceiling are clipped to it; the ceiling also bounds the
+per-flash cloud-anchor readbacks. Without a function the schedule is unchanged, so existing seeds keep their flashes.
+`CurrentActivity` shows the value at the last sampled time.
+
+`Integration/LightningStormDriver` sets the function from the storm a `StormSkin` shows. With **Auto** it uses the
+designed storm if the skin has one, otherwise the brain run. With `followSkinClock` (default) it samples the lightning
+at `skin.playbackTime` each frame in Play, since the activity is in model seconds; thunder plays only at 1x timelapse.
+Add it to the lightning GameObject and assign `lightning` and `skin`; it rebinds and calls `ResetPlayback()` when the
+skin's storm changes or the inspector edits it. Call `Rebind()` after changing the source, region or tuning from code.
+
+- **Designed storm** (`DesignedLightning`): rate follows updraft volume through the charging zone, (R / 3 km)² ×
+  ((w − 8) / 27)^1.5, times the depth of cloud above freezing (EL − freezing level, 2 → 6 km). It is scaled so a mature
+  35 m/s, 3 km updraft gives `designedReferencePerMinute` (80). Each cycle's updraft size changes it. Supercells
+  start flashing as the tower passes the charging zone (8–22 min) and fade with the storm's decay. A lightning jump
+  (+80 %) builds 20 to 10 minutes before each tornado and eases off over the 10 minutes around touchdown; each new
+  cycle adds a smaller surge (+30 %). Pulse storms peak at 16–26 min, before they collapse.
+- **Brain** (`BrainLightning`): each timeline frame is reduced when it arrives, after McCaul et al. (2009, Wea.
+  Forecasting 24, 709–729). The rate is 0.95 × graupel flux at −15 °C × 0.042 plus 0.05 × column ice × 0.2. Both are
+  flash densities per km² per 5 minutes, summed over the 40 km storm window. The 0.042 slope is confirmed; the 0.2 is
+  the value usually quoted, not checked against the paper. w at −15 °C is each block's column-maximum w scaled by the
+  core's w profile. Ice is cloud ice plus hail/graupel; the timeline holds no snow. The −15 °C height comes from the
+  base state. Block means smooth the flux peaks, so expect the brain's rates to run low; tune `brainRateScale` against
+  `CurrentActivity`. Lightning jumps come from the brain's own updraft and graupel surges. Summaries are kept per
+  frame index, so the timeline's ring buffer evicting old frames does not change the history. Attach before the run
+  starts for a complete history.
+- **Flash types** (both sources): about 12 % of flashes reach the ground on the Plains, 20 % in the Midwest, 22 % in
+  Dixie. That share starts at 30 % of its value before rain reaches the ground and rises by up to half in the first
+  minutes of rain at the ground. It falls with stronger updrafts (which lift the main negative charge) and rises as
+  the storm decays. Positive flashes are 9 % of ground flashes, more for strong Plains updrafts
+  (`invertedPolarityBoost`) and up to 25 % more in decay (anvil and stratiform charge). These are presentation rules
+  drawn from `docs/meteorology/cloud-microphysics.md`, not a polarity model.
+
+**Supercell Lab > Lightning > Check Storm-Driven Activity** (no GPU) samples four seeded Plains supercells and a pulse
+storm. It writes `designed_*.csv` curves and `checks.txt` to `validation/lightning/out/activity/`. It checks quiet
+initiation, a mature peak, the end with the storm, a rising ground share after rain, a rising positive share in
+decay, a jump before each tornado, and frame-partition replay of the real adapter. `check.ps1` covers the schedule
+itself: thinning, partition and seek replay, the integrated rate, clipping and the type split. The brain adapter is not
+yet covered by an automated check.
 
 ## Verification
 

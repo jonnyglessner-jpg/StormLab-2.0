@@ -13,7 +13,8 @@ tornado. Read `docs/DESIGN.md` for the architecture and decisions log before cha
   - `Runtime/Designer`, `Runtime/Rendering`: feature designer and volumetric skin
   - `Runtime/Viewer`: the Storm Test Bench
   - `Runtime/Lightning`: optional lightning and thunder (own assemblies; `Integration/` lights the skin's cloud).
-    README there. Flash rates are presentation settings, not from the brain
+    README there. Flash rates are presentation settings unless `LightningStormDriver` takes them from the designed
+    storm or the brain
   - `Editor/`: DynamicsValidation, DesignedValidation, DesignedChecks
 - `tests/SupercellLabTest/`: Unity 6000.6.6f1 project hosting the package (`file:../../../src/com.stormlab.supercell`).
   Skin and designed-skin render tests are in its `Assets/Editor`.

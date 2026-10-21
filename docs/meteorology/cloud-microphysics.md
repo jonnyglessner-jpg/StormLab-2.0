@@ -87,3 +87,8 @@ aggregates.
 - CPTP = (−19 °C − T_EL)(C₋₂₀ − 100)/100, with C₋₂₀ the MUCAPE between 0 and −20 °C: lightning is likely when
   CPTP ≥ 1.
 - **Highest CG threat when the rain first arrives.** GLM lightning jumps can precede intensification.
+- **Flash rate follows the mixed-phase updraft and its graupel.** McCaul et al. (2009, Wea. Forecasting 24) forecast
+  total lightning from the upward graupel flux at −15 °C (slope 0.042 flashes km⁻² per 5 min per m s⁻¹ g kg⁻¹) and,
+  for the anvil, vertically integrated ice. The flux term catches the timing, the ice term the area. Stronger updrafts
+  lift the main negative charge and raise the in-cloud share (the elevated-charge hypothesis). Used by
+  `BrainLightning` (Lightning README).

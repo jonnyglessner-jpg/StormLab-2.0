@@ -51,6 +51,12 @@ namespace StormLab.Supercell.Lightning
         public Func<Vector3, float> TerrainHeight;
         /// <summary>When connected, null means no valid cloud anchors: suppress this event rather than emit in clear air.</summary>
         public Func<FlashEvent, LightningAnchors?> ResolveCloudAnchors;
+        /// <summary>Optional storm-driven rate and flash-type split at a playback time (see LightningStormDriver). It must
+        /// depend only on the time for replay. While set, the settings' rate and fractions are ignored and
+        /// settings.maxFlashesPerMinute is the ceiling. Call ResetPlayback() after assigning or replacing it.</summary>
+        public Func<double, LightningActivity> ActivityAtTime;
+        /// <summary>The storm-driven activity at the last sampled time, for readouts and tuning; null without ActivityAtTime.</summary>
+        public LightningActivity? CurrentActivity { get; private set; }
         public bool TryGetFlash(long id, out LightningFlash flash)
         {
             bool found = active.TryGetValue(id, out var visual);
@@ -99,7 +105,8 @@ namespace StormLab.Supercell.Lightning
             foreach (var pair in active)
                 if (seconds - pair.Value.flash.Event.time > 1) expired.Add(pair.Key);
             foreach (long key in expired) { Release(active[key].root); active.Remove(key); }
-            LightningSchedule.Query(settings, Math.Max(-1e-6, seconds - 1), seconds, events);
+            LightningSchedule.Query(settings, Math.Max(-1e-6, seconds - 1), seconds, events, ActivityAtTime);
+            CurrentActivity = ActivityAtTime?.Invoke(seconds);
             // At high rates the newest flashes win; all allocation budgets remain bounded.
             for (int i = Math.Max(0, events.Count - maxVisibleFlashes); i < events.Count; i++)
             {

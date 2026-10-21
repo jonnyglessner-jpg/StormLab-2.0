@@ -18,10 +18,14 @@ namespace StormLab.Supercell.Lightning
         public float cellRadiusM = 6000;
         public float lowerChargeHeightM = 5500;
         public float upperChargeHeightM = 9500;
+        // Ceiling for a storm-driven rate (LightningSystem.ActivityAtTime): candidates are drawn at this rate and thinned.
+        // Higher storm rates are clipped to it. It bounds the per-flash cloud-anchor readbacks as well.
+        public float maxFlashesPerMinute = 120;
 
         public void Validate()
         {
-            if (!Finite(flashesPerMinute) || flashesPerMinute < 0 || flashesPerMinute > 600 ||
+            if (!Finite(maxFlashesPerMinute) || maxFlashesPerMinute <= 0 || maxFlashesPerMinute > 600 ||
+                !Finite(flashesPerMinute) || flashesPerMinute < 0 || flashesPerMinute > 600 ||
                 !Finite(groundFraction) || groundFraction < 0 || groundFraction > 1 ||
                 !Finite(positiveGroundFraction) || positiveGroundFraction < 0 || positiveGroundFraction > 1 ||
                 !Finite(cellRadiusM) || cellRadiusM <= 0 ||
@@ -42,36 +46,87 @@ namespace StormLab.Supercell.Lightning
         { this.id = id; this.time = time; this.seed = seed; this.kind = kind; }
     }
 
+    /// <summary>A storm's lightning at one moment: total flash rate over the storm and the flash-type split.
+    /// Supplied by a storm adapter; a presentation estimate, not an electrification solver.</summary>
+    public readonly struct LightningActivity
+    {
+        public readonly float flashesPerMinute, groundFraction, positiveGroundFraction;
+        public LightningActivity(float flashesPerMinute, float groundFraction, float positiveGroundFraction)
+        {
+            this.flashesPerMinute = flashesPerMinute; this.groundFraction = groundFraction;
+            this.positiveGroundFraction = positiveGroundFraction;
+        }
+        public static readonly LightningActivity None = new LightningActivity(0, 0, 0);
+        public override string ToString() =>
+            $"{flashesPerMinute:0.#} flashes/min, {groundFraction * 100:0}% to ground, {positiveGroundFraction * 100:0}% of those positive";
+    }
+
     // Ten-second bins have independent streams: seeking costs only the requested window,
     // and frame partitioning never changes the flashes. Settings must stay fixed for a replay.
     public static class LightningSchedule
     {
+        // Salt for the storm-driven acceptance/type stream, kept apart from the candidate stream.
+        const uint ActivitySalt = 0x5bd1e995u;
+
         public static void Query(LightningSettings settings, double after, double through, List<FlashEvent> output)
+            => Query(settings, after, through, output, null);
+
+        /// <summary>With an activity function, candidates arrive at maxFlashesPerMinute and each is kept with probability
+        /// rate(t) / maxFlashesPerMinute, its type drawn from the fractions at t. The function must depend only on t:
+        /// then seeking, replay and frame partitioning still return the same flashes. Without one, the fixed settings apply
+        /// exactly as before, so existing seeds keep their histories.</summary>
+        public static void Query(LightningSettings settings, double after, double through, List<FlashEvent> output,
+            Func<double, LightningActivity> activity)
         {
             settings.Validate();
             if (double.IsNaN(after) || double.IsInfinity(after) || double.IsNaN(through) ||
                 double.IsInfinity(through) || through < after || through - after > 3600 || through > 1e9)
                 throw new ArgumentOutOfRangeException(nameof(through), "Query a finite window of at most one hour, up to 1e9 seconds.");
             output.Clear();
-            if (through < 0 || settings.flashesPerMinute == 0) return;
+            float rate = activity == null ? settings.flashesPerMinute : settings.maxFlashesPerMinute;
+            if (through < 0 || rate == 0) return;
             long first = Math.Max(0, (long)Math.Floor(after / 10));
             long last = (long)Math.Floor(through / 10);
             for (long bin = first; bin <= last; bin++)
             {
-                var rng = new LightningRandom(LightningRandom.Hash((uint)settings.seed, (uint)bin));
+                uint binSeed = LightningRandom.Hash((uint)settings.seed, (uint)bin);
+                var rng = new LightningRandom(binSeed);
                 double t = bin * 10;
                 int ordinal = 0;
                 while (true)
                 {
-                    t += -Math.Log(rng.Unit()) * 60 / settings.flashesPerMinute;
+                    t += -Math.Log(rng.Unit()) * 60 / rate;
                     if (t >= (bin + 1) * 10) break;
                     uint flashSeed = rng.Next();
-                    var kind = rng.Unit() >= settings.groundFraction ? FlashKind.InCloud :
-                        (rng.Unit() < settings.positiveGroundFraction ? FlashKind.PositiveGround : FlashKind.NegativeGround);
-                    if (t > after && t <= through) output.Add(new FlashEvent(bin * 65536 + ordinal, t, flashSeed, kind));
+                    bool inWindow = t > after && t <= through;
+                    FlashKind kind;
+                    if (activity == null)
+                        kind = rng.Unit() >= settings.groundFraction ? FlashKind.InCloud :
+                            (rng.Unit() < settings.positiveGroundFraction ? FlashKind.PositiveGround : FlashKind.NegativeGround);
+                    // The storm is only asked about candidates in the window; skipping the rest draws nothing from rng.
+                    else if (!inWindow || !Accept(activity(t), settings, binSeed, ordinal, out kind))
+                    { ordinal++; continue; }
+                    if (inWindow) output.Add(new FlashEvent(bin * 65536 + ordinal, t, flashSeed, kind));
                     ordinal++;
                 }
             }
+        }
+
+        static bool Accept(in LightningActivity a, LightningSettings settings, uint binSeed, int ordinal, out FlashKind kind)
+        {
+            kind = FlashKind.InCloud;
+            if (!LightningSettings.Finite(a.flashesPerMinute) || !LightningSettings.Finite(a.groundFraction) ||
+                !LightningSettings.Finite(a.positiveGroundFraction))
+                throw new ArgumentOutOfRangeException(nameof(a), "Storm lightning activity must be finite.");
+            // Each candidate has its own stream, so acceptance never shifts the candidate times or geometry seeds.
+            var pick = new LightningRandom(LightningRandom.Hash(binSeed ^ ActivitySalt, (uint)ordinal));
+            float rate = Math.Min(Math.Max(a.flashesPerMinute, 0), settings.maxFlashesPerMinute);
+            if (pick.Unit() * settings.maxFlashesPerMinute >= rate) return false;
+            float ground = Math.Min(Math.Max(a.groundFraction, 0), 1);
+            float positive = Math.Min(Math.Max(a.positiveGroundFraction, 0), 1);
+            double u = pick.Unit(), v = pick.Unit();
+            kind = u >= ground ? FlashKind.InCloud : v < positive ? FlashKind.PositiveGround : FlashKind.NegativeGround;
+            return true;
         }
     }
 

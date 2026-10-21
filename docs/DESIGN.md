@@ -388,3 +388,11 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   at the full-width march cost for those frames. Flash rate, polarity and charge heights are presentation settings,
   not from the brain. Night renders with a held flash: skin test `-skinNight -skinLightning` (70 min, DDC: the flash
   lights tower and anvil from inside; the bolt leaves the cloud base cleanly).
+- **2026-10-21** Storm-driven lightning. `LightningSystem.ActivityAtTime` lets the storm set flash rate and flash types
+  over time. The schedule thins a fixed candidate stream at `maxFlashesPerMinute` with a separate random stream. The
+  alternative, piecewise fixed-rate segments, would break when rates change smoothly; thinning keeps replay, seeking
+  and frame partitioning exact and leaves fixed-rate seeds unchanged. `LightningStormDriver` binds the skin's storm:
+  designed storms use updraft volume, age, decay and a lightning jump before each tornado. The brain uses McCaul et al.
+  (2009) graupel flux at −15 °C and column ice from each timeline frame, kept per frame so ring eviction doesn't change
+  the history. The flash-type split follows rain arrival, updraft strength and decay. Rates are presentation
+  estimates (model-limitations.md).

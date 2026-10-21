@@ -104,11 +104,15 @@ mover; average tier 240 × 240 × 72.
 - March cost depends on the view: inside the storm costs more than 24 km away.
 - Not built yet: the 30 m near-field volume, flow-mapped detail.
 - Close-range wedges read as pale haze rather than dark masses.
-- **Lightning is not tied to the storm (2026-10-21).** Flash rate, polarity and charge heights are settings; the brain's
-  graupel and updraft don't drive them, and channel geometry doesn't know where the cloud is: in the 70 min DDC render
-  an in-cloud flash's channel hangs into clear air below the anvil, and the game must place the charge centre itself
-  (the test puts it 6 km into the forward flank). A flash doesn't light the ground or anything beyond 6 km of it; the far
-  anvil outside the 60 km volume hides channels but isn't lit. Light-field and per-fragment channel costs unprofiled.
+- **Lightning is only loosely tied to the storm (2026-10-21).** With `LightningStormDriver`, flash rate and flash types
+  follow the storm's age and strength (Lightning README, "Storm-driven activity"). The designed storm's curve is a
+  hand-shaped parametric rule, not calibrated against observed flash rates. The brain's rate follows McCaul et al.
+  (2009) but from 1 km block means, column-maximum w scaled by the core's profile, and no snow. Its absolute rate has
+  not been compared with real storms; the 0.2 ice coefficient is unverified. The polarity rules are heuristics with no
+  charge structure. Charge heights are still settings, though cloud-connected flashes take their origins from the cloud
+  field. A flash doesn't light the ground or anything beyond 6 km of it; the far anvil outside the 60 km volume hides
+  channels but isn't lit. Light-field and per-fragment channel costs unprofiled, as is the anchor readback at
+  storm-driven rates near the 120/min ceiling.
 
 ## Fixed
 

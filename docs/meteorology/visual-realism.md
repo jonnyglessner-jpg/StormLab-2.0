@@ -113,5 +113,8 @@ Reference speeds: storm motion 10–25 m/s (Dixie 40–55 mph); low-level storm-
 - **Seeing in the dark:** below about 0.01 lux the eye's rods take over: no colour, a blue-green bias (Purkinje shift),
   less detail. A game shows night far brighter than physical (the skin's default is 8 % of day for a moonlit night) and
   keeps it blue-grey, with the deepest shadows lifted.
-- Lightning (in-cloud flashes lighting the storm from inside, cloud-to-ground strikes) is not in the skin yet.
+- **Lightning** (`Runtime/Lightning`): in-cloud flashes light the storm from inside, the light scattering through the
+  same cloud the sun lights; ground strikes are hidden where they pass through cloud or heavy rain. Real nights: most
+  flashes are in-cloud (the default is 25 % ground), a positive strike's flash is longer and comes from the anvil, and
+  each flash flickers through several return strokes over a few tenths of a second.
 

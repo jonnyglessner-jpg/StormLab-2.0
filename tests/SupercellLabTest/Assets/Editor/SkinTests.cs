@@ -474,6 +474,8 @@ public static class SkinTests
                             if (Want("aerial")) { Pose(cam, U - fwd * 10000f + right * 38000f + Vector3.up * 22000f, U + Vector3.up * 7000f + fwd * 8000f, 55f); Take("aerial"); }
                         }
                     }
+                    if (night != null && cl.Contains("-skinLightning"))
+                        LightningShots(skin, cam, U, fwd, view => Take(view));
                     if (doPhotos && night == null)
                     {
                         // ground cameras in the reference photos' framings (data/reference/plains_lp/NOTES.md)
@@ -535,6 +537,42 @@ public static class SkinTests
         File.WriteAllText(repPath, rep.ToString());
         Debug.Log($"[Skin] {(ok ? "PASS" : "FAIL")}; screenshots in {ShotDir}, report in {OutDir}");
         return ok;
+    }
+
+    /// <summary>
+    /// -skinLightning (with -skinNight): the night views again with a flash held at its first return stroke, lit through
+    /// LightningCloudBridge. The charge centre sits 6 km into the forward flank; a ground flash from the chaser and the wide
+    /// view, an in-cloud flash from the chaser.
+    /// </summary>
+    static void LightningShots(StormSkin skin, Camera cam, Vector3 U, Vector3 fwd, Action<string> take)
+    {
+        var go = new GameObject("Skin test lightning");
+        try
+        {
+            var rig = go.AddComponent<StormLab.Supercell.Lightning.LightningSystem>();
+            rig.advanceClock = false; rig.thunder = false; rig.showInCloudChannels = true; rig.groundY = U.y;
+            Vector3 core = U + fwd * 6000f;
+            rig.CellCentreAtTime = _ => core;
+            var bridge = go.AddComponent<StormLab.Supercell.Lightning.LightningCloudBridge>();
+            bridge.lightning = rig; bridge.skin = skin;
+            skin.TransientLighting = bridge;
+            var events = new List<StormLab.Supercell.Lightning.FlashEvent>();
+            StormLab.Supercell.Lightning.LightningSchedule.Query(rig.settings, -1e-6, 600, events);
+            foreach (var (kind, views) in new[] { (StormLab.Supercell.Lightning.FlashKind.NegativeGround, new[] { "chaser", "wide" }),
+                                                   (StormLab.Supercell.Lightning.FlashKind.InCloud, new[] { "chaser" }) })
+            {
+                var e = events.First(x => x.kind == kind);
+                foreach (var view in views)
+                {
+                    if (view == "chaser") Pose(cam, U + Bearing(160f) * 24000f + Vector3.up * 3f, U + Vector3.up * 2500f, 60f);
+                    else Pose(cam, U + Bearing(185f) * 60000f + Vector3.up * 3f, U + Bearing(90f) * 8000f + Vector3.up * 6000f, 55f);
+                    rig.ResetPlayback(); rig.SampleAt(e.time + StormLab.Supercell.Lightning.LightningFlash.LeaderSeconds + .001);
+                    bridge.RefreshChannelOcclusion(); rig.PrepareForCamera(cam);
+                    take($"{view}_ltg_{(kind == StormLab.Supercell.Lightning.FlashKind.InCloud ? "ic" : "cg")}");
+                }
+            }
+        }
+        finally { skin.TransientLighting = null; Object.DestroyImmediate(go); }
     }
 
     static double Time(Action a, int n)

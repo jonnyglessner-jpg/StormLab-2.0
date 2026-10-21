@@ -13,6 +13,7 @@ Layout (Environment and Design carried over from StormLab 1.0; Dynamics built in
 | `Runtime/Rendering` | URP ScriptableRenderPass: advected storm + near-field volumes, ray-march, analytic funnel | Phase 2 |
 | `Runtime/Tornado` | Genesis / maintenance / decay, vortex wind field, shapes, cycling, damage (EF DI/DoD) | Phase 3 |
 | `Runtime/Presets` | The eight presets with sounding families and acceptance windows | Phase 4 |
+| `Runtime/Lightning` | Optional lightning: flash schedule and channels, thunder, a preview; `Integration/` lights and hides it in the skin's cloud (`LightningCloudBridge`) | built, see `Runtime/Lightning/README.md` |
 | `Editor` | Headless validation runs (`DynamicsValidation.cs`, run from `../SupercellLabTest`) | built |
 
 Install: Unity > Window > Package Manager > + > Add package from disk > this folder's `package.json`.

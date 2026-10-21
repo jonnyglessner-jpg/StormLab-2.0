@@ -378,3 +378,13 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   real storms; WK updraft 66.9 m/s and cold pool −7.3 K; full validation passes. Neither change, nor any hail setting
   tried, makes LP, classic and HP storms rain differently; that is open (model-limitations.md 13). Validation tools:
   `-dynN0H`, `-dynRhoH`, `-dynScalarMix`, `-dynReportTag`, `-dynCasesTag`; skin test `-skinSounding`, `-skinName`.
+- **2026-10-21** Lightning (`Runtime/Lightning`, its own README). An optional module in its own assemblies: a
+  deterministic Poisson flash schedule (in-cloud, negative and positive ground), branched channels with repeat strokes,
+  thunder synthesized along the channel and delayed by distance, and a preview. `Integration/LightningCloudBridge` lights
+  the skin: the strongest eight channel samples fill a 64 x 64 x 24 local-radiance grid that the march scatters with
+  the cloud's own extinction (divided by the night gain, so a flash is not amplified like starlight); the bolt shader
+  traces cloud and rain optical depth so channels inside cloud are hidden. During a flash and one frame after, the
+  skin skips checkerboard and temporal blending (`IStormTransientLighting`), so flashes are crisp and leave no ghost,
+  at the full-width march cost for those frames. Flash rate, polarity and charge heights are presentation settings,
+  not from the brain. Night renders with a held flash: skin test `-skinNight -skinLightning` (70 min, DDC: the flash
+  lights tower and anvil from inside; the bolt leaves the cloud base cleanly).

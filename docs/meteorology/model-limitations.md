@@ -104,6 +104,11 @@ mover; average tier 240 × 240 × 72.
 - March cost depends on the view: inside the storm costs more than 24 km away.
 - Not built yet: the 30 m near-field volume, flow-mapped detail.
 - Close-range wedges read as pale haze rather than dark masses.
+- **Lightning is not tied to the storm (2026-10-21).** Flash rate, polarity and charge heights are settings; the brain's
+  graupel and updraft don't drive them, and channel geometry doesn't know where the cloud is: in the 70 min DDC render
+  an in-cloud flash's channel hangs into clear air below the anvil, and the game must place the charge centre itself
+  (the test puts it 6 km into the forward flank). A flash doesn't light the ground or anything beyond 6 km of it; the far
+  anvil outside the 60 km volume hides channels but isn't lit. Light-field and per-fragment channel costs unprofiled.
 
 ## Fixed
 

@@ -12,6 +12,8 @@ tornado. Read `docs/DESIGN.md` for the architecture and decisions log before cha
   - `Runtime/Design`: the designed storm track (StormGenome, DesignedStorm, DesignedStormRunner)
   - `Runtime/Designer`, `Runtime/Rendering`: feature designer and volumetric skin
   - `Runtime/Viewer`: the Storm Test Bench
+  - `Runtime/Lightning`: optional lightning and thunder (own assemblies; `Integration/` lights the skin's cloud).
+    README there. Flash rates are presentation settings, not from the brain
   - `Editor/`: DynamicsValidation, DesignedValidation, DesignedChecks
 - `tests/SupercellLabTest/`: Unity 6000.6.6f1 project hosting the package (`file:../../../src/com.stormlab.supercell`).
   Skin and designed-skin render tests are in its `Assets/Editor`.
@@ -35,6 +37,8 @@ tornado. Read `docs/DESIGN.md` for the architecture and decisions log before cha
   `validation/cm1-comparisons/`, DDC CSVs in `validation/real-storm-cases/`.
   Designed storm: `StormLab.Supercell.EditorTools.DesignedValidation.RunFromCommandLine`.
 - Fast compile loop for pure C#: Unity's bundled dotnet (`Editor/Data/DotNetSdk/dotnet.exe`) against a Unity stub.
+- Lightning checks: `validation/lightning/check.ps1` (no Unity); the in-editor review is **Supercell Lab > Lightning >
+  Capture Cloud Integration Review**. Night skin renders with a flash: the skin test with `-skinNight -skinLightning`.
 - Python tools: `python -I tools/<tool>.py`. Soundings go to `validation/soundings/`; download caches to `data/raw/`.
 - Sounding checks against SPC definitions: `python -I ../meteorology/SHARPpy/tools/check_sounding.py
   validation/soundings/<file>.json` (the `meteorology/` library sits next to this repo, not in it).

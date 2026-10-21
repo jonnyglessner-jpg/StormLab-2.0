@@ -351,7 +351,14 @@ namespace StormLab.Supercell
             o.vLow = rf * 1.05 * Math.Sqrt(Math.Max(E.srh1, 0)) * Math.Sqrt(C.Clamp(o.wLow / 10, 0.3, 1.6)) * (0.55 + 0.45 * lclF);
 
             double sra = E.srAnvil, moist = E.o != null ? C.Clamp((E.o.TdF - 68) / 8, 0, 1) : C.Clamp((Thermo.TdFromQ(E.s.p[0], E.s.q[0]) - 293.15) / 4.4, 0, 1);
-            o.hpness = C.Clamp((24 - sra) / 10 + 0.35 * moist, 0, 1) - C.Clamp((sra - 28) / 8, 0, 1);
+            // Precipitation mode, -1 LP .. 0 classic .. +1 HP. 1.0 keyed it on the storm-relative anvil-level wind
+            // (Rasmussen and Straka 1998: strong winds aloft carry the rain away, LP), but across the 32 real cases of known
+            // mode in validation/real-storm-cases that wind is the same for LP, classic and HP storms (medians 36 / 41.5 /
+            // 40 kt), and it called Dixie HP days LP. The one signal the soundings do carry is the cloud base: HP storms'
+            // LCLs are lower (median 983 m against 1391 classic, 1423 LP), a moist boundary layer raining efficiently. So:
+            // the LCL, plus 1.0's surface moisture. It is a lean, not a classifier (about half the cases right); the mode
+            // proper has to come from the simulated precipitation (DESIGN.md, 2026-10-18)
+            o.hpness = C.Clamp((1300 - pc.lcl) / 700 + 0.35 * moist - 0.15, -1, 1);
             o.precip = !rotating ? Precip.Ordinary : o.hpness > 0.5 ? Precip.HP : o.hpness < -0.35 ? Precip.LP : Precip.Classic;
 
             o.hailIn = Math.Max(0, Math.Pow(0.75 * o.w * (rotating ? 1 : 0.8) / 14, 2) / 2.54 - Math.Max(0, (o.fzl - 3800) / 1000) * 0.4);

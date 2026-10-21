@@ -367,8 +367,8 @@ namespace StormLab.Supercell.Designer
             sim |= Feature.Motion;
             int pm = diag.precip == Precip.LP ? 0 : diag.precip == Precip.Classic ? 1 : diag.precip == Precip.HP ? 2 : -1;
             P.Set(Slot.Env, (float)(env.pc.lcl / 1000), (float)((env.pc.el ?? 0) / 1000), (float)(env.pc.cape / 1000), pm);
-            // the precipitation curtain: thin, streaky and back-lit for LP, dense for HP (1.0's hpness: anvil-level storm-relative
-            // wind and mid-level moisture); how much rain there is and where still comes from the simulated reflectivity
+            // the precipitation curtain: thin, streaky and back-lit for LP, dense for HP (StormPhysics.hpness, from the cloud base;
+            // surface moisture); how much rain there is and where still comes from the simulated reflectivity
             float hp = (float)diag.hpness;
             P.Set(Slot.Curtain, Mathf.Clamp(0.7f + 0.7f * hp, 0.3f, 1.2f), Mathf.Clamp(0.6f - 0.4f * hp, 0.25f, 0.85f), Mathf.Clamp01(0.5f - 0.6f * hp), hp);
 

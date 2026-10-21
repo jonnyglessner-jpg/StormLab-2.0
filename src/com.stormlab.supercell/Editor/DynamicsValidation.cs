@@ -1,6 +1,6 @@
 // Headless validation of the Phase 1 brain (Runtime/Dynamics/README.md). Batch:
 //   Unity.exe -batchmode -projectPath tests/SupercellLabTest -executeMethod StormLab.Supercell.EditorTools.DynamicsValidation.RunFromCommandLine
-//             [-dynSuite all|quick|wk|ddc|perf] -logFile <file>
+//             [-dynSuite all|quick|wk|ddc|perf|tune|cases] [-dynCases id1,id2] [-dynCaseHours 3] -logFile <file>
 // Writes validation/reports/ValidationReport.md, validation/cm1-comparisons/weisman_klemp.csv and validation/real-storm-cases/ddc_*.csv.
 using System;
 using System.Collections.Generic;
@@ -35,12 +35,29 @@ namespace StormLab.Supercell.EditorTools
             string suite = "all";
             var args = System.Environment.GetCommandLineArgs();
             for (int i = 0; i < args.Length - 1; i++) if (args[i] == "-dynSuite") suite = args[i + 1];
+            // experiments: -dynN0H, -dynRhoH, -dynScalarMix override SimParams for every run; -dynReportTag t writes
+            // ValidationReport_<suite>_t.md instead of the validation report
+            float n0h = float.NaN, rhoh = float.NaN, mix = float.NaN;
+            for (int i = 0; i < args.Length - 1; i++)
+            {
+                if (args[i] == "-dynN0H") n0h = float.Parse(args[i + 1], Inv);
+                if (args[i] == "-dynRhoH") rhoh = float.Parse(args[i + 1], Inv);
+                if (args[i] == "-dynScalarMix") mix = float.Parse(args[i + 1], Inv);
+                if (args[i] == "-dynReportTag") reportTag = "_" + args[i + 1];
+            }
+            if (!float.IsNaN(n0h) || !float.IsNaN(rhoh) || !float.IsNaN(mix))
+            {
+                SimParams.Tweak = p => { if (!float.IsNaN(n0h)) p.n0Hail = n0h; if (!float.IsNaN(rhoh)) p.rhoHail = rhoh; if (!float.IsNaN(mix)) p.scalarMix = mix; };
+                Log($"experiment: hail N0 {(float.IsNaN(n0h) ? "default" : n0h.ToString(Inv))}, density {(float.IsNaN(rhoh) ? "default" : rhoh.ToString(Inv))}, scalar mixing {(float.IsNaN(mix) ? "default" : mix.ToString(Inv))}");
+            }
             bool ok;
             try { ok = Run(suite); }
             catch (Exception e) { Debug.LogException(e); ok = false; }
+            SimParams.Tweak = null;
             EditorApplication.Exit(ok ? 0 : 1);
         }
 
+        static string reportTag = "";
         public static bool Run(string suite)
         {
             passed = failed = 0;
@@ -78,11 +95,12 @@ namespace StormLab.Supercell.EditorTools
             }
             if (all || suite == "perf") Guard("step time at both tiers", () => Perf(tail));
             if (suite == "tune") Guard("sensitivity: mixing and rain evaporation", () => Tune(tail));
+            if (suite == "cases") Guard("real-storm case library (brain_cases.json)", () => Cases(tail));
             report.AppendLine();
             report.AppendLine($"{passed} passed, {failed} failed, {sw.Elapsed.TotalMinutes:0.0} min.");
             report.AppendLine();
             report.Append(tail);
-            File.WriteAllText(Path.Combine(OutDir, suite == "all" ? "ValidationReport.md" : $"ValidationReport_{suite}.md"), report.ToString());
+            File.WriteAllText(Path.Combine(OutDir, (suite == "all" ? "ValidationReport" : $"ValidationReport_{suite}") + reportTag + ".md"), report.ToString());
             Log($"overall {(failed == 0 ? "PASS" : "FAIL")}: {passed} passed, {failed} failed; report in {OutDir}");
             return failed == 0;
         }
@@ -595,6 +613,252 @@ namespace StormLab.Supercell.EditorTools
                          $"50 dBZ core at 1 km {fA(s50a1[0])} km2 (27; 142), vault in {withVault.Count} of {mature.Count} volumes, median {fKm(sVb[0])}-{fKm(sVt[0])} km (2.5-5.0), strongest echo {fDb(sMax[0])} dBZ (55.1; not tested)";
             if (biases.Count > 0) sum += "; known biases outside the radar values (reported, not gated): " + string.Join(", ", biases);
             return Verdict(allOk, sum + (allOk ? "" : "; outside tolerance: " + string.Join(", ", misses)));
+        }
+
+        // ------------------------------------------------------------ the real-storm case library (not part of "all")
+        // validation/real-storm-cases/brain_cases.json (tools/brain_case_manifest.py): one record per case with the sounding to
+        // start from and the observed storm. Each case runs -dynCaseHours (default 3) at the average tier from its sounding.
+        // This suite measures; it gates only on crashes and NaN. -dynCases id1,id2 runs a subset.
+        [Serializable] class BrainCase
+        {
+            public string id, preset, role, sounding, end, flags;
+            public int tornadoes, maxEF, matchedTornadoes;
+            public float lifeH, motionFrom, motionKt, top50Km, top18Km, area40Km2, maxDbz, hailIn, coldestTopC, otFraction, mlcape, lclM, srh1, shear6Kt;
+        }
+        [Serializable] class BrainCaseList { public BrainCase[] cases; }
+
+        [Serializable] class CaseResult
+        {
+            public BrainCase c; public string error;
+            public float cape, lcl, srh1, shear6, bunkFrom, bunkKt;
+            public float initMin = float.NaN, lastStrongMin = float.NaN, peakW, peakWMin, wEnd;
+            public float top50Max, top18Max, top50Med, maxDbz, hailMm, area40Max;
+            public float meso1Peak, meso1PeakGrid, meso4Peak, mesoDepthMed, zeta0Peak, w1UnderMesoMax, coldest, coldMed, rfdThetaMin = float.NaN;
+            public float motionFrom = float.NaN, motionKt = float.NaN; public bool nan; public double wallS;
+        }
+        [Serializable] class CaseResultList { public List<CaseResult> runs = new List<CaseResult>(); }
+
+        static float Na(float v) => v <= -998f ? float.NaN : v;
+        static float AngDiff(float a, float b) { float d = ((a - b) % 360 + 540) % 360 - 180; return d; }
+        static string Fm(float v, string fmt = "0") => float.IsNaN(v) ? "-" : v.ToString(fmt, Inv);
+        static float Median(List<float> xs) { var s = xs.Where(x => !float.IsNaN(x)).OrderBy(x => x).ToList(); return s.Count == 0 ? float.NaN : s[s.Count / 2]; }
+
+        static string Cases(StringBuilder tail)
+        {
+            var args = System.Environment.GetCommandLineArgs();
+            float hours = 3f; string only = null; bool fresh = false;
+            // -dynCasesTag t: a parameter sweep's own files (brain_cases_runs_t.json, ..._results_t.csv), leaving the
+            // library's results alone; -dynN0H / -dynRhoH: the hail/graupel class's intercept and density for this run
+            string tag = "";
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (i < args.Length - 1 && args[i] == "-dynCaseHours") hours = float.Parse(args[i + 1], Inv);
+                if (i < args.Length - 1 && args[i] == "-dynCases") only = args[i + 1];
+                if (args[i] == "-dynCasesFresh") fresh = true;
+                if (i < args.Length - 1 && args[i] == "-dynCasesTag") tag = "_" + args[i + 1];
+            }
+
+            // Results accumulate in brain_cases_runs.json across Unity processes: in batch mode the GPU never gets a frame
+            // end to free released buffers and readback staging, so a long batch runs out of video memory (d3d12 device
+            // error after ~7 three-hour runs, 2026-10-20). tools/run_brain_cases.sh runs the library in chunks.
+            string runsPath = Path.Combine(ValDir, "real-storm-cases", $"brain_cases_runs{tag}.json");
+            string seriesPath = Path.Combine(ValDir, "real-storm-cases", $"brain_cases_series{tag}.csv");
+            if (fresh) { File.Delete(runsPath); File.Delete(seriesPath); }
+            var store = File.Exists(runsPath) ? JsonUtility.FromJson<CaseResultList>(File.ReadAllText(runsPath)) : new CaseResultList();
+            var list = JsonUtility.FromJson<BrainCaseList>(File.ReadAllText(Path.Combine(ValDir, "real-storm-cases", "brain_cases.json"))).cases;
+            if (only != null) { var keep = new HashSet<string>(only.Split(',').Select(x => x.Trim())); list = list.Where(c => keep.Contains(c.id)).ToArray(); }   // Trim: ids piped from Python on Windows can carry \r
+            Log($"cases: -dynCases [{only}] -> {list.Length} to run: {string.Join(" ", list.Select(c => c.id))}");
+            var results = new List<CaseResult>();
+            const string seriesHeader = "case,t_min,wmax_ms,updraft_z_m,meso1_zeta,meso1_zeta_peak,meso4_zeta,meso_depth_m,zeta0_peak,w1_under_meso,coldpool_K,rfd_min_theta_K,dbz_max,top18_m,top50_m,hail_mm,storm_from_deg,storm_kt,area40_1km_km2\n";
+            if (!File.Exists(seriesPath)) File.WriteAllText(seriesPath, seriesHeader);
+            float tEnd = hours * 3600f;
+            foreach (var c in list)
+            {
+                var r = new CaseResult { c = c };
+                var series = new StringBuilder();
+                var wall = System.Diagnostics.Stopwatch.StartNew();
+                try
+                {
+                    string json = File.ReadAllText(Path.Combine(ValDir, "soundings", c.sounding));
+                    var s = new RunSetup { tier = SimTier.Average, runLength = tEnd };
+                    var motions = new List<Vector2>(); var top50s = new List<float>(); var depths = new List<float>(); var colds = new List<float>();
+                    using (var run = StormRun.FromSoundingJson(json, s))
+                    {
+                        var E = run.env;
+                        r.cape = (float)E.pc.cape; r.srh1 = (float)E.srh1; r.shear6 = (float)(E.shear6 / C.KT);
+                        r.lcl = (float)E.pc.lcl;
+                        r.bunkFrom = (float)((Math.Atan2(-E.bk.rm.x, -E.bk.rm.y) * 180 / Math.PI + 360) % 360);
+                        r.bunkKt = (float)(Math.Sqrt(E.bk.rm.x * E.bk.rm.x + E.bk.rm.y * E.bk.rm.y) / C.KT);
+                        int last = Mathf.RoundToInt(tEnd / StormRun.FrameInterval);
+                        for (int frame = 30; frame <= last; frame += 30)
+                        {
+                            run.AdvanceTo(frame * StormRun.FrameInterval); run.Pump(true);
+                            for (int i = frame - 29; i <= frame; i++)
+                            {
+                                var f = run.timeline.Get(i); if (f == null) continue;
+                                if (float.IsNaN(f.wMax)) r.nan = true;
+                                if (f.wMax > r.peakW) { r.peakW = f.wMax; r.peakWMin = f.t / 60f; }
+                                if (f.maxDbz >= 40 && float.IsNaN(r.initMin)) r.initMin = f.t / 60f;
+                                if (f.wMax >= 10f) r.lastStrongMin = f.t / 60f;
+                                if (f.t >= 1200)
+                                {
+                                    r.meso1Peak = Mathf.Max(r.meso1Peak, f.meso1.zeta); r.meso1PeakGrid = Mathf.Max(r.meso1PeakGrid, f.meso1.zetaPeak);
+                                    r.meso4Peak = Mathf.Max(r.meso4Peak, f.meso4.zeta); r.zeta0Peak = Mathf.Max(r.zeta0Peak, f.zeta0Peak);
+                                    r.w1UnderMesoMax = Mathf.Max(r.w1UnderMesoMax, f.w1UnderMeso);
+                                    if (f.rfdPresent) r.rfdThetaMin = float.IsNaN(r.rfdThetaMin) ? f.rfdMinTheta : Mathf.Min(r.rfdThetaMin, f.rfdMinTheta);
+                                }
+                                r.coldest = Mathf.Min(r.coldest, f.coldPoolMin);
+                                r.top50Max = Mathf.Max(r.top50Max, f.echoTop50); r.top18Max = Mathf.Max(r.top18Max, f.echoTop18);
+                                r.maxDbz = Mathf.Max(r.maxDbz, f.maxDbz); r.hailMm = Mathf.Max(r.hailMm, f.maxHailMm);
+                            }
+                            var fr = run.timeline.Get(frame);
+                            r.wEnd = fr.wMax;
+                            float a40 = float.NaN;
+                            if (fr.t >= 1800)
+                            {
+                                if (fr.wMax >= 10f) motions.Add(fr.stormMotion);
+                                if (fr.echoTop50 > 0) top50s.Add(fr.echoTop50);
+                                if (fr.meso1.present) depths.Add(fr.mesoDepth);
+                                colds.Add(fr.coldPoolMin);
+                                if (frame % 90 == 0) { var v = RadarLook.Measure(run.model, fr.t); a40 = v.area1[0]; r.area40Max = Mathf.Max(r.area40Max, float.IsNaN(a40) ? 0 : a40); }
+                            }
+                            float sf = (float)((Math.Atan2(-fr.stormMotion.x, -fr.stormMotion.y) * 180 / Math.PI + 360) % 360), sk = fr.stormMotion.magnitude / (float)C.KT;
+                            series.AppendLine(string.Join(",", new[] { c.id, F(fr.t / 60, "0"), F(fr.wMax, "0.0"), F(fr.updraftZ, "0"), F(fr.meso1.zeta, "0.0000"), F(fr.meso1.zetaPeak, "0.0000"),
+                                F(fr.meso4.zeta, "0.0000"), F(fr.mesoDepth, "0"), F(fr.zeta0Peak, "0.0000"), F(fr.w1UnderMeso, "0.0"), F(fr.coldPoolMin, "0.0"),
+                                fr.rfdPresent ? F(fr.rfdMinTheta, "0.0") : "", F(fr.maxDbz, "0.0"), F(fr.echoTop18, "0"), F(fr.echoTop50, "0"), F(fr.maxHailMm, "0.0"),
+                                F(sf, "0"), F(sk, "0.0"), float.IsNaN(a40) ? "" : F(a40, "0") }));
+                        }
+                    }
+                    if (motions.Count > 0)
+                    {
+                        var m = new Vector2(motions.Average(v => v.x), motions.Average(v => v.y));
+                        r.motionFrom = (float)((Math.Atan2(-m.x, -m.y) * 180 / Math.PI + 360) % 360); r.motionKt = m.magnitude / (float)C.KT;
+                    }
+                    r.top50Med = Median(top50s); r.mesoDepthMed = Median(depths); r.coldMed = Median(colds);
+                }
+                catch (Exception e) { Debug.LogException(e); r.error = e.Message; }
+                r.wallS = wall.Elapsed.TotalSeconds;
+                results.Add(r);
+                store.runs.RemoveAll(x => x.c.id == c.id); store.runs.Add(r);
+                File.WriteAllText(runsPath, JsonUtility.ToJson(store, true));
+                File.AppendAllText(seriesPath, series.ToString());
+                GC.Collect(); GC.WaitForPendingFinalizers();   // a run holds about 1 GB of frames and checkpoints
+                Log($"case {c.id}: {(r.error ?? $"peak w {r.peakW:0} m/s at {r.peakWMin:0} min, strong until {Fm(r.lastStrongMin)} min, motion {Fm(r.motionFrom)}/{Fm(r.motionKt)} kt (obs {Fm(Na(c.motionFrom))}/{Fm(Na(c.motionKt))}), 1 km meso {r.meso1Peak:0.0000}, cold pool {r.coldest:0.0} K")} ({r.wallS:0} s)");
+            }
+            // the report covers every case run so far (this process and earlier chunks), in manifest order
+            var order = JsonUtility.FromJson<BrainCaseList>(File.ReadAllText(Path.Combine(ValDir, "real-storm-cases", "brain_cases.json"))).cases.Select(x => x.id).ToList();
+            var allRuns = store.runs.OrderBy(x => order.IndexOf(x.c.id)).ToList();
+            WriteCaseResults(allRuns, hours, tail, tag);
+            int bad = results.Count(x => !string.IsNullOrEmpty(x.error) || x.nan);
+            string sum = $"this process: {results.Count} cases, {hours:0.#} h each; report covers {allRuns.Count} cases; {results.Count(x => !float.IsNaN(x.initMin))} made a 40 dBZ storm; {bad} crashed or NaN; see ValidationReport_cases.md";
+            return Verdict(bad == 0, sum);
+        }
+
+        static void WriteCaseResults(List<CaseResult> rs, float hours, StringBuilder tail, string tag = "")
+        {
+            var csv = new StringBuilder("case,preset,role,obs_tornadoes,obs_max_ef,obs_life_h,obs_from,obs_kt,model_from,model_kt,bunkers_from,bunkers_kt,obs_top50_km,model_top50_max_km,model_top50_med_km,obs_top18_km,model_top18_max_km,obs_area40_km2,model_area40_1km_max_km2,obs_max_dbz,model_max_dbz,obs_hail_in,model_hail_mm,init_min,peak_w,peak_w_min,strong_until_min,w_end,meso1_zeta,meso1_zeta_grid,meso4_zeta,meso_depth_m,zeta0_peak,w1_under_meso,coldpool_min_K,coldpool_med_K,rfd_min_theta_K,model_mlcape,model_lcl_m,model_srh1,model_shear6_kt,error\n");
+            foreach (var r in rs)
+            {
+                var c = r.c;
+                csv.AppendLine(string.Join(",", new[] { c.id, c.preset, c.role, c.tornadoes.ToString(Inv), c.maxEF.ToString(Inv), Fm(Na(c.lifeH), "0.00"), Fm(Na(c.motionFrom)), Fm(Na(c.motionKt), "0.0"),
+                    Fm(r.motionFrom), Fm(r.motionKt, "0.0"), Fm(r.bunkFrom), Fm(r.bunkKt, "0.0"), Fm(Na(c.top50Km), "0.0"), Fm(r.top50Max / 1000f, "0.0"), Fm(r.top50Med / 1000f, "0.0"),
+                    Fm(Na(c.top18Km), "0.0"), Fm(r.top18Max / 1000f, "0.0"), Fm(Na(c.area40Km2)), Fm(r.area40Max), Fm(Na(c.maxDbz), "0.0"), Fm(r.maxDbz, "0.0"), Fm(Na(c.hailIn), "0.00"), Fm(r.hailMm, "0.0"),
+                    Fm(r.initMin), Fm(r.peakW, "0.0"), Fm(r.peakWMin), Fm(r.lastStrongMin), Fm(r.wEnd, "0.0"), Fm(r.meso1Peak, "0.0000"), Fm(r.meso1PeakGrid, "0.0000"), Fm(r.meso4Peak, "0.0000"),
+                    Fm(r.mesoDepthMed), Fm(r.zeta0Peak, "0.0000"), Fm(r.w1UnderMesoMax, "0.0"), Fm(r.coldest, "0.0"), Fm(r.coldMed, "0.0"), Fm(r.rfdThetaMin, "0.0"),
+                    Fm(r.cape), Fm(r.lcl), Fm(r.srh1), Fm(r.shear6), (r.error ?? "").Replace(",", ";") }));
+            }
+            File.WriteAllText(Path.Combine(ValDir, "real-storm-cases", $"brain_cases_results{tag}.csv"), csv.ToString());
+            if (tag.Length > 0) return;   // a parameter sweep: its results file only, not the library's report
+
+            var ok = rs.Where(r => string.IsNullOrEmpty(r.error) && !r.nan).ToList();
+            var sb = new StringBuilder();
+            sb.AppendLine($"## Real-storm case library: the brain against {rs.Count} observed storms");
+            sb.AppendLine();
+            sb.AppendLine($"Each case runs {hours:0.#} h at the average tier from its primary sounding (inflow median where present; `validation/real-storm-cases/brain_cases.json`). " +
+                          "The model's clock starts with the storm forced at the sounding time, so times are not matched to the real storm; compare magnitudes and behaviour. " +
+                          "Observed: radar life cycle (composite 40 dBZ cell, tops above radar level), SPC reports matched to the track, the box's SPC tornadoes. " +
+                          "Model tops are above ground. The model's \"strong until\" is the last time the peak updraft was at least 10 m/s (capped by the run length), not a radar lifetime. " +
+                          "Per-case series: `brain_cases_series.csv`; one row per case: `brain_cases_results.csv`. **Holdout cases are scored, never tuned on.**");
+            sb.AppendLine();
+
+            // headline biases
+            var mot = ok.Where(r => !float.IsNaN(r.motionFrom) && !float.IsNaN(Na(r.c.motionFrom))).ToList();
+            var dirErr = mot.Select(r => AngDiff(r.motionFrom, r.c.motionFrom)).ToList();
+            var spdErr = mot.Select(r => r.motionKt - r.c.motionKt).ToList();
+            var bunkDir = mot.Select(r => AngDiff(r.bunkFrom, r.c.motionFrom)).ToList();
+            var bunkSpd = mot.Select(r => r.bunkKt - r.c.motionKt).ToList();
+            var t50 = ok.Where(r => !float.IsNaN(Na(r.c.top50Km)) && r.top50Max > 0).Select(r => r.top50Max / 1000f - r.c.top50Km).ToList();
+            var t18 = ok.Where(r => !float.IsNaN(Na(r.c.top18Km)) && r.top18Max > 0).Select(r => r.top18Max / 1000f - r.c.top18Km).ToList();
+            sb.AppendLine("### Headline biases (model minus observed, median over cases)");
+            sb.AppendLine();
+            sb.AppendLine("| Quantity | Median | p25 to p75 | Cases |");
+            sb.AppendLine("| --- | --- | --- | --- |");
+            Action<string, List<float>, string> B = (n, xs, fmt) =>
+            {
+                var s = xs.Where(x => !float.IsNaN(x)).OrderBy(x => x).ToList();
+                sb.AppendLine(s.Count == 0 ? $"| {n} | - | - | 0 |" : $"| {n} | {s[s.Count / 2].ToString(fmt, Inv)} | {s[s.Count / 4].ToString(fmt, Inv)} to {s[3 * s.Count / 4].ToString(fmt, Inv)} | {s.Count} |");
+            };
+            B("Storm motion direction, deg (+ = model comes from further clockwise)", dirErr, "0");
+            B("Storm motion speed, kt", spdErr, "0.0");
+            B("Bunkers right-mover direction vs observed, deg (reference)", bunkDir, "0");
+            B("Bunkers right-mover speed vs observed, kt (reference)", bunkSpd, "0.0");
+            B("Highest 50 dBZ top, km", t50, "0.0");
+            B("Highest 18 dBZ top, km", t18, "0.0");
+            B("Max reflectivity, dBZ", ok.Where(r => !float.IsNaN(Na(r.c.maxDbz))).Select(r => r.maxDbz - r.c.maxDbz).ToList(), "0.0");
+            B("Largest 40 dBZ area, model at 1 km vs radar composite, km2", ok.Where(r => !float.IsNaN(Na(r.c.area40Km2))).Select(r => r.area40Max - r.c.area40Km2).ToList(), "0");
+            sb.AppendLine();
+
+            // tornadic vs null: does the brain's low-level rotation separate them?
+            sb.AppendLine("### Low-level rotation by observed outcome (the tornado model's inputs)");
+            sb.AppendLine();
+            sb.AppendLine("Medians over cases. A useful genesis signal is larger for EF2+ than for null storms.");
+            sb.AppendLine();
+            sb.AppendLine("| Group | n | 1 km meso zeta, 1/s | Near-ground zeta peak, 1/s | w at 1 km under the meso, m/s | Coldest RFD theta', K | Coldest cold pool, K | Peak updraft, m/s |");
+            sb.AppendLine("| --- | --- | --- | --- | --- | --- | --- | --- |");
+            var groups = new (string, Func<CaseResult, bool>)[] {
+                ("EF2+ tornado", r => r.c.role != "null" && r.c.maxEF >= 2),
+                ("EF0-EF1 / EFU tornado", r => r.c.role != "null" && r.c.maxEF >= 0 && r.c.maxEF <= 1),
+                ("no tornado (null and LP)", r => r.c.maxEF < 0) };
+            foreach (var (name, sel) in groups)
+            {
+                var gr = ok.Where(sel).ToList();
+                sb.AppendLine($"| {name} | {gr.Count} | {Fm(Median(gr.Select(r => r.meso1Peak).ToList()), "0.0000")} | {Fm(Median(gr.Select(r => r.zeta0Peak).ToList()), "0.0000")} | " +
+                              $"{Fm(Median(gr.Select(r => r.w1UnderMesoMax).ToList()), "0.0")} | {Fm(Median(gr.Select(r => r.rfdThetaMin).ToList()), "0.0")} | {Fm(Median(gr.Select(r => r.coldest).ToList()), "0.0")} | {Fm(Median(gr.Select(r => r.peakW).ToList()), "0")} |");
+            }
+            sb.AppendLine();
+
+            // per preset
+            sb.AppendLine("### Per preset (medians)");
+            sb.AppendLine();
+            sb.AppendLine("| Preset | n | Peak w m/s | Strong until min | 50 dBZ top model / obs km | Motion kt model / obs | Direction error deg | Cold pool K | 1 km meso 1/s |");
+            sb.AppendLine("| --- | --- | --- | --- | --- | --- | --- | --- | --- |");
+            foreach (var pg in ok.GroupBy(r => r.c.preset))
+            {
+                var gr = pg.ToList();
+                sb.AppendLine($"| {pg.Key} | {gr.Count} | {Fm(Median(gr.Select(r => r.peakW).ToList()))} | {Fm(Median(gr.Select(r => r.lastStrongMin).ToList()))} | " +
+                              $"{Fm(Median(gr.Select(r => r.top50Max / 1000f).ToList()), "0.0")} / {Fm(Median(gr.Select(r => Na(r.c.top50Km)).ToList()), "0.0")} | " +
+                              $"{Fm(Median(gr.Select(r => r.motionKt).ToList()), "0.0")} / {Fm(Median(gr.Select(r => Na(r.c.motionKt)).ToList()), "0.0")} | " +
+                              $"{Fm(Median(gr.Where(r => !float.IsNaN(r.motionFrom) && !float.IsNaN(Na(r.c.motionFrom))).Select(r => AngDiff(r.motionFrom, r.c.motionFrom)).ToList()))} | " +
+                              $"{Fm(Median(gr.Select(r => r.coldest).ToList()), "0.0")} | {Fm(Median(gr.Select(r => r.meso1Peak).ToList()), "0.0000")} |");
+            }
+            sb.AppendLine();
+
+            // per case
+            sb.AppendLine("### Every case");
+            sb.AppendLine();
+            sb.AppendLine("| Case | Role | SPC | Init min | Peak w (min) | Strong until | Motion model / obs / Bunkers | 50 dBZ top model / obs km | Max dBZ model / obs | Hail model mm / obs in | 1 km meso | Near-ground zeta | Cold pool / RFD theta' K | Note |");
+            sb.AppendLine("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |");
+            foreach (var r in rs)
+            {
+                var c = r.c;
+                string spc = c.maxEF < 0 ? "none" : $"{c.tornadoes} (EF{(c.maxEF == 0 && c.tornadoes > 0 ? "0/U" : c.maxEF.ToString(Inv))})";
+                if (!string.IsNullOrEmpty(r.error)) { sb.AppendLine($"| {c.id} | {c.role} | {spc} | | | | | | | | | | | **error**: {r.error.Replace("|", "/")} |"); continue; }
+                sb.AppendLine($"| {c.id} | {c.role} | {spc} | {Fm(r.initMin)} | {r.peakW:0} ({r.peakWMin:0}) | {Fm(r.lastStrongMin)} | " +
+                              $"{Fm(r.motionFrom)}/{Fm(r.motionKt)} - {Fm(Na(c.motionFrom))}/{Fm(Na(c.motionKt))} - {Fm(r.bunkFrom)}/{Fm(r.bunkKt)} | " +
+                              $"{Fm(r.top50Max / 1000f, "0.0")} / {Fm(Na(c.top50Km), "0.0")} | {Fm(r.maxDbz)} / {Fm(Na(c.maxDbz))} | {Fm(r.hailMm)} / {Fm(Na(c.hailIn), "0.##")} | " +
+                              $"{r.meso1Peak:0.0000} | {r.zeta0Peak:0.0000} | {r.coldest:0.0} / {Fm(r.rfdThetaMin, "0.0")} | {(r.nan ? "**NaN** " : "")}{c.flags} |");
+            }
+            tail.Append(sb);
         }
 
         // ------------------------------------------------------------ sensitivity runs (not part of "all")

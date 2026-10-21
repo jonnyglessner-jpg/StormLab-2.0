@@ -29,20 +29,20 @@ mover; average tier 240 × 240 × 72.
 
 ## Measured biases (open)
 
-1. **Cold pools a little cold at the extreme.** WK coldest −9.3 K against CM1's −4 to −8 K (typical −7 to −8.5 K after
-   the first hour is inside the range). DDC extreme −11.5 K (plausible in that dry sounding).
-   - **Top suspect, untested: one eddy diffusivity for momentum and scalars.** CM1 mixes θ and q three times harder
-     than momentum (K_h = K_m/Pr, Pr = ⅓) in both its closures. With C_s 0.25 against CM1's 0.18, the Lab has about
-     1.9× CM1's momentum mixing but only 0.64× its scalar mixing. Weak scalar mixing stops downdrafts from entraining
-     warm air. Fix to try: one extra multiply in DiffRelax for scalar layouts.
-   - Also compare cold pools the CM1 way (C and h from buoyancy, against the initial sounding), not only the coldest
+1. **Cold pools: now inside CM1's range at the WK case (improved 2026-10-20).** WK coldest −7.3 K against CM1's −4 to
+   −8 K (was −9.3 K); DDC −8.6 K (was −10.4). The fix was the top suspect: scalars now mix three times harder than
+   momentum (`SimParams.scalarMix` = 3, CM1's K_h = K_m/Pr with Pr = ⅓; one diffusivity for all had given about 0.64× CM1's
+   scalar mixing). Over 18 real storms (2 h each) the median coldest cold pool went from −5.2 to −3.3 K.
+   - Still to do: compare cold pools the CM1 way (C and h from buoyancy, against the initial sounding), not only the coldest
      point.
    - The CM1 WK numbers come from Morrison 2-moment runs, not LFO ice. Part of the gap may be the microphysics.
-2. **Updrafts strong.** WK peak 69.9 m/s, at the top of the 50–70 m/s window (typical 55–65). DDC runs at 85–95 % of
-   parcel theory. Related to (1): under-mixed scalars mean less entrainment.
-3. **Too much hail aloft.** Against KDDC: 50 dBZ top 14.5 vs 9.5 km, strongest echo 75 vs 55 dBZ, vault 4.5–9.5 vs
-   2.5–5 km. Storm size, echo top and low-level footprint are right. **The skin must not use model reflectivity
-   directly** to pick colours or densities; take the vault as too high.
+2. **Updrafts: back inside the window (improved 2026-10-20).** WK peak 66.9 m/s (window 50–70; it was 69.9, and 71.1 with
+   the smaller hail of (3) alone); DDC 94.7 m/s against parcel theory's 101 (was 102.5). Same fix as (1): more entrainment.
+3. **Too much hail aloft (reflectivity improved 2026-10-20).** The hail/graupel class's intercept is now 4×10⁵ m⁻⁴
+   (`SimParams.n0Hail`; LFO's 4×10⁴ meant few, large stones). Over 18 real storms the strongest echo went from +7.0 to
+   −1.0 dBZ of radar and the 50 dBZ tops from +0.4 to +0.1 km (with (1)'s mixing: −2.2 dBZ, −0.1 km), with cold pools,
+   updrafts and lifetimes unchanged. Against KDDC the mature storm's 50 dBZ top is still 15.0 vs 9.5 km and its vault
+   too high (2.0–8.5 vs 2.5–5 km). **The skin must not use model reflectivity directly** to pick colours or densities.
 4. **Not mass-conserving.** Water drifts by 1.6 % of the water that cycled through the storm in 25 min (closed box),
    because semi-Lagrangian advection isn't conservative. CM1 uses flux-form 5th-order with WENO, which closes the
    budget.
@@ -55,6 +55,37 @@ mover; average tier 240 × 240 × 72.
 7. **Lab diagnostics differ from SPC's.** ML CAPE uses a 1 km layer (SPC: 100 hPa), Bunkers 2000 (SHARPpy: 2014), the
    largest-area CAPE, and a hybrid STP. Lab ML CAPE on DDC is 5 % above SHARPpy's on the same definition, unresolved.
    See `atmospheric-physics.md`.
+8. **Low-level rotation barely responds to the environment (real-storm library, 2026-10-20).** Over 50 real storms
+   (`validation/reports/ValidationReport_cases.md`, 3 h each from the inflow soundings), the environment's own 0-1 km
+   SRH separates EF2+ from tornado-free storms far better (AUC 0.89) than the brain's 1 km meso vorticity (0.70),
+   near-ground vorticity (0.61) or 4 km meso (0.51). Medians: 1 km zeta 0.028 (EF2+) vs 0.021 1/s (none). The RFD
+   signal has the right sign (coldest RFD θ′ −4.4 K tornadic vs −5.3 K null; AUC 0.67), as in Markowski et al. 2002.
+   Likely causes: 333 m grid (the low-level meso is marginal at 5–7Δx), the low drag (6), and only 3 h. **Until fixed,
+   the tornado model must weight the environment (SRH1, LCL, STP) at least as much as the brain's rotation.** Try:
+   high tier on a subset of EF2+ / null pairs; C_d 0.01–0.02; a stretched grid finer near the ground.
+9. **Storms deviate too little to the right.** Model motion comes from 12° further counter-clockwise than radar
+   (median, p25–p75 −24 to −1°; 49 cases), 2.6 kt fast; Bunkers itself is within 4° / 2.4 kt. Worst in Plains classic
+   (−20°) and Midwest HP (−24°). The storm-following frame moves with Bunkers, so this is the storm's own propagation:
+   suspect weak low-level dynamic lifting (linked to 8).
+10. **High-shear low-CAPE storms are too weak.** Beauregard (model MLCAPE 165), Apple Creek (123), Gainesville (463),
+    Beaver (344) and Brule (621) peak at 17–29 m/s; Lewistown (757) never initiates: its inflow sounding carries MLCIN −191 J/kg, so the cap rule holds (a frontal or
+    elevated storm the CIN-gated bubble cannot represent; the sounding, not the dynamics, is the first suspect). Real storms there were long-lived
+    tornadic supercells driven by dynamic lift. Check the initiation thresholds (`Initiation.cs`: CAPE floor, forcing
+    strength) against low-CAPE soundings before blaming the dynamics.
+11. **Reflectivity hot, footprint small.** Max dBZ +4.5 dBZ (p25–p75 +2.4 to +9.3), consistent with (3). Largest 40 dBZ
+    area at 1 km is ~2,000 km2 below the radar's composite (apples to oranges in part: the radar's composite includes
+    merged neighbours; the model has one storm). 50 dBZ tops match (+0.1 km); 18 dBZ tops 0.9 km low.
+13. **Precipitation mode (LP / classic / HP) is not represented (2026-10-20).** Over 34 real storms of known mode the
+    model's largest 40 dBZ area at 1 km has no rank relation to the radar's (Spearman 0.06): LP 158, classic 212, HP
+    193 km² against observed 402 / 2163 / 4927 (the radar's composite includes merged neighbours, which inflates HP most).
+    Neither the hail class (intercept 4×10⁴ to 4×10⁶, density 400–900; 18 storms) nor three times the scalar mixing
+    separates them (rank correlation with mode 0.04–0.30). LP storms rain only 20–35 % less than classic, HP no more
+    than classic. Suspects: 333 m (a narrow LP updraft and its dry-air entrainment are under-resolved), 1-moment
+    microphysics (no size sorting), and the single-storm domain (no mergers). Until then the skin's mode comes from
+    the environment (`StormPhysics.hpness`: cloud base and moisture; the anvil-level-wind rule fit none of the cases).
+    Try: the high tier on LP / HP pairs; a 2-moment rain and hail scheme.
+12. **Minisupercells too tall.** 50 dBZ top 11.4 vs 8.5 km observed; Plains LP storms move too fast (14 vs 9.5 kt) and
+    weaken early (strong until 82 min median, against 120-180 for classic/HP).
 
 ## Budget and performance
 
@@ -76,6 +107,10 @@ mover; average tier 240 × 240 × 72.
 
 ## Fixed
 
+- **2026-10-20 · Reflectivity 7 dBZ hot; cold pools cold and updrafts strong at the WK case.** Hail intercept 4×10⁵
+  (was LFO's 4×10⁴) and scalar mixing three times momentum's (as CM1). See (1)-(3) for the numbers; the sweep results
+  are `validation/real-storm-cases/brain_cases_results_sweep_*.csv`.
+
 - **2026-10-18 · Melting-hail cold pools (−5 to −6 K spurious).** 1.0 cooled the air for vapour that really condenses
   on melting hail. The model now exchanges that vapour. WK coldest went from −11 to −9.3 K.
 - **2026-10-18 · Real-sounding blow-ups.** The 2 m skin temperature made the lowest layers superadiabatic (DDC HRRR
@@ -90,5 +125,7 @@ mover; average tier 240 × 240 × 72.
 - **CM1 testcase 18 (BR14):** 2D cold pool in shear, a clean benchmark for the outflow code.
 - **CM1 LFO-ice (ptype 4) WK run:** like-for-like cold-pool comparison. Needs the CM1 source (license click-through,
   not downloaded) and WSL or Linux.
+- **Real-storm library at the high tier:** the cases suite at 250 m on EF2+ / null pairs, to see whether bias 8 is
+  resolution.
 - **VORTEX2 Goshen County 2009:** compare the low-level meso and RFD with DOW dual-Doppler once the EOL orders arrive
   (`validation/README.md`).

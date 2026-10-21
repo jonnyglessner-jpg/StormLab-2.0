@@ -371,3 +371,10 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   with short steps (one 2.5 km first step had charged a ray leaving a thin canopy with too much ice: a dark band along
   the volume's edge). The ice texture's regular layering is softened in favour of fibrous streaks. Cost: +0.5 ms on the
   70 min chaser march (4.2 ms on the RX 7900 XT; RTX 3060 estimate 12.6 ms at 1440p).
+- **2026-10-20** Storm type and the brain's rain. (1) `StormPhysics.hpness` no longer keys on the anvil-level storm-relative
+  wind (it was flat across 32 real storms of known mode and called Dixie HP days LP); it leans on the cloud base and
+  surface moisture, the one signal the soundings carry. It is a lean, not a classifier. (2) The brain: hail intercept
+  4×10⁵ (was 4×10⁴) and scalars mixed three times momentum's (CM1's Pr = ⅓). Reflectivity bias +7.0 → −2.2 dBZ over 18
+  real storms; WK updraft 66.9 m/s and cold pool −7.3 K; full validation passes. Neither change, nor any hail setting
+  tried, makes LP, classic and HP storms rain differently; that is open (model-limitations.md 13). Validation tools:
+  `-dynN0H`, `-dynRhoH`, `-dynScalarMix`, `-dynReportTag`, `-dynCasesTag`; skin test `-skinSounding`, `-skinName`.

@@ -161,6 +161,8 @@ public static class SkinTests
 
     // 12 frames: the temporal resolve (new-frame weight 0.25) has converged, as it has after 0.2 s in a game.
     // -skinAB: every named shot is also rendered with 1.0's lighting, as name_legacy.png
+    /// <summary>screenshot and report prefix from -skinName ("" for the default Dodge City run)</summary>
+    static string ShotName = "";
     static Texture2D Shot(Camera cam, string name, int w = 1920, int h = 1080, int frames = 12)
     {
         var skin = StormSkin.Active;
@@ -351,7 +353,15 @@ public static class SkinTests
         bool ok = true;
 
         var setup = runner.setup; setup.runLength = Mathf.Max(setup.runLength, tEnd + 60f);
-        using (var run = StormRun.FromSoundingJson(runner.sounding.text, setup))
+        // -skinSounding path: another sounding JSON (e.g. validation/soundings/<case>_hrrr_inflow.json);
+        // -skinName name: prefix the screenshots and the report with it (skin_<name>_..., SkinReport_<name>.md)
+        var args0 = System.Environment.GetCommandLineArgs();
+        int si0 = Array.IndexOf(args0, "-skinSounding");
+        string soundingText = si0 >= 0 && si0 + 1 < args0.Length ? File.ReadAllText(Path.Combine(RepoRoot, args0[si0 + 1])) : runner.sounding.text;
+        int ni0 = Array.IndexOf(args0, "-skinName");
+        ShotName = ni0 >= 0 && ni0 + 1 < args0.Length ? args0[ni0 + 1] + "_" : "";
+        if (si0 >= 0) rep.AppendLine($"Sounding: `{args0[si0 + 1]}`.").AppendLine();
+        using (var run = StormRun.FromSoundingJson(soundingText, setup))
         {
             skin.Activate();
             skin.Bind(run);
@@ -443,7 +453,7 @@ public static class SkinTests
                     Texture2D Take(string view, int w = 1920, int h = 1080, bool keep = false)
                     {
                         skin.ResetHistory(cam);
-                        string nm = $"skin_{tag}_{view}";
+                        string nm = $"skin_{ShotName}{tag}_{view}";
                         var tex = Shot(cam, nm, w, h);
                         float c = Contrast(tex);
                         names.Add(nm);
@@ -517,7 +527,7 @@ public static class SkinTests
             skin.Release();
         }
         // keep the hand-written notes below the marker
-        string repPath = Path.Combine(OutDir, "SkinReport.md");
+        string repPath = Path.Combine(OutDir, ShotName.Length > 0 ? $"SkinReport_{ShotName.TrimEnd('_')}.md" : "SkinReport.md");
         string notes = File.Exists(repPath) ? File.ReadAllText(repPath) : "";
         int mk = notes.IndexOf(NotesMarker, StringComparison.Ordinal);
         rep.AppendLine(NotesMarker).AppendLine();

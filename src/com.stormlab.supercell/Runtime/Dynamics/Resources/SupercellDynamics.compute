@@ -57,6 +57,8 @@ int4 XP;       // transform: forward (1) or inverse (0); advection: 1 = compute 
 int4 GC;       // gradient / drag component
 int4 CG;       // coarse grid: NCX, NCY, NL, F
 float4 SG;     // Smagorinsky constant cs, horizontal and vertical stability limits (K dt / h^2), enabled
+float4 PRS;    // x: sub-grid diffusivity factor for this field (SimParams.scalarMix for scalars, 1 for u, v, w)
+float4 MH;     // hail/graupel class: x intercept N0 (1/m^4), y bulk density (kg/m^3) (SimParams.n0Hail, rhoHail)
 float4 MX;     // n0rEvap (rain intercept used for evaporation only, 1/m^4), n0rFall (rain intercept for fall speed, 0 = N0R), diagnostic process switches (SimParams.microDiag), hail options (bits: 1 wet-growth limit, 2 vapour exchange of melting hail)
 int4 BC;       // lateral boundary: 0 open (phi = 0 at the walls, DST), 1 closed (no normal flow, DCT)
 
@@ -240,10 +242,12 @@ static const float CI = 2106.0;
 static const float PI_ = 3.14159265;
 static const float RHOW = 1000.0;
 static const float RHOSN = 100.0;
-static const float RHOH = 900.0;
+// the hail/graupel class's intercept and density are parameters (MH): from small graupel (4e6, 400) to large hail
+// (4e4, 900, LFO's value) they change where and how fast precipitation falls (Gilmore et al. 2004)
+#define RHOH (MH.y)
 static const float N0R = 8.0e6;
 static const float N0S = 3.0e6;
-static const float N0H = 4.0e4;
+#define N0H (MH.x)
 static const float SA = 11.72;
 static const float SB = 0.41;
 static const float AR = 842.0;
@@ -461,8 +465,10 @@ void MicroStep(inout float th, inout float qv, inout float qc, inout float qr, i
 float Dbz(float qr, float qs, float qh, float rho, float T)
 {
     float zl = 0.0;
-    float fs = 0.224 * 0.01, fh = 0.224 * 0.81;
-    if (T > T0) { fs = 0.01; fh = 0.81; }
+    // (rho_particle / rho_water)^2: dry ice scatters 0.224 as much; melting particles scatter like water
+    float rr = (RHOH / RHOW) * (RHOH / RHOW);
+    float fs = 0.224 * 0.01, fh = 0.224 * rr;
+    if (T > T0) { fs = 0.01; fh = rr; }
     if (qr > 1e-8) zl += exp(log(720.0 * N0R) + 41.44653 - 1.75 * log(PI_ * RHOW * N0R / (rho * qr)));
     if (qs > 1e-8) zl += fs * exp(log(720.0 * N0S) + 41.44653 - 1.75 * log(PI_ * RHOSN * N0S / (rho * qs)));
     if (qh > 1e-8) zl += fh * exp(log(720.0 * N0H) + 41.44653 - 1.75 * log(PI_ * RHOH * N0H / (rho * qh)));
@@ -611,6 +617,8 @@ void DiffRelax(uint3 id : SV_DispatchThreadID)
     uint kc = min(id.z, NZu - 1);
     float khere = 0.5 * (KHR[CIndex(ci, cj, kc)] + KHR[CIndex(ci2, cj2, kc)]);
     if (LFace()) khere = 0.5 * (KHR[CIndex(ci, cj, kc)] + KHR[CIndex(ci, cj, id.z > 0 ? id.z - 1 : 0)]);
+    // scalars mix harder than momentum (K_h = K_m / Pr), held under the explicit scheme's stability limit
+    khere = min(khere * PRS.x, max(khere, SG.y * D.x * D.x / D.z));
     float ah = khere * D.z / (D.x * D.x);
     float l = LAPR[c];
     float xm = id.x > 0 ? LAPR[c - 1] : l;
@@ -640,6 +648,7 @@ void DiffRelax(uint3 id : SV_DispatchThreadID)
         kvUp = 0.25 * (KVR[CIndex(ci, cj, k)] + KVR[CIndex(ci2, cj2, k)] + KVR[CIndex(ci, cj, kp)] + KVR[CIndex(ci2, cj2, kp)]);
         kvDn = 0.25 * (KVR[CIndex(ci, cj, k)] + KVR[CIndex(ci2, cj2, k)] + KVR[CIndex(ci, cj, km)] + KVR[CIndex(ci2, cj2, km)]);
     }
+    kvUp = min(kvUp * PRS.x, max(kvUp, SG.z * hUp * hUp / D.z)); kvDn = min(kvDn * PRS.x, max(kvDn, SG.z * hDn * hDn / D.z));
     float o = v - nu * (xm + xp + ym + yp - 4.0 * l) + ah * l + D.z * (kvUp * fluxUp - kvDn * fluxDn) / hC;
     // relaxation
     float z = LevZ(k, face), ztop = D.w;

@@ -36,6 +36,18 @@ namespace StormLab.Supercell.Dynamics
         public bool hailWetGrowth = false;
         /// <summary>melting hail exchanges vapour with the air: what condenses on the 0 C stone (or evaporates from it) changes qv instead of being paid for by cooling the air (Rutledge and Hobbs 1983; Morrison et al. 2009)</summary>
         public bool hailMeltVapour = true;
+        /// <summary>hail/graupel class intercept N0, 1/m^4 (LFO: 4e4, large hail; graupel 4e5-4e6). With the density it sets
+        /// how fast the class falls and how much of it is carried away by the winds aloft (Gilmore et al. 2004). 4e5 since
+        /// 2026-10-20: over 18 real storms it took the model's reflectivity from +7.0 to -1.0 dBZ of radar and its 50 dBZ
+        /// tops from +0.4 to +0.1 km, with cold pools, updrafts and lifetimes unchanged (model-limitations.md)</summary>
+        public float n0Hail = 4e5f;
+        /// <summary>hail/graupel class bulk density, kg/m^3 (LFO: 900, hail; graupel 400-700)</summary>
+        public float rhoHail = 900f;
+        /// <summary>sub-grid mixing of the scalars (theta, vapour, condensate) relative to momentum: K_h = scalarMix x K_m.
+        /// 1 = one diffusivity for all (1.0); CM1 uses Pr = 1/3, i.e. 3. 3 since 2026-10-20: the Weisman-Klemp updraft went
+        /// from 71.1 to 66.9 m/s (window 50-70) and its coldest cold pool from -8.3 to -7.3 K (CM1 -4 to -8), Dodge City's
+        /// updraft from 102.5 to 94.7 m/s against parcel theory's 101 (model-limitations.md, biases 1 and 2)</summary>
+        public float scalarMix = 3f;
         /// <summary>Smagorinsky-Lilly sub-grid mixing on top of the constant floors kh and kdiff (off = 1.0's constant mixing)</summary>
         public bool smagorinsky = true;
         public float smagCs = 0.25f;   // WRF default; 0.18 (CM1) gives nearly the same storms (sensitivity.md)
@@ -47,10 +59,13 @@ namespace StormLab.Supercell.Dynamics
             p.dt = g.dx <= 260f ? 10f / 6f : g.dx <= 400f ? 2f : g.dx <= 700f ? 2.5f : 5f;
             p.kh = 500f * (g.dx / 1000f);
             p.spongeCells = Mathf.Clamp(Mathf.Round(2500f / g.dx), 4, 10);
+            Tweak?.Invoke(p);
             return p;
         }
 
         public SimParams Clone() => (SimParams)MemberwiseClone();
+        /// <summary>validation only: applied to every new SimParams (parameter sweeps from the command line); null otherwise</summary>
+        public static System.Action<SimParams> Tweak;
     }
 
     /// <summary>Warm bubble: cosine-squared theta excess keeping the environment's relative humidity.</summary>

@@ -81,7 +81,7 @@ namespace StormLab.Supercell.Dynamics
 
         // constant block, pushed with every command buffer and before every immediate dispatch, so several models
         // (tests, a seek replay) can share the one ComputeShader asset
-        int[] cN, cZO, cZO2, cCG, cBC; Vector4 cD, cK, cS, cM, cFr, cNH, cMX, cSG; Vector4[] cTW = new Vector4[16];
+        int[] cN, cZO, cZO2, cCG, cBC; Vector4 cD, cK, cS, cM, cFr, cNH, cMX, cSG, cMH; Vector4[] cTW = new Vector4[16];
 
         void UploadConstants()
         {
@@ -93,6 +93,7 @@ namespace StormLab.Supercell.Dynamics
             cM = new Vector4(p.cd, b.rho0[0], p.hyper, p.kh);
             cFr = new Vector4(b.cu, b.cv, 0, 0);
             cMX = new Vector4(p.n0rEvap, p.n0rFall, p.microDiag, (p.hailWetGrowth ? 1 : 0) | (p.hailMeltVapour ? 2 : 0));
+            cMH = new Vector4(p.n0Hail, p.rhoHail, 0, 0);
             cSG = new Vector4(p.smagCs, 0.1f, 0.15f, p.smagorinsky ? 1 : 0);
             cCG = new[] { NCX, NCY, NL, F };
             cBC = new[] { p.closedLateral ? 1 : 0, 0, 0, 0 };
@@ -168,13 +169,13 @@ namespace StormLab.Supercell.Dynamics
         void PushConstants(CommandBuffer cb)
         {
             cb.SetComputeIntParams(cs, "N", cN); cb.SetComputeVectorParam(cs, "D", cD); cb.SetComputeVectorParam(cs, "K", cK);
-            cb.SetComputeVectorParam(cs, "S", cS); cb.SetComputeVectorParam(cs, "M", cM); cb.SetComputeVectorParam(cs, "Fr", cFr); cb.SetComputeVectorParam(cs, "MX", cMX); cb.SetComputeVectorParam(cs, "SG", cSG);
+            cb.SetComputeVectorParam(cs, "S", cS); cb.SetComputeVectorParam(cs, "M", cM); cb.SetComputeVectorParam(cs, "Fr", cFr); cb.SetComputeVectorParam(cs, "MX", cMX); cb.SetComputeVectorParam(cs, "SG", cSG); cb.SetComputeVectorParam(cs, "MH", cMH);
             cb.SetComputeIntParams(cs, "ZO", cZO); cb.SetComputeIntParams(cs, "ZO2", cZO2); cb.SetComputeIntParams(cs, "CG", cCG); cb.SetComputeIntParams(cs, "BC", cBC);
             cb.SetComputeVectorParam(cs, "NH", cNH); cb.SetComputeVectorArrayParam(cs, "TW", cTW);
         }
         void PushConstants()
         {
-            cs.SetInts("N", cN); cs.SetVector("D", cD); cs.SetVector("K", cK); cs.SetVector("S", cS); cs.SetVector("M", cM); cs.SetVector("Fr", cFr); cs.SetVector("MX", cMX); cs.SetVector("SG", cSG);
+            cs.SetInts("N", cN); cs.SetVector("D", cD); cs.SetVector("K", cK); cs.SetVector("S", cS); cs.SetVector("M", cM); cs.SetVector("Fr", cFr); cs.SetVector("MX", cMX); cs.SetVector("SG", cSG); cs.SetVector("MH", cMH); cs.SetVector("PRS", Vector4.one);
             cs.SetInts("ZO", cZO); cs.SetInts("ZO2", cZO2); cs.SetInts("CG", cCG); cs.SetInts("BC", cBC); cs.SetVector("NH", cNH); cs.SetVectorArray("TW", cTW);
         }
 
@@ -287,6 +288,8 @@ namespace StormLab.Supercell.Dynamics
             }
             cb.SetComputeIntParams(cs, "LN", nx, ny, nz, baseField + 1);
             cb.SetComputeVectorParam(cs, "LO", new Vector4(ox, oy, face, isW));
+            // scalars (cell centres) mix scalarMix times as hard as momentum (DiffRelax)
+            cb.SetComputeVectorParam(cs, "PRS", new Vector4(L == Layout.Centre ? p.scalarMix : 1f, 0, 0, 0));
         }
 
         (int, int, int) LayoutDims(Layout L)

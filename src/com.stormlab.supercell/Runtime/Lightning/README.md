@@ -194,6 +194,15 @@ state. The rate matches an independent McCaul calculation, and the project check
 polarity trends and schedule replay. The stub stands in for Unity's API, so the Unity compile remains the final check;
 `StormRunStub.cs` mirrors only the fields the adapter reads.
 
+**Supercell Lab > Lightning > Check Storm Driver In Play** runs `LightningStormDriver` in Play (about two minutes, in
+an empty scene; the previous scene is reopened after). It drives a Plains storm first on the skin's own clock, then
+from the Storm Test Bench, at 60 fps: the lightning clock and the Inspector readout must follow the skin on every
+frame, thunder must play at 1x and stay silent at 10x and 30x and on a seek, and the driver must rebind when the bench
+swaps the storm. A last phase runs 1x at 160 min and 240 fps, where float rounding of `playbackTime` is a large share
+of each frame's step; the driver judges 1x on a 0.1 s average, so thunder must still play on every frame. Results go
+to `validation/lightning/out/driver/checks.txt`. Above about 500 fps late in a long storm the float clock itself no
+longer advances at 1x, so thunder stays off there.
+
 ## Verification
 
 Run `validation/lightning/check.ps1` from PowerShell. It uses Unity's bundled .NET SDK, executes deterministic

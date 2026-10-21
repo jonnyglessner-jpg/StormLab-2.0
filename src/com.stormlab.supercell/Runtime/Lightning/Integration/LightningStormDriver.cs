@@ -36,7 +36,9 @@ namespace StormLab.Supercell.Lightning
         BrainLightning brain;
         System.Func<double, LightningActivity> activity;
         bool dirty = true;
-        float lastPlayback = float.NaN;
+        float lastPlayback = float.NaN, windowModel, windowReal;
+        // Real seconds the 1x speed test averages over.
+        const float SpeedWindowS = .1f;
 
         void OnEnable() { dirty = true; Bind(); }
         void OnValidate() { dirty = true; }
@@ -48,11 +50,21 @@ namespace StormLab.Supercell.Lightning
             if (!Application.isPlaying || !followSkinClock || !lightning || !skin || activity == null) return;
             lightning.advanceClock = false;
             // Thunder plays only at real-time speed, so pass the speed the skin's clock actually moved at. Some hosts (the
-            // Storm Test Bench) drive playbackTime themselves with skin.playing off. Float time and frame jitter make 1x
-            // read a little off 1; snap it.
-            float now = Mathf.Max(0, skin.playbackTime);
-            float speed = float.IsNaN(lastPlayback) || Time.deltaTime <= 0 ? 0 : (now - lastPlayback) / Time.deltaTime;
-            lightning.timeScale = Mathf.Abs(speed - 1) < .1f ? 1 : Mathf.Max(0, speed);
+            // Storm Test Bench) drive playbackTime themselves with skin.playing off. playbackTime is a float, so one frame's
+            // step is off by up to two units in the last place: late in a long storm at a high frame rate that is more than
+            // 10 % of the step. A step that cannot be 1x even so (a seek, another speed) counts at once and clears the
+            // average; the others are judged on their average over SpeedWindowS, which rounding barely moves.
+            float now = Mathf.Max(0, skin.playbackTime), dt = Time.deltaTime, step = now - lastPlayback;
+            float slack = .1f * dt + 2.4e-7f * Mathf.Max(1, now);
+            if (float.IsNaN(step) || dt <= 0) { lightning.timeScale = 0; windowModel = windowReal = 0; }
+            else if (Mathf.Abs(step - dt) > slack) { lightning.timeScale = Mathf.Max(0, step / dt); windowModel = windowReal = 0; }
+            else
+            {
+                float keep = Mathf.Exp(-dt / SpeedWindowS);
+                windowModel = windowModel * keep + step; windowReal = windowReal * keep + dt;
+                float speed = windowModel / windowReal;
+                lightning.timeScale = Mathf.Abs(speed - 1) < .1f ? 1 : Mathf.Max(0, speed);
+            }
             lastPlayback = now;
             lightning.SampleAt(now);
             var a = lightning.CurrentActivity;

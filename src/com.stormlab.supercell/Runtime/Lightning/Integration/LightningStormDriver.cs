@@ -20,6 +20,10 @@ namespace StormLab.Supercell.Lightning
         public StormLightningTuning tuning = new StormLightningTuning();
         [Tooltip("Sample the lightning at the skin's playback time each frame (the activity is in model seconds).")]
         public bool followSkinClock = true;
+#pragma warning disable 0414   // shown in the Inspector, never read by code
+        [Tooltip("Live readout in Play: the storm-driven activity now. Not an input.")]
+        [SerializeField] string activityNow = "";
+#pragma warning restore 0414
 
         /// <summary>The activity at the last sampled time, for readouts; null when no storm is bound.</summary>
         public LightningActivity? Current => lightning ? lightning.CurrentActivity : null;
@@ -32,6 +36,7 @@ namespace StormLab.Supercell.Lightning
         BrainLightning brain;
         System.Func<double, LightningActivity> activity;
         bool dirty = true;
+        float lastPlayback = float.NaN;
 
         void OnEnable() { dirty = true; Bind(); }
         void OnValidate() { dirty = true; }
@@ -42,9 +47,16 @@ namespace StormLab.Supercell.Lightning
             // Binding also works in edit mode (for review tools); the clock only follows the skin in Play.
             if (!Application.isPlaying || !followSkinClock || !lightning || !skin || activity == null) return;
             lightning.advanceClock = false;
-            // Thunder plays only at real-time speed; the lightning system suppresses it at other time scales.
-            lightning.timeScale = skin.playing ? skin.timelapse : 0;
-            lightning.SampleAt(Mathf.Max(0, skin.playbackTime));
+            // Thunder plays only at real-time speed, so pass the speed the skin's clock actually moved at. Some hosts (the
+            // Storm Test Bench) drive playbackTime themselves with skin.playing off. Float time and frame jitter make 1x
+            // read a little off 1; snap it.
+            float now = Mathf.Max(0, skin.playbackTime);
+            float speed = float.IsNaN(lastPlayback) || Time.deltaTime <= 0 ? 0 : (now - lastPlayback) / Time.deltaTime;
+            lightning.timeScale = Mathf.Abs(speed - 1) < .1f ? 1 : Mathf.Max(0, speed);
+            lastPlayback = now;
+            lightning.SampleAt(now);
+            var a = lightning.CurrentActivity;
+            activityNow = a.HasValue ? $"{Bound}: {a.Value} at {now / 60:0.0} min" : "";
         }
 
         /// <summary>Call after changing the source, region or tuning from code (the inspector does this itself).</summary>

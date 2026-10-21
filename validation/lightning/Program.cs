@@ -89,7 +89,7 @@ static class Program
         Func<double, LightningActivity> storm = t => new LightningActivity(
             (float)(90 * Math.Exp(-Math.Pow((t - 1800) / 900, 2)) + (t > 2400 && t < 2700 ? 60 : 0)),
             (float)(.1 + .2 * t / 3600), (float)(t > 3000 ? .4 : .08));
-        LightningSchedule.Query(settings, -1e-6, 3600, all, storm);
+        LightningSchedule.Query(settings, 0, 3600, all, storm);
         split.Clear();
         double previous = -1e-6;
         for (double t = .053; previous < 3600; t += .053)
@@ -112,7 +112,7 @@ static class Program
 
         // Accepted flashes are a subset of the ceiling's candidates, with the same times and geometry seeds.
         var full = new List<FlashEvent>();
-        LightningSchedule.Query(settings, -1e-6, 3600, full, t => new LightningActivity(1000, 0, 0));
+        LightningSchedule.Query(settings, 0, 3600, full, t => new LightningActivity(1000, 0, 0));
         var candidates = full.ToDictionary(e => e.id, e => (e.time, e.seed));
         Check(Math.Abs(full.Count - 120 * 60) < 5 * Math.Sqrt(120 * 60), "Rates above the ceiling are clipped to it");
         Check(all.All(e => candidates.TryGetValue(e.id, out var c) && c.time == e.time && c.seed == e.seed),
@@ -123,7 +123,7 @@ static class Program
         Check(part.Count > 0 && part.All(e => e.kind == FlashKind.InCloud), "No ground fraction: all in-cloud");
         LightningSchedule.Query(settings, -1e-6, 600, part, t => new LightningActivity(60, 1, 1));
         Check(part.Count > 0 && part.All(e => e.kind == FlashKind.PositiveGround), "All ground and positive");
-        LightningSchedule.Query(settings, -1e-6, 3600, part, t => new LightningActivity(100, .5f, .2f));
+        LightningSchedule.Query(settings, 0, 3600, part, t => new LightningActivity(100, .5f, .2f));
         double groundShare = part.Count(e => e.kind != FlashKind.InCloud) / (double)part.Count;
         double positiveShare = part.Count(e => e.kind == FlashKind.PositiveGround) / (double)part.Count(e => e.kind != FlashKind.InCloud);
         Check(Math.Abs(groundShare - .5) < .05 && Math.Abs(positiveShare - .2) < .05, "Flash-type fractions");

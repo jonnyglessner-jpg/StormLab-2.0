@@ -14,9 +14,11 @@ namespace StormLab.Supercell.Lightning
         [Tooltip("Multiplies every storm-driven flash rate.")]
         [Min(0)] public float rateScale = 1;
         [Tooltip("Designed storms: total flashes per minute of a mature supercell with a 35 m/s, 3 km updraft.")]
-        [Min(0)] public float designedReferencePerMinute = 80;
+        [Min(0)] public float designedReferencePerMinute = 35;
+        [Tooltip("Designed storms: rate of a pulse storm relative to a supercell with the same updraft (short-lived, unorganised).")]
+        [Range(0, 1)] public float pulseFactor = .4f;
         [Tooltip("Designed storms: rate increase before each tornado (lightning jump), as a fraction of the rate.")]
-        [Range(0, 3)] public float jumpBeforeTornado = .8f;
+        [Range(0, 3)] public float jumpBeforeTornado = .6f;
         [Tooltip("Designed storms: rate increase as each new updraft cycle starts.")]
         [Range(0, 3)] public float jumpNewCycle = .3f;
         [Tooltip("Brain: flashes per km² per 5 min per (m/s x g/kg) of graupel flux at -15 °C (McCaul et al. 2009).")]
@@ -62,10 +64,11 @@ namespace StormLab.Supercell.Lightning
             var ch = storm.CharacterAt(t);
             if (ch.w <= 0) return LightningActivity.None;
             double tm = t / 60;
-            // Flash rate follows updraft volume through the charging zone: updraft area times a speed term, and the depth of
-            // cloud colder than freezing where graupel and ice collide.
-            double R = ch.R * UpdraftScale(storm, t);
-            double volume = (R / 3) * (R / 3) * Math.Pow(C.Clamp((ch.w - 8) / 27, 0, 2), 1.5);
+            // Flash rate grows with the updraft's width and speed and with the depth of cloud colder than freezing, where
+            // graupel and ice collide. Shaped by hand and compressed so a big Plains updraft (53 m/s, 3.5 km) runs near
+            // 60/min rather than scaling with its full volume; each cycle's updraft size enters as its square root.
+            double R = ch.R * Math.Sqrt(UpdraftScale(storm, t));
+            double size = (R / 3) * Math.Pow(C.Clamp((ch.w - 8) / 27, 0, 3), .75);
             double coldDepth = LightningPolarity.Ramp(ch.el - ch.freezeKm, 2, 6);
             double growth, live, rain, firstRain, jump = 0;
             if (storm.kind == StormKind.Supercell)
@@ -97,7 +100,8 @@ namespace StormLab.Supercell.Lightning
                 rain = LightningPolarity.Ramp(tm, 15, 24);
                 firstRain = LightningPolarity.Ramp(tm, 18, 23) * (1 - LightningPolarity.Ramp(tm, 30, 40));
             }
-            double rate = k.rateScale * k.designedReferencePerMinute * volume * coldDepth * growth * live * (1 + jump);
+            double kind = storm.kind == StormKind.Pulse ? k.pulseFactor : 1;
+            double rate = k.rateScale * k.designedReferencePerMinute * kind * size * coldDepth * growth * live * (1 + jump);
             LightningPolarity.Split(storm.genome.region, ch.w * live, rain, firstRain, 1 - live, k, out float ground, out float positive);
             return new LightningActivity((float)Math.Max(0, rate), ground, positive);
         }

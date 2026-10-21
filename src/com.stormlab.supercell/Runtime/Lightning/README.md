@@ -156,19 +156,23 @@ at `skin.playbackTime` each frame in Play, since the activity is in model second
 Add it to the lightning GameObject and assign `lightning` and `skin`; it rebinds and calls `ResetPlayback()` when the
 skin's storm changes or the inspector edits it. Call `Rebind()` after changing the source, region or tuning from code.
 
-- **Designed storm** (`DesignedLightning`): rate follows updraft volume through the charging zone, (R / 3 km)² ×
-  ((w − 8) / 27)^1.5, times the depth of cloud above freezing (EL − freezing level, 2 → 6 km). It is scaled so a mature
-  35 m/s, 3 km updraft gives `designedReferencePerMinute` (80). Each cycle's updraft size changes it. Supercells
-  start flashing as the tower passes the charging zone (8–22 min) and fade with the storm's decay. A lightning jump
-  (+80 %) builds 20 to 10 minutes before each tornado and eases off over the 10 minutes around touchdown; each new
-  cycle adds a smaller surge (+30 %). Pulse storms peak at 16–26 min, before they collapse.
+- **Designed storm** (`DesignedLightning`): rate grows with updraft width and speed, (R / 3 km) × ((w − 8) / 27)^0.75,
+  times the depth of cloud above freezing (EL − freezing level, 2 → 6 km). It is scaled so a mature 35 m/s, 3 km
+  updraft gives `designedReferencePerMinute` (35). The square root of each cycle's updraft size scales it. The shape
+  is set by hand, compressed so big updrafts stay under the ceiling. Pulse storms get `pulseFactor` (0.4) of a
+  supercell's rate. Supercells start flashing as the tower passes the charging zone (8–22 min) and fade with the
+  storm's decay. A lightning jump (+60 %) builds 20 to 10 minutes before each tornado and eases off over the 10 minutes
+  around touchdown; each new cycle adds a smaller surge (+30 %). Pulse storms peak at 16–26 min, before they collapse.
+  With the presets: Plains supercells about 60–70 flashes/min mature and 95–112 in a jump, Dixie 30–50, LP up to 33,
+  the summer pulse storm 18.
 - **Brain** (`BrainLightning`): each timeline frame is reduced when it arrives, after McCaul et al. (2009, Wea.
   Forecasting 24, 709–729). The rate is 0.95 × graupel flux at −15 °C × 0.042 plus 0.05 × column ice × 0.2. Both are
   flash densities per km² per 5 minutes, summed over the 40 km storm window. The 0.042 slope is confirmed; the 0.2 is
   the value usually quoted, not checked against the paper. w at −15 °C is each block's column-maximum w scaled by the
   core's w profile. Ice is cloud ice plus hail/graupel; the timeline holds no snow. The −15 °C height comes from the
-  base state. Block means smooth the flux peaks, so expect the brain's rates to run low; tune `brainRateScale` against
-  `CurrentActivity`. Lightning jumps come from the brain's own updraft and graupel surges. Summaries are kept per
+  base state. Block means may smooth the flux peaks; the rate from a real run is not yet checked, so tune
+  `brainRateScale` against `CurrentActivity`. (An idealised 109 km² core of 37 m/s and 3 g/kg graupel gives about
+  100/min.) Lightning jumps come from the brain's own updraft and graupel surges. Summaries are kept per
   frame index, so the timeline's ring buffer evicting old frames does not change the history. Attach before the run
   starts for a complete history.
 - **Flash types** (both sources): about 12 % of flashes reach the ground on the Plains, 20 % in the Midwest, 22 % in
@@ -178,12 +182,17 @@ skin's storm changes or the inspector edits it. Call `Rebind()` after changing t
   (`invertedPolarityBoost`) and up to 25 % more in decay (anvil and stratiform charge). These are presentation rules
   drawn from `docs/meteorology/cloud-microphysics.md`, not a polarity model.
 
-**Supercell Lab > Lightning > Check Storm-Driven Activity** (no GPU) samples four seeded Plains supercells and a pulse
-storm. It writes `designed_*.csv` curves and `checks.txt` to `validation/lightning/out/activity/`. It checks quiet
-initiation, a mature peak, the end with the storm, a rising ground share after rain, a rising positive share in
-decay, a jump before each tornado, and frame-partition replay of the real adapter. `check.ps1` covers the schedule
-itself: thinning, partition and seek replay, the integrated rate, clipping and the type split. The brain adapter is not
-yet covered by an automated check.
+**Supercell Lab > Lightning > Check Storm-Driven Activity** (no GPU) samples four seeded Plains supercells, a Dixie and
+an LP supercell, and a pulse storm. It writes `designed_*.csv` curves and `checks.txt` to
+`validation/lightning/out/activity/`. It checks quiet initiation, a peak in a plausible band (supercells 15–160/min,
+pulse 3–40) that spends under 10 % of its life at the ceiling, the end with the storm, a rising ground share after
+rain, a rising positive share in decay, a jump before each tornado, and frame-partition replay of the real adapter.
+`check.ps1` covers the schedule itself: thinning, partition and seek replay, the integrated rate, clipping and the type
+split. It then runs `validation/lightning/StormChecks`, which needs only .NET 8. That project runs the same activity
+review against `UnityStub.cs`, then feeds `BrainLightning` hand-built timeline frames on a real grid and Plains base
+state. The rate matches an independent McCaul calculation, and the project checks eviction, blending, replayed frames,
+polarity trends and schedule replay. The stub stands in for Unity's API, so the Unity compile remains the final check;
+`StormRunStub.cs` mirrors only the fields the adapter reads.
 
 ## Verification
 

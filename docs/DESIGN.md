@@ -392,7 +392,7 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   over time. The schedule thins a fixed candidate stream at `maxFlashesPerMinute` with a separate random stream. The
   alternative, piecewise fixed-rate segments, would break when rates change smoothly; thinning keeps replay, seeking
   and frame partitioning exact and leaves fixed-rate seeds unchanged. `LightningStormDriver` binds the skin's storm:
-  designed storms use updraft volume, age, decay and a lightning jump before each tornado. The brain uses McCaul et al.
+  designed storms use updraft width and speed, age, decay and a lightning jump before each tornado. The brain uses McCaul et al.
   (2009) graupel flux at −15 °C and column ice from each timeline frame, kept per frame so ring eviction doesn't change
   the history. The flash-type split follows rain arrival, updraft strength and decay. Rates are presentation
   estimates (model-limitations.md).

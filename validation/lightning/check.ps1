@@ -10,6 +10,8 @@ Push-Location $repo
 try {
     & $dotnet run --project validation/lightning/LightningChecks.csproj
     if ($LASTEXITCODE -ne 0) { throw 'Core lightning checks failed.' }
+    & $dotnet run --project validation/lightning/StormChecks/StormChecks.csproj
+    if ($LASTEXITCODE -ne 0) { throw 'Storm-driven lightning checks failed.' }
     $refs = @('/r:' + "$unityData/NetStandard/ref/2.1.0/netstandard.dll")
     $refs += Get-ChildItem "$unityData/Managed/UnityEngine" -Filter '*.dll' | ForEach-Object { '/r:' + $_.FullName }
     $sources = Get-ChildItem src/com.stormlab.supercell/Runtime/Lightning -Filter '*.cs' | ForEach-Object { $_.FullName }

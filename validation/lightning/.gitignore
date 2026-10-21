@@ -1,4 +1,5 @@
-/bin/
-/obj/
+bin/
+obj/
 /out/
 !/LightningChecks.csproj
+!/StormChecks/StormChecks.csproj

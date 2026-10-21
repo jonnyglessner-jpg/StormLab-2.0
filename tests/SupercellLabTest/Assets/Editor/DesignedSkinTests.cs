@@ -318,9 +318,10 @@ public static class DesignedSkinTests
                 ("aerial", u + Bearing(225) * 9500 + Vector3.up * (zb + 5500), u + Vector3.up * zb, 65),
                 ("funnel", g + Bearing(sunAz + 60) * 2300 + Vector3.up * 2, g + Vector3.up * (zb * 0.42f), 48),
                 ("backlit", g + Bearing(sunAz + 180) * 3200 + Vector3.up * 2, g + Vector3.up * (zb * 0.48f), 48),
+                ("sidelit", g + Bearing(sunAz + 100) * 2600 + Vector3.up * 2, g + Vector3.up * (zb * 0.45f), 48),
                 ("interior", skin.VolToWorld(new Vector3(slotEye.x, slotEye.y, Mathf.Max(0.1f, zb / 1000 - 0.25f))), slotAt, 75),
             };
-            rep.AppendLine("## Anatomy review").AppendLine().AppendLine("Fixed Plains seed 1, mature cone. Inflow, rear clear slot, aerial, side-lit funnel, backlit funnel and a view into the rear opening.").AppendLine();
+            rep.AppendLine("## Anatomy review").AppendLine().AppendLine("Fixed Plains seed 1, mature cone. Inflow, rear clear slot, aerial, funnel with the sun 60 degrees off behind the camera, backlit and side-lit funnels, and a view into the rear opening.").AppendLine();
             var tiles = new List<Texture2D>();
             foreach (var v in views)
             {
@@ -334,7 +335,7 @@ public static class DesignedSkinTests
             var coarse = Shot(cam, 1280, 720); Save(coarse, "anatomy_coarse"); tiles.Add(coarse);
             var sheet = Sheet(tiles, 3); Save(sheet, "anatomy_sheet"); Object.DestroyImmediate(sheet);
             foreach (var tex in tiles) Object.DestroyImmediate(tex);
-            rep.AppendLine("`anatomy_sheet.png`: inflow / slot / aerial; funnel / backlit / interior; coarse-only inflow.");
+            rep.AppendLine("`anatomy_sheet.png`: inflow / slot / aerial; funnel / backlit / side-lit; interior / coarse-only inflow.");
         }
 
         if (only == null || only == "timelapse")

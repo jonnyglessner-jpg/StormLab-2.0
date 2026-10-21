@@ -59,7 +59,10 @@ tornado, then rapid clearing.
 - **The top flares smoothly** like a trumpet into a lowering 3–6× the funnel's width. No step.
 - **Ropes and elephant trunks** are smooth, nearly uniform tubes that snake.
 - **Wedges are dark, soft-edged masses**, often wider than tall, with ragged scud at their edges and horizontal
-  motion streaks. Open issue: our close-range wedges still read as pale haze rather than dark masses.
+  motion streaks. Their outline is still a smooth, broad funnel flaring into the base, about twice as wide at the top
+  as at the ground; the softness is at the rim, not lumps in the outline. (The user, 2026-10-21: a widened drillbit
+  looked far more like a wedge than our wedge did, which was a near-cylinder heaped with cauliflower lumps from noise
+  scaled 1.8× on the envelope.)
 - **Multiple vortices** are separate thin, translucent white tubes, slanted and twisting round each other inside a
   dusty, wider circulation. **Satellites** are thin ropes beside the main tornado.
 - **A tornado can be invisible.** The condensation funnel reaches down only to where the pressure drop brings the
@@ -70,13 +73,19 @@ tornado, then rapid clearing.
 
 | Lighting | Funnel looks |
 |---|---|
-| Front-lit, or open sky behind the viewer | near white, brighter than the base above |
-| Backlit | mid grey, often still lighter than the base, with a brighter rim |
+| In direct sun, sun behind the viewer | near white, brighter than the base above |
+| In direct sun, seen side-on | white on the sunlit half, grey on the other: a shaded cylinder |
+| In the storm's shadow | grey, never white: lighter with the bright horizon behind the viewer, darker toward the light |
+| Backlit | mid to dark grey silhouette, with a brighter rim only if the sun reaches it |
 | Debris- or rain-loaded, or under a dark base | dark grey to near black |
 | Low sun | peach to orange-tan on the lit side |
 
 **Lighting lessons from the renderer:** the light grid shades everything under the base, so the funnel needs its
-own sun test and horizon light or it vanishes against the base. The RFD horseshoe lip must not hang down over the
+own sun test and horizon light or it vanishes against the base. White comes only from the sun (the user: a funnel is
+white only while it is actively sunlit). Out of the sun its side is a vertical surface lit by the horizon it faces, and
+the side the viewer sees faces the viewer, so its tone depends on where the viewer stands: the march takes that
+horizon's brightness and visibility from the sky bands and SkyVis, by side (brighter toward the sun's bearing). A
+uniform "side light" all round made the funnel pale from every angle. The RFD horseshoe lip must not hang down over the
 funnel. Test cameras must follow a long-lived tornado (it travels ~50 km).
 
 ## Debris

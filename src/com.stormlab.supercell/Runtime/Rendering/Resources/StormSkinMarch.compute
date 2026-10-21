@@ -290,16 +290,17 @@ float3 tornadoField(float3 q)
     g_fp = texFootprint;
     // the skin: torn (roughness ~1-1.5) or smooth and laminar (~0.2-0.35) with banding wound about 30 degrees from horizontal
     float roughK = S_tor8.y > 0.0 ? S_tor8.y : 1.0;
-    // a wedge's envelope is soft and ragged all the way down (scud, rain and debris at its edge)
-    float rough = ((n1 - 0.5) * 0.3 + (n2 - 0.5) * 0.12) * roughK * (S_tor4.w > 0.5 ? 1.8 : lerp(0.35, 0.6, collar));
+    // a wedge's envelope is as smooth in outline as any funnel, a little more ragged where it meets the cloud; what sets it
+    // apart is a soft edge (rain and debris at its rim, below), not lumps. 1.8 here made it a heap of cauliflower.
+    float rough = ((n1 - 0.5) * 0.3 + (n2 - 0.5) * 0.12) * roughK * (S_tor4.w > 0.5 ? lerp(0.45, 0.85, collar) : lerp(0.35, 0.6, collar));
     float band = sin(atan2(pr.y, pr.x) * 4.0 + zz * 7.0 + (n1 - 0.5) * 1.5);
     rough += S_tor8.w * 0.02 * band;
     float tone = 1.0 + S_tor8.w * 0.07 * band + (n1 - 0.5) * 0.1 * saturate(roughK - 0.4);
     // condensation reaches down to condBottom; below it only a faint sheath (a high base leaves a gap, filled by dust)
     float condBottom = zb * (1.0 - S_tor2.z);
     float down = ss(condBottom - 0.06, condBottom + 0.12, q.z);
-    float core = ss(1.25, 0.45, d / max(rad, 0.005) + rough);
     bool second = S_tor4.w > 0.5;
+    float core = ss(second ? 1.35 : 1.25, 0.45, d / max(rad, 0.005) + rough);
     float wedgeAmt = second ? S_tor4.w - 1.0 : 1.0;
     float breakdown = second ? S_tor4.z : 0.0;
     // a breaking-down wedge lifts off the ground from below, leaving a collar cloud at its top
@@ -386,6 +387,25 @@ float tornadoSun(float3 q)
     {
         float4 d = _Dens.SampleLevel(sampler_LinearClamp, uvw(q + _Sun.xyz * (0.6 * k)), 0);
         od += ss(0.2, 0.4, d.r) * 1.6 + saturate(d.g - 0.2) * 0.6;
+    }
+    return exp(-od);
+}
+
+// The low horizon a funnel's side faces (horizontal unit n): 2 degrees up, out to ~10 km, through cloud and rain on the
+// same terms as tornadoSun. SkyVis traces at 8 degrees, which from under the base hits the base; the strip of horizon
+// below that is what lights a shadowed funnel's lower part, and rain curtains, not the base, are what hide it.
+float tornadoHorizon(float3 q, float2 n)
+{
+    float3 d = float3(n * 0.9994, 0.035);
+    float od = 0.0, a = 0.0, s = 0.3;
+    float L = S_grid.z;
+    [unroll] for (int k = 0; k < 7; k++)
+    {
+        float3 p = q + d * (a + 0.5 * s);
+        if (abs(p.x) > L || abs(p.y) > L) break;
+        float4 dn = _Dens.SampleLevel(sampler_LinearClamp, uvw(p), 0);
+        od += (ss(0.2, 0.4, dn.r) * 2.7 + saturate(dn.g - 0.2)) * s;
+        a += s; s *= 1.5;
     }
     return exp(-od);
 }
@@ -831,8 +851,8 @@ void March(uint3 gid : SV_DispatchThreadID)
                 // term is the sky overhead, which the base hides)
                 float tsun = (tv.x > 0.0 || tv.y > 0.0) ? max(sunL, tornadoSun(q)) : 0.0;
                 float3 hzLight = skyc * 0.2 + hazec * 0.08;
-                // the funnel's vertical sides see the whole bright horizon under the base, which the base's underside does
-                // not: in the photos a funnel in shadow is still about twice as bright as the base above it
+                // the funnel's vertical sides see the horizon under the base, which the base's underside does not (the
+                // painted path's version; the physical path takes it from the sky bands below)
                 float3 sideLight = skyc * 0.42 + hazec * 0.3;
                 if (tv.x > 0.0)
                 {
@@ -840,7 +860,8 @@ void March(uint3 gid : SV_DispatchThreadID)
                     // bright white or rain-laden grey by its brightness, stained low down by the dirt it lofts, and a
                     // translucent one is a soft, thin veil
                     float ghost = S_tor8.z;
-                    float e = 0.06 + 1.5 * g_fp + 0.25 * ghost;
+                    // a wedge's envelope has a soft rim: rain and debris thin it out over its outer tenth or so
+                    float e = 0.06 + 1.5 * g_fp + 0.25 * ghost + (S_tor4.w > 0.5 ? 0.09 : 0.0);
                     float bf = ss(0.3 - e, 0.3 + e, tv.x) * _MP.x * 1.3 * lerp(1.0, 0.18, ghost);
                     float hz = saturate(q.z / max(S_base.x, 0.3));
                     float alb = S_tor8.x > 0.0 ? S_tor8.x : 1.0;
@@ -851,12 +872,48 @@ void March(uint3 gid : SV_DispatchThreadID)
                     // rounded: the side facing the sun takes it, the side away from it does not, and the funnel darkens a
                     // little toward its edges as seen (limb), where a back-lit one glows faintly instead
                     float2 sH = normalize(_Sun.xy + float2(1e-5, 0.0)), vH = normalize(-rd.xy + float2(1e-5, 0.0));
-                    float lit = saturate(0.5 + 0.5 * dot(g_torN, sH)), facing = abs(dot(g_torN, vH));
+                    // cs: -1 on the side away from the sun's bearing .. 1 on the side facing it. The terminator is soft (light
+                    // diffuses a little way round the edge of a cloud surface) but near 90 degrees, so seen side-on a sunlit
+                    // funnel is half white and half grey, and seen from the far side it is grey with a bright rim
+                    float cs = dot(g_torN, sH);
+                    float lit = saturate((cs + 0.3) / 1.3), facing = abs(dot(g_torN, vH));
                     float limb = lerp(0.72, 1.0, facing);
-                    // the side light fades out up the flare, so the funnel blends into the base's tone where they join;
-                    // a wedge's or multiple-vortex envelope is a dark, rain- and debris-laden mass and takes less of it
-                    float sideK = lerp(1.0, 0.3, ss(0.62, 0.86, hz)) * (S_tor4.w > 0.5 ? 0.45 : 1.0);
-                    float3 c = (sunz * (tsun * (0.2 + 1.35 * lit + 0.35 * (ph - 0.45) * (1.0 - facing))) + (skyc * (0.18 + 0.45 * lt.g) + sideLight * sideK) * limb) * lerp(0.78, 1.0, hz) + bounceC * 0.4;
+                    // a wedge's or multiple-vortex envelope is a dark, rain- and debris-laden mass and takes less side light
+                    float wedgeK = S_tor4.w > 0.5 ? 0.45 : 1.0;
+                    float3 amb;
+                    if (phys)
+                    {
+                        // Out of the sun the funnel's side is lit by the sky it faces, as a vertical Lambertian surface: the
+                        // cap at grazing (0.045), the ring (0.24) and the horizon (0.21) of the bands skyLight uses, with the same
+                        // visibilities the cloud around it has. The horizon is the part that differs by side: toward the sun's
+                        // bearing it is brighter and usually open (the clear slot), away from it dimmer and often behind rain.
+                        // The side the viewer sees faces the viewer, so it shows the horizon behind them: a shadowed funnel is
+                        // a light grey with the sun behind the viewer and a dark grey silhouette looking toward the sun, never
+                        // white. sv.b is the ring's mean visibility and sv.a its visibility toward the sun; between them a
+                        // dipole gives the visibility of the half facing each way. The lowest ~13 degrees of the horizon (0.14
+                        // of the 0.21), the strip seen under the base's edge, take their visibility from tornadoHorizon
+                        // instead, in the direction this side faces.
+                        float4 svT = _SkyVis.SampleLevel(sampler_LinearClamp, tc, 0);
+                        float capV = svT.r, sideV = 1.0;
+                        if (wN > 0.0) { float4 nlT = _NearLight.SampleLevel(sampler_LinearClamp, nearUvw(q), 0); capV = nlT.g; sideV = nlT.b; }
+                        float visN = saturate(svT.b + (svT.a - svT.b) * cs);
+                        float3 horL = max(g_hor + (g_horK - g_hor) * cs, 0.6 * g_hor);
+                        float3 horN = horL * (0.07 * visN * sideV + 0.14 * tornadoHorizon(q, g_torN));
+                        amb = (0.045 * g_zen * capV + (0.24 * g_mid * svT.g * sideV + horN) * wedgeK) * _PL2.x + skyFill() + groundLight(q, sunc);
+                        // It is the same cloud as the lowering it hangs from, so in shadow it is never darker than that
+                        // cloud's sky light (1.25 undoes the albedo tint below; a wedge may go a little darker)
+                        float3 parentSky = 0.5 * (0.18 * g_zen * capV + (0.477 * g_mid * svT.g + 0.342 * horLight(svT)) * sideV) * _PL2.x + skyFill() + groundLight(q, sunc);
+                        amb = max(amb, parentSky * (wedgeK < 1.0 ? 1.0 : 1.25));
+                    }
+                    else
+                    {
+                        // the side light fades out up the flare, so the funnel blends into the base's tone where they join,
+                        // and is the horizon behind the viewer: bright toward the sun, dim away from it
+                        float sideK = lerp(1.0, 0.3, ss(0.62, 0.86, hz)) * wedgeK * lerp(0.35, 1.25, 0.5 + 0.5 * cs);
+                        amb = skyc * (0.18 + 0.45 * lt.g) + sideLight * sideK;
+                    }
+                    // (the painted path darkens it low down; the physical one gets that from the horizon it sees)
+                    float3 c = (sunz * (tsun * (0.12 + 1.35 * lit + 0.35 * (ph - 0.45) * (1.0 - facing))) + amb * limb) * (phys ? 1.0 : lerp(0.78, 1.0, hz)) + (phys ? 0.0 : bounceC * 0.4);
                     float3 cc = lerp(float3(0.78, 0.8, 0.84) * alb, soil * 0.85, S_tor9.w * pow(saturate(1.0 - hz / 0.45), 2.0)) * tone;
                     // Fade the exposed funnel's cylinder lighting into its parent cloud
                     // over the trumpet flare, using the same light as the near volume.

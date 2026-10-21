@@ -302,7 +302,9 @@ namespace StormLab.Supercell
                 case TornadoShape.ElephantTrunk: g = 0.5 * half;  top = 2.6 * g + 0.08;  profile = 0.18; sinu = C.Lerp(0.7, 1.0, u); break;
                 case TornadoShape.Cone:          g = 0.45 * half; top = 3.4 * g + 0.1;   profile = 0.6;  sinu = C.Lerp(0.05, 0.2, u); break;
                 case TornadoShape.Stovepipe:     g = 0.6 * half;  top = 1.45 * g + 0.06; profile = 0.85; sinu = C.Lerp(0.0, 0.1, u); break;
-                case TornadoShape.Wedge:         g = 0.85 * half; top = 1.25 * g + 0.1;  profile = 0.95; sinu = 0.03; break;
+                // a wedge is a broad funnel, not a block: its sides flare out into the base, about twice as wide at the top
+                // as at the ground (the user: a widened drillbit looks far more like a real wedge than the old near-cylinder)
+                case TornadoShape.Wedge:         g = 0.8 * half;  top = 1.9 * g + 0.15;  profile = 0.55; sinu = 0.03; break;
                 case TornadoShape.MultiVortex:   g = 0.75 * half; top = 1.35 * g + 0.1;  profile = 0.9;  sinu = 0.05; break;
                 case TornadoShape.Sidewinder:    g = 0.3 * half;  top = 3.0 * g + 0.05;  profile = 0.1;  sinu = C.Lerp(0.6, 0.9, u); break;
                 default:                         g = 0.5 * half;  top = 3.0 * g + 0.08;  profile = 0.4;  sinu = C.Lerp(0.1, 0.35, u); break;   // dust whirl

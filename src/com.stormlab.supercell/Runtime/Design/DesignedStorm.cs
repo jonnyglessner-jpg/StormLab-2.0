@@ -532,7 +532,7 @@ namespace StormLab.Supercell
         static string A(string n) => ("aeiou".IndexOf(n[0]) >= 0 ? "an " : "a ") + n;
         static string Cap1(string n) => char.ToUpperInvariant(n[0]) + n.Substring(1);
 
-        static double ShapeWidth(TornadoShape s) => s switch { TornadoShape.Wedge => 0.85, TornadoShape.MultiVortex => 0.75, TornadoShape.Stovepipe => 0.6, TornadoShape.ElephantTrunk => 0.5, TornadoShape.DustWhirl => 0.5, TornadoShape.Cone => 0.45, TornadoShape.Drillbit => 0.4, TornadoShape.Rope => 0.35, _ => 0.3 };
+        static double ShapeWidth(TornadoShape s) => s switch { TornadoShape.Wedge => 0.8, TornadoShape.MultiVortex => 0.75, TornadoShape.Stovepipe => 0.6, TornadoShape.ElephantTrunk => 0.5, TornadoShape.DustWhirl => 0.5, TornadoShape.Cone => 0.45, TornadoShape.Drillbit => 0.4, TornadoShape.Rope => 0.35, _ => 0.3 };
 
         void Stage(SkinParams P, double t, double tm, in StormCharacter ch, CycleGene wallC, in CycleGeom g, in TornadoNow tor, double antiTor, double live)
         {

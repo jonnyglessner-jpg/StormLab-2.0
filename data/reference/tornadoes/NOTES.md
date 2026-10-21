@@ -22,8 +22,10 @@ Used for the designed tornado's look in `src/com.stormlab.supercell/Runtime/Rend
 
 ## Brightness and colour (`lighting/`)
 
-- **Front-lit or under open sky behind the viewer: near white.** Much brighter than the cloud base above
-  (`close_texture/1n7znagxqubg1.jpg`, `lighting/images (1).jpg`, `lighting/g1ah3q3g21kf1.jpg`).
+- **Front-lit in direct sun: near white.** Much brighter than the cloud base above
+  (`close_texture/1n7znagxqubg1.jpg`, `lighting/images (1).jpg`, `lighting/g1ah3q3g21kf1.jpg`). The white is sunlight:
+  the user's rule is that a funnel is white only while it is actively sunlit. In the storm's shadow it is grey, lighter
+  when the bright horizon is behind the viewer.
 - **Backlit: mid grey**, still often lighter than the base, with a brighter rim (`lighting/images (7).jpg`,
   `lighting/30884738.jpg`).
 - **Dark grey to near black** when loaded with debris or rain, or under a dark base: wedges, Andover 2022,

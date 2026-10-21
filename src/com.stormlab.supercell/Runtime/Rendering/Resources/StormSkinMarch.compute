@@ -225,6 +225,53 @@ float nearWeight(float3 p)
 float tornadoAxisAmp(float ztop) { return min((0.03 + 0.1 * S_tor2.w + 0.3 * S_tor5.w) * (0.4 + 0.6 * ztop), 0.22 * ztop + 0.02); }
 float tornadoBound() { return max(S_tor2.y * 1.6, S_tor2.x * max(S_tor6.w, 1.0) * 1.3) + tornadoAxisAmp(S_base.x) + S_tor10.z * 1.35 + 0.35; }
 
+// How far from the straight axis (S_tor at the ground to S_tor3 at the top) tornadoField can draw anything at heights
+// z0..z1: the widest funnel, vortices, collar, sheath or whirl there with its noise at its most outward, plus how far the
+// bent axis strays from the straight one (sway, the smoothstep lean, a sidewinder's drag, the polyline's window).
+// Inside the bounding cylinder this, not the cylinder, decides where the march takes fine steps: the cylinder is ~1 km
+// round at every height, and fine steps through its clear air were most of a close view's cost (7x the rest).
+float tornadoReach(float z0, float z1)
+{
+    float zb = S_base.x;
+    float ztop = max(zb - 0.6 * S_wall2.x, 0.3);
+    float lean = length(S_tor3.xy - S_tor.xy);
+    float rr = 0.18 * (S_tor8.y > 0.0 ? S_tor8.y : 1.0) + 0.02 * S_tor8.w;
+    float reach = 0.0;
+    if (z0 <= zb + 0.15)
+    {
+        float zh = min(z1, zb + 0.15);
+        float collar = ss(0.72 * ztop, ztop + 0.1, zh);
+        float flare = min(0.25 * S_wall.z + 0.3 * S_tor2.y, 1.6 * S_tor2.y + 0.1);
+        float rad = lerp(S_tor2.x, S_tor2.y, pow(saturate(zh / ztop), lerp(3.0, 0.7, S_tor.w))) + collar * collar * flare * (1.0 - 0.4 * S_tor2.w);
+        float f = rad * ((S_tor4.w > 0.5 ? 1.35 : 1.25) + rr);
+        if (S_tor4.w > 0.5)
+        {
+            f = max(f, max(S_tor4.x, 0.02) * lerp(1.0, 1.6, pow(saturate(zh / ztop), 1.5)) * 1.45);
+            float ro = S_tor5.x * rad;
+            f = max(f, ro + max(S_tor5.y, 0.2 * ro) * 1.7 * (1.3 + rr));
+            f = max(f, (S_tor2.y * 1.2 + 0.1) * (1.2 + 0.8 * rr));
+        }
+        if (z0 < 0.4 * zb) f = max(f, 2.1 * max(rad, 0.02));   // the sheath
+        reach = f + 1.05 * tornadoAxisAmp(ztop) + 0.26 * lean + 1.2 * S_tor10.z + 0.12 * lean / ztop + 0.03;
+    }
+    float wh = 1.15 * (0.1 + 0.36 * S_tor.w * (1.0 - S_tor2.w) + 0.12 * (1.0 - S_tor2.z));
+    if (z0 < wh) reach = max(reach, 1.475 * max(S_tor2.x * S_tor6.w + 0.06, 0.08) + 1.2 * S_tor10.z + lean * saturate(min(z1, wh) / ztop) + 0.03);   // the whirl
+    return reach;
+}
+
+// A step along rd from q that cannot reach anything tornadoField draws, or 0 where it may draw something. The reach is
+// taken over the heights the step crosses, and the distance to the straight axis shrinks at most `rate` per km travelled.
+float tornadoSkip(float3 q, float3 rd)
+{
+    float ztop = max(S_base.x - 0.6 * S_wall2.x, 0.3);
+    float rate = length(rd.xy) + length(S_tor3.xy - S_tor.xy) / ztop * abs(rd.z) + 1e-3;
+    float dl = length(q.xy - lerp(S_tor.xy, S_tor3.xy, saturate(q.z / ztop)));
+    float s = (dl - tornadoReach(q.z, q.z)) / rate;
+    if (s <= 0.0) return 0.0;
+    float z1 = q.z + rd.z * s;
+    return max((dl - tornadoReach(min(q.z, z1), max(q.z, z1))) / rate, 0.0);
+}
+
 // The axis at height z, from the ground position (leaning toward it) up to the wall cloud. Ropes and elephant trunks bend
 // in one broad C or S curve, mostly in one plane (S_tor10.w, its angle), with a weaker bend out of it so it does not look
 // flat; the reference photos show nothing like a corkscrew. The bend changes over minutes, everything bends more as it
@@ -617,10 +664,32 @@ void March(uint3 gid : SV_DispatchThreadID)
         float anvR0 = 3.0 * S_tower.y, anvR1 = 5.0 * S_tower.y;
         bool surf = false; float prevBe = 0.0;
         float spinA = -S_tilt.w * S_base.z; float2 spinCS = float2(cos(spinA), sin(spinA));   // the meso frame's turn, once per pixel
-        // the tornado's bounding cylinder (centred between its ground and top positions)
         bool torOn = (S_tor.z > 0.0 || S_anti.w > 0.0 || S_tor11.z > 0.0) && !((uint)_Dbg.x & 128u);
-        float2 torMid = 0.5 * (S_tor.xy + S_tor3.xy); float torR = tornadoBound();
         float2 antiP = S_anti.xy; float torTop = S_base.x + 0.2;
+        // Where this ray may meet the main tornado, [trIn, trOut], found once per pixel: within the tornado's bounding
+        // cylinder (centred between its ground and top positions, up to torTop), sphere-trace tornadoSkip in from both
+        // ends. Fine steps through the whole cylinder were most of a close view's cost; tracing in the loop instead slowed
+        // every view's march ~15 %, tornado or not (register pressure, by the look of it).
+        float trIn = 1e9, trOut = -1e9;
+        if (torOn && S_tor.z > 0.0)
+        {
+            float2 o = cp.xy - 0.5 * (S_tor.xy + S_tor3.xy); float torR = tornadoBound();
+            float qa = dot(rd.xy, rd.xy), qb = dot(o, rd.xy), qc = dot(o, o) - torR * torR, disc = qb * qb - qa * qc;
+            float c0 = ta, c1 = tb;
+            if (qa > 1e-8) { float sq = sqrt(max(disc, 0.0)); c0 = max(c0, (-qb - sq) / qa); c1 = disc > 0.0 ? min(c1, (-qb + sq) / qa) : -1.0; }
+            else if (qc > 0.0) c1 = -1.0;
+            if (rd.z > 1e-6) c1 = min(c1, (torTop - cp.z) / rd.z);
+            else if (rd.z < -1e-6) c0 = max(c0, (torTop - cp.z) / rd.z);
+            else if (cp.z >= torTop) c1 = -1.0;
+            float tt = c0;
+            for (int k = 0; k < 32 && tt <= c1; k++) { float sk = tornadoSkip(cp + rd * tt, rd); if (sk <= 0.0) break; tt += sk; }
+            if (tt <= c1)
+            {
+                trIn = tt; tt = c1;
+                for (int k2 = 0; k2 < 32; k2++) { float sk = tornadoSkip(cp + rd * tt, -rd); if (sk <= 0.0 || tt - sk < trIn) break; tt -= sk; }
+                trOut = tt;
+            }
+        }
         float2 satP = satelliteMid(); float satR = satelliteBound();
         int maxSteps = (int)_DepthP.w;
         for (int i = 0; i < maxSteps; i++)
@@ -664,17 +733,18 @@ void March(uint3 gid : SV_DispatchThreadID)
             // in the box: fine steps near a surface, long ones where the field says the nearest cloud is far
             if (wN > 0.0) dt = min(dt, max(0.03 + t * 0.0025, (0.47 - nv.r) * 0.35));
             if (t < tn0) dt = min(dt, tn0 - t + 0.005);
-            // near the tornado: fine steps inside its cylinder, and never step over it
+            // near the tornado: fine steps where the ray may meet it, and never step over it
             bool inTor = false;
             if (torOn && q.z < torTop)
             {
-                float dc = S_tor.z > 0.0 ? length(q.xy - torMid) - torR : 1e9;
+                float dc = t < trIn ? trIn - t : (t <= trOut ? -1.0 : 1e9);
                 float da = S_anti.w > 0.0 ? length(q.xy - antiP) - 0.4 : 1e9;
                 float dsat = S_tor11.z > 0.0 ? length(q.xy - satP) - satR : 1e9;
                 float dmin = min(min(dc, da), dsat);
                 if (dmin < 0.0) { inTor = true; dt = min(dt, 0.006 + t * 0.0012); }
                 else dt = min(dt, max(dmin, 0.006) + 0.004);
             }
+            else if (t < trIn) dt = min(dt, max(trIn - t, 0.006) + 0.004);   // coming down from above it
             // the last step ends at the volume's edge, where the far anvil's march takes over (no stretch counted twice)
             dt = min(dt, max(tb - t, 0.002));
             float be = 0.0; float3 Lc = 0.0;

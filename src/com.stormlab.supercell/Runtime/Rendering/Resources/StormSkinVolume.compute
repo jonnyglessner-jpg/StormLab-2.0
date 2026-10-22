@@ -335,6 +335,12 @@ void Advect(uint3 id : SV_DispatchThreadID)
     float iceT = (1.0 - saturate(tgt.a / 0.3)) * step(0.01, tgt.r);
     float iceO = (1.0 - saturate(old.a / 0.3)) * step(0.01, old.r);
     float kc = lerp(k, max(k, 0.5), max(iceT, iceO));
+    // A moving/growing boundary must not leave a second dense column behind for
+    // the full 60 s interior relaxation. Only substantial envelope disagreement
+    // gets the faster condensation/erosion response; transport still uses wind.
+    float mismatch = saturate((abs(old.r - tgt.r) - 0.15) / 0.35);
+    float boundaryResponse = 1.0 - exp(-max(_AdvP.x, 0.0) / 8.0);
+    kc = max(kc, boundaryResponse * mismatch * step(1e-6, k));
     float4 o;
     o.r = lerp(old.r, tgt.r, kc);
     o.g = lerp(oldR, tgt.g, k);

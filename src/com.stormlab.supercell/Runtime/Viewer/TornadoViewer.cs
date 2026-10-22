@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using StormLab.Supercell.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace StormLab.Supercell
 {
@@ -161,14 +162,15 @@ namespace StormLab.Supercell
         float TornadoTime => cyc == null ? 0f : (float)(cyc.tornado.formS + life * cyc.tornado.lifeS);
 
         // ------------------------------------------------------------------ per frame
+        static Vector3 MousePosition => Mouse.current != null ? (Vector3)Mouse.current.position.ReadValue() : Vector3.zero;
         void Update()
         {
             if (!runner) return;
             if (dirtyStorm) SpawnStorm();
             if (dirtyTornado) ApplyTornado();
-            if (Input.GetKeyDown(KeyCode.H)) showPanel = !showPanel;
-            if (Input.GetKeyDown(KeyCode.Space)) playing = !playing;
-            if (Input.GetKeyDown(KeyCode.F)) haveTarget = false;
+            if ((Keyboard.current?.hKey.wasPressedThisFrame ?? false)) showPanel = !showPanel;
+            if ((Keyboard.current?.spaceKey.wasPressedThisFrame ?? false)) playing = !playing;
+            if ((Keyboard.current?.fKey.wasPressedThisFrame ?? false)) haveTarget = false;
             if (cyc == null || skin == null) return;
 
             if (playing)
@@ -183,15 +185,15 @@ namespace StormLab.Supercell
             if (skin.sun) skin.sun.transform.rotation = Quaternion.LookRotation(-StormSkin.VolToWorldDir(StormSkin.SunVol(sunAzimuth, sunElevation)));
 
             // orbit
-            bool overPanel = showPanel && panel.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
-            if (Input.GetMouseButton(1) && !overPanel)
+            bool overPanel = showPanel && panel.Contains(new Vector2(MousePosition.x, Screen.height - MousePosition.y));
+            if ((Mouse.current?.rightButton.isPressed ?? false) && !overPanel)
             {
-                var d = Input.mousePosition - lastMouse;
+                var d = MousePosition - lastMouse;
                 yaw = Mathf.Repeat(yaw + d.x * 0.25f, 360f);
                 pitch = Mathf.Clamp(pitch - d.y * 0.15f, -2f, 75f);
             }
-            lastMouse = Input.mousePosition;
-            float wheel = overPanel ? 0f : Input.mouseScrollDelta.y;
+            lastMouse = MousePosition;
+            float wheel = overPanel ? 0f : (Mouse.current?.scroll.ReadValue().y / 120f ?? 0f);
             if (wheel != 0f) distance = Mathf.Clamp(distance * Mathf.Exp(-wheel * 0.12f), 150f, 30000f);
 
             // follow the tornado (or, before it forms and after it lifts, where it is going to be or was)

@@ -28,8 +28,41 @@ namespace StormLab.Supercell.Dynamics
         /// <summary>take checkpoints</summary>
         public bool checkpointing = true;
 
-        struct PendingFrame { public int index; public long step; public AsyncGPUReadbackRequest c2, c3, sum; }
-        struct PendingCheckpoint { public Checkpoint ck; public AsyncGPUReadbackRequest[] f; public AsyncGPUReadbackRequest acc; }
+        sealed class PendingFrame
+        {
+            public int index, completed;
+            public long step;
+            public float[] c2, c3, sum;
+            public bool error;
+            public void Copy(AsyncGPUReadbackRequest r, int field)
+            {
+                if (r.hasError) error = true;
+                else if (field == 0) c2 = r.GetData<float>().ToArray();
+                else if (field == 1) c3 = r.GetData<float>().ToArray();
+                else sum = r.GetData<float>().ToArray();
+                completed++;
+            }
+        }
+        // Readbacks have a one-frame lifetime after completion. Own the data in each callback;
+        // never keep an early result waiting for the other ten requests to finish.
+        sealed class PendingCheckpoint
+        {
+            public Checkpoint ck;
+            public int completed;
+            public string error;
+            public void Field(int field, AsyncGPUReadbackRequest r)
+            {
+                if (r.hasError) error = SupercellModel.FieldNames[field];
+                else ck.fields[field] = r.GetData<uint>().ToArray();
+                completed++;
+            }
+            public void Accum(AsyncGPUReadbackRequest r)
+            {
+                if (r.hasError) error = "surface accumulations";
+                else ck.acc = r.GetData<float>().ToArray();
+                completed++;
+            }
+        }
         readonly Queue<PendingFrame> pendingFrames = new Queue<PendingFrame>();
         readonly Queue<PendingCheckpoint> pendingCks = new Queue<PendingCheckpoint>();
 
@@ -129,21 +162,24 @@ namespace StormLab.Supercell.Dynamics
             // the state a seek will restore
             if (checkpointing && index % framesPerCheckpoint == 0)
             {
-                var req = model.QuantiseAndCapture();
                 if (!checkpoints.Has(model.steps))
                 {
-                    var ck = new Checkpoint { t = Time, step = model.steps, frameIndex = index };
-                    pendingCks.Enqueue(new PendingCheckpoint { ck = ck, f = req, acc = AsyncGPUReadback.Request(model.Accum) });
+                    var pc = new PendingCheckpoint { ck = new Checkpoint
+                        { t = Time, step = model.steps, frameIndex = index, fields = new uint[10][] } };
+                    pendingCks.Enqueue(pc);
+                    model.QuantiseAndCapture(pc.Field);
+                    AsyncGPUReadback.Request(model.Accum, pc.Accum);
                 }
+                else model.QuantiseAndCapture(); // Replay must still quantise the live state at the same boundaries.
             }
             if (recording)
             {
                 model.RunDiagnostics();
-                pendingFrames.Enqueue(new PendingFrame
-                {
-                    index = index, step = model.steps,
-                    c2 = AsyncGPUReadback.Request(model.c2), c3 = AsyncGPUReadback.Request(model.c3), sum = AsyncGPUReadback.Request(model.sum)
-                });
+                var pf = new PendingFrame { index = index, step = model.steps };
+                pendingFrames.Enqueue(pf);
+                AsyncGPUReadback.Request(model.c2, r => pf.Copy(r, 0));
+                AsyncGPUReadback.Request(model.c3, r => pf.Copy(r, 1));
+                AsyncGPUReadback.Request(model.sum, r => pf.Copy(r, 2));
             }
         }
 
@@ -155,23 +191,19 @@ namespace StormLab.Supercell.Dynamics
             while (pendingCks.Count > 0)
             {
                 var pc = pendingCks.Peek();
-                bool done = pc.acc.done; foreach (var r in pc.f) done &= r.done;
-                if (!done) break;
+                if (pc.completed != 11) break;
                 pendingCks.Dequeue();
-                if (pc.acc.hasError) { Debug.LogError("[Dynamics] checkpoint readback failed"); continue; }
-                pc.ck.fields = new uint[10][];
-                for (int f = 0; f < 10; f++) pc.ck.fields[f] = pc.f[f].GetData<uint>().ToArray();
-                pc.ck.acc = pc.acc.GetData<float>().ToArray();
+                if (pc.error != null) { Debug.LogError($"[Dynamics] checkpoint at {pc.ck.t:F0}s readback failed: {pc.error}"); continue; }
                 checkpoints.Add(pc.ck);
             }
             while (pendingFrames.Count > 0)
             {
                 var pf = pendingFrames.Peek();
-                if (!(pf.c2.done && pf.c3.done && pf.sum.done)) break;
+                if (pf.completed != 3) break;
                 pendingFrames.Dequeue();
-                if (pf.c2.hasError || pf.c3.hasError || pf.sum.hasError) { Debug.LogError($"[Dynamics] frame {pf.index} readback failed"); continue; }
+                if (pf.error) { Debug.LogError($"[Dynamics] frame {pf.index} readback failed"); continue; }
                 var fr = new TimelineFrame { index = pf.index, step = pf.step, t = pf.index * FrameInterval };
-                fx.Extract(fr, pf.c2.GetData<float>().ToArray(), pf.c3.GetData<float>().ToArray(), pf.sum.GetData<float>().ToArray(), timeline);
+                fx.Extract(fr, pf.c2, pf.c3, pf.sum, timeline);
                 timeline.Store(fr);
                 made++;
             }

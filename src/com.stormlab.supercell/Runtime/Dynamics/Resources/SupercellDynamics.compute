@@ -220,8 +220,15 @@ void LoadDep(uint c, float3 p, out float3 f, out float3 b)
 float3 DepartureF(uint3 id)
 {
     float3 p = LayPos(id);
-    if (XP.y != 0) return Depart(p, D.z);
-    float3 f, b; LoadDep(LayIdx(id), p, f, b); return f;
+    float3 result = p;
+    if (XP.y != 0) result = Depart(p, D.z);
+    else
+    {
+        uint c = LayIdx(id);
+        uint a0 = DPHR[3 * c], a1 = DPHR[3 * c + 1];
+        result = p + float3(f16tof32(a0 & 0xffff), f16tof32(a0 >> 16), f16tof32(a1 & 0xffff));
+    }
+    return result;
 }
 void Departures(uint3 id, out float3 f, out float3 b)
 {
@@ -278,9 +285,9 @@ bool MicroDiag(uint bit) { return (((uint)MX.z) & bit) != 0u; }
 float3 vterm(float qr, float qs, float qh, float rho, float rhoS)
 {
     float vr = 0.0, vs = 0.0, vh = 0.0;
-    if (qr > 1e-9) vr = min(10.0, 842.0 * G48 / 6.0 * pow(PI_ * RHOW * N0RFall() / (rho * qr), -0.2) * sqrt(rhoS / rho));
-    if (qs > 1e-9) vs = SA * G4B / 6.0 * pow(PI_ * RHOSN * N0S / (rho * qs), -0.25 * SB) * sqrt(rhoS / rho);
-    if (qh > 1e-9) vh = sqrt(4.0 * 9.81 * RHOH / (1.8 * rho)) * G45 / 6.0 * pow(PI_ * RHOH * N0H / (rho * qh), -0.125);
+    if (qr > 1e-9) vr = min(10.0, 842.0 * G48 / 6.0 * pow(max(PI_ * RHOW * N0RFall() / (rho * qr), 1e-30), -0.2) * sqrt(rhoS / rho));
+    if (qs > 1e-9) vs = SA * G4B / 6.0 * pow(max(PI_ * RHOSN * N0S / (rho * qs), 1e-30), -0.25 * SB) * sqrt(rhoS / rho);
+    if (qh > 1e-9) vh = sqrt(4.0 * 9.81 * RHOH / (1.8 * rho)) * G45 / 6.0 * pow(max(PI_ * RHOH * N0H / (rho * qh), 1e-30), -0.125);
     return float3(vr, vs, vh);
 }
 
@@ -294,9 +301,9 @@ void MicroStep(inout float th, inout float qv, inout float qc, inout float qr, i
     float dens = sqrt(rhoS / rho);
     float nu = MU / rho;
     float ah = sqrt(4.0 * 9.81 * RHOH / (1.8 * rho));
-    float lr = pow(PI_ * RHOW * N0R / (rho * max(qr, 1e-12)), 0.25);
-    float ls = pow(PI_ * RHOSN * N0S / (rho * max(qs, 1e-12)), 0.25);
-    float lh = pow(PI_ * RHOH * N0H / (rho * max(qh, 1e-12)), 0.25);
+    float lr = pow(max(PI_ * RHOW * N0R / (rho * max(qr, 1e-12)), 1e-30), 0.25);
+    float ls = pow(max(PI_ * RHOSN * N0S / (rho * max(qs, 1e-12)), 1e-30), 0.25);
+    float lh = pow(max(PI_ * RHOH * N0H / (rho * max(qh, 1e-12)), 1e-30), 0.25);
     float3 vt = vterm(qr, qs, qh, rho, rhoS);
     float vr = vt.x, vh = vt.z;
     float praut = K1 * max(qc - QCCRIT, 0.0);
@@ -421,7 +428,7 @@ void MicroStep(inout float th, inout float qv, inout float qc, inout float qr, i
             // size-sort, so it evaporates too many small drops below cloud base and its cold pools run 2-4 K cold
             // (StormLab 1.0 vs CM1; Dawson et al. 2010). A smaller intercept here stands for the larger drops that
             // actually reach the sub-cloud layer.
-            float lrn = pow(PI_ * RHOW * N0E / (rho * qr), 0.25);
+            float lrn = pow(max(PI_ * RHOW * N0E / (rho * qr), 1e-30), 0.25);
             float abw = rho * (LV * LV / (KA * RV * T * T) + 1.0 / (rho * ws2 * DV));
             float gw = 1.0 + LV * LV * ws2 / (CPD * RV * T * T);
             float prevp = 2.0 * PI_ * (1.0 - qv / ws2) / abw * N0E * (0.78 * pow(lrn, -2.0) + 0.31 * SC3 * G29 * sqrt(AR * dens / nu) * pow(lrn, -2.9));
@@ -439,7 +446,7 @@ void MicroStep(inout float th, inout float qv, inout float qc, inout float qr, i
         float gam = 1.0 + LS * LS * wi2 / (CPD * RV * T * T);
         if (qs > 1e-9)
         {
-            float lsn = pow(PI_ * RHOSN * N0S / (rho * qs), 0.25);
+            float lsn = pow(max(PI_ * RHOSN * N0S / (rho * qs), 1e-30), 0.25);
             float psdep = 2.0 * PI_ * (qv / wi2 - 1.0) / ab * N0S * (0.78 * pow(lsn, -2.0) + 0.31 * SC3 * G5B2 * sqrt(SA * dens / nu) * pow(lsn, -2.705));
             float dd = psdep * dt;
             if (dd > 0.0) dd = min(dd, max(qv - wi2, 0.0) / gam); else dd = max(dd, max(-qs, (qv - wi2) / gam));
@@ -449,7 +456,7 @@ void MicroStep(inout float th, inout float qv, inout float qc, inout float qr, i
         }
         if (qh > 1e-9 && qv < wi2 && !MicroDiag(4u))
         {
-            float lhn = pow(PI_ * RHOH * N0H / (rho * qh), 0.25);
+            float lhn = pow(max(PI_ * RHOH * N0H / (rho * qh), 1e-30), 0.25);
             float pgsub = 2.0 * PI_ * (qv / wi2 - 1.0) / ab * N0H * (0.78 * pow(lhn, -2.0) + 0.31 * SC3 * G275 * sqrt(ah / nu) * pow(lhn, -2.75));
             float dh = max(pgsub * dt, max(-qh, (qv - wi2) / gam));
             qh += dh;
@@ -482,7 +489,7 @@ float HailSize(float qh, float rho)
     float hd = 0.0;
     if (qh > 1e-6)
     {
-        float lhd = pow(PI_ * RHOH * N0H / (rho * qh), 0.25);
+        float lhd = pow(max(PI_ * RHOH * N0H / (rho * qh), 1e-30), 0.25);
         hd = max(0.0, 1000.0 * log(N0H / (lhd * HAILN)) / lhd);
     }
     return hd;
@@ -779,7 +786,7 @@ void XformY(uint3 gid : SV_GroupID, uint3 tid : SV_GroupThreadID)
 }
 
 // vertical tridiagonal solve for every horizontal mode (m, n), in place in PHIRW (the transformed divergence)
-[numthreads(8, 8, 1)]
+[numthreads(4, 4, 1)]
 void TriZ(uint3 id : SV_DispatchThreadID)
 {
     uint NX = (uint)N.x, NY = (uint)N.y, NZ = (uint)N.z, m = id.x, n = id.y;

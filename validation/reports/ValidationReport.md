@@ -1,6 +1,6 @@
 # Supercell Lab 2.0 dynamics validation
 
-Run 2026-10-20 23:24, suite `all`, GPU AMD Radeon RX 7900 XT (Direct3D12), Unity 6000.6.6f1.
+Run 2026-10-22 13:05, suite `all`, GPU AMD Radeon RX 7900 XT (Direct3D12), Unity 6000.6.6f1.
 
 | Test | Result | Detail |
 | --- | --- | --- |
@@ -14,17 +14,17 @@ Run 2026-10-20 23:24, suite `all`, GPU AMD Radeon RX 7900 XT (Direct3D12), Unity
 | CIN delays initiation | PASS | DDC 19Z special sounding: fires at 87 min (MLCAPE 2365, MLCIN -112 J/kg), forced w 12.0 m/s. HRRR 22Z: fires at 0 min (MLCAPE 5121, MLCIN -1 J/kg), forced w 10.0 m/s |
 | outflow boundary in the initial state | PASS | -4 K, 1.2 km deep pool north of a west-east line: frame 0 coldest theta' -3.7 K, -1 K area 2600 km2 (expected about 2560), south edge 48.1 km; after 10 min the gust front has spread to 2409 km2 |
 | seek restores a checkpoint and replays bit for bit | PASS | test grid, WK storm (peak w 43 m/s): 2 checkpoints (0 and 15 min); seek to 1100 s restored 900 s and re-ran; 60 of 60 replayed frames identical to the originals; timeline 24.0 MB for 151 frames, 6.0 MB of checkpoints |
-| run-ahead scheduler respects budget and speed cap | **FAIL** | average tier, 4 ms per 60 fps frame: step split into 6 pieces (advect theta qv qc qr 2.1, advect qi qs qh u 1.8, advect v w 1.1, microphysics, fall, buoyancy 1.0, mixing, sponge, damping 2.2, drag, nudging, pressure 3.2; diagnostics 0.9 ms); estimated GPU time per frame at most 3.9 ms (largest piece 4.0 ms); measured per frame (queue to GPU done, includes sync) mean 0.2, 95th percentile 0.1, max 8.3 ms; budget alone runs 0x real time; with the 10x cap 0.0x |
+| run-ahead scheduler respects budget and speed cap | PASS | average tier, 4 ms per 60 fps frame: step split into 6 pieces (advect theta qv qc qr 1.6, advect qi qs qh u 1.5, advect v w 1.2, microphysics, fall, buoyancy 1.0, mixing, sponge, damping 2.7, drag, nudging, pressure 2.5; diagnostics 0.8 ms); estimated GPU time per frame at most 3.4 ms (largest piece 4.0 ms); measured per frame (queue to GPU done, includes sync) mean 2.3, 95th percentile 4.0, max 6.1 ms; budget alone runs 30x real time; with the 10x cap 9.5x |
 | Weisman-Klemp sounding makes a supercell (average tier) | PASS | peak updraft 66.9 m/s (50-70); peak 1 km meso vorticity after 20 min 0.0356 1/s (0.01-0.04), 4 km 0.0505 1/s; coldest cold pool -7.3 K; storm motion after 30 min: median from 278 at 26 kt (Bunkers from 276 at 28 kt), 10 of 19 samples within 10 kt of the median |
 | Dodge City 2016-05-24 HRRR sounding, 2 h (average tier) | PASS | a storm forms and runs 2 h: peak updraft 94.7 m/s (25-110; parcel theory gives 101), peak 1 km meso 0.0408 1/s (at most 0.08), coldest cold pool -8.6 K (no colder than -15), no NaN: yes; storm motion after 30 min: median from 228 at 28 kt (Bunkers from 238 at 24 kt), 12 of 19 samples within 10 kt of the median |
 | Dodge City storm vs KDDC radar geometry | PASS | mature storm (60-120 min, 13 volumes), model median against KDDC 22:48Z: 18 dBZ top 16.0 km (15.5), 50 dBZ top 15.0 km (9.5), 40 dBZ area at 1 km 527 km2 (226; 467 at 23:35Z), 50 dBZ core at 1 km 185 km2 (27; 142), vault in 13 of 13 volumes, median 2.0-8.5 km (2.5-5.0), strongest echo 73.3 dBZ (55.1; not tested); known biases outside the radar values (reported, not gated): 50 dBZ echo top, km |
-| step time at both tiers | PASS | Average 10.2/11.5 ms per step, 41.9x at 4 ms/frame; High 26.8/48.5 ms per step, 8.2x at 4 ms/frame |
+| step time at both tiers | PASS | Average 8.7/10.1 ms per step, 47.4x at 4 ms/frame; High 22.5/23.7 ms per step, 16.9x at 4 ms/frame |
 
-14 passed, 1 failed, 2.0 min.
+15 passed, 0 failed, 1.6 min.
 
 ## Weisman-Klemp supercell, average tier
 
-240x240x72, dx 333 m, dz 100-323 m, 80 x 80 x 18 km, 4.1 M cells; dt 2 s; frame motion 14.2, -1.6 m/s; fires at 0 min (MLCAPE 2464, MLCIN -20 J/kg), forced w 10.0 m/s; 45 s wall for 2 h.
+240x240x72, dx 333 m, dz 100-323 m, 80 x 80 x 18 km, 4.1 M cells; dt 2 s; frame motion 14.2, -1.6 m/s; fires at 0 min (MLCAPE 2464, MLCIN -20 J/kg), forced w 10.0 m/s; 37 s wall for 2 h.
 
 | t_min | wmax_ms | updraft_x_km | updraft_y_km | updraft_z_m | meso1_zeta | meso1_zeta_peak | meso4_zeta | meso_depth_m | coldpool_K | dbz_max | echo_top18_m | hail_mm | storm_from_deg | storm_kt |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -55,7 +55,7 @@ Run 2026-10-20 23:24, suite `all`, GPU AMD Radeon RX 7900 XT (Direct3D12), Unity
 
 ## Dodge City 2016-05-24, HRRR 22Z sounding, average tier
 
-240x240x72, dx 333 m, dz 100-323 m, 80 x 80 x 18 km, 4.1 M cells; dt 2 s; MLCAPE 5121 J/kg, MLCIN -1 J/kg, 0-1/0-3 km SRH 83/176 m2/s2, 0-6 km shear 32 kt; grid moves with the Bunkers right-mover, from 238 at 24 kt; fires at 0 min (MLCAPE 5121, MLCIN -1 J/kg), forced w 10.0 m/s; 49 s wall for 2 h; timeline 130 MB (180 KB per frame), checkpoints 752 MB (9).
+240x240x72, dx 333 m, dz 100-323 m, 80 x 80 x 18 km, 4.1 M cells; dt 2 s; MLCAPE 5121 J/kg, MLCIN -1 J/kg, 0-1/0-3 km SRH 83/176 m2/s2, 0-6 km shear 32 kt; grid moves with the Bunkers right-mover, from 238 at 24 kt; fires at 0 min (MLCAPE 5121, MLCIN -1 J/kg), forced w 10.0 m/s; 40 s wall for 2 h; timeline 130 MB (180 KB per frame), checkpoints 752 MB (9).
 
 Every 5 minutes: peak updraft, its height, mesocyclone vorticity at 1 km (1 km block mean, and grid-point peak) and 4 km, mesocyclone depth, coldest surface theta' in the cold pool, max reflectivity, 18 dBZ echo top, largest hail at the ground, and the storm's ground-relative motion (from the drift of the 5 km updraft over the frame).
 
@@ -141,6 +141,6 @@ GPU AMD Radeon RX 7900 XT, Direct3D12. WK supercell environment, timed after 10 
 
 | Tier | Grid | dt | Step (no recording) | Step (with timeline) | Real time costs | Max speed at 50 % GPU | VRAM | Checkpoint |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Average | 240x240x72, 333 m, dz 100-323 m | 2 s | 10.2 ms | 11.5 ms | 5.7 ms GPU per sim-second | 41.9x real time (4 ms/frame at 60 fps) | 601 MB | 84 MB |
-| High | 320x320x90, 250 m, dz 100-230 m | 1.667 s | 26.8 ms | 48.5 ms | 29.1 ms GPU per sim-second | 8.2x real time (4 ms/frame at 60 fps) | 1327 MB | 185 MB |
+| Average | 240x240x72, 333 m, dz 100-323 m | 2 s | 8.7 ms | 10.1 ms | 5.1 ms GPU per sim-second | 47.4x real time (4 ms/frame at 60 fps) | 601 MB | 84 MB |
+| High | 320x320x90, 250 m, dz 100-230 m | 1.667 s | 22.5 ms | 23.7 ms | 14.2 ms GPU per sim-second | 16.9x real time (4 ms/frame at 60 fps) | 1327 MB | 185 MB |
 

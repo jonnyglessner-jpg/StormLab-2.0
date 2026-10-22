@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using StormLab.Supercell.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace StormLab.Supercell
 {
@@ -150,7 +151,7 @@ namespace StormLab.Supercell
             if (dirtyStorm) SpawnStorm();
             if (storm == null || !skin) return;
             fpsSmooth = Mathf.Lerp(fpsSmooth, 1f / Mathf.Max(Time.unscaledDeltaTime, 1e-4f), 0.05f);
-            bool overPanel = showPanel && panel.Contains(new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
+            bool overPanel = showPanel && panel.Contains(new Vector2(MousePosition.x, Screen.height - MousePosition.y));
             Keys();
 
             // time: the bench owns playback, the skin only shows it
@@ -181,17 +182,17 @@ namespace StormLab.Supercell
         {
             if (GUIUtility.keyboardControl != 0) return;
             // editor shortcuts (Ctrl+Shift+T leaves Play) reach the game too
-            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) return;
-            if (Input.GetKeyDown(KeyCode.H)) showPanel = !showPanel;
-            if (Input.GetKeyDown(KeyCode.Space)) { playing = !playing; if (playing && s.time >= storm.lifeS - 1) s.time = 0; }
-            if (Input.GetKeyDown(KeyCode.Comma)) Seek(s.time - 30f);
-            if (Input.GetKeyDown(KeyCode.Period)) Seek(s.time + 30f);
-            if (Input.GetKeyDown(KeyCode.T)) NextTornado();
-            if (s.mode != BenchCamera.Fly && Input.GetKeyDown(KeyCode.W)) NextWallCloud();
-            if (Input.GetKeyDown(KeyCode.Alpha1)) s.mode = BenchCamera.Chase;
-            if (Input.GetKeyDown(KeyCode.Alpha2)) s.mode = BenchCamera.Orbit;
-            if (Input.GetKeyDown(KeyCode.Alpha3)) EnterFly();
-            if (Input.GetKeyDown(KeyCode.F12)) Screenshot();
+            if ((Keyboard.current?.leftCtrlKey.isPressed ?? false) || (Keyboard.current?.rightCtrlKey.isPressed ?? false) || (Keyboard.current?.leftAltKey.isPressed ?? false) || (Keyboard.current?.rightAltKey.isPressed ?? false)) return;
+            if ((Keyboard.current?.hKey.wasPressedThisFrame ?? false)) showPanel = !showPanel;
+            if ((Keyboard.current?.spaceKey.wasPressedThisFrame ?? false)) { playing = !playing; if (playing && s.time >= storm.lifeS - 1) s.time = 0; }
+            if ((Keyboard.current?.commaKey.wasPressedThisFrame ?? false)) Seek(s.time - 30f);
+            if ((Keyboard.current?.periodKey.wasPressedThisFrame ?? false)) Seek(s.time + 30f);
+            if ((Keyboard.current?.tKey.wasPressedThisFrame ?? false)) NextTornado();
+            if (s.mode != BenchCamera.Fly && (Keyboard.current?.wKey.wasPressedThisFrame ?? false)) NextWallCloud();
+            if ((Keyboard.current?.digit1Key.wasPressedThisFrame ?? false)) s.mode = BenchCamera.Chase;
+            if ((Keyboard.current?.digit2Key.wasPressedThisFrame ?? false)) s.mode = BenchCamera.Orbit;
+            if ((Keyboard.current?.digit3Key.wasPressedThisFrame ?? false)) EnterFly();
+            if ((Keyboard.current?.f12Key.wasPressedThisFrame ?? false)) Screenshot();
         }
 
         Vector3 Focus()
@@ -213,12 +214,13 @@ namespace StormLab.Supercell
             s.mode = BenchCamera.Fly;
         }
 
+        static Vector3 MousePosition => Mouse.current != null ? (Vector3)Mouse.current.position.ReadValue() : Vector3.zero;
         void DriveCamera(bool overPanel)
         {
             if (!cam) return;
-            var md = Input.mousePosition - lastMouse; lastMouse = Input.mousePosition;
-            bool drag = Input.GetMouseButton(1) && !overPanel;
-            float wheel = overPanel ? 0f : Input.mouseScrollDelta.y;
+            var md = MousePosition - lastMouse; lastMouse = MousePosition;
+            bool drag = (Mouse.current?.rightButton.isPressed ?? false) && !overPanel;
+            float wheel = overPanel ? 0f : (Mouse.current?.scroll.ReadValue().y / 120f ?? 0f);
             float zb = (float)storm.CharacterAt(s.time).zb * 1000f;
             var focus = Focus();
 
@@ -230,14 +232,14 @@ namespace StormLab.Supercell
                 var v = Vector3.zero;
                 if (GUIUtility.keyboardControl == 0)
                 {
-                    if (Input.GetKey(KeyCode.W)) v += Vector3.forward;
-                    if (Input.GetKey(KeyCode.S)) v += Vector3.back;
-                    if (Input.GetKey(KeyCode.A)) v += Vector3.left;
-                    if (Input.GetKey(KeyCode.D)) v += Vector3.right;
-                    if (Input.GetKey(KeyCode.E)) v += Vector3.up;
-                    if (Input.GetKey(KeyCode.Q)) v += Vector3.down;
+                    if ((Keyboard.current?.wKey.isPressed ?? false)) v += Vector3.forward;
+                    if ((Keyboard.current?.sKey.isPressed ?? false)) v += Vector3.back;
+                    if ((Keyboard.current?.aKey.isPressed ?? false)) v += Vector3.left;
+                    if ((Keyboard.current?.dKey.isPressed ?? false)) v += Vector3.right;
+                    if ((Keyboard.current?.eKey.isPressed ?? false)) v += Vector3.up;
+                    if ((Keyboard.current?.qKey.isPressed ?? false)) v += Vector3.down;
                 }
-                float sp = flySpeed * (Input.GetKey(KeyCode.LeftShift) ? 5f : 1f);
+                float sp = flySpeed * ((Keyboard.current?.leftShiftKey.isPressed ?? false) ? 5f : 1f);
                 s.flyPos += rot * v * sp * Time.unscaledDeltaTime;
                 s.flyPos.y = Mathf.Max(s.flyPos.y, skin.groundHeight + 1.5f);
                 cam.transform.SetPositionAndRotation(s.flyPos, rot);

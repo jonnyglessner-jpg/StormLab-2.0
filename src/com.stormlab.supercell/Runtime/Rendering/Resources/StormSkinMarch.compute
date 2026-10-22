@@ -76,12 +76,12 @@ float3 groundColor(float2 p, float dist)
 // sub-grid detail for water cloud: smooth (turb 0) to cauliflower (turb 1). Every octave is filtered to the pixel
 // footprint (g_fp), so distant towers keep their lobes without the sub-pixel sparkle. Coarse octaves (11, 4.8, 1.8 km
 // tiles) and fine ones (0.5-0.3 km tiles) are separate so only the fine ones need to flow
-float detailCoarse(float3 q, float turb, out float soft, out float lobes)
+float2 detailCoarse(float3 q, float turb)
 {
-    soft = 0.5; lobes = 0.5;
+    float soft = 0.5, lobes = 0.5;
     if (turb < 0.98) soft = 0.55 * n3k(q, 0.21, 0.0) + 0.3 * n3k(q, 0.6, float3(0.31, 0.17, 0.53));
     if (turb > 0.02) lobes = 0.88 * 0.7 * ridge(q, 0.55, 0.0);
-    return 0.0;
+    return float2(soft, lobes);
 }
 float detailFine(float3 q, float turb)
 {
@@ -92,17 +92,27 @@ float detailFine(float3 q, float turb)
 }
 float detail(float3 q, float turb)
 {
-    float soft = 0.0, lobes = 0.0; detailCoarse(q, turb, soft, lobes);
-    return lerp(soft, lobes, turb) + detailFine(q, turb);
+    float2 coarse = detailCoarse(q, turb);
+    return lerp(coarse.x, coarse.y, turb) + detailFine(q, turb);
 }
 // detail carried by the simulated wind: the fine octaves in two cross-faded phases (see flowPhases); the coarse ones
 // and everything beyond 8 km or on smooth cloud in one phase, to keep the march inside its budget
 float flowDetail(float3 q, float3 pw, float turb, float t)
 {
-    if (t > 8.0 || turb < 0.2 || _VolC.w < 0.5 || ((uint)_Dbg.x & 1u)) return detail(q, turb);
-    float soft = 0.0, lobes = 0.0; detailCoarse(q, turb, soft, lobes);
-    float3 o0 = 0.0, o1 = 0.0; float w0 = 0.0; flowPhases(pw, o0, o1, w0);
-    return lerp(soft, lobes, turb) + lerp(detailFine(q + o1, turb), detailFine(q + o0, turb), w0);
+    float result = detail(q, turb);
+    if (t <= 8.0 && turb >= 0.2 && _VolC.w >= 0.5 && !((uint)_Dbg.x & 1u))
+    {
+    float2 coarse = detailCoarse(q, turb);
+    // Explicit local values avoid out-parameter initialization warnings in FXC.
+    float3 u = windAt(pw) * 0.001;
+    float ph = S_base.z / FLOW_T;
+    float f0 = frac(ph), f1 = frac(ph + 0.5);
+    float3 o0 = -u * (f0 * FLOW_T) + floor(ph) * float3(0.273, 0.581, 0.137);
+    float3 o1 = -u * (f1 * FLOW_T) + floor(ph + 0.5) * float3(0.419, 0.127, 0.733) + float3(0.5, 0.21, 0.37);
+    float w0 = 1.0 - abs(2.0 * f0 - 1.0);
+    result = lerp(coarse.x, coarse.y, turb) + lerp(detailFine(q + o1, turb), detailFine(q + o0, turb), w0);
+    }
+    return result;
 }
 // striations: grooves stacked up the side of the rotating updraft, sweeping down toward the inflow vault
 float grooves(float zr, float ang, float w, float av)

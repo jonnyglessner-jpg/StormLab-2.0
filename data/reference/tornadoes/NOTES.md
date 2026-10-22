@@ -4,6 +4,9 @@
 Used for the designed tornado's look in `src/com.stormlab.supercell/Runtime/Rendering/Resources/StormSkinMarch.compute`
 (`tornadoField` and the tornado lighting in the march).
 
+For how a tornado's look changes over its life (condensation lifting and returning, rain-wrap, rope-out, re-forming),
+see `selden_20210524/NOTES.md`: the user's own 15-minute video of the Selden KS EF1, 24 May 2021.
+
 ## The funnel's surface (`close_texture/`, `laminar/`)
 
 - **Smooth, never grooved.** In every photo the condensation surface is smooth at the scale of the funnel. None show

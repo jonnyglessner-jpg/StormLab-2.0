@@ -89,7 +89,13 @@ namespace StormLab.Supercell
             Radial(x, y, cx, cy, out double ex, out double ey, out double r);
             double g = Math.Exp(-(r / R) * (r / R));
             // updraft: a column peaking 40 % of the way up the cloud; air rises toward the base below it
-            if (z >= zb) w = wmax * g * Math.Sin(Math.PI * C.Clamp((z - zb) / (top - zb), 0, 1));
+            if (z >= zb)
+            {
+                // Join the sub-cloud inflow's 0.3 wmax at the LCL continuously, peak within the cloud,
+                // then go to zero at the top. Starting a sine at zero here stopped rising air at cloud base.
+                double phase = Math.Asin(0.3);
+                w = wmax * g * Math.Sin(phase + (Math.PI - phase) * C.Clamp((z - zb) / (top - zb), 0, 1));
+            }
             else w = 0.3 * wmax * g * z / Math.Max(zb, 0.3);
             // inflow converging on the updraft below the base (continuity for the 0.3 wmax at the base), and outflow
             // spreading under the anvil

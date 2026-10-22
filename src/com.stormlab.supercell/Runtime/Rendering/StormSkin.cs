@@ -224,7 +224,7 @@ namespace StormLab.Supercell.Rendering
         bool lastKeyMoon;
 
         // ---- steady rotation. The shaders turn features by rate x clock; with a simulated rate that changes, that angle
-        // jumps (or stalls) whenever the rate changes late in a session. Each angle is integrated here over the wall
+        // jumps (or stalls) whenever the rate changes late in a session. Each angle is integrated here over model
         // clock, and the GPU gets the rate that gives it: phase / clock (live 1.0 fixed the same jump with a steady rate)
         static readonly Slot[] SpinSlot = { Slot.Wall2, Slot.Tilt, Slot.MesoV, Slot.Tor6 };
         static readonly int[] SpinComp = { 1, 3, 2, 0 };
@@ -237,7 +237,7 @@ namespace StormLab.Supercell.Rendering
         {
             Params.CopyTo(gpuParams);
             float dc = float.IsNaN(spinClock) ? float.NaN : clock - spinClock;
-            bool restart = float.IsNaN(dc) || dc < 0f || dc > 5f;
+            bool restart = !hasFrame || float.IsNaN(dc) || dc < 0f || dc > 60f;
             for (int i = 0; i < SpinSlot.Length; i++)
             {
                 float rate = Params[SpinSlot[i]][SpinComp[i]];
@@ -349,6 +349,8 @@ namespace StormLab.Supercell.Rendering
         /// <summary>
         /// Show model time t (s): evaluate the designer and do this frame's volume work. A step forward of up to a
         /// minute is advected; a jump or a scrub backwards repaints the volume.
+        /// Cloud flow and rotation use t, so 1x is physical time, pause freezes motion, and timelapse scales all motion.
+        /// clock is retained as the caller's presentation wall clock; it does not drive atmospheric motion.
         /// </summary>
         public bool StepTo(float t, float clock)
         {
@@ -361,7 +363,7 @@ namespace StormLab.Supercell.Rendering
             Vector2 c = Centre; Vector2 shift = Vector2.zero;
             if (!hasFrame)
             {
-                EvaluateBlock(t, clock, Vector2.zero);
+                EvaluateBlock(t, t, Vector2.zero);
                 c = Params.suggestedCentre;
             }
             else
@@ -375,7 +377,7 @@ namespace StormLab.Supercell.Rendering
                 }
             }
             Centre = c;
-            if (!EvaluateBlock(t, clock, Centre)) return false;
+            if (!EvaluateBlock(t, t, Centre)) return false;
             var wind = ActiveWind;
             bool windOk = wind.Upload(t);
             if (frameCmd == null) frameCmd = new CommandBuffer { name = "Storm skin volume" };
@@ -394,7 +396,7 @@ namespace StormLab.Supercell.Rendering
                 nearFull = Near.Place(Centre + new Vector2(up.x, up.y) * 1000f, Params[Slot.Base].x) || reset;
                 Params[Slot.Near] = Near.Slot(Centre);
             }
-            UpdateGpuParams(clock);
+            UpdateGpuParams(t);
             Volume.Frame(frameCmd, gpuParams, noise, wind, advect && windOk, Centre, shift, dt, relaxSeconds, sunVol, reset, buildSlabs, lightSlabs);
             if (relight && !reset) Volume.Relight(frameCmd, sunVol, Params[Slot.Base].x);
             if (nearOn) Near.Frame(frameCmd, GpuParams(), noise, Volume, wind, advect && windOk, Centre, sunVol, nearFull || relight, nearSlabs, nearLightSlabs);
@@ -423,7 +425,7 @@ namespace StormLab.Supercell.Rendering
         {
             var sp = (Vector4[])(float.IsNaN(spinClock) ? Params.v : gpuParams.v).Clone();
             sp[(int)Slot.Grid] = new Vector4(Volume.NV, Volume.NZ, Volume.L, Volume.ZT);
-            sp[(int)Slot.Base].z = WallClock;
+            // Base.z already contains model time from EvaluateBlock, shared by every volume and march pass.
             return sp;
         }
         public bool NearActive => nearField && Near != null && Near.Valid && Params[Slot.Near].w > 0f;

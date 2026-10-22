@@ -444,7 +444,7 @@ namespace StormLab.Supercell.Dynamics
             cb.DispatchCompute(cs, ky, Groups(NX, 16), Groups(NY, 16), NZ);
             int kt = kern["TriZ"];
             cb.SetComputeBufferParam(cs, kt, "PHIRW", phi);
-            cb.DispatchCompute(cs, kt, Groups(NX, 8), Groups(NY, 8), 1);
+            cb.DispatchCompute(cs, kt, Groups(NX, 4), Groups(NY, 4), 1);
             cb.SetComputeIntParams(cs, "XP", 0, 0, 0, 0);
             cb.SetComputeBufferParam(cs, ky, "XSRC", phi); cb.SetComputeBufferParam(cs, ky, "XDST", specA);
             cb.DispatchCompute(cs, ky, Groups(NX, 16), Groups(NY, 16), NZ);
@@ -564,7 +564,7 @@ namespace StormLab.Supercell.Dynamics
         /// checkpoint and re-runs reproduces the original run bit for bit (on the same GPU and driver).
         /// Returns one request per field (u, v, w, theta, qv, qc, qr, qi, qs, qh).
         /// </summary>
-        public AsyncGPUReadbackRequest[] QuantiseAndCapture()
+        public AsyncGPUReadbackRequest[] QuantiseAndCapture(Action<int, AsyncGPUReadbackRequest> onField = null)
         {
             PushConstants();
             if (ckHalf == null)
@@ -582,7 +582,9 @@ namespace StormLab.Supercell.Dynamics
                 cs.Dispatch(kp, Groups(n, 256), 1, 1);
                 cs.SetBuffer(ku, "Base", baseBuf); cs.SetBuffer(ku, "RHALF", ckHalf[f]); cs.SetBuffer(ku, "DST", FieldBuffer(f));
                 cs.Dispatch(ku, Groups(n, 256), 1, 1);
-                req[f] = AsyncGPUReadback.Request(ckHalf[f]);
+                int field = f;
+                req[f] = onField == null ? AsyncGPUReadback.Request(ckHalf[f])
+                    : AsyncGPUReadback.Request(ckHalf[f], r => onField(field, r));
             }
             return req;
         }

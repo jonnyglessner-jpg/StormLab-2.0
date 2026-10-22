@@ -193,9 +193,20 @@ namespace StormLab.Supercell.Rendering
                 buildZ = lightZ = skyZ = 0; pendDt = 0f; pendShift = Vector2.zero;
                 return;
             }
-            int bz = Mathf.CeilToInt(NZ / (float)Mathf.Max(1, buildSlabs) / 4f) * 4;
-            Build(cmd, P, noise, buildZ, Mathf.Min(bz, NZ - buildZ));
-            buildZ += bz; if (buildZ >= NZ) buildZ = 0;
+            bool recentered = shiftKm != Vector2.zero;
+            if (recentered)
+            {
+                // Every target slice belongs to the old origin. Rebuild them together
+                // before relaxing the shifted live volume toward the new target.
+                Build(cmd, P, noise, 0, NZ);
+                buildZ = 0;
+            }
+            else
+            {
+                int bz = Mathf.CeilToInt(NZ / (float)Mathf.Max(1, buildSlabs) / 4f) * 4;
+                Build(cmd, P, noise, buildZ, Mathf.Min(bz, NZ - buildZ));
+                buildZ += bz; if (buildZ >= NZ) buildZ = 0;
+            }
             // advection every advectEvery-th frame with the time gathered since (at once when the volume re-centres):
             // at 150 m voxels a few frames of drift are invisible, and it is the biggest per-frame cost
             pendDt += dt; pendShift += shiftKm; frameIx++;
@@ -204,6 +215,12 @@ namespace StormLab.Supercell.Rendering
                 float relax = relaxSeconds > 0 ? 1f - Mathf.Exp(-Mathf.Abs(pendDt) / relaxSeconds) : 1f;
                 Advect(cmd, P, wind, useWind, centreGrid, pendShift, pendDt, relax);
                 pendDt = 0f; pendShift = Vector2.zero;
+            }
+            if (recentered)
+            {
+                Relight(cmd, sunVol, P[Slot.Base].x);
+                lightZ = skyZ = 0;
+                return;
             }
             int lz = Mathf.CeilToInt(LZ / (float)Mathf.Max(1, lightSlabs) / 4f) * 4;
             Light(cmd, sunVol, P[Slot.Base].x, lightZ, Mathf.Min(lz, LZ - lightZ));

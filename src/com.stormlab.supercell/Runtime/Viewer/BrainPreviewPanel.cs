@@ -14,6 +14,7 @@ namespace StormLab.Supercell
         Rect panel = new Rect(10, 10, 410, 100);
         Vector2 scroll;
         bool follow;
+        public bool allowCameraControl = true;
         float sampledAt, sampledTime, actualSpeed;
         static int nextPanelId = 910240;
         int panelId;
@@ -44,7 +45,7 @@ namespace StormLab.Supercell
                 actualSpeed = (runner.Run.Time - sampledTime) / (now - sampledAt);
                 sampledTime = runner.Run.Time; sampledAt = now;
             }
-            if (follow) FrameUpdraft();
+            if (allowCameraControl && follow) FrameUpdraft();
         }
 
         TimelineFrame DisplayedFrame => runner?.Timeline?.AtTime(skin != null ? skin.playbackTime : 0);
@@ -109,8 +110,11 @@ namespace StormLab.Supercell
             if (GUILayout.Button("GPU budget only")) runner.maxSpeed = 0;
             GUILayout.EndHorizontal();
             GUILayout.Label($"Readbacks pending: {run.PendingReadbacks}; step {runner.Scheduler?.stepMs ?? 0:0.0} ms");
-            if (GUILayout.Button("Frame updraft in camera")) FrameUpdraft();
-            follow = GUILayout.Toggle(follow, "Keep camera following the updraft");
+            if (allowCameraControl)
+            {
+                if (GUILayout.Button("Frame updraft in camera")) FrameUpdraft();
+                follow = GUILayout.Toggle(follow, "Keep camera following the updraft");
+            }
             GUILayout.Label("Use faster playback to reach cloud development, then switch to 1x to assess motion.");
             GUILayout.EndScrollView();
             GUI.DragWindow(new Rect(0, 0, panel.width, 20));

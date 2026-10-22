@@ -256,6 +256,59 @@ namespace StormLab.Supercell.Designer
         readonly List<(FrameFeatures f, float w)> win = new List<(FrameFeatures, float)>();
         readonly List<(FrameFeatures f, float w)> near = new List<(FrameFeatures, float)>();
 
+        // Presentation tracks, in grid metres. A strongest-peak diagnostic is not a
+        // persistent object: when another meso wins, it must not drag the entire skin
+        // across the storm in one blend window. Build these in timeline order, never
+        // playback order, so scrubbing and different playback rates give the same path.
+        // The limits are visual tuning; the recorded diagnostics/winds are unchanged.
+        struct MotionSample { public float t; public Vector2 low, upperOffset, midOffset, rfdOffset; }
+        readonly Dictionary<int, MotionSample> motionTrack = new Dictionary<int, MotionSample>();
+        int motionLast = -1;
+        bool motionStarted;
+        MotionSample motionTail;
+        static Vector2 Follow(Vector2 from, Vector2 to, float dt, float tau, float speed)
+            => Vector2.MoveTowards(from, Vector2.Lerp(from, to, 1f - Mathf.Exp(-dt / tau)), speed * dt);
+
+        MotionSample MotionAt(float t)
+        {
+            int hi = Mathf.Min(tl.Latest, Mathf.CeilToInt(t / tl.interval));
+            for (int i = Mathf.Max(motionLast + 1, tl.Oldest); i <= hi; i++)
+            {
+                var frame = tl.Get(i); if (frame == null || !frame.valid) break;
+                var f = Measure(frame);
+                Vector2 low = f.coreLow, upper = Vector2.ClampMagnitude(f.core5 - low, 4000f);
+                Vector2 mid = Vector2.ClampMagnitude((f.m4 > 0 ? f.m4Pos : f.core5) - low, 4000f);
+                Vector2 rear = Vector2.ClampMagnitude((f.rfd > 0 ? f.rfdC : low) - low, 8000f);
+                if (motionLast < 0 || !motionStarted && frame.wMax > 1f)
+                {
+                    motionTail = new MotionSample { t = frame.t, low = low, upperOffset = upper, midOffset = mid, rfdOffset = rear };
+                    // Before any measurable updraft there is no feature to track;
+                    // do not chase an arbitrary all-zero reduction from a corner.
+                    for (int k = Mathf.Max(0, tl.Oldest); k < i; k++)
+                    { var seed = motionTail; seed.t = k * tl.interval; motionTrack[k] = seed; }
+                }
+                else
+                {
+                    float dt = Mathf.Max(0, frame.t - motionTail.t);
+                    motionTail.low = Follow(motionTail.low, low, dt, 120f, 20f);
+                    motionTail.upperOffset = Follow(motionTail.upperOffset, upper, dt, 90f, 10f);
+                    motionTail.midOffset = Follow(motionTail.midOffset, mid, dt, 90f, 10f);
+                    motionTail.rfdOffset = Follow(motionTail.rfdOffset, rear, dt, 90f, 10f);
+                    motionTail.t = frame.t;
+                }
+                motionStarted |= frame.wMax > 1f;
+                motionTrack[i] = motionTail; motionLast = i;
+                motionTrack.Remove(i - tl.capacity - 1);
+            }
+            int lo = Mathf.Clamp(Mathf.FloorToInt(t / tl.interval), tl.Oldest, motionLast);
+            if (!motionTrack.TryGetValue(lo, out var a)) return motionTail;
+            if (!motionTrack.TryGetValue(lo + 1, out var b)) return a;
+            float blend = Mathf.Clamp01((t - a.t) / Mathf.Max(b.t - a.t, .001f));
+            return new MotionSample { t = t, low = Vector2.Lerp(a.low, b.low, blend),
+                upperOffset = Vector2.Lerp(a.upperOffset, b.upperOffset, blend),
+                midOffset = Vector2.Lerp(a.midOffset, b.midOffset, blend), rfdOffset = Vector2.Lerp(a.rfdOffset, b.rfdOffset, blend) };
+        }
+
         void Window(float t, float sigma)
         {
             win.Clear();
@@ -266,7 +319,12 @@ namespace StormLab.Supercell.Designer
             {
                 var fr = tl.Get(i); if (fr == null || !fr.valid) continue;
                 float d = (fr.t - t) / Mathf.Max(sigma, 1f);
-                win.Add((Measure(fr), Mathf.Exp(-0.5f * d * d)));
+                // A hard cutoff at two sigma drops a still-significant weight and
+                // steps the entire skin when a frame enters/leaves the window.
+                // Fade to zero with zero slope before changing window membership.
+                float edge = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((2f - Mathf.Abs(d)) / .5f));
+                float weight = Mathf.Exp(-0.5f * d * d) * edge;
+                if (weight > 0) win.Add((Measure(fr), weight));
             }
         }
 
@@ -338,8 +396,9 @@ namespace StormLab.Supercell.Designer
             float stormAmt = storm.X;
             Vector2 motion = mot.wp > 0 ? mot.V : frameMotion;
             Vector2 fwd = motion.sqrMagnitude > 1f ? motion.normalized : ToV(plan.fwd); var lft = new Vector2(-fwd.y, fwd.x);
-            Vector2 low = coreLow.wp > 0 ? coreLow.V : (slowCore.wp > 0 ? slowCore.V : new Vector2(NCX * bs * 0.45f, NCY * bs * 0.5f));
-            Vector2 c5 = core5.wp > 0 ? core5.V : low;
+            var track = MotionAt(t);
+            Vector2 low = track.low;
+            Vector2 c5 = low + track.upperOffset;
             Vector2 V(Vector2 g) => (g - centreGrid) / 1000f;
             Vector2 up = V(low);
 
@@ -410,7 +469,7 @@ namespace StormLab.Supercell.Designer
             // the simulated rotation (MesoV.z low down, Tilt.w aloft). The LP photos show 3-8 over 2-3 km; the near box
             // reaches 2 km above the base, and the storm volume's grooves carry the striations above it
             {
-                int plates = Mathf.RoundToInt(Mathf.Lerp(3f, 7f, Mathf.Clamp01((strat - 0.15f) / 0.75f)));
+                float plates = Mathf.Lerp(3f, 7f, Mathf.Clamp01((strat - 0.15f) / 0.75f));
                 float hb = Mathf.Clamp(0.25f * plates + 0.2f, 1.2f, 1.75f);
                 P.Set(Slot.Plates, plates, hb / plates, hb, Mathf.Clamp01(1.7f * strat));
             }
@@ -469,12 +528,11 @@ namespace StormLab.Supercell.Designer
             P.Set(Slot.Anvil3, aSRv.x, aSRv.y, anvilAge, Mathf.Clamp01(aArea.X / 400f));
 
             // ---- mesocyclones
-            Vector2 m1Pos = m1p.wp > 0 ? V(m1p.V) : up;
+            Vector2 m1Pos = up;
             P.Set(Slot.Meso1, m1Pos.x, m1Pos.y, m1r.X / 1000f, m1z.X * m1f);
             P.Set(Slot.Meso4, 0, 0, m4r.X / 1000f, m4z.X * m4f);
             {
-                Acc m4p = default; foreach (var (f, w) in near) m4p.Add(w, f.m4, f.m4Pos);
-                Vector2 p4 = m4p.wp > 0 ? V(m4p.V) : up + tilt * 4f; var m = P[Slot.Meso4]; m.x = p4.x; m.y = p4.y; P[Slot.Meso4] = m;
+                Vector2 p4 = V(low + track.midOffset); var m = P[Slot.Meso4]; m.x = p4.x; m.y = p4.y; P[Slot.Meso4] = m;
             }
             float u2 = u2gf.wp > 0 ? u2gf.X / 1000f : 20f;
             P.Set(Slot.MesoV, mb.X / 1000f, mt.X / 1000f, 0.5f * m1z.X * m1f, u2);
@@ -557,7 +615,7 @@ namespace StormLab.Supercell.Designer
             float wrapAmt = Mathf.Clamp((wrap.X - 0.45f) / 0.35f, 0f, 1f) * 0.75f;
             if (rfd.Frac > 0.05f)
             {
-                Vector2 c = V(rfdC.V); float reach = rfdR.X / 1000f;
+                Vector2 c = V(low + track.rfdOffset); float reach = rfdR.X / 1000f;
                 float dry = Mathf.Clamp01(1f + rfdT.X / 4f);   // mean surface theta' 0 K = 1 (warm), -4 K = 0 (cold)
                 float slot = rfd.Frac * (0.4f + 0.6f * dry) * (1f - 0.5f * wrapAmt);
                 // the order of events (live 1.0): the wall cloud forms under the low-level rotation first, and only then
@@ -622,7 +680,7 @@ namespace StormLab.Supercell.Designer
             else if (rfdOn) { stageIx = 5; P.stage = "Mature supercell"; P.caption = "A rear-flank downdraft surges round the wall cloud and carves a clear slot into the base."; }
             else { stageIx = 4; P.stage = "Wall cloud"; P.caption = "Rotation reaches down to 1 km: rain-cooled air from the forward flank condenses into a rotating wall cloud."; }
             P[Slot.Time] = new Vector4(t, tl.Horizon, float.IsNaN(tFire) ? -1 : tFire, stageIx);
-            Finish(P, t, tFire, sim, fb, near.Count, slowCore.wp > 0 ? slowCore.V : low, adir);
+            Finish(P, t, tFire, sim, fb, near.Count, low, adir);
             return true;
         }
 

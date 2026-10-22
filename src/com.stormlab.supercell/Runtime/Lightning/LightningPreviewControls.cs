@@ -31,7 +31,7 @@ namespace StormLab.Supercell.Lightning
                 foreach (var control in UnityEngine.Object.FindObjectsByType<LightningPreviewControls>())
                     if (control.enabled && control != this) { otherControls.Add(control); control.enabled=false; }
             }
-            foreach (var listener in UnityEngine.Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
+            foreach (var listener in UnityEngine.Object.FindObjectsByType<AudioListener>())
                 if (listener.enabled && listener.gameObject != previewCamera.gameObject)
                 { otherListeners.Add(listener); listener.enabled = false; }
             BuildCatalogue(); Hold(Math.Max(0, catalogue.FindIndex(e => e.kind == FlashKind.NegativeGround)));

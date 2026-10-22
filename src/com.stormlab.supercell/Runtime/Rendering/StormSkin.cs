@@ -361,7 +361,7 @@ namespace StormLab.Supercell.Rendering
             bool reset = !hasFrame || dt < 0f || dt > 60f;
             // volume centre: follows the storm in whole voxels, so the advected volume can be shifted exactly
             Vector2 c = Centre; Vector2 shift = Vector2.zero;
-            if (!hasFrame)
+            if (reset)
             {
                 EvaluateBlock(t, t, Vector2.zero);
                 c = Params.suggestedCentre;
@@ -373,10 +373,16 @@ namespace StormLab.Supercell.Rendering
                 {
                     var step = new Vector2(Mathf.Round((want.x - c.x) / vox) * vox, Mathf.Round((want.y - c.y) / vox) * vox);
                     c += step; shift = step / 1000f;
-                    foreach (var cs in cams.Values) cs.Shift(shift);
                 }
             }
             Centre = c;
+            // Reprojection follows the translating cloud frame. Recenter its history
+            // with the volume; a time seek must discard history from the old scene.
+            foreach (var state in cams.Values)
+            {
+                if (reset) state.valid = false;
+                else state.Shift(shift);
+            }
             if (!EvaluateBlock(t, t, Centre)) return false;
             var wind = ActiveWind;
             bool windOk = wind.Upload(t);
@@ -397,9 +403,13 @@ namespace StormLab.Supercell.Rendering
                 Params[Slot.Near] = Near.Slot(Centre);
             }
             UpdateGpuParams(t);
-            Volume.Frame(frameCmd, gpuParams, noise, wind, advect && windOk, Centre, shift, dt, relaxSeconds, sunVol, reset, buildSlabs, lightSlabs);
+            // Slab budgets are normally in rendered frames. At timelapse those
+            // frames can span tens of model seconds, leaving geometry/textures
+            // at different times. Bound a complete refresh to two model seconds.
+            int MotionSlabs(int budget) => Mathf.Min(budget, Mathf.Max(1, Mathf.FloorToInt(2f / Mathf.Max(dt, .001f))));
+            Volume.Frame(frameCmd, gpuParams, noise, wind, advect && windOk, Centre, shift, dt, relaxSeconds, sunVol, reset, MotionSlabs(buildSlabs), MotionSlabs(lightSlabs));
             if (relight && !reset) Volume.Relight(frameCmd, sunVol, Params[Slot.Base].x);
-            if (nearOn) Near.Frame(frameCmd, GpuParams(), noise, Volume, wind, advect && windOk, Centre, sunVol, nearFull || relight, nearSlabs, nearLightSlabs);
+            if (nearOn) Near.Frame(frameCmd, GpuParams(), noise, Volume, wind, advect && windOk, Centre, sunVol, nearFull || relight, MotionSlabs(nearSlabs), MotionSlabs(nearLightSlabs));
             else Near?.Invalidate();
             Graphics.ExecuteCommandBuffer(frameCmd);
             lastT = t; hasFrame = true;

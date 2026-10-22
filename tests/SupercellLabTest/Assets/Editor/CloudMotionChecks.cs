@@ -19,6 +19,8 @@ public static class CloudMotionChecks
     {
         ("Model clock: pause, timelapse and reset", Clock),
         ("Updraft: cloud-base continuity and speeds", Updraft),
+        ("Recenter: all target slices use the new origin", Recenter),
+        ("Envelope: vacated cloud erodes and new cloud condenses together", EnvelopeResponse),
         ("GPU transport: eastward and rising", () => Transport(new Vector3(20.2f, -9.8f, 10.2f))),
         ("GPU transport: westward and descending", () => Transport(new Vector3(-19.8f, 10.2f, -9.8f)))
     };
@@ -39,7 +41,7 @@ public static class CloudMotionChecks
         try
         {
             SaveResult();
-            Debug.Log("CLOUD MOTION START: four checks. A result dialog will appear when finished.");
+            Debug.Log("CLOUD MOTION START: six checks. A result dialog will appear when finished.");
             EditorUtility.DisplayProgressBar("Cloud Motion Checks", Checks[0].name, 0);
             // Yield before each check so the editor has a chance to show its progress window.
             nextTick = EditorApplication.timeSinceStartup + 0.15;
@@ -72,7 +74,7 @@ public static class CloudMotionChecks
     {
         EditorApplication.update -= RunNextCheck; running = false;
         EditorUtility.ClearProgressBar();
-        string message = error == null ? "CLOUD MOTION PASS: all four checks passed." : "CLOUD MOTION FAILED: " + error.Message;
+        string message = error == null ? "CLOUD MOTION PASS: all six checks passed." : "CLOUD MOTION FAILED: " + error.Message;
         result.AppendLine(message);
         if (error != null) result.AppendLine(error.ToString());
         try { SaveResult(); } catch (Exception writeError) { Debug.LogException(writeError); }
@@ -137,6 +139,85 @@ public static class CloudMotionChecks
         Require(Math.Abs(W(10)) < 0.001, "updraft must vanish at cloud top");
         double peak = Enumerable.Range(0, 1001).Max(i => W(1 + 9d * i / 1000));
         Require(Math.Abs(peak - 40) < 0.001, "updraft peak changed");
+    }
+
+    static void Recenter()
+    {
+        var env = StormLab.Supercell.Environment.Make(StormPreset.All.First(p => p.key == "plains").ToEnv());
+        var storm = new DesignedStorm(new FixedEnvironment(env), new Vec2(0, 0), 42, ClimoRegion.Plains);
+        var go = new GameObject("Recenter regression");
+        try
+        {
+            var skin = go.AddComponent<StormSkin>(); skin.tier = SkinTier.Low; skin.nearField = false;
+            skin.BindDesigned(storm, new KinematicWind(storm)); skin.StepTo(1800, 0);
+            var volume = skin.Volume;
+            var block = new SkinParams(); skin.GpuBlock.CopyTo(block);
+            var up = block[Slot.Up]; up.x += 4.2f; block[Slot.Up] = up;
+            var noise = CloudNoise.Make();
+            try
+            {
+                using (var cmd = new CommandBuffer())
+                {
+                    volume.Frame(cmd, block, noise, null, false, skin.Centre + Vector2.right * 4200,
+                        Vector2.right * 4.2f, 0, 30, skin.KeyDirVol, false, 8, 8);
+                    Graphics.ExecuteCommandBuffer(cmd);
+                    int[] slices = { 4, volume.NZ / 2, volume.NZ - 8 };
+                    Color32[] Read(int z)
+                    {
+                        var r = AsyncGPUReadback.Request(volume.Target, 0, 0, volume.NV, 0, volume.NV, z, 1);
+                        r.WaitForCompletion(); Require(!r.hasError, "target slice readback failed");
+                        return r.GetData<Color32>().ToArray();
+                    }
+                    var actual = slices.Select(Read).ToArray();
+                    cmd.Clear(); volume.Build(cmd, block, noise, 0, volume.NZ); Graphics.ExecuteCommandBuffer(cmd);
+                    for (int i = 0; i < slices.Length; i++)
+                    {
+                        var expected = Read(slices[i]);
+                        Require(actual[i].SequenceEqual(expected), $"recenter left stale target data in slice {slices[i]}");
+                    }
+                }
+            }
+            finally { Object.DestroyImmediate(noise); }
+        }
+        finally { Object.DestroyImmediate(go); }
+    }
+
+    static void EnvelopeResponse()
+    {
+        const int n = 4;
+        var old = new Texture3D(n, n, n, TextureFormat.RGBAFloat, false);
+        var target = new Texture3D(n, n, n, TextureFormat.RGBAFloat, false);
+        var wind = new Texture3D(1, 1, 1, TextureFormat.RGBAFloat, false);
+        var output = new RenderTexture(n, n, 0, RenderTextureFormat.ARGBFloat)
+            { dimension = TextureDimension.Tex3D, volumeDepth = n, enableRandomWrite = true };
+        try
+        {
+            var a = new Color[n*n*n]; var b = new Color[a.Length];
+            for (int i = 0; i < a.Length; i++)
+            {
+                a[i] = new Color(i % n < 2 ? 1 : 0, 0, 0, 1);
+                b[i] = new Color(i % n < 2 ? 0 : 1, 0, 0, 1);
+            }
+            old.SetPixels(a); old.Apply(); target.SetPixels(b); target.Apply(); output.Create();
+            var cs = Resources.Load<ComputeShader>("StormSkinVolume"); int kernel = cs.FindKernel("Advect");
+            var sp = new Vector4[SkinParams.NSLOT]; sp[(int)Slot.Grid] = new Vector4(n, n, 1, 2);
+            cs.SetVectorArray("_SP", sp); cs.SetVector("_VolC", Vector4.zero);
+            cs.SetVector("_AdvP", new Vector4(8, 1f - Mathf.Exp(-8f / 60f), 0, 0));
+            cs.SetTexture(kernel, "_DensIn", old); cs.SetTexture(kernel, "_Target", target);
+            cs.SetTexture(kernel, "_WindA", wind); cs.SetTexture(kernel, "_WindB", wind); cs.SetTexture(kernel, "_OutD", output);
+            cs.Dispatch(kernel, 1, 1, 1);
+            var request = AsyncGPUReadback.Request(output, 0, TextureFormat.RGBAFloat); request.WaitForCompletion();
+            Require(!request.hasError, "Envelope readback failed");
+            var pixels = request.GetData<Color>(0);
+            Require(pixels[0].r < .4f && pixels[3].r > .6f,
+                $"Old/new envelope out of sync after 8 model seconds: {pixels[0].r}, {pixels[3].r}");
+            Debug.Log($"Envelope response: old {pixels[0].r:F3}, new {pixels[3].r:F3} after 8 model seconds");
+        }
+        finally
+        {
+            output.Release(); Object.DestroyImmediate(output); Object.DestroyImmediate(old);
+            Object.DestroyImmediate(target); Object.DestroyImmediate(wind);
+        }
     }
 
     static void Transport(Vector3 velocity)

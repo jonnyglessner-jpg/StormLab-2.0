@@ -70,16 +70,18 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
         float sp = max(S_plates.y, 0.15);
         float wob = n3(float3(drr * 0.32, zr * 0.6) + float3(0.6, 0.3, 0.1));
         float phase = zr / sp + 0.18 * sin(ang) - 0.35 * cos(av) + 0.8 * (wob - 0.5);
-        float g = frac(phase);
-        float ledge = ss(0.0, 0.1, g) * pow(1.0 - g, 1.3);
-        float A = (0.07 + 0.12 * plAmt) * (0.7 + 0.6 * wob);
+        // Continuous shallow bands in a connected barrel. A sawtooth profile made
+        // each wrap look like a separate hard disc with a dark cut beneath it.
+        float band = 0.5 + 0.5 * cos(6.2831853 * phase);
+        float ledge = band * band;
+        float A = (0.025 + 0.055 * plAmt) * (0.7 + 0.6 * wob);
         // each plate a little narrower than the one below it: a stack, widest at the saucer at the base
         float Rb = radAt + A * (ledge - 0.45) - 0.18 * A * max(zr, 0.0) / sp + (cloudTex - 0.5) * 0.16;
         // the barrel ends where the plates end; above, the tower from the storm volume carries on
-        float top = ss(Hb - 0.15, Hb + 0.35, zr);
+        float top = ss(Hb - 0.45, Hb + 0.55, zr);
         fBar = saturate(0.5 + (Rb - r) / 0.5) - top;
         wB = plAmt * ss(Rb + 1.4, Rb + 0.5, r) * (1.0 - ss(Hb + 0.2, Hb + 0.7, zr));
-        under = plAmt * (1.0 - ss(0.02, 0.16, g)) * ss(Rb + 0.4, Rb - 0.1, r) * (1.0 - top);
+        under = 0.3 * plAmt * band * ss(Rb - 0.35, Rb + 0.05, r) * (1.0 - top);
     }
 
     // ---- the storm volume's own cloud, sharpened. Below the base it is read just above the base, so the soft 150 m
@@ -98,7 +100,7 @@ void BuildNear(uint3 gid : SV_DispatchThreadID)
         float d1 = lerp(lamDetail(p + o1), turbDetail(p + o1), turb);
         dd = (lerp(d1, d0, w0) - 0.5) * lerp(0.1, 0.45, turb);
     }
-    float thr = lerp(0.3, 0.78, saturate(wB * 1.2));
+    float thr = lerp(0.3, 0.48, saturate(wB * 1.2));
     float fC = 0.5 + (s.r - thr) * 1.3 + dd;
     float f = min(max(fC, fBar), fBase);
     // the clear slot cuts the plates and the sharpened cloud too

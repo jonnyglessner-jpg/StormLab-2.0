@@ -50,6 +50,37 @@ presentation field; it does not upgrade the designed storm into a fluid solver.
 
 ## Validation and remaining limits
 
+### Feature relocation review (2026-10-22)
+
+The user's 13:39 recording shows the visible updraft/base relocating while an older
+column remains in the live density. Camera continuity alone does not test this.
+The diagnostic low meso selects the strongest vorticity peak within 15 km of the
+strongest updraft; this is not an object identity. Using its 25 s weighted position
+as the whole tower anchor allows rapid travel between different maxima.
+
+The brain-driven skin now builds a presentation path in timeline order. Its low
+anchor has a 120 s response and a 20 m/s **grid-relative visual** speed limit;
+upper/meso/RFD offsets use a 90 s response and 10 m/s relative limit. The wall
+cloud and low meso share the anchor. These constants are visual tuning, not a
+measurement, physical validation, or a change to the stored diagnostic positions,
+storm-motion estimate, fluid winds, or model equations. This can delay or displace
+the drawn feature relative to a rapidly changing diagnostic, and it does not
+resolve multiple simultaneous cells or identify true mesocyclone cycling.
+
+Substantial disagreement between old cloud and the current painted envelope gets
+an 8 model-second condensation/erosion response, while the interior retains the
+configured relaxation. Transport still uses the simulated wind; pure transport
+with relaxation disabled remains unchanged. At timelapse, geometry and near-field
+slab refresh budgets are capped to approximately two model seconds (or one render
+frame if that is longer). Faster refresh can cost more GPU time at high timelapse.
+
+`FeatureMotionReview` tests full-run feature speeds at one-model-second intervals,
+compares the previous Gaussian path on the same frames, verifies independent seek
+order, and captures a 30x rendering sequence over the interval in the recording.
+`CloudMotionChecks` additionally tests old-envelope erosion/new-envelope growth
+on the GPU. These checks complement, rather than replace, visual review of the
+captured sequence. No new meteorological calibration is claimed for these changes.
+
 Run Unity with `-batchmode -executeMethod CloudMotionChecks.RunFromCommandLine` against
 `tests/SupercellLabTest`, with a GPU (omit `-nographics`). Checks exercise the production skin with
 different model/wall clocks, pause, ten-second steps, reset, updraft continuity and peak, and the actual

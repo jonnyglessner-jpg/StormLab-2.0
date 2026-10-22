@@ -16,7 +16,10 @@ Without the component's `Update`, as the test does: `skin.Bind(run)`, `skin.Wind
 timeline frame, then `skin.StepTo(t, clock)` every frame before rendering.
 
 Units: 1 Unity unit = 1 m, +x east, +z north, +y up. The skin works internally in km, in a **volume frame** centred
-on the storm (`WorldToVol`, `VolToWorld`).
+on the storm (`WorldToVol`, `VolToWorld`). Atmospheric motion, including detail flow and integrated rotation, uses
+playback/model seconds: 1x is physical time, pause freezes motion, and timelapse scales it consistently. The second
+argument of `StepTo(t, clock)` remains a presentation wall clock and no longer drives atmospheric shaders.
+See [cloud-motion.md](../../../../docs/meteorology/cloud-motion.md) for the source map, checks and limitations.
 
 ## What happens each frame
 
@@ -45,9 +48,10 @@ segment 4, so a mid-step capture is still a consistent wind. **Runtime/Dynamics 
 2 km (striations turning, the wall cloud spinning) comes from the simulated mesocyclone vorticity, applied as a
 rotating frame for the detail noise, as in 1.0.
 
-**Not in Phase 2**: the 30 m near-field volume (DESIGN.md §2.5 item 2), the analytic tornado funnel (Phase 3, slots
-13-15 are zero), and flow-mapped detail noise (the macro volume moves with the wind, but the sub-grid billows are
-fixed in the volume frame apart from the meso rotation).
+**Detail flow**: fine turbulent billows within 8 km use two wind-driven phases, including vertical motion;
+the near-field volume also samples flow-mapped detail. Coarse distant billows and some analytic base textures
+remain tied to their feature frames. The 30 m near-field volume and analytic funnel are implemented; the original
+Phase 2 exclusion list is obsolete. See the motion audit above for what is and is not physically transported.
 
 ## Look settings
 

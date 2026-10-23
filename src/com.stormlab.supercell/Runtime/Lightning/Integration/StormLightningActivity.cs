@@ -17,10 +17,17 @@ namespace StormLab.Supercell.Lightning
         [Min(0)] public float designedReferencePerMinute = 35;
         [Tooltip("Designed storms: rate of a pulse storm relative to a supercell with the same updraft (short-lived, unorganised).")]
         [Range(0, 1)] public float pulseFactor = .4f;
-        [Tooltip("Designed storms: rate increase before each tornado (lightning jump), as a fraction of the rate.")]
-        [Range(0, 3)] public float jumpBeforeTornado = .6f;
-        [Tooltip("Designed storms: rate increase as each new updraft cycle starts.")]
-        [Range(0, 3)] public float jumpNewCycle = .3f;
+        [Tooltip("Designed storms: rate increase as each wall cloud develops, as a fraction of the rate, for a cycle of " +
+            "strength 1 (an EF2 tornado's cycle). Stronger cycles jump more.")]
+        [Range(0, 3)] public float jumpWallCloud = .4f;
+        [Tooltip("Designed storms: further increase in the minutes just before touchdown (the lightning jump), peaking " +
+            "about half a minute before the tornado forms, for a cycle of strength 1.")]
+        [Range(0, 3)] public float jumpPreTornado = .9f;
+        [Tooltip("Designed storms: how far the rate falls below its baseline late in a tornado's life (the lull as it ropes out).")]
+        [Range(0, 1)] public float tornadoLull = .2f;
+        [Tooltip("Designed storms: share of in-cloud flashes that become crawlers (anvil crawlers and cloud-to-air bolts) at " +
+            "the peak of a cycle that produces an EF3+ tornado. None in weaker cycles.")]
+        [Range(0, .5f)] public float crawlerShare = .2f;
         [Tooltip("Brain: flashes per km² per 5 min per (m/s x g/kg) of graupel flux at -15 °C (McCaul et al. 2009).")]
         [Min(0)] public float graupelFluxCoefficient = .042f;
         [Tooltip("Brain: flashes per km² per 5 min per kg/m² of column ice. 0.2 is the value usually quoted for McCaul " +
@@ -54,9 +61,22 @@ namespace StormLab.Supercell.Lightning
     }
 
     /// <summary>Lightning from the designed storm's life story: updraft size and speed, age, cycles and decay.
-    /// Depends only on the storm and t, so it replays.</summary>
+    /// Depends only on the storm and t, so it replays.
+    ///
+    /// Each cycle heightens the activity in steps that follow the storm's strength: the rate climbs as the wall cloud
+    /// develops, climbs further in the minutes before touchdown (peaking just before the tornado forms), then tapers off
+    /// as the tornado runs its course and dips below the baseline as it ropes out. A cycle's strength comes from its
+    /// low-level rotation and its tornado's rating, so an EF4's cycle surges far more than an EF0's. The heightened
+    /// moments also carry flashes further from the updraft with more branches (reach), and cycles with an EF3+ tornado
+    /// add crawlers: long branching discharges under the anvil and bolts out of the storm's side that never touch ground.</summary>
     public static class DesignedLightning
     {
+        /// <summary>How strong a cycle is for lightning: about 0.55 for an EF0's cycle, 1 for EF2, 1.65 for EF5; weak for a
+        /// cycle that makes no tornado.</summary>
+        public static double CycleStrength(CycleGene c) => c.tornado != null
+            ? C.Clamp(.55 + .22 * c.tornado.ef + .3 * (c.meso - 1), .4, 1.8)
+            : C.Clamp(.35 * c.meso, .2, .6);
+
         public static LightningActivity At(DesignedStorm storm, double t, StormLightningTuning k)
         {
             if (storm == null || t < 0 || t > storm.lifeS || (storm.kind != StormKind.Supercell && storm.kind != StormKind.Pulse))
@@ -70,25 +90,45 @@ namespace StormLab.Supercell.Lightning
             double R = ch.R * Math.Sqrt(UpdraftScale(storm, t));
             double size = (R / 3) * Math.Pow(C.Clamp((ch.w - 8) / 27, 0, 3), .75);
             double coldDepth = LightningPolarity.Ramp(ch.el - ch.freezeKm, 2, 6);
-            double growth, live, rain, firstRain, jump = 0;
+            double growth, live, rain, firstRain, jump = 0, reach = 0, crawl = 0, lull = 0, strength = 1;
             if (storm.kind == StormKind.Supercell)
             {
-                // First flashes as the tower passes the charging zone (DesignedStorm: tower 0-14 min, anvil and rain 14-24).
-                growth = LightningPolarity.Ramp(tm, 8, 22);
+                // First flashes as the tower passes the charging zone, on the storm's development clock (DesignedStorm:
+                // tower to 14 development minutes, anvil and rain 14-24).
+                double dm = DesignedStorm.DevMinutes(t);
+                growth = LightningPolarity.Ramp(dm, 8, 22);
                 live = 1 - LightningPolarity.Ramp(t, storm.lifeS - storm.genome.decayS, storm.lifeS - .25 * storm.genome.decayS);
-                rain = LightningPolarity.Ramp(tm, 14, 24);
-                firstRain = LightningPolarity.Ramp(tm, 16, 22) * (1 - LightningPolarity.Ramp(tm, 28, 40));
+                rain = LightningPolarity.Ramp(dm, 14, 24);
+                firstRain = LightningPolarity.Ramp(dm, 16, 22) * (1 - LightningPolarity.Ramp(dm, 28, 40));
+                double K = DesignedStorm.CycleK;
                 foreach (var c in storm.cycles)
                 {
-                    // Lightning jump: the rate surges 10-20 min before touchdown and eases off as the tornado forms.
-                    if (c.tornado != null)
+                    double s = CycleStrength(c);
+                    var tg = c.tornado;
+                    // the cycle's own life: from just before its wall cloud to its end (or its tornado's end)
+                    double end = Math.Max(c.endS, tg?.EndS ?? 0);
+                    if (t >= c.wallS - 300 * K && t <= end) strength = s;
+                    // wall cloud: the rate climbs as it forms and lowers
+                    double wall = k.jumpWallCloud * s * LightningPolarity.Ramp(t, c.wallS - 60, c.wallS + 420 * K);
+                    double pre = 0, taper, peak = 0;
+                    if (tg != null)
                     {
-                        double f = c.tornado.formS;
-                        jump = Math.Max(jump, k.jumpBeforeTornado * LightningPolarity.Ramp(t, f - 1200, f - 600) *
-                            (1 - LightningPolarity.Ramp(t, f - 120, f + 480)));
+                        double f = tg.formS, L = tg.lifeS;
+                        // the jump: 5 min before touchdown to half a minute before
+                        peak = LightningPolarity.Ramp(t, f - 300, f - 30);
+                        pre = k.jumpPreTornado * s * peak;
+                        // tapers off through the tornado's life, gone by the time it lifts
+                        taper = 1 - LightningPolarity.Ramp(t, f, f + .8 * L);
+                        lull = Math.Max(lull, LightningPolarity.Ramp(t, f + .4 * L, f + .85 * L) * (1 - LightningPolarity.Ramp(t, tg.EndS, tg.EndS + 240)));
+                        // crawlers: cycles with an EF3+ tornado, from the jump through the first half of the tornado
+                        double strong = tg.ef >= 3 ? Math.Min(.6 + .2 * (tg.ef - 3), 1) : 0;
+                        crawl = Math.Max(crawl, strong * peak * (1 - LightningPolarity.Ramp(t, f + .5 * L, tg.EndS)));
                     }
-                    jump = Math.Max(jump, k.jumpNewCycle * LightningPolarity.Ramp(t, c.wallS - 900, c.wallS - 300) *
-                        (1 - LightningPolarity.Ramp(t, c.wallS + 120, c.wallS + 720)));
+                    else taper = 1 - LightningPolarity.Ramp(t, c.occludeS - 120, c.endS);
+                    double cycleJump = (wall + pre) * taper;
+                    jump = Math.Max(jump, cycleJump);
+                    // reach: about 0.2-0.4 with a wall cloud, 0.65-1 just before touchdown
+                    reach = Math.Max(reach, C.Clamp(cycleJump / 1.3, 0, 1));
                 }
             }
             else
@@ -101,16 +141,23 @@ namespace StormLab.Supercell.Lightning
                 firstRain = LightningPolarity.Ramp(tm, 18, 23) * (1 - LightningPolarity.Ramp(tm, 30, 40));
             }
             double kind = storm.kind == StormKind.Pulse ? k.pulseFactor : 1;
-            double rate = k.rateScale * k.designedReferencePerMinute * kind * size * coldDepth * growth * live * (1 + jump);
+            // the whole storm runs hotter while a strong cycle is under way
+            double vigour = .75 + .25 * strength;
+            // the biggest jumps saturate a little (x2.4 rather than x2.6 before an EF4), so the peak keeps its shape under the ceiling
+            double rate = k.rateScale * k.designedReferencePerMinute * kind * size * coldDepth * growth * live * vigour *
+                (1 + jump / (1 + .25 * jump)) * (1 - k.tornadoLull * lull);
             LightningPolarity.Split(storm.genome.region, ch.w * live, rain, firstRain, 1 - live, k, out float ground, out float positive);
-            return new LightningActivity((float)Math.Max(0, rate), ground, positive);
+            // more of the far-reaching flashes come down to the ground away from the core, where they can be seen
+            ground = Math.Min(.6f, ground * (1 + .3f * (float)reach));
+            return new LightningActivity((float)Math.Max(0, rate), ground, positive, (float)(reach * live),
+                (float)(k.crawlerShare * crawl * live));
         }
 
-        // The cycles' updraft size, eased over 20 min around each new wall cloud (as DesignedStorm.UpdraftScale).
+        // The cycles' updraft size, eased around each new wall cloud (as DesignedStorm.UpdraftScale).
         static double UpdraftScale(DesignedStorm storm, double t)
         {
-            double s = 1;
-            foreach (var c in storm.cycles) s = C.Lerp(s, c.updraft, LightningPolarity.Ramp(t, c.wallS - 600, c.wallS + 600));
+            double s = 1, K = DesignedStorm.CycleK;
+            foreach (var c in storm.cycles) s = C.Lerp(s, c.updraft, LightningPolarity.Ramp(t, c.wallS - 600 * K, c.wallS + 600 * K));
             return s;
         }
     }

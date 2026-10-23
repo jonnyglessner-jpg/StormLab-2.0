@@ -38,6 +38,8 @@ tornado. Read `docs/DESIGN.md` for the architecture and decisions log before cha
   `validation/cm1-comparisons/`, DDC CSVs in `validation/real-storm-cases/`.
   Designed storm: `StormLab.Supercell.EditorTools.DesignedValidation.RunFromCommandLine`.
 - Fast compile loop for pure C#: Unity's bundled dotnet (`Editor/Data/DotNetSdk/dotnet.exe`) against a Unity stub.
+  The designed-storm checks (incl. game pacing and the game scenario) run without Unity:
+  `dotnet run -c Release --project validation/designed/DesignedChecks.csproj`.
 - Lightning checks: `validation/lightning/check.ps1` (no Unity); the in-editor review is **Supercell Lab > Lightning >
   Capture Cloud Integration Review**. Night skin renders with a flash: the skin test with `-skinNight -skinLightning`.
 - Python tools: `python -I tools/<tool>.py`. Soundings go to `validation/soundings/`; download caches to `data/raw/`.

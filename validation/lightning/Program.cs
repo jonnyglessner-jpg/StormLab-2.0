@@ -37,12 +37,13 @@ static class Program
             var again = LightningFlash.Create(e, settings, new Vector3(12000, 120, -9000), 120);
             var main = flash.Channels[0].points;
             Check(flash.Channels.SelectMany(c => c.points).SequenceEqual(again.Channels.SelectMany(c => c.points)), "Geometry replay");
-            Check(main.Length == 129 && flash.Channels.Length <= 12, "Geometry budget");
-            Check(kind == FlashKind.InCloud ? main.Last().Y == 120 + settings.upperChargeHeightM : main.Last().Y == 120, "Endpoint placement");
+            Check(main.Length == 129 && flash.Channels.Length <= (kind == FlashKind.Crawler ? 23 : 12), "Geometry budget");
+            Check(kind == FlashKind.InCloud ? main.Last().Y == 120 + settings.upperChargeHeightM :
+                kind == FlashKind.Crawler ? flash.Channels.All(c => c.points.All(p => p.Y >= 120 + 800)) : main.Last().Y == 120, "Endpoint placement");
             Check(flash.Channels.All(c => c.points.All(p => float.IsFinite(p.X) && float.IsFinite(p.Y) && float.IsFinite(p.Z) && p.Y >= 120)), "Finite above-ground geometry");
             Check(flash.Intensity(-1, -.1) == 0 && flash.Intensity(2, 3) == 0, "Flash lifetime");
-            Check(flash.Intensity(0, .1) == 1, "Exposure must retain a skipped stroke");
-            Check(flash.Intensity(.04, .04) > 0, "Return-stroke decay");
+            Check(flash.Intensity(0, flash.LeadSeconds + .065) == 1, "Exposure must retain a skipped stroke");
+            Check(flash.Intensity(flash.LeadSeconds + .005, flash.LeadSeconds + .005) > 0, "Return-stroke decay");
             Check(flash.StrokeTimes.Zip(flash.StrokeTimes.Skip(1), (a, b) => b > a).All(v => v), "Stroke ordering");
         }
         Check(Math.Abs(LightningAcoustics.ArrivalSeconds(new Vector3(343.42f, 0, 0), Vector3.Zero) - 1) < .0001, "Acoustic travel time");
@@ -57,9 +58,11 @@ static class Program
             var anchors = new LightningAnchors(new Vector3(16000,12500,-4000),new Vector3(20000,11000,-6000));
             var anchored = LightningFlash.Create(e,settings,Vector3.Zero,120,p=>120+p.X*.001f,anchors);
             var path = anchored.Channels[0].points;
-            Check(path[0]==anchors.origin && anchored.LightPosition==anchors.origin,"Cloud adapter origin preserved");
-            Check(kind==FlashKind.InCloud ? path.Last()==anchors.inCloudTarget : Math.Abs(path.Last().Y-(120+path.Last().X*.001f))<.001f,
-                "Cloud anchors preserve in-cloud targets and terrain attachments");
+            Check(path[0]==anchors.origin && (kind==FlashKind.Crawler || anchored.LightPosition==anchors.origin),"Cloud adapter origin preserved");
+            Check(kind==FlashKind.InCloud ? path.Last()==anchors.inCloudTarget :
+                kind==FlashKind.Crawler ? anchored.Channels.All(c=>c.points.All(p=>p.Y>120+p.X*.001f+800)) :
+                Math.Abs(path.Last().Y-(120+path.Last().X*.001f))<.001f,
+                "Cloud anchors preserve in-cloud targets and terrain attachments; crawlers stay off the ground");
             Check(path.All(p=>float.IsFinite(p.X)&&float.IsFinite(p.Y)&&float.IsFinite(p.Z)),"Long anvil channel finite");
         }
         var thunderFlash = LightningFlash.Create(whole[0], settings, Vector3.Zero, 0);
@@ -129,6 +132,27 @@ static class Program
         Check(Math.Abs(groundShare - .5) < .05 && Math.Abs(positiveShare - .2) < .05, "Flash-type fractions");
         LightningSchedule.Query(settings, -1e-6, 600, part, t => LightningActivity.None);
         Check(part.Count == 0, "Quiet storm: no flashes");
+        // Crawlers replace in-cloud flashes only, drawn after the type draws: ground flashes are unchanged.
+        var plain = new List<FlashEvent>(); var crawling = new List<FlashEvent>();
+        LightningSchedule.Query(settings, 0, 1200, plain, t => new LightningActivity(100, .3f, .1f));
+        LightningSchedule.Query(settings, 0, 1200, crawling, t => new LightningActivity(100, .3f, .1f, .8f, .4f));
+        Check(plain.Where(e => e.kind != FlashKind.InCloud).Select(e => (e.id, e.kind)).SequenceEqual(crawling.Where(e => e.kind != FlashKind.InCloud && e.kind != FlashKind.Crawler).Select(e => (e.id, e.kind))),
+            "Crawlers leave the ground flashes as they were");
+        double crawlerShare = crawling.Count(e => e.kind == FlashKind.Crawler) / (double)crawling.Count(e => e.kind == FlashKind.InCloud || e.kind == FlashKind.Crawler);
+        Check(Math.Abs(crawlerShare - .4) < .06 && crawling.All(e => e.reach == .8f) && plain.All(e => e.reach == 0), $"Crawler share {crawlerShare:0.00} and reach carried on the events");
+        // Reach spreads ground strikes further from the updraft and adds branches; crawlers never touch the ground.
+        double Spread(float reach) { double s = 0; for (uint seed = 1; seed <= 200; seed++) { var f = LightningFlash.Create(new FlashEvent(seed, 0, seed, FlashKind.NegativeGround, reach), settings, Vector3.Zero, 0); var a = f.Channels[0].points[0]; var b = f.Channels[0].points[128]; s += Math.Sqrt((a.X - b.X) * (a.X - b.X) + (a.Z - b.Z) * (a.Z - b.Z)); } return s / 200; }
+        Check(Spread(1) > 1.8 * Spread(0), $"Reach spreads ground strikes ({Spread(0):0} m -> {Spread(1):0} m)");
+        Check(LightningFlash.Create(new FlashEvent(1, 0, 1, FlashKind.InCloud, 1), settings, Vector3.Zero, 0).Channels.Length >
+            LightningFlash.Create(new FlashEvent(1, 0, 1, FlashKind.InCloud, 0), settings, Vector3.Zero, 0).Channels.Length, "Reach adds branches");
+        int toAir = 0;
+        for (uint seed = 1; seed <= 200; seed++)
+        {
+            var f = LightningFlash.Create(new FlashEvent(seed, 0, seed, FlashKind.Crawler, seed % 2), settings, new Vector3(5000, 0, 0), 0);
+            Check(f.Channels.All(c => c.points.All(p => p.Y >= 800)) && f.LeadSeconds > LightningFlash.LeaderSeconds && f.Duration < 1.5f, "Crawlers stay aloft and creep");
+            if (f.Channels[0].points[128].Y < settings.upperChargeHeightM - 2000) toAir++;
+        }
+        Check(toAir > 40 && toAir < 110, $"Some crawlers leave the storm's side into clear air ({toAir}/200)");
         try { LightningSchedule.Query(settings, 0, 60, part, t => new LightningActivity(float.NaN, 0, 0)); throw new Exception("Accepted NaN activity"); }
         catch (ArgumentOutOfRangeException) { checks++; }
         settings.maxFlashesPerMinute = 0;

@@ -97,7 +97,7 @@ namespace StormLab.Supercell.Lightning.EditorTools
                     using(var cmd=new CommandBuffer())
                     {
                         bridge.BindMedium(cmd,shader,kernel);
-                        var block=new Vector4[51]; block[17]=new Vector4(v.NV,v.NZ,v.L,v.ZT);
+                        var block=new Vector4[StormLab.Supercell.Designer.SkinParams.NSLOT]; block[17]=new Vector4(v.NV,v.NZ,v.L,v.ZT);
                         cmd.SetComputeVectorArrayParam(shader,"_SP",block);
                         cmd.SetComputeVectorParam(shader,"_SLProbeA",a); cmd.SetComputeVectorParam(shader,"_SLProbeB",b);
                         cmd.SetComputeBufferParam(shader,kernel,"_SLProbeOut",output); cmd.DispatchCompute(shader,kernel,1,1,1);
@@ -153,6 +153,9 @@ namespace StormLab.Supercell.Lightning.EditorTools
                     Require(flash.Channels[0].points[0]==anchors.Value.origin,"Actual channel retains cloud origin",results);
                     if(kind==FlashKind.InCloud)
                         Require(flash.Channels[0].points[128]==anchors.Value.inCloudTarget,"In-cloud target stays anchored",results);
+                    else if(kind==FlashKind.Crawler)
+                        Require(System.Linq.Enumerable.All(flash.Channels,c=>System.Linq.Enumerable.All(c.points,p=>p.Y>skin.groundHeight+800)),
+                            "Crawler stays aloft",results);
                     else
                         Require(flash.Channels[0].points[128].Y==skin.groundHeight,"Cloud-origin channel reaches ground",results);
                     if(kind==FlashKind.PositiveGround)
@@ -218,7 +221,7 @@ namespace StormLab.Supercell.Lightning.EditorTools
                     rig.CellCentreAtTime=_=>skin.VolToWorld(new Vector3(0,northKm,0));
                     rig.ResetPlayback(); rig.SampleAt(e.time+.036);
                     bridge.RefreshChannelOcclusion();
-                    var block=new Vector4[51]; block[17]=new Vector4(skin.Volume.NV,skin.Volume.NZ,skin.Volume.L,skin.Volume.ZT);
+                    var block=new Vector4[StormLab.Supercell.Designer.SkinParams.NSLOT]; block[17]=new Vector4(skin.Volume.NV,skin.Volume.NZ,skin.Volume.L,skin.Volume.ZT);
                     rig.ChannelMaterial.SetVectorArray("_SP",block);
                     rig.PrepareForCamera(camera);
                 }

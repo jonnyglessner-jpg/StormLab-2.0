@@ -12,6 +12,7 @@ namespace StormLab.Supercell
         SupercellRunner runner;
         StormSkin skin;
         Rect panel = new Rect(10, 10, 410, 100);
+        public Rect PanelRect => panel;
         Vector2 scroll;
         bool follow;
         public bool allowCameraControl = true;

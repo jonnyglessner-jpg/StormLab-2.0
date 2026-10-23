@@ -366,6 +366,8 @@ GameObject:
   - component: {fileID: 160753898}
   - component: {fileID: 160753902}
   - component: {fileID: 160753901}
+  - component: {fileID: 160753903}
+  - component: {fileID: 160753904}
   m_Layer: 0
   m_Name: Supercell
   m_TagString: Untagged
@@ -512,9 +514,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BrainFullCyclePreview
   runner: {fileID: 160753899}
   skin: {fileID: 160753898}
-  lightning: {fileID: 401042424}
-  driver: {fileID: 401042422}
+  lightning: {fileID: 668125135}
+  driver: {fileID: 668125133}
   observer: {fileID: 21968568}
+  rainfall: {fileID: 160753903}
+  rainSource: {fileID: 160753904}
   startSolarHour: 6
   solarHoursPerModelHour: 8
   followStorm: 1
@@ -531,7 +535,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a59f39361a4727a1d05acb6d6f2df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StormLab.Supercell::StormLab.Supercell.BrainPreviewPanel
---- !u!1 &401042421
+  allowCameraControl: 1
+--- !u!114 &160753903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160753897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd483c9ec2ec99642b1bdf4614840c83, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: StormLab.Rainfall::StormLab.Supercell.Rainfall.LocalRainfall
+  targetCamera: {fileID: 21968568}
+  weatherSource: {fileID: 160753904}
+  rainMmPerHour: 0
+  windMps: {x: 0, y: 0, z: 0}
+  airDensity: 1.225
+  volumeSize: {x: 40, y: 24, z: 40}
+  maxDrops: 2048
+  maxSpawnsPerFrame: 128
+  collideWithWorld: 1
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  shelterProbeHeight: 500
+  groundHeight: 0
+  shutterSeconds: 0.012
+  widthMultiplier: 3
+  tint: {r: 0.65, g: 0.73, b: 0.8, a: 0.4}
+  material: {fileID: 0}
+  advanceClock: 1
+  timeSeconds: 0
+--- !u!114 &160753904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160753897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9de29bfdc9b76e4c8560e8d0837ab9d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: StormLab.Rainfall.Clouds::StormLab.Supercell.Rainfall.BrainRainSource
+  skin: {fileID: 160753898}
+  rainfall: {fileID: 160753903}
+  rainIntercept: 0
+--- !u!1 &668125132
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -539,10 +591,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 401042425}
-  - component: {fileID: 401042424}
-  - component: {fileID: 401042423}
-  - component: {fileID: 401042422}
+  - component: {fileID: 668125136}
+  - component: {fileID: 668125135}
+  - component: {fileID: 668125134}
+  - component: {fileID: 668125133}
   m_Layer: 0
   m_Name: Brain-driven lightning
   m_TagString: Untagged
@@ -550,19 +602,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &401042422
+--- !u!114 &668125133
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401042421}
+  m_GameObject: {fileID: 668125132}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d33a2d1f840a44ab87a6876b7c5f24f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StormLab.Lightning.Clouds::StormLab.Supercell.Lightning.LightningStormDriver
-  lightning: {fileID: 401042424}
+  lightning: {fileID: 668125135}
   skin: {fileID: 160753898}
   source: 2
   brainRegion: 0
@@ -578,19 +630,19 @@ MonoBehaviour:
     invertedPolarityBoost: 0.2
   followSkinClock: 1
   activityNow: 
---- !u!114 &401042423
+--- !u!114 &668125134
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401042421}
+  m_GameObject: {fileID: 668125132}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8ea6d0cab6c97c4eb1d521862b03c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StormLab.Lightning.Clouds::StormLab.Supercell.Lightning.LightningCloudBridge
-  lightning: {fileID: 401042424}
+  lightning: {fileID: 668125135}
   skin: {fileID: 160753898}
   brightness: 24
   sourceRadiusKm: 1.5
@@ -601,13 +653,13 @@ MonoBehaviour:
   channelOcclusion: 1
   anchorChannelsToCloud: 1
   positiveAnvilFraction: 0.7
---- !u!114 &401042424
+--- !u!114 &668125135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401042421}
+  m_GameObject: {fileID: 668125132}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 824c8bc4b0986754f87c809aa4a0144d, type: 3}
@@ -635,13 +687,13 @@ MonoBehaviour:
   thunder: 1
   temperatureC: 20
   audibleRangeM: 20000
---- !u!4 &401042425
+--- !u!4 &668125136
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401042421}
+  m_GameObject: {fileID: 668125132}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -770,4 +822,4 @@ SceneRoots:
   - {fileID: 101069013}
   - {fileID: 160753900}
   - {fileID: 1219777094}
-  - {fileID: 401042425}
+  - {fileID: 668125136}

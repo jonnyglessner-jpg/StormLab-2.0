@@ -4,7 +4,7 @@
 #ifndef STORM_SKIN_COMMON
 #define STORM_SKIN_COMMON
 
-float4 _SP[51];
+float4 _SP[63];
 #define S_f      _SP[0]
 #define S_base   _SP[1]
 #define S_tower  _SP[2]
@@ -60,6 +60,53 @@ SamplerState sampler_LinearClamp;
 // smoothstep that also works with reversed edges (1.0 relies on that; HLSL leaves it undefined)
 float ss(float a, float b, float x) { float t = saturate((x - a) / (b - a)); return t * t * (3.0 - 2.0 * t); }
 
+float2 tailSpinePoint(float t)
+{
+    float u = min(t, 0.999999) * 3.0;
+    int k = (int)floor(u); u -= k;
+    float2 b = _SP[51 + k].xy, c = _SP[52 + k].xy;
+    float2 a = k > 0 ? _SP[50 + k].xy : 2.0 * b - c;
+    float2 d = k < 2 ? _SP[53 + k].xy : 2.0 * c - b;
+    return 0.5 * ((2.0 * b) + (-a + c) * u + (2.0 * a - 5.0 * b + 4.0 * c - d) * u * u
+        + (-a + 3.0 * b - 3.0 * c + d) * u * u * u);
+}
+
+// Project onto the persistent tail spine. The same coordinates feed coarse and near
+// cloud, so the two representations cannot rotate or detach independently.
+void tailCoordinates(float2 p, out float along, out float across, out float span)
+{
+    if (_SP[51].w < 0.5)
+    {
+        float2 root = S_up.xy + S_f.xy * 2.5 + S_f.zw * 0.5;
+        along = dot(p - root, S_tail.xy);
+        across = dot(p - root, float2(-S_tail.y, S_tail.x));
+        span = max(S_tail.z, 0.1);
+        return;
+    }
+    float best = 1e20, offset = 0.0;
+    along = 0.0; across = 0.0; span = 0.0;
+    bool designed = _SP[51].w > 1.5;
+    uint count = designed ? 12u : 3u;
+    [loop] for (uint j = 0; j < count; j++)
+    {
+        uint legacyKnot = min(j, 2u);
+        float2 a = designed ? tailSpinePoint((float)j / count) : _SP[51 + legacyKnot].xy;
+        float2 b = designed ? tailSpinePoint((float)(j + 1) / count) : _SP[52 + legacyKnot].xy;
+        float2 d = b - a;
+        float len = max(length(d), 0.01); float2 dir = d / len;
+        float raw = dot(p - a, dir), u = clamp(raw, 0.0, len);
+        float distance2 = dot(p - a - dir * u, p - a - dir * u);
+        if (distance2 < best)
+        {
+            best = distance2;
+            along = offset + ((j == 0 && raw < 0.0 || j == count - 1 && raw > len) ? raw : u);
+            across = dot(p - a, float2(-dir.y, dir.x));
+        }
+        offset += len;
+    }
+    span = offset;
+}
+
 // The light grids (storm and near) store the sun's optical depth in r, not its transmittance, so the march can light
 // each multiple-scattering octave from it. sunT is 1.0's two-lobe transmittance of that depth, for what is not lit as
 // cloud: rain, the light shafts, the ground shadow and the tornado.
@@ -84,9 +131,8 @@ Texture3D<float4> _WindB;
 float4 _WindP;
 // xy: volume centre in grid m, z: rain fall speed m/s, w: 1 = use the wind
 float4 _VolC;
-float3 windAt(float3 p)
+float3 sampledWindAt(float3 p)
 {
-    if (_VolC.w < 0.5) return 0.0;
     float2 gm = _VolC.xy + p.xy * 1000.0;
     float3 uvw = float3(gm.x / _WindP.y, gm.y / _WindP.z, (p.z + 0.5) / _WindP.w);
     float4 a = _WindA.SampleLevel(sampler_LinearClamp, uvw, 0);
@@ -94,6 +140,7 @@ float3 windAt(float3 p)
     float3 e = lerp(a.xyz, b.xyz, _WindP.x);
     return -51.0 + e * 255.0 * 0.4;
 }
+float3 windAt(float3 p) { return _VolC.w < 0.5 ? float3(0.0, 0.0, 0.0) : sampledWindAt(p); }
 
 // Flow-mapped detail: the fine noise is carried with the simulated wind in two phases of FLOW_T clock-seconds, each
 // restarting where the other is at full weight, so detail drifts and rises with the air and never stretches.
@@ -110,6 +157,30 @@ void flowPhases(float3 p, out float3 o0, out float3 o1, out float w0)
 }
 // three octaves, about 11, 4.3 and 1.7 km
 float fbm(float3 p) { return 0.5 * n3(p * 0.09) + 0.3 * n3(p * 0.23 + float3(0.31, 0.17, 0.53)) + 0.2 * n3(p * 0.6 + float3(0.7, 0.2, 0.4)); }
+
+// The designed feeder band condenses along the FFD boundary. Its cloud texture travels
+// inward on model time; the boundary itself stays attached to the precipitation gradient.
+float designedTailCloud(float3 p, float fine)
+{
+    float s, q, span;
+    tailCoordinates(p.xy, s, q, span);
+    float zb = S_base.x;
+    if (s < -2.0 || s > span + 1.0 || abs(q) > 3.5 || p.z < zb - 0.3 || p.z > zb + 2.5) return 0.0;
+    float fr = saturate(s / max(span, 0.1)), head = (1.0 - fr) * (1.0 - fr);
+    float flow = s + S_inflow.z * 0.001 * S_base.z;
+    float3 uv = float3(flow * 0.12, q * 0.45, (p.z - zb) * 0.7);
+    float n = 0.65 * n3k(uv, 1.0, float3(0.2, 0.6, 0.1))
+        + 0.35 * lerp(0.5, n3k(uv, 3.0, float3(0.6, 0.1, 0.4)), fine);
+    float billow = n - 0.5;
+    float width = lerp(1.6, 0.45, pow(fr, 0.7)) * (0.85 + 0.3 * n);
+    float bottom = zb + 0.04 + 0.15 * (1.0 - head) + billow * 0.13;
+    float thickness = lerp(0.25, 1.25, head) * (0.85 + 0.3 * n);
+    float top = bottom + thickness;
+    float band = ss(width + 0.25, width * 0.5, abs(q) + billow * 0.3)
+        * ss(bottom - 0.12, bottom + 0.08, p.z) * ss(top + 0.2, top - 0.15, p.z)
+        * ss(-2.0, 0.0, s) * (1.0 - ss(span * 0.8, span, s + billow * 1.2));
+    return S_tail.w * band * (0.75 + 0.3 * n);
+}
 // rotate a horizontal vector counter-clockwise (x east, y north) by angle a
 float2 rot2(float2 v, float a) { float c = cos(a); float s = sin(a); return float2(c * v.x - s * v.y, s * v.x + c * v.y); }
 float hash1(float x) { return frac(sin(x * 127.1 + 311.7) * 43758.5453); }
@@ -123,6 +194,32 @@ float2 mesoCentre(float zr)
     return S_up.xy + S_tilt.xy * max(zr, 0.0) + (S_rfdb.xy - S_up.xy) * 0.55 * S_rfdb.w * lo;
 }
 float mesoExtra(float zr) { return S_rfdb.z * 0.3 * S_rfdb.w * exp(-max(zr, 0.0) / 2.5); }
+
+// Authored precipitation curtains: keep the ground footprint, then bend and narrow
+// the upper shaft into the tilted tower/anvil root. These are presentation coordinates,
+// not liquid-water transport. Recorded brain rain never uses this deformation.
+float designedRainSourceHeight()
+{
+    float zb = S_base.x;
+    float canopy = lerp(zb + 1.2, max(zb + 1.2, S_anvil2.y - 0.55), saturate(S_anvil.w));
+    return max(zb + 0.4, min(S_tower.x - 0.35, canopy));
+}
+float3 designedRainCoordinates(float3 p)
+{
+    if (S_tower.z <= 0.0) return p;
+    float source = designedRainSourceHeight();
+    float bend = ss(max(0.15, S_base.x * 0.35), source, p.z);
+    float2 root = mesoCentre(source - S_base.x) - S_up.xy;
+    root += S_anvil.xy * min(S_anvil.z * 0.12, S_tower.y * 1.5) * saturate(S_anvil.w);
+    float width = lerp(1.0, 0.45, bend);
+    return float3(S_up.xy + (p.xy - S_up.xy - root * bend) / width, p.z);
+}
+float designedRainTop(float z)
+{
+    float source = designedRainSourceHeight();
+    return ss(source + 0.35, source - 0.35, z)
+        * lerp(1.0, 0.42, ss(S_base.x, source, z));
+}
 // ---- the updraft's shape, from StormLab 1.0 as it is live on the website (2030265, 2026-10-19), shared by the volume,
 // the near field and the march so geometry and surface detail agree
 // a restrained lower flare with a tucked underside
@@ -302,6 +399,7 @@ float nearField(float3 p, float fine)
             float2 beaverNormal = float2(-S_tail.y, S_tail.x);
             float beaverBend = 0.035 * pow(max(S_tail.z - 2.0, 0.0), 2.0) * 0.12 - 0.6 * sin(0.7);
             float2 tailAim = beaverRoot + S_tail.xy * 2.0 + beaverNormal * beaverBend;
+            if (_SP[51].w > 1.5) tailAim = lerp(_SP[51].xy, _SP[52].xy, 0.35);
             float2 td = safeNorm(tailAim - wc, S_f.xy); float s = dot(dw, td); float qq = dot(dw, float2(-td.y, td.x));
             float nt = n3(float3(s * 0.3, qq * 1.0, p.z * 1.5) + float3(0.2, 0.6, 0.1));
             float wt = lerp(1.15, 0.45, saturate((s - Rw) / 4.5));
@@ -362,21 +460,23 @@ float nearField(float3 p, float fine)
             v = max(v, S_anti.z * lw2 * 0.9);
         }
     }
-    if (S_tail.w > 0.0)
+    if (S_tail.w > 0.0 && _SP[51].w > 1.5)
+        v = max(v, designedTailCloud(p, fine));
+    else if (S_tail.w > 0.0)
     {
         // inflow tail (beaver tail): smooth, laminar bands streaming in along the forward flank's edge. 2.0: the
         // direction and length come from the simulated inflow; the band count (1-3) from its speed and humidity
-        float2 t0 = S_up.xy + S_f.xy * 2.5 + S_f.zw * 0.5;
-        float2 td = S_tail.xy; float s = dot(p.xy - t0, td);
-        float curv = S_tail2.w > 0.0 ? S_tail2.w : 0.035;
-        float qq = dot(p.xy - t0, float2(-td.y, td.x)) - curv * (S_tail.z - s) * (S_tail.z - s) * 0.12 + 0.6 * sin(s * 0.35);
-        if (s > -2.0 && s < S_tail.z + 2.0 && abs(qq) < 5.0 && p.z > zb - 1.0 && p.z < zb + 3.0)
+        float s, qq, tailLength;
+        tailCoordinates(p.xy, s, qq, tailLength);
+        if (_SP[51].w < 0.5) qq -= max(S_tail2.w, 0.035) * (tailLength - s) * (tailLength - s) * 0.12;
+        qq += 0.6 * sin(s * 0.35);
+        if (s > -2.0 && s < tailLength + 2.0 && abs(qq) < 5.0 && p.z > zb - 1.0 && p.z < zb + 3.0)
         {
-            float fr = saturate(s / S_tail.z);
+            float fr = saturate(s / tailLength);
             float n = 0.55 * n3(float3(s * 0.05, qq * 0.45, p.z * 0.6)) + 0.45 * lerp(0.5, n3(float3(s * 0.25, qq * 1.6, p.z * 2.5) + float3(0.6, 0.2, 0.4)), fine);
             float nearS = (1.0 - fr) * (1.0 - fr);
             float wt = lerp(2.8, 0.45, pow(fr, 0.7)); float zc = zb + S_tail2.z * 0.5 + 1.1 * nearS; float th = lerp(0.22, 1.25, nearS);
-            float inT = ss(-2.0, 0.75, s) * (1.0 - ss(S_tail.z * 0.8, S_tail.z, s + (n - 0.5) * 4.0))
+            float inT = ss(-2.0, 0.75, s) * (1.0 - ss(tailLength * 0.8, tailLength, s + (n - 0.5) * 4.0))
                 * ss(wt, wt * 0.45, abs(qq) + (n - 0.5) * 0.9) * ss(th, th * 0.4, abs(p.z - zc) + (n - 0.5) * 0.12);
             // stacked laminae: more than one band when the inflow is strong and moist
             float nb = max(S_tail2.x, 1.0);

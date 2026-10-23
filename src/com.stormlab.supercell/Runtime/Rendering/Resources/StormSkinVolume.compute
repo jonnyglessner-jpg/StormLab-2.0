@@ -13,6 +13,39 @@
 
 #include "Packages/com.stormlab.supercell/Runtime/Rendering/Shaders/StormSkinCommon.hlsl"
 
+Texture3D<float4> _HydroA, _HydroB;
+float4 _HydroOriginA, _HydroOriginB; // xyz first-voxel centre in grid km, w block km
+float4 _HydroSizeA, _HydroSizeB;    // xyz voxel count
+float4 _HydroCentre;                // xy volume origin in grid km
+float _HydroEnabled, _HydroBlend, _HydroWindEnabled;
+float4 _HydroTimes; // seconds from A to display time, display time to B
+
+float4 hydroSample(Texture3D<float4> tex, float3 grid, float4 origin, float4 size)
+{
+    float3 index = (grid - origin.xyz) / float3(origin.w, origin.w, 1.0);
+    float3 uvw = (index + 0.5) / size.xyz;
+    if (any(uvw < 0.0) || any(uvw > 1.0)) return 0.0;
+    return tex.SampleLevel(sampler_LinearClamp, uvw, 0);
+}
+
+// One observation path for both target and live rain. Keeping a second relaxed
+// density history moves precipitation away from its recorded support and leaves
+// ghosts after evaporation/weakening. Only the atmospheric model owns rain mass.
+float recordedRain(float3 p)
+{
+    float3 grid = p + float3(_HydroCentre.xy, 0.0);
+    float3 velocity = (_HydroWindEnabled > 0.5 ? sampledWindAt(p) : float3(0,0,0)) - float3(0.0, 0.0, _VolC.z);
+    float3 fromA = grid - velocity * (_HydroTimes.x * 0.001);
+    float3 fromB = grid + velocity * (_HydroTimes.y * 0.001);
+    float4 hydro = lerp(hydroSample(_HydroA, fromA, _HydroOriginA, _HydroSizeA),
+                        hydroSample(_HydroB, fromB, _HydroOriginB, _HydroSizeB), _HydroBlend);
+    // Qh is ice, not liquid rain. The former hail-to-rain term made the deep
+    // hail reservoir into a massive rain shroud even when Qr was zero.
+    // Display response, not a calibrated optical retrieval. The former 400
+    // coefficient made kilometre-mean liquid fields opaque over most of the cell.
+    return 1.0 - exp(-80.0 * max(hydro.r, 0.0));
+}
+
 RWTexture3D<float4> _OutD;
 Texture3D<float4> _DensIn;
 Texture3D<float4> _Target;
@@ -112,22 +145,28 @@ void Build(uint3 gid : SV_DispatchThreadID)
     // forward flank: precipitation only, no separate low or mid-level cloud body (as live)
 
     // ---- inflow: warm, moist air rising as a smooth, banded ramp into the side of the mesocyclone
-    if (S_tail.w > 0.0)
+    if (S_tail.w > 0.0 && _SP[51].w > 1.5)
     {
-        float2 t0 = S_up.xy + S_f.xy * 2.5 + S_f.zw * 0.5;
-        float2 td = S_tail.xy; float2 tn = float2(-td.y, td.x);
-        float sT = dot(p.xy - t0, td) + R * 0.6;
-        float qT = dot(p.xy - t0, tn) - 0.035 * (S_tail.z - sT) * (S_tail.z - sT) * 0.12;
-        if (sT > -3.0 && sT < S_tail.z && abs(qT) < 6.0 && p.z < zb + 5.0)
+        float iv = designedTailCloud(p, 1.0);
+        mw += iv * iv; ms += iv * iv * water(0.25);
+        cloud = max(cloud, iv);
+    }
+    else if (S_tail.w > 0.0)
+    {
+        float sT, qT, tailLength;
+        tailCoordinates(p.xy, sT, qT, tailLength);
+        if (_SP[51].w < 0.5) qT -= 0.035 * (tailLength - sT) * (tailLength - sT) * 0.12;
+        sT += R * 0.6;
+        if (sT > -3.0 && sT < tailLength && abs(qT) < 6.0 && p.z < zb + 5.0)
         {
-            float rise = 1.0 - ss(-2.0, S_tail.z * (10.0 / 11.0), sT);
+            float rise = 1.0 - ss(-2.0, tailLength * (10.0 / 11.0), sT);
             float nI = fbm(p * 1.3 + float3(1.7, 0.4, 2.2)) - 0.5;
             float topI = zb + 0.9 + 3.4 * rise + nI * 0.4;
             float botI = zb - 0.04 + 0.25 * (1.0 - rise) + nI * 0.15;
             float wI = (1.0 + 2.2 * rise) * (0.8 + 0.4 * nI);
             float band = 0.85 + 0.15 * sin(6.2832 * (p.z - zb) / 0.45 + sT * 0.4);
             float iv = S_tail.w * 0.9 * ss(wI + 0.4, wI - 0.6, abs(qT)) * ss(botI - 0.1, botI + 0.2, p.z) * ss(topI + 0.3, topI - 0.5, p.z)
-                * ss(-3.0, -1.0, sT) * (1.0 - ss(S_tail.z * (8.0 / 11.0), S_tail.z, sT)) * band;
+                * ss(-3.0, -1.0, sT) * (1.0 - ss(tailLength * (8.0 / 11.0), tailLength, sT)) * band;
             mw += iv * iv; ms += iv * iv * water(0.15);
             cloud = max(cloud, iv);
         }
@@ -177,12 +216,14 @@ void Build(uint3 gid : SV_DispatchThreadID)
         float reach = 0.0;
         for (uint k = 0; k < 8; k++)
         {
-            if ((float)k >= S_flank.w) break;
+            float visible = saturate(S_flank.w - (float)k);
+            if (visible <= 0.0) break;
             float fk = (float)k;
             float h1 = hash1(fk * 7.31 + 1.3); float h2 = hash1(fk * 3.97 + 0.4); float h3 = hash1(fk * 5.13 + 2.2);
             float dist = R * 0.8 + 1.6 + fk * (2.7 + 0.9 * fm) + (h1 - 0.5) * 1.4;
             float2 ctr = S_up.xy + fd * dist + rn * (0.03 * dist * dist + (h2 - 0.5) * 1.3);
-            float grow = saturate(S_flank.z * 1.7 - fk * 0.1);
+            if (_SP[55 + k].w > 0.5) ctr = _SP[55 + k].xy;
+            float grow = saturate(S_flank.z * 1.7 - fk * 0.1) * visible;
             float life = 0.86 + 0.14 * sin(tmin * 0.3 + fk * 1.9);
             float Hk = 1.08 * (zt - zb) * (0.5 - 0.06 * fk) * (0.55 + 0.8 * h3) * grow * life * (1.0 + 0.5 * fm);
             if (Hk < 0.25) continue;
@@ -199,6 +240,23 @@ void Build(uint3 gid : SV_DispatchThreadID)
         }
         float2 rel = p.xy - S_up.xy; float al = dot(rel, fd);
         float offs = dot(rel, rn) - 0.03 * al * al;
+        if (_SP[55].w > 0.5)
+        {
+            float best = 1e20, travelled = 0.0;
+            float2 previous = S_up.xy;
+            reach = 0.0;
+            [unroll] for (uint j = 0; j < 8; j++)
+            {
+                if ((float)j >= S_flank.w) break;
+                float2 next = _SP[55 + j].xy, d = next - previous;
+                float len = max(length(d), 0.01); float2 dir = d / len;
+                float u = clamp(dot(p.xy - previous, dir), 0.0, len);
+                float distance = length(p.xy - previous - dir * u);
+                if (distance < best) { best = distance; offs = distance; al = travelled + u; }
+                travelled += len; previous = next;
+            }
+            reach = travelled;
+        }
         if (reach > 0.0 && abs(offs) < 2.5 * (1.0 + 0.6 * fm) && al > 0.0 && al < reach + 1.0 && p.z < zb + 1.6)
         {
             float nb = n3(p * 0.7 + float3(0.9, 0.3, 0.1)) - 0.5;
@@ -232,20 +290,22 @@ void Build(uint3 gid : SV_DispatchThreadID)
 
     // ---- precipitation: streaky curtains under the forward flank, a hail core next to the updraft, hook rain
     float below = ss(zb + 1.2, zb - 0.3, p.z);
-    // Live 1.0 carries the forward-flank and hail shafts up into the anvil, where its storm cloud hides their top. The
-    // brain's forward-flank core is far bigger (its hail aloft is a known bias) and 2.0 has no cloud body round it, so
-    // there they would stand as a grey wall: the shafts start at the cloud base, as before
-    float forwardBelow = below;
+    // Carry authored FFD/hail into the cloud instead of cutting them off at the LCL.
+    // One inverse map bends both support and streaks; the narrowing/thinning upper
+    // shaft disappears within the tower/anvil root rather than making a grey wall.
+    // The observed Qr path below still replaces analytic precipitation for the brain.
+    float3 rainP = designedRainCoordinates(p);
+    float forwardBelow = S_tower.z > 0.0 ? designedRainTop(p.z) : below;
     float curt = 0.0;
-    if (below > 0.0)
+    if (max(below, forwardBelow) > 0.0)
     {
-        curt = (0.35 + 0.65 * ss(0.3, 0.7, n3(float3(p.x * 0.11 + p.z * 0.01, p.y * 0.11, p.z * 0.02))))
-            * (0.55 + 0.6 * n3(float3(p.x * 0.45, p.y * 0.45, p.z * 0.04) + float3(0.3, 0.5, 0.1)));
+        curt = (0.35 + 0.65 * ss(0.3, 0.7, n3(float3(rainP.x * 0.11 + p.z * 0.01, rainP.y * 0.11, p.z * 0.02))))
+            * (0.55 + 0.6 * n3(float3(rainP.xy * 0.45, p.z * 0.04) + float3(0.3, 0.5, 0.1)));
     }
     if (S_ffd.w > 0.0 && forwardBelow > 0.0)
     {
         float reachF = zb * (1.0 - saturate(S_ffd.w * 1.6));
-        float2 fq = p.xy - S_ffd.xy;
+        float2 fq = rainP.xy - S_ffd.xy;
         float2 rq;
         // 2.0: the simulated core's own ellipse when there is one; otherwise 1.0's, swept out mostly east (live)
         if (S_ffd2.z > 0.0) { float2 ax = S_ffd2.xy; rq = float2(dot(fq, ax) / S_ffd2.z, dot(fq, float2(-ax.y, ax.x)) / S_ffd2.w); }
@@ -258,13 +318,13 @@ void Build(uint3 gid : SV_DispatchThreadID)
             rq -= sweep * along;
         }
         // late in the storm (S_up.w) the straight-down forward-flank rain is lighter, lighter still near the tornado
-        float lateFfd = (1.0 - 0.45 * S_up.w) * lerp(1.0, ss(2.5, 7.5, length(p.xy - S_wall.xy)), S_up.w);
+        float lateFfd = (1.0 - 0.45 * S_up.w) * lerp(1.0, ss(2.5, 7.5, length(rainP.xy - S_wall.xy)), S_up.w);
         rain = max(rain, S_ffd.w * lateFfd * exp(-dot(rq, rq)) * curt * forwardBelow * ss(reachF - 0.2, reachF + 0.3, p.z));
     }
     if (S_hail.w > 0.0 && forwardBelow > 0.0)
     {
         float reachH = zb * (1.0 - saturate(S_hail.w * 1.6));
-        float hq = length(p.xy - S_hail.xy) / S_hail.z; float hh = exp(-hq * hq) * curt * forwardBelow * ss(reachH - 0.2, reachH + 0.3, p.z);
+        float hq = length(rainP.xy - S_hail.xy) / S_hail.z; float hh = exp(-hq * hq) * curt * forwardBelow * ss(reachH - 0.2, reachH + 0.3, p.z);
         rain = max(rain, S_hail.w * hh * 0.9);
     }
     if (S_rfdb.z > 0.0 && below > 0.0)
@@ -293,7 +353,7 @@ void Build(uint3 gid : SV_DispatchThreadID)
     float slotWrap = ss(0.05, 0.5, S_rfd.x);
     if (S_ffd.w > 0.0 && slotWrap > 0.0)
     {
-        float2 dU = p.xy - S_up.xy;
+        float2 dU = rainP.xy - S_up.xy;
         float phi = atan2(dot(dU, lf), dot(dU, fw));
         float psi = phi < -0.35 ? phi + 6.2832 : phi;
         float sp = saturate((psi - 0.65) / 3.15);
@@ -307,6 +367,14 @@ void Build(uint3 gid : SV_DispatchThreadID)
         rain = max(rain, 0.9 * (1.0 + 0.3 * S_up.w) * S_ffd.w * slotWrap * arcW * curt * hgt * ss(reachW - 0.2, reachW + 0.3, p.z));
     }
 
+    if (_HydroEnabled > 0.5)
+    {
+        rain = recordedRain(p);
+        // Qc/Qi snapshots are coarse 1 km diagnostics, not a renderable cloud
+        // envelope. Keep cloud density and material under the feature designer;
+        // otherwise these cells appear as detached, blocky cloud masses.
+    }
+    else if (_HydroEnabled < -0.5) rain = 0.0; // missing brain record must not invent analytic rain
     _OutD[id] = float4(sqrt(saturate(cloud)), sqrt(saturate(rain)), sqrt(saturate(nearV)), ms / mw);
 }
 
@@ -343,7 +411,11 @@ void Advect(uint3 id : SV_DispatchThreadID)
     kc = max(kc, boundaryResponse * mismatch * step(1e-6, k));
     float4 o;
     o.r = lerp(old.r, tgt.r, kc);
-    o.g = lerp(oldR, tgt.g, k);
+    // Recorded mass is already transported and sedimented by the brain. Sample its
+    // motion-compensated observation at the current time, with no 30 s ghost history.
+    // Zero relaxation remains pure transport for tools; pause freezes the current field.
+    o.g = _HydroEnabled > 0.5 && k > 0.0 ? sqrt(saturate(recordedRain(p)))
+        : _HydroEnabled < -0.5 ? 0.0 : lerp(oldR, tgt.g, k);
     o.b = tgt.b;
     o.a = lerp(old.a, tgt.a, kc);
     _OutD[id] = o;

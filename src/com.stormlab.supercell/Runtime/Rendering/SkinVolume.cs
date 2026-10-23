@@ -107,10 +107,16 @@ namespace StormLab.Supercell.Rendering
         static int G(int n, int t) => (n + t - 1) / t;
 
         /// <summary>Paint the target volume, levels z0 .. z0+nz-1.</summary>
+        public HydrometeorHistory Precipitation;
+        public Vector2 PrecipitationCentre;
+        public IWindSource PrecipitationWind;
         Texture lastNoise;
         public void Build(CommandBuffer cmd, SkinParams P, Texture noise, int z0, int nz)
         {
             lastNoise = noise;
+            if (Precipitation != null) Precipitation.Bind(cmd, cs, P[Slot.Base].z,
+                PrecipitationCentre, PrecipitationWind, rainFall);
+            else HydrometeorHistory.BindDisabled(cmd, cs);
             Params(cmd, P, z0);
             cmd.SetComputeTextureParam(cs, kBuild, "_Noise", noise);
             cmd.SetComputeTextureParam(cs, kBuild, "_OutD", target);
@@ -120,6 +126,11 @@ namespace StormLab.Supercell.Rendering
         /// <summary>Carry the live volume dt seconds with the wind and relax it toward the target (relax = 1: copy the target).</summary>
         public void Advect(CommandBuffer cmd, SkinParams P, IWindSource wind, bool useWind, Vector2 centreGrid, Vector2 shiftKm, float dt, float relax)
         {
+            // Refresh every live-rain texel at the current observation time, independently
+            // of the staggered cloud target slabs. Bind textures to this kernel explicitly.
+            if (Precipitation != null) Precipitation.Bind(cmd, cs, P[Slot.Base].z,
+                centreGrid, PrecipitationWind, rainFall, "Advect");
+            else HydrometeorHistory.BindDisabled(cmd, cs, "Advect");
             Params(cmd, P, 0);
             int nxt = 1 - cur;
             cmd.SetComputeTextureParam(cs, kAdvect, "_DensIn", dens[cur]);

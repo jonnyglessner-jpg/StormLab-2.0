@@ -48,6 +48,16 @@ both flanks; the meso may sit ahead of the rain; a rain-wrapped vault (the "bear
 a chaser sees anvil cirrus, then mammatus, then the gust front and arc cloud, then rain, then hail, then any
 tornado, then rapid clearing.
 
+Designed rain attachment (2026-10-23): the forward-flank and hail curtains extend above the LCL into the tilted
+tower/anvil root. Their horizontal footprint contracts smoothly with height and shifts toward the tilted upper
+updraft and anvil direction; the coarse curtain modulation, fine fall streaks and hail tint use the same inverse
+coordinates, so the streaks follow the curved shaft. The source height follows tower/anvil development, with a
+soft top fade inside the cloud and reduced upper opacity. The surface footprint and existing LP virga remain.
+This is authored visual tuning based on the user's requested appearance and the translucent forward-flank
+curtains described in `data/reference/plains_lp/NOTES.md`; it is not a precipitation trajectory or microphysics
+calibration. The brain's observed Qr support, transport, evaporation and missing-data behavior remain in charge
+of brain rain. No brain equations or sounding diagnoses were changed.
+
 ## Tornado appearance (from the photos)
 
 - **Smooth, never grooved.** No photo shows vertical grooves. Texture, where it exists, is faint banding winding

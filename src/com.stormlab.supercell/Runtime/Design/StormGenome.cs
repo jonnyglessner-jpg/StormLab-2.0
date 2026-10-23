@@ -4,6 +4,13 @@
 // shape, how long), calibrated against the SPC record (TornadoClimatology). Each cycle is realised from the environment
 // the storm is in when that cycle begins, so a storm that moves into richer air can produce a stronger second tornado,
 // and one that runs into a cap fades.
+//
+// Game pacing (2026-10-23): the storm's clock is compressed for an hour-long game. The first wall cloud comes 10-20 min
+// after initiation, cycles follow each other within minutes, and tornado lives are drawn for play rather than from path
+// length / storm speed: most last 2-6 min, EF3s 6-15, EF4+ 11-28, and some ropes and drillbits 12-20 (never over 30).
+// Ratings, widths, shapes and the cycle-to-cycle story still come from the climatology draws. A supercell always puts
+// down at least one tornado (the second cycle is forced if the first makes none), and a scenario can cap or force the
+// rating (maxEf, forceEf) so the strongest tornado of a game follows the game's own odds (StormScenario).
 using System;
 using System.Collections.Generic;
 
@@ -165,6 +172,22 @@ namespace StormLab.Supercell
         /// <summary>slow decay after the last cycle, s</summary>
         public double decayS;
 
+        // ---- scenario controls (StormScenario); set before the storm is laid out
+        /// <summary>no tornado of this storm is rated above this</summary>
+        public int maxEf = 5;
+        /// <summary>the storm's first tornado gets this rating (-1: drawn from the climatology)</summary>
+        public int forceEf = -1;
+        /// <summary>storm time by which tornadoes should be over (the end of the game for this storm), s</summary>
+        public double horizonS = double.PositiveInfinity;
+
+        /// <summary>The storm's development clock, minutes: the formation stages (tower, anvil, organising) run 2.75x faster
+        /// than real time for the first 8 min, then 1.5x, so a supercell is organised in time for its 10-20 min wall cloud.</summary>
+        public static double DevMinutes(double t)
+        {
+            double tm = Math.Max(t, 0) / 60;
+            return tm <= 8 ? 2.75 * tm : 22 + 1.5 * (tm - 8);
+        }
+
         public StormGenome(int seed, ClimoRegion region, in StormCharacter atInitiation)
         {
             this.seed = seed; this.region = region;
@@ -178,19 +201,21 @@ namespace StormLab.Supercell
             double feed = C.Clamp((atInitiation.w - 20) / 25, 0, 1) * C.Clamp((atInitiation.shear6 - 18) / 12, 0, 1);
             if (r.U() < 0.35 + 0.35 * feed) n++;
             if (r.U() < 0.3 * feed) n++;
-            plannedCycles = Math.Max(1, Math.Min(4, n));
+            // game: at least two cycles, so a storm whose first cycle makes no tornado still produces one
+            plannedCycles = Math.Max(2, Math.Min(4, n));
             // HP storms that wrap their circulation in rain choke on their own outflow sooner
             if (atInitiation.HP && plannedCycles > 2 && r.U() < 0.5) plannedCycles--;
-            // first wall cloud 34-66 min after initiation (first tornado typically 45-90 min), sooner with strong low-level shear
-            firstWallS = 60 * (r.Range(42, 66) - 8 * C.Clamp((atInitiation.srh1 - 150) / 250, 0, 1));
-            decayS = 60 * r.Range(18, 35);
+            // first wall cloud 10-20 min after initiation (game pacing; real storms take 35-65), sooner with strong
+            // low-level shear
+            firstWallS = 60 * (12 + 8 * r.U() - 2 * C.Clamp((atInitiation.srh1 - 150) / 250, 0, 1));
+            decayS = 60 * r.Range(8, 14);
         }
 
         /// <summary>
         /// Realise cycle k, beginning at wallS, from the character of the storm then. prev is the previous cycle (null for
         /// the first). groundSpeed is the storm's speed over the ground, m/s.
         /// </summary>
-        public CycleGene Realise(int k, double wallS, in StormCharacter ch, CycleGene prev, double groundSpeed)
+        public CycleGene Realise(int k, double wallS, in StormCharacter ch, CycleGene prev, double groundSpeed, bool firstTornado = true, bool forceTornado = false)
         {
             var r = new StormRng(seed, 100 + k);
             var cyc = new CycleGene { index = k, wallS = wallS };
@@ -202,31 +227,40 @@ namespace StormLab.Supercell
 
             // Does this cycle make a tornado? STP's tornado odds for a supercell, raised by this cycle's rotation.
             double ptor = C.Clamp(1.45 * ch.ptor * Math.Pow(cyc.meso, 1.2), 0, 0.93);
-            bool torn = ch.kind == StormKind.Supercell && r.U() < ptor;
+            bool torn = ch.kind == StormKind.Supercell && (r.U() < ptor || forceTornado);
             double uEf = r.U(), uW = r.U(), uL = r.U(), uV = r.U(), uShape = r.U(), uDelay = r.U(), uAnti = r.U();
             if (!torn)
             {
-                cyc.occludeS = wallS + 60 * r.Range(22, 30);
-                cyc.endS = cyc.occludeS + 60 * r.Range(5, 9);
+                cyc.occludeS = wallS + 60 * r.Range(9, 13);
+                cyc.endS = cyc.occludeS + 60 * r.Range(2.5, 4.5);
                 return cyc;
             }
 
             var t = new TornadoGene();
             // rating from this cycle's environment, with this cycle's rotation boosting or damping it
             double stpEff = ch.stp * cyc.meso * cyc.meso;
-            t.ef = TornadoClimatology.SampleEf(region, stpEff, uEf);
+            t.ef = Math.Min(TornadoClimatology.SampleEf(region, stpEff, uEf), Math.Max(maxEf, 0));
+            if (firstTornado && forceEf >= 0) t.ef = Math.Min(forceEf, 5);
             t.widthM = TornadoClimatology.SampleWidthM(region, t.ef, uW);
             t.pathKm = TornadoClimatology.SampleLengthKm(region, t.ef, uL);
             t.vmax = TornadoClimatology.SampleVmax(t.ef, uV);
             // radius of maximum wind: the damage path's edge is where the wind drops to 65 mph (29 m/s), which in a
             // Rankine vortex is at r = rc x vmax / 29, so rc = half-width x 29 / vmax
             t.rcKm = C.Clamp(0.5 * t.widthM / 1000 * 29.0 / t.vmax, 0.012, 0.6);
-            // path length / ground speed; brief spin-ups in the record come from all kinds of storm, so a supercell's tornado
-            // lasts at least 90 s (EF0-1) or 3 min (EF2+)
-            t.lifeS = C.Clamp(t.pathKm * 1000 / Math.Max(groundSpeed, 6), t.ef >= 2 ? 180 : 90, 95 * 60);
-            // forms 8-18 min after the wall cloud, sooner with strong low-level shear
-            t.formS = wallS + 60 * (r.Range(8, 18) - 4 * C.Clamp((ch.srh1 - 200) / 300, 0, 1)) * (0.85 + 0.15 * uDelay);
+            // game life (own stream): most tornadoes last 2-6 min, only the strongest and widest 10+
+            var rl = new StormRng(seed, 400 + k);
+            double uLife = rl.U(), uLong = rl.U(), uLongLen = rl.U();
+            t.lifeS = 60 * (t.ef <= 1 ? 1.8 + 3.7 * uLife : t.ef == 2 ? 2.5 + 4.5 * uLife : t.ef == 3 ? 6 + 9 * uLife : 11 + 14 * uLife + 3 * (t.ef - 4));
+            if (t.ef >= 2 && t.widthM > 800) t.lifeS = Math.Max(t.lifeS, 60 * (6 + 6 * uLife));
+            // forms 2.5-8 min after the wall cloud (game pacing), sooner with strong low-level shear
+            t.formS = wallS + 60 * Math.Max(r.Range(4, 8) - 1.5 * C.Clamp((ch.srh1 - 200) / 300, 0, 1), 2.5) * (0.85 + 0.15 * uDelay);
             PickShape(t, ch, ref r, uShape);
+            // thin, long-lived tornadoes: some ropes and drillbits hang on for 12-20 min
+            if ((t.shape == TornadoShape.Rope || t.shape == TornadoShape.Drillbit) && uLong < 0.3) t.lifeS = 60 * (12 + 8 * uLongLen);
+            // never over 30 min, and over by the end of the game where that leaves at least 2 min
+            t.lifeS = Math.Min(t.lifeS, 30 * 60);
+            if (!double.IsInfinity(horizonS)) t.lifeS = Math.Max(Math.Min(t.lifeS, horizonS - 120 - t.formS), Math.Min(t.lifeS, 120));
+            t.pathKm = t.lifeS * Math.Max(groundSpeed, 6) / 1000;
             t.rainWrap = C.Clamp((ch.hpness - 0.2) / 0.6, 0, 1) * r.Range(0.6, 1.0);
             t.driftKm = r.Range(0.4, 1.4);
             // its own stream, so the draws above (and the storms they give) stay what they were
@@ -236,7 +270,7 @@ namespace StormLab.Supercell
             cyc.antiTornado = k >= 1 && ch.stp >= 4 && t.ef >= 2 && uAnti < 0.25;
             // the gust front wraps round as the tornado ropes out; the wall cloud goes a few minutes after it lifts
             cyc.occludeS = t.formS + t.lifeS * (1 - 0.6 * t.ropeFrac);
-            cyc.endS = Math.Max(t.EndS + 60 * r.Range(3, 7), cyc.occludeS + 360);
+            cyc.endS = Math.Max(t.EndS + 60 * r.Range(1.5, 3), cyc.occludeS + 180);
             return cyc;
         }
 
@@ -244,12 +278,12 @@ namespace StormLab.Supercell
         public double NextWallS(CycleGene c, in StormCharacter ch)
         {
             var r = new StormRng(seed, 200 + c.index);
-            if (c.tornado == null) return c.occludeS - 60 * r.Range(2, 6);   // the new meso forms as the old one occludes
-            // the next tornado follows at the climatological interval after this one ends; its wall cloud forms the
-            // usual 8-18 min before that, but never before this tornado is half-way through its life
-            double gap = 60 * Math.Max(TornadoClimatology.SampleIntervalMin(region, r.U()), 4);
+            if (c.tornado == null) return c.occludeS - 60 * r.Range(1, 3);   // the new meso forms as the old one occludes
+            // the next tornado follows a quarter of the climatological interval after this one ends (game pacing, 2-7 min);
+            // its wall cloud forms 3-6 min before that, but never before this tornado is half-way through its life
+            double gap = 60 * C.Clamp(0.25 * TornadoClimatology.SampleIntervalMin(region, r.U()), 2, 7);
             double nextForm = c.tornado.EndS + gap;
-            return Math.Max(nextForm - 60 * r.Range(8, 15), c.tornado.formS + 0.5 * c.tornado.lifeS);
+            return Math.Max(nextForm - 60 * r.Range(3, 6), c.tornado.formS + 0.5 * c.tornado.lifeS);
         }
 
         static void PickShape(TornadoGene t, in StormCharacter ch, ref StormRng r, double u)

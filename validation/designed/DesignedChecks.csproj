@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The designed-storm checks (Editor/DesignedChecks.cs) without Unity, against a Unity stub. Run from the repo:
+       dotnet run (Unity bundled dotnet) with project validation/designed/DesignedChecks.csproj. Unity has the final word. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS0649;CS0169;CS0414</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs;UnityStub.cs" />
+    <Compile Include="../../src/com.stormlab.supercell/Runtime/Environment/*.cs" />
+    <Compile Include="../../src/com.stormlab.supercell/Runtime/Design/*.cs" Exclude="../../src/com.stormlab.supercell/Runtime/Design/DesignedStormRunner.cs;../../src/com.stormlab.supercell/Runtime/Design/DesignedScenarioRunner.cs" />
+    <Compile Include="../../src/com.stormlab.supercell/Runtime/Designer/SkinParams.cs" />
+    <Compile Include="../../src/com.stormlab.supercell/Editor/DesignedChecks.cs" />
+  </ItemGroup>
+</Project>

@@ -75,6 +75,7 @@ namespace StormLab.Supercell.Lightning
                 cmd.SetComputeIntParam(compute,"_SLAnchorSeed",unchecked((int)e.seed));
                 cmd.SetComputeIntParam(compute,"_SLAnchorKind",(int)e.kind);
                 cmd.SetComputeFloatParam(compute,"_SLAnvilFraction",positiveAnvilFraction);
+                cmd.SetComputeFloatParam(compute,"_SLReach",Mathf.Clamp01(e.reach));
                 cmd.SetComputeBufferParam(compute,kernel,"_SLAnchors",anchorBuffer);
                 cmd.DispatchCompute(compute,kernel,4,1,1);
                 Graphics.ExecuteCommandBuffer(cmd);
@@ -88,7 +89,8 @@ namespace StormLab.Supercell.Lightning
             for (int i = 128; i < 256; i++)
                 if (anchorCandidates[i].w >= .5f && Vector3.Distance(anchorCandidates[origin],anchorCandidates[i]) >= .5f)
                 { target = i; break; }
-            if (e.kind == FlashKind.InCloud && target < 0) return null;
+            // In-cloud flashes need a second cloud point; a crawler needs one out in the anvil.
+            if ((e.kind == FlashKind.InCloud || e.kind == FlashKind.Crawler) && target < 0) return null;
             Vector3 a = skin.VolToWorld(anchorCandidates[origin]);
             Vector3 b = skin.VolToWorld(anchorCandidates[target < 0 ? origin : target]);
             return new LightningAnchors(new System.Numerics.Vector3(a.x,a.y,a.z),new System.Numerics.Vector3(b.x,b.y,b.z));

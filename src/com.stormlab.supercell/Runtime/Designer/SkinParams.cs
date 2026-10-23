@@ -119,6 +119,11 @@ namespace StormLab.Supercell.Designer
         Tor10 = 49,
         /// <summary>satellite tornado: xy position, z amount 0..1, w visible radius km</summary>
         Tor11 = 50,
+        // Persistent presentation geometry: grid positions transformed into volume km.
+        // xy position, w = valid (1 brain, 2 designed boundary); legacy blocks leave these zero.
+        TailPath0 = 51, TailPath1 = 52, TailPath2 = 53, TailPath3 = 54,
+        FlankTower0 = 55, FlankTower1 = 56, FlankTower2 = 57, FlankTower3 = 58,
+        FlankTower4 = 59, FlankTower5 = 60, FlankTower6 = 61, FlankTower7 = 62,
     }
 
     /// <summary>Feature groups, for the Source slot (which ones the sim drove and which fell back to 1.0's script).</summary>
@@ -133,7 +138,7 @@ namespace StormLab.Supercell.Designer
 
     public sealed class SkinParams
     {
-        public const int NSLOT = 51;
+        public const int NSLOT = 63;
         public readonly Vector4[] v = new Vector4[NSLOT];
         public string stage = "", caption = "";
         /// <summary>suggested volume centre (grid metres): the updraft, moved downwind so the anvil fits</summary>

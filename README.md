@@ -41,3 +41,7 @@ Menu **Supercell Lab** has the validation suites and the test bench (Ctrl+Shift+
 
 Predecessors: StormLab 1.0 (https://github.com/jonnyglessner-jpg/StormLab, MIT) and the Dodge City Drive world
 (`../dodge-city-drive`), whose lidar terrain is the first world the storm will cross.
+
+Designed-storm comparison: in the test project, choose **Supercell Lab > Open Designed Variant Preview**. See [the preview guide](docs/designed-variant-preview.md) for environment presets, Classic/LP/HP controls, and consistent camera/light comparisons. Rain is enabled in this preview.
+
+Designed runners automatically connect cloud lightning and storm-driven activity in Play. Thunder plays at 1x; accelerated playback stays silent. The selectable environments are Plains, LP (the former hail setup), Dixie and Ohio.

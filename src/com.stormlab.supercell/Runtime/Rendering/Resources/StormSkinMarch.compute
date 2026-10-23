@@ -26,7 +26,8 @@ float4 _Dbg;
 Texture2DArray<float> _DepthTex;
 RWTexture2D<float4> _Out;
 RWTexture2D<float> _OutDist;
-// where the ray's transmittance first falls below one half, km (the storm's depth for the composite)
+// where the ray's transmittance first falls below one half in the storm's own cloud, km (the storm's depth for the
+// composite); -1 where the cloud never hides half of what is behind it (the backdrop does not count)
 RWTexture2D<float> _OutHalf;
 
 // camera in the volume frame (km): position, forward, right, up; xy of _CamTan = tan of the half angles
@@ -1092,7 +1093,7 @@ void March(uint3 gid : SV_DispatchThreadID)
     if (fa1 > fa0 && boxHit && tBox < tStop) farAnvil(cp, rd, max(fa0, tBox), fa1, skyc, hazec, phys, col, T, dsum, wsum);
     float dist = wsum > 1e-3 ? dsum / wsum : min(tb, 60.0);
     _OutDist[id.xy] = dist;
-    _OutHalf[id.xy] = tHalf < 1e8 ? tHalf : dist;
+    _OutHalf[id.xy] = tHalf < 1e8 ? tHalf : -1.0;
     if ((uint)_Dbg.x & 64u) { _Out[id.xy] = float4(nSteps / _DepthP.w, nDetail / _DepthP.w, T, 0.0); return; }
 
     bool sceneHit = tScene < 1e8;

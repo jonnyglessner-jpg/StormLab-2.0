@@ -67,6 +67,8 @@ Shader "Hidden/StormLab/SkinComposite"
                 float2 ndc = uv * 2.0 - 1.0;
                 float cosRay = rsqrt(1.0 + dot(ndc * _StormTan.xy, ndc * _StormTan.xy));
                 float d = _StormDist.SampleLevel(sampler_PointClamp_StormComposite, uv, 0);
+                // only the storm's own cloud: the standalone backdrop is opaque too, but it is the sky, not the storm
+                clip(d);
                 float eye = max(d * 1000.0 * cosRay, _ProjectionParams.y);
                 depth = (1.0 / eye - _ZBufferParams.w) / _ZBufferParams.z;
                 return 0;

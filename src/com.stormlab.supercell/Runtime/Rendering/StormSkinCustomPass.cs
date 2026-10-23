@@ -9,8 +9,8 @@
 // depth it writes, so the ones behind it are hidden and the ones in front stay in front. The colour pyramid HDRP's
 // refractive transparents sample was built before this point and does not contain the storm.
 //
-// StormSkin installs one of these in a global CustomPassVolume when it is enabled (StormSkinCustomPass.EnsureInstalled);
-// a scene can instead hold its own volume with this pass in it.
+// StormSkin registers one of these with HDRP as a global custom pass (StormSkinCustomPass.EnsureInstalled); a scene can
+// also hold its own CustomPassVolume with this pass in it, and only one of them draws each camera's frame.
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -25,7 +25,7 @@ namespace StormLab.Supercell.Rendering
         public bool useSceneDepth = true;
         [Tooltip("write the storm's depth where it is opaque, so transparents and post effects behind it are hidden")]
         public bool writeDepth = true;
-        readonly List<StormSkin> drawn = new List<StormSkin>();
+        List<StormSkin> drawn;
         /// <summary>how many times any storm pass has run (diagnostics: 0 means HDRP never reached it)</summary>
         public static int Executions { get; private set; }
         /// <summary>how many storms it has composited (0 with Executions above 0: no skin was ready to draw)</summary>
@@ -38,6 +38,8 @@ namespace StormLab.Supercell.Rendering
             Executions++;
             var hd = ctx.hdCamera; var cam = hd.camera;
             if (cam.cameraType == CameraType.Preview || cam.cameraType == CameraType.Reflection) return;
+            if (this == global && SceneHasOwnPass()) return;
+            drawn ??= new List<StormSkin>();
             drawn.Clear();
             var active = StormSkin.Active;
             if (active != null && active.isActiveAndEnabled && active.ReadyToRender) drawn.Add(active);
@@ -63,21 +65,35 @@ namespace StormLab.Supercell.Rendering
             }
         }
 
-        static GameObject installed;
+        static StormSkinCustomPass global;
+        /// <summary>the pass StormSkin registers (null until a skin has been enabled under HDRP)</summary>
+        public static StormSkinCustomPass Global => global;
         /// <summary>
-        /// Make sure some global CustomPassVolume draws the storm: if the scene holds none with a StormSkinCustomPass,
-        /// add a hidden one (not saved with the scene) at BeforeTransparent.
+        /// Make sure the storm is drawn: register one StormSkinCustomPass with HDRP as a global custom pass at
+        /// BeforeTransparent (no GameObject). HDRP clears its global passes and volume lists when scripts reload, which
+        /// includes entering Play mode, after objects have been enabled; StormSkin therefore calls this every frame (a
+        /// lookup when it is already registered).
         /// </summary>
         public static void EnsureInstalled()
         {
-            if (installed) return;
-            foreach (var v in Object.FindObjectsByType<CustomPassVolume>(FindObjectsInactive.Exclude))
-                if (v.isActiveAndEnabled && v.customPasses.Exists(p => p is StormSkinCustomPass)) return;
-            installed = new GameObject("Storm skin (HDRP custom pass)") { hideFlags = HideFlags.HideAndDontSave };
-            var vol = installed.AddComponent<CustomPassVolume>();
-            vol.isGlobal = true;
-            vol.injectionPoint = CustomPassInjectionPoint.BeforeTransparent;
-            vol.customPasses.Add(new StormSkinCustomPass { name = "Storm skin" });
+            global ??= new StormSkinCustomPass { name = "Storm skin" };
+            CustomPassVolume.RegisterUniqueGlobalCustomPass(CustomPassInjectionPoint.BeforeTransparent, global);
+        }
+
+        // A scene may also hold its own volume with this pass in it; then the global one stands down, so the storm is
+        // drawn once. (HDRP has already worked out which volumes reach the camera being rendered.)
+        static readonly List<CustomPassVolume> volumes = new List<CustomPassVolume>();
+        static readonly CustomPassInjectionPoint[] points = (CustomPassInjectionPoint[])System.Enum.GetValues(typeof(CustomPassInjectionPoint));
+        static bool SceneHasOwnPass()
+        {
+            foreach (var p in points)
+            {
+                CustomPassVolume.GetActivePassVolumes(p, volumes);
+                foreach (var v in volumes)
+                    foreach (var c in v.customPasses)
+                        if (c is StormSkinCustomPass && c.enabled) return true;
+            }
+            return false;
         }
     }
 }

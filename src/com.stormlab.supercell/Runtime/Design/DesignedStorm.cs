@@ -20,8 +20,10 @@ using UnityEngine;
 
 namespace StormLab.Supercell
 {
-    /// <summary>Designed-storm art direction. Auto retains the environment's diagnosed precipitation mode.</summary>
-    public enum DesignedPrecipitation { Auto, Classic, LP, HP }
+    /// <summary>Designed-storm art direction. Auto retains the environment's diagnosed precipitation mode (an LP-like
+    /// sounding still gives an LP-like storm). The authored LP mode (2) was taken out for the game on 2026-10-23; the
+    /// values keep their numbers so saved scenes and sessions do not shift, and a saved 2 is drawn classic.</summary>
+    public enum DesignedPrecipitation { Auto = 0, Classic = 1, HP = 3 }
 
     /// <summary>Authored inflow/FFD boundary, using the same swept Gaussian footprint as the rain shader.
     /// This is presentation geometry, not a resolved thermodynamic front.</summary>
@@ -169,7 +171,7 @@ namespace StormLab.Supercell
         public DesignedStorm(IEnvironmentSource env, Vec2 spawn, int seed, ClimoRegion region,
             DesignedPrecipitation precipitation = DesignedPrecipitation.Auto, DesignedStormOptions options = null)
         {
-            this.precipitation = precipitation;
+            this.precipitation = System.Enum.IsDefined(typeof(DesignedPrecipitation), precipitation) ? precipitation : DesignedPrecipitation.Classic;
             source = env; spawnKm = spawn;
             env0 = env.At(spawn.x, spawn.y, 0);
             var ch0 = CharacterFrom(env0);
@@ -188,10 +190,10 @@ namespace StormLab.Supercell
         {
             var ch = StormCharacter.From(environment);
             if (precipitation == DesignedPrecipitation.Auto || ch.kind != StormKind.Supercell) return ch;
-            // Explicit authored modes, not a new sounding diagnosis. Reuse the existing LP width rule.
+            // Explicit authored modes, not a new sounding diagnosis. Undo the LP width rule when an LP sounding is authored
+            // classic or HP.
             bool wasLP = ch.LP;
-            ch.hpness = precipitation == DesignedPrecipitation.LP ? -0.8
-                : precipitation == DesignedPrecipitation.HP ? 0.8 : 0;
+            ch.hpness = precipitation == DesignedPrecipitation.HP ? 0.8 : 0;
             ch.R *= (ch.LP ? 0.88 : 1) / (wasLP ? 0.88 : 1);
             return ch;
         }

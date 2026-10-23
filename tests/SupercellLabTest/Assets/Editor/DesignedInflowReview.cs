@@ -33,7 +33,7 @@ public static class DesignedInflowReview
         {
             bench.StructureComparison(); bench.showPanel = false;
             foreach (var item in new[] {
-                ("plains", DesignedPrecipitation.Classic), ("plains", DesignedPrecipitation.LP),
+                ("plains", DesignedPrecipitation.Classic), ("lp", DesignedPrecipitation.Auto),
                 ("plains", DesignedPrecipitation.HP), ("dixie", DesignedPrecipitation.Auto) })
             {
                 bench.s.preset = item.Item1; bench.s.precipitation = item.Item2;

@@ -303,6 +303,11 @@ namespace StormLab.Supercell.Rendering
         void OnEnable()
         {
             Active = this; if (!Enabled.Contains(this)) Enabled.Add(this);
+            EnsurePass();
+        }
+        /// <summary>the HDRP pass that draws the storm, registered again whenever HDRP has cleared it (entering Play mode)</summary>
+        static void EnsurePass()
+        {
             if (GraphicsSettings.currentRenderPipeline is UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset) StormSkinCustomPass.EnsureInstalled();
         }
         /// <summary>Make this the skin the custom pass draws (the last enabled one otherwise).</summary>
@@ -398,6 +403,7 @@ namespace StormLab.Supercell.Rendering
         /// </summary>
         public bool StepTo(float t, float clock)
         {
+            EnsurePass();
             if (Volume == null || (Run == null && Designed == null)) return false;
             WallClock = clock;
             if (Run != null && Run.timeline.Latest < 0) return false;

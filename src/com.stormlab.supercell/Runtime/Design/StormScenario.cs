@@ -7,9 +7,8 @@
 // the best chance of an EF3+ tornado.
 //
 // Precipitation mode by lane (when the scenario's mode is Auto): the northern storm most likely goes HP, the southern
-// most likely LP (LaneMode; its classic-leaning middle lane is unused since games dropped to two storms). A storm's
-// "northness" is where its track crosses the map's centre line, so it holds whichever way the storms move. Choosing
-// Classic, LP or HP for the scenario authors every storm that way instead.
+// one is almost always classic (LaneMode). A storm's "northness" is where its track crosses the map's centre line, so it
+// holds whichever way the storms move. Choosing Classic or HP for the scenario authors every storm that way instead.
 //
 // Map frame: km in the environment's frame, x east and y north, south-west corner at (0, 0). Times: game seconds from
 // the start; a storm's own time is the game time minus its start.
@@ -123,16 +122,15 @@ namespace StormLab.Supercell
         public static double HeadlineWeight(double northness) => 0.5 + 3.5 * northness * northness;
 
         /// <summary>
-        /// A storm's precipitation mode from its lane (0 southernmost .. 1 northernmost) and a uniform draw u. The odds run
-        /// linearly between three lanes: southernmost LP 70 % / classic 25 % / HP 5 %, middle classic 70 % / LP 15 % /
-        /// HP 15 %, northernmost HP 70 % / classic 25 % / LP 5 %.
+        /// A storm's precipitation mode from its lane (0 southernmost .. 1 northernmost) and a uniform draw u. The HP odds
+        /// run linearly between three lanes, southernmost 5 %, middle 15 %, northernmost 70 %; the rest are classic. (Until
+        /// 2026-10-23 the southern lanes leaned LP; the LP mode is out of the game, and its share went to classic.)
         /// </summary>
         public static DesignedPrecipitation LaneMode(double northness, double u)
         {
             double q = C.Clamp(northness, 0, 1), f = q < 0.5 ? q / 0.5 : (q - 0.5) / 0.5;
-            double lp = q < 0.5 ? C.Lerp(0.70, 0.15, f) : C.Lerp(0.15, 0.05, f);
             double hp = q < 0.5 ? C.Lerp(0.05, 0.15, f) : C.Lerp(0.15, 0.70, f);
-            return u < lp ? DesignedPrecipitation.LP : u < lp + hp ? DesignedPrecipitation.HP : DesignedPrecipitation.Classic;
+            return u < hp ? DesignedPrecipitation.HP : DesignedPrecipitation.Classic;
         }
 
         /// <summary>the strongest tornado of the game</summary>

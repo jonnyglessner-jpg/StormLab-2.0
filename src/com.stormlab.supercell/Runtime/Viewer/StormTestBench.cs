@@ -417,10 +417,12 @@ namespace StormLab.Supercell
             int npi = GUILayout.SelectionGrid(Mathf.Max(pi, 0), keys, 4);
             if (npi != pi) { s.preset = keys[npi]; s.region = PresetRegion(s.preset); dirtyStorm = true; }
             GUILayout.Label("Precipitation mode", Bold());
-            int npm = GUILayout.Toolbar((int)s.precipitation, new[] { "Auto", "Classic", "LP", "HP" });
-            if (npm != (int)s.precipitation) { s.precipitation = (DesignedPrecipitation)npm; dirtyStorm = true; }
+            var modes = new[] { DesignedPrecipitation.Auto, DesignedPrecipitation.Classic, DesignedPrecipitation.HP };
+            int pm = Mathf.Max(Array.IndexOf(modes, s.precipitation), 0);
+            int npm = GUILayout.Toolbar(pm, modes.Select(m => m.ToString()).ToArray());
+            if (npm != pm || modes[npm] != s.precipitation) { s.precipitation = modes[npm]; dirtyStorm = true; }
             GUILayout.Label(s.precipitation == DesignedPrecipitation.Auto
-                ? (s.scenario ? "Game scenario: the northern storm leans HP, the southern LP."
+                ? (s.scenario ? "Game scenario: the northern storm leans HP, the southern is classic."
                     : "Mode follows the environment. LP uses the former hail environment.")
                 : s.scenario ? "Every storm of the game authored in this mode; sounding and storm motion are retained."
                 : "Authored mode override; sounding and storm motion are retained.", Wrap());

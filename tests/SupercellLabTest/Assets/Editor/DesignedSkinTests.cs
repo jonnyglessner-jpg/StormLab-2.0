@@ -10,7 +10,9 @@
 //   Screenshots/designed_game.png             (game only) the game's HDRP look: sky, exposure, fog, HDRP clouds, ground
 // and validation/reports/DesignedSkinReport.md. Batch (never -nographics):
 //   Unity.exe -batchmode -projectPath <SupercellLabTest> -executeMethod DesignedSkinTests.RunFromCommandLine -logFile designed.log
-//   [-designedOnly sheet|variety|life|timelapse|anatomy|chaser|game]
+//   [-designedOnly sheet|variety|life|timelapse|anatomy|chaser|game|bench]
+//   bench: Screenshots/designed_bench.png, the Test Bench's 2-storm game from a chaser: both storms, both without the
+//   storm depth write, each alone (parts of one storm vanishing behind the other's depth showed here)
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -409,6 +411,50 @@ public static class DesignedSkinTests
         if (only == "game")
         {
             ok &= GameViews(skin, cam, runner, plains, rep);
+        }
+
+        if (only == "bench")
+        {
+            // the Storm Test Bench's game scenario as a chaser sees it, for parts of a storm that vanish with the view:
+            // both storms, each alone, and both without the storm depth write
+            var parts = new List<Texture2D>();
+            skin.UseStandaloneLook(); skin.renderScale = 1f; skin.enabled = false;
+            var gameGo = new GameObject("Game scenario");
+            var game = gameGo.AddComponent<DesignedScenarioRunner>(); game.spawnOnStart = false; game.lookFrom = skin; game.playing = false;
+            game.Spawn(new FixedEnvironment(plains), 66074, ClimoRegion.Plains);
+            skin.sunSource = SunSource.Fixed; skin.sunAzimuth = 244f; skin.sunElevation = 34f;
+            float gameT = 29 * 60 + 10;
+            void SettleGame()
+            {
+                for (float t = gameT - 90f; t <= gameT + 1e-3f; t += 2f)
+                {
+                    game.gameTime = t; game.Apply();
+                    foreach (var r in game.Runners) if (r && r.gameObject.activeSelf) r.skin.StepTo(r.skin.playbackTime, t);
+                }
+                Sync();
+            }
+            SettleGame();
+            foreach (var (bearing, look) in new[] { (157f, 29f), (107f, 17f) })
+            {
+                var focus = game.UpdraftWorld(0); var dir = Bearing(bearing);
+                var pos = focus + dir * 30500f; pos.y = skin.groundHeight + 142f;
+                var flat = focus - pos; flat.y = 0;
+                cam.transform.SetPositionAndRotation(pos, Quaternion.LookRotation(flat, Vector3.up) * Quaternion.Euler(-look, 0, 0)); cam.fieldOfView = 60f;
+                Texture2D Take(string what) { foreach (var r in game.Runners) r.skin.ResetHistory(cam); var t = Shot(cam, 960, 540); Debug.Log($"[Bench] bearing {bearing}: {what}"); return t; }
+                parts.Add(Take("both storms"));
+                var g = StormSkinCustomPass.Global; g.writeDepth = false; parts.Add(Take("both, no depth write")); g.writeDepth = true;
+                for (int i = 0; i < game.Runners.Count; i++)
+                {
+                    for (int j = 0; j < game.Runners.Count; j++) game.Runners[j].gameObject.SetActive(j == i);
+                    parts.Add(Take($"storm {i + 1} alone"));
+                }
+                game.Apply();
+                foreach (var r in game.Runners) r.gameObject.SetActive(true);
+            }
+            Save(Sheet(parts, 4), "designed_bench");
+            foreach (var t in parts) Object.DestroyImmediate(t);
+            Object.DestroyImmediate(gameGo);
+            rep.AppendLine("`designed_bench.png`: per row, one view: both storms, both without the depth write, storm 1 alone, storm 2 alone.");
         }
 
         if (only == null || only == "timelapse")

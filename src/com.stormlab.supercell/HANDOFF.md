@@ -77,8 +77,9 @@ first, test, then delete, and keep the deletion in its own commit so it can be r
    - `enableLightning` on.
    - Leave each skin's `toneMap`, `drawBackdrop` and `nightAdaptation` off. Those are for the package's own preview
      scenes; in a game they paint a fake sky and ground over the game's world.
-4. **The storm's custom pass.** `StormSkin` adds a hidden global `CustomPassVolume` with `StormSkinCustomPass` at
-   `BeforeTransparent` when it is enabled, unless the scene already has one. Do not move it earlier. HDRP's sky, fog
+4. **The storm's custom pass.** `StormSkin` registers `StormSkinCustomPass` with HDRP as a global custom pass at
+   `BeforeTransparent`. Nothing needs adding to the scene. A scene can hold its own `CustomPassVolume` with the pass
+   instead, and the global one then stands down. Do not move it earlier. HDRP's sky, fog
    and volumetric clouds all come before `BeforeTransparent`, and they treat any pixel without depth as open sky. An
    earlier injection point gets them painted over the storm. That is the "background clouds show through the storm"
    bug. The pass writes the storm's depth where it is opaque, so the game's transparents (particles, glass, water)

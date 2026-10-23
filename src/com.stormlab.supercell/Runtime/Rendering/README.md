@@ -6,8 +6,10 @@ wind.**
 
 ## Use it
 
-1. The project renders with HDRP (Unity 6, HDRP 17). `StormSkin` installs the pass that draws it, a hidden global
-   `CustomPassVolume` with `StormSkinCustomPass` at `BeforeTransparent`, unless the scene already holds one.
+1. The project renders with HDRP (Unity 6, HDRP 17). `StormSkin` registers the pass that draws it,
+   `StormSkinCustomPass`, with HDRP as a global custom pass at `BeforeTransparent` (no GameObject). It re-registers
+   every frame because HDRP clears its custom passes when scripts reload, as on entering Play mode. A scene may also
+   hold its own `CustomPassVolume` with the pass; then the global one stands down.
 2. Put `StormSkin` on the GameObject that has the `SupercellRunner`, and set `runner`.
 3. Set `groundOrigin`: the world x, z (metres) of the simulation grid's south-west corner at t = 0. The grid is
    80 x 80 km and moves at the frame motion. The default `(-40000, -40000)` centres the grid on the world origin.

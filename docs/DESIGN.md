@@ -405,3 +405,7 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   physical units, the sun Light's lux x 0.5 / pi per unit, times the camera's exposure; the lab's own display curve
   and backdrop are now the opt-in `UseStandaloneLook()`, which the test scenes use so the photo calibrations hold.
   `DesignedSkinTests -designedOnly game` checks (1)-(2) against HDRP's physically based sky, fog and volumetric clouds.
+- **2026-10-23** The authored LP precipitation mode is out of the game (not needed for it; it can come back).
+  `DesignedPrecipitation` is Auto, Classic and HP, keeping their stored numbers (a saved LP, 2, is drawn classic). In a
+  game the southern storm is now classic 95 % / HP 5 % (it was LP 70 %); the northern one is unchanged. Auto still
+  follows the sounding, so the `lp` environment preset still gives LP-like storms.

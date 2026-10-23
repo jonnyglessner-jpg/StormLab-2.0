@@ -36,7 +36,7 @@ namespace StormLab.Supercell.EditorTools
             ("designed inflow tail follows the FFD boundary, bends and survives seeks/recentering", InflowBoundary),
             ("game pacing: first wall cloud 10-20 min, most tornadoes 2-6 min, only strong or thin ones 10+, none over 30", GamePacing),
             ("game scenario: 2 well-spaced storms cross the 30-mile map, each with a tornado; ~40% of games EF3+, ~20% EF4+", Scenario),
-            ("game scenario: the northern storm leans HP, the southern LP", ScenarioModes),
+            ("game scenario: the northern storm leans HP, the southern is classic, none is LP", ScenarioModes),
             ("game scenario: the northern storm has the best chance of an EF3+ tornado", ScenarioNorthStrongest),
         };
 
@@ -70,8 +70,8 @@ namespace StormLab.Supercell.EditorTools
         static string ScenarioModes()
         {
             var env = new FixedEnvironment(Preset("plains"));
-            // counts by lane: [0] southern, [2] northern; per mode LP / classic / HP
-            var c = new int[3, 3]; int forced = 0;
+            // counts by lane: [0] southern, [2] northern; per mode classic / HP
+            var c = new int[3, 2]; int forced = 0;
             for (int s = 1; s <= 600; s++)
             {
                 var sc = new StormScenario(env, s, ClimoRegion.Plains);
@@ -80,20 +80,20 @@ namespace StormLab.Supercell.EditorTools
                     if (st.storm.precipitation != st.precipitation) return $"FAIL scenario {s}: storm {st.index} drawn {st.precipitation}, laid out {st.storm.precipitation}";
                     int lane = st.northness < 0.01 ? 0 : st.northness > 0.99 ? 2 : Math.Abs(st.northness - 0.5) < 0.01 ? 1 : -1;
                     if (lane < 0) continue;
-                    int m = st.precipitation == DesignedPrecipitation.LP ? 0 : st.precipitation == DesignedPrecipitation.Classic ? 1 : 2;
+                    int m = st.precipitation == DesignedPrecipitation.HP ? 1 : 0;
                     c[lane, m]++;
                     var ch = st.storm.CharacterAt(600);
-                    if (m == 0 && !ch.LP || m == 2 && !ch.HP) return $"FAIL scenario {s}: storm {st.index} is {st.precipitation} but its hpness is {F(ch.hpness)}";
+                    if (m == 1 && !ch.HP || ch.LP) return $"FAIL scenario {s}: storm {st.index} is {st.precipitation} but its hpness is {F(ch.hpness)}";
                 }
                 // a mode chosen for the whole scenario overrides the lanes
                 if (s <= 20 && new StormScenario(env, s, ClimoRegion.Plains, DesignedPrecipitation.HP).storms.All(x => x.precipitation == DesignedPrecipitation.HP)) forced++;
             }
-            double Share(int lane, int m) => c[lane, m] / (double)Math.Max(1, c[lane, 0] + c[lane, 1] + c[lane, 2]);
-            string Row(int lane) => $"{F(Share(lane, 0))}/{F(Share(lane, 1))}/{F(Share(lane, 2))}";
-            string d = $"LP/classic/HP shares: southern {Row(0)}, northern {Row(2)}; forced HP scenario all HP in {forced}/20";
+            double Share(int lane, int m) => c[lane, m] / (double)Math.Max(1, c[lane, 0] + c[lane, 1]);
+            string Row(int lane) => $"{F(Share(lane, 0))}/{F(Share(lane, 1))}";
+            string d = $"classic/HP shares: southern {Row(0)}, northern {Row(2)}; forced HP scenario all HP in {forced}/20";
             if (forced != 20) return "FAIL a forced mode did not apply to every storm; " + d;
-            if (!(Share(2, 2) > 0.6 && Share(2, 2) > 3 * Share(0, 2))) return "FAIL northern storm does not lean HP; " + d;
-            if (!(Share(0, 0) > 0.6 && Share(0, 0) > 3 * Share(2, 0))) return "FAIL southern storm does not lean LP; " + d;
+            if (!(Share(2, 1) > 0.6 && Share(2, 1) > 3 * Share(0, 1))) return "FAIL northern storm does not lean HP; " + d;
+            if (!(Share(0, 0) > 0.85)) return "FAIL southern storm is not mostly classic; " + d;
             return d;
         }
 
@@ -263,7 +263,7 @@ namespace StormLab.Supercell.EditorTools
                     if (mode == DesignedPrecipitation.Auto && (st.lifeS != original.lifeS || ch.hpness != baseline.hpness))
                         return $"FAIL {preset.key}: Auto changed default storm";
                     if (ch.kind == StormKind.Supercell && mode != DesignedPrecipitation.Auto &&
-                        (mode == DesignedPrecipitation.LP ? !ch.LP : mode == DesignedPrecipitation.HP ? !ch.HP : ch.LP || ch.HP))
+                        (mode == DesignedPrecipitation.HP ? !ch.HP : ch.LP || ch.HP))
                         return $"FAIL {preset.key}/{mode}: mode not applied";
                     if (ch.kind != StormKind.Supercell && ch.hpness != baseline.hpness)
                         return $"FAIL {preset.key}/{mode}: non-supercell was overridden";

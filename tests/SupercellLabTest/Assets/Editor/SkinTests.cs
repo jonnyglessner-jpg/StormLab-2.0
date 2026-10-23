@@ -1,4 +1,4 @@
-// Phase 2 test: builds the skin test scene (URP asset with the StormSkinFeature, a camera, the sun, a SupercellRunner
+// Phase 2 test: builds the skin test scene (the HDRP asset in the standalone look, a camera, the sun, a SupercellRunner
 // on the Dodge City 2016-05-24 HRRR sounding, a StormSkin), runs the storm headless, renders screenshots at several
 // times and measures the skin's GPU cost. Batch (never with -nographics, the model and the skin need the GPU):
 //   Unity.exe -batchmode -projectPath <SupercellLabTest> -executeMethod SkinTests.RunFromCommandLine -logFile skin.log
@@ -19,7 +19,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.HighDefinition;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
@@ -70,47 +70,56 @@ public static class SkinTests
         AssetDatabase.CreateFolder(parent, Path.GetFileName(path));
     }
 
-    internal static UniversalRenderPipelineAsset EnsurePipeline()
+    public const string PipelinePath = "Assets/Settings/SkinTest_HDRP.asset", StandaloneProfilePath = "Assets/Settings/SkinTest_Standalone.asset";
+
+    /// <summary>
+    /// The HDRP asset the tests render with. Its volume profile is the lab's standalone look (StormSkin.UseStandaloneLook):
+    /// HDRP's tonemapping, bloom, fog and sky off, so the skin's own display curve and backdrop reach the screen as
+    /// they did under URP and the reference-photo calibrations still hold. A scene that tests the game's look adds its
+    /// own global volume over it (DesignedSkinTests' game views).
+    /// </summary>
+    internal static HDRenderPipelineAsset EnsurePipeline()
     {
         if (PlayerSettings.colorSpace != ColorSpace.Linear) PlayerSettings.colorSpace = ColorSpace.Linear;
         EnsureFolder("Assets/Settings");
-        const string rdPath = "Assets/Settings/SkinTest_Renderer.asset", rpPath = "Assets/Settings/SkinTest_URP.asset";
-        var rd = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(rdPath);
-        if (!rd)
+        var rp = AssetDatabase.LoadAssetAtPath<HDRenderPipelineAsset>(PipelinePath);
+        if (!rp) { rp = ScriptableObject.CreateInstance<HDRenderPipelineAsset>(); AssetDatabase.CreateAsset(rp, PipelinePath); }
+        var profile = AssetDatabase.LoadAssetAtPath<VolumeProfile>(StandaloneProfilePath);
+        if (!profile) { profile = ScriptableObject.CreateInstance<VolumeProfile>(); AssetDatabase.CreateAsset(profile, StandaloneProfilePath); }
+        T Get<T>() where T : VolumeComponent
         {
-            // URP's own factory (internal) sets up the post-processing data the renderer needs
-            var create = typeof(UniversalRenderPipelineAsset).GetMethod("CreateRendererAsset", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-            rd = (UniversalRendererData)create.Invoke(null, new object[] { rdPath, RendererType.UniversalRenderer, false, "Renderer" });
+            if (!profile.TryGet<T>(out var c)) { c = profile.Add<T>(true); c.name = typeof(T).Name; AssetDatabase.AddObjectToAsset(c, profile); }
+            return c;
         }
-        if (!rd.rendererFeatures.Any(f => f is StormSkinFeature))
-        {
-            var feat = ScriptableObject.CreateInstance<StormSkinFeature>();
-            feat.name = "StormSkinFeature";
-            AssetDatabase.AddObjectToAsset(feat, rd);
-            rd.rendererFeatures.Add(feat);
-            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(feat, out string _, out long id);
-            var so = new SerializedObject(rd);
-            var map = so.FindProperty("m_RendererFeatureMap");
-            map.arraySize = rd.rendererFeatures.Count;
-            map.GetArrayElementAtIndex(map.arraySize - 1).longValue = id;
-            so.ApplyModifiedPropertiesWithoutUndo();
-            rd.SetDirty();
-            EditorUtility.SetDirty(rd);
-        }
-        var rp = AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(rpPath);
-        if (!rp)
-        {
-            rp = UniversalRenderPipelineAsset.Create(rd);
-            AssetDatabase.CreateAsset(rp, rpPath);
-        }
-        rp.supportsCameraDepthTexture = true; rp.supportsHDR = true; rp.msaaSampleCount = 1; rp.renderScale = 1f;
+        var tm = Get<Tonemapping>(); tm.mode.Override(TonemappingMode.None);
+        var bloom = Get<Bloom>(); bloom.intensity.Override(0f);
+        var fog = Get<Fog>(); fog.enabled.Override(false);
+        var ex = Get<Exposure>(); ex.mode.Override(ExposureMode.Fixed); ex.fixedExposure.Override(0f);
+        var env = Get<VisualEnvironment>(); env.skyType.Override(0); env.cloudType.Override(0);
+        EditorUtility.SetDirty(profile);
+        rp.volumeProfile = profile;
+        // the game views turn HDRP's volumetric clouds on, which the asset has to support
+        var rps = rp.currentPlatformRenderPipelineSettings; rps.supportVolumetricClouds = true; rp.currentPlatformRenderPipelineSettings = rps;
         EditorUtility.SetDirty(rp);
         GraphicsSettings.defaultRenderPipeline = rp;
         int q = QualitySettings.GetQualityLevel();
         for (int i = 0; i < QualitySettings.names.Length; i++) { QualitySettings.SetQualityLevel(i, false); QualitySettings.renderPipeline = rp; }
         QualitySettings.SetQualityLevel(q, false);
+        // HDRP's global settings (default frame settings and resources): its own Ensure, which the HDRP wizard calls
+        Type.GetType("UnityEngine.Rendering.HighDefinition.HDRenderPipelineGlobalSettings, Unity.RenderPipelines.HighDefinition.Runtime")
+            ?.GetMethod("Ensure", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)?.Invoke(null, new object[] { true });
         AssetDatabase.SaveAssets();
         return rp;
+    }
+
+    /// <summary>An HDRP camera for the lab's scenes: cleared to black (the skin's backdrop covers it), no antialiasing.</summary>
+    internal static HDAdditionalCameraData SetupCamera(GameObject camGo)
+    {
+        var hd = camGo.GetComponent<HDAdditionalCameraData>();
+        if (!hd) hd = camGo.AddComponent<HDAdditionalCameraData>();
+        hd.clearColorMode = HDAdditionalCameraData.ClearColorMode.Color; hd.backgroundColorHDR = Color.black;
+        hd.antialiasing = HDAdditionalCameraData.AntialiasingMode.None;
+        return hd;
     }
 
     public static void BuildScene()
@@ -126,7 +135,7 @@ public static class SkinTests
         var cam = camGo.AddComponent<Camera>();
         cam.nearClipPlane = 1f; cam.farClipPlane = 250000f; cam.fieldOfView = 60f;
         cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
-        camGo.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
+        SetupCamera(camGo);
         camGo.transform.position = new Vector3(15000f, 2f, -15000f);
         camGo.transform.rotation = Quaternion.LookRotation(new Vector3(-1f, 0.12f, 1f));
 
@@ -143,7 +152,7 @@ public static class SkinTests
         runner.setup = new RunSetup { tier = SimTier.Average, runLength = 7200f };
         runner.gpuBudgetMs = 4f; runner.maxSpeed = 10f;
         var skin = stormGo.AddComponent<StormSkin>();
-        skin.runner = runner; skin.sun = sun;
+        skin.runner = runner; skin.sun = sun; skin.UseStandaloneLook();
         skin.groundOrigin = new Vector2(-40000f, -40000f);
 
         // a tall object for the scene-depth check (inactive unless the test turns it on)

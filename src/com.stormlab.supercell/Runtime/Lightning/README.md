@@ -39,10 +39,12 @@ The component advances a local real-time clock by default when used outside the 
 
 ## Cloud illumination and occlusion
 
-The independent `StormLab.Lightning` assembly still has no dependency on `StormLab.Supercell`.
+The independent `StormLab.Lightning` assembly still has no dependency on `StormLab.Supercell`. It references HDRP for its flash
+lights (`HDAdditionalLightData`, candela: `LightningSystem.FlashCandela`), and its channel shader is HDRP, scaled by
+the storm's light (`_StormLabLight`) and the camera's exposure like the cloud.
 The optional `StormLab.Lightning.Clouds` assembly in `Integration/` connects the two. Add `LightningCloudBridge`
-to the lightning GameObject, then assign its `lightning` and `skin` references. The skin's URP renderer must already
-have `StormSkinFeature`. Designed runners install this bridge automatically; other hosts can use this manual setup.
+to the lightning GameObject, then assign its `lightning` and `skin` references. The skin must be drawing (under HDRP it
+installs its own custom pass). Designed runners install this bridge automatically; other hosts can use this manual setup.
 
 For a prepared night storm and the same hold/replay controls, choose **Supercell Lab > Lightning > Open Cloud
 Lightning Preview**, then Play. This adds unsaved preview objects, holds the designed cloud at 30 minutes, and uses

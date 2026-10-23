@@ -39,6 +39,8 @@ namespace StormLab.Supercell
         public SkinTier tier = SkinTier.Average;
         public bool nearField = true;
         public bool enableLightning = true;
+        [Tooltip("the game's sun: every storm is lit from its direction and takes its brightness (lux) from it")]
+        public Light sun;
         [Tooltip("optional: every storm's skin copies this skin's sun, exposure and quality settings each frame")]
         public StormSkin lookFrom;
 
@@ -68,7 +70,7 @@ namespace StormLab.Supercell
                 var go = new GameObject($"Storm {s.index + 1}");
                 go.transform.SetParent(transform, false);
                 var skin = go.AddComponent<StormSkin>();
-                skin.drawAlongside = true; skin.tier = tier; skin.nearField = nearField;
+                skin.drawAlongside = true; skin.tier = tier; skin.nearField = nearField; skin.sun = sun;
                 CopyLook(skin);
                 var r = go.AddComponent<DesignedStormRunner>();
                 r.skin = skin; r.spawnOnStart = false; r.worldOriginKm = worldOriginKm; r.enableLightning = enableLightning;

@@ -6,9 +6,11 @@
 //   Screenshots/designed_tornado_variety_sunlit.png  the same tornadoes from the sun's side: the light on the funnel
 //   Screenshots/designed_tornado_life.png     one tornado that changes shape, through its life
 //   Screenshots/designed_timelapse.png        one multi-cycle storm every 10 min from a chaser following it
+//   Screenshots/designed_chaser.png           (chaser only) big tornadoes from 300 m and 1 km, with the march's debug view
+//   Screenshots/designed_game.png             (game only) the game's HDRP look: sky, exposure, fog, HDRP clouds, ground
 // and validation/reports/DesignedSkinReport.md. Batch (never -nographics):
 //   Unity.exe -batchmode -projectPath <SupercellLabTest> -executeMethod DesignedSkinTests.RunFromCommandLine -logFile designed.log
-//   [-designedOnly sheet|variety|life|timelapse|anatomy]
+//   [-designedOnly sheet|variety|life|timelapse|anatomy|chaser|game]
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 using SEnv = StormLab.Supercell.Environment;
@@ -338,6 +341,76 @@ public static class DesignedSkinTests
             rep.AppendLine("`anatomy_sheet.png`: inflow / slot / aerial; funnel / backlit / side-lit; interior / coarse-only inflow.");
         }
 
+        if (only == "chaser")
+        {
+            // A game's chaser view: big tornadoes from a few hundred metres to a kilometre, eye height, a game camera's field
+            // of view. Each view is shot as drawn and with the march's debug output (r steps used / maxSteps, g detail steps,
+            // b transmittance T), and T is logged on the funnel's axis: a funnel the horizon shows through has T well above 0.
+            rep.AppendLine("## Chaser views").AppendLine().AppendLine("| Shape | Width | From | T on the axis at 100 / 300 / 600 m | Steps used (max of the axis samples) |").AppendLine("| --- | --- | --- | --- | --- |");
+            var tiles = new List<Texture2D>();
+            var chaserShapes = new[] { (TornadoShape.Wedge, 1400.0, 4), (TornadoShape.MultiVortex, 900.0, 3), (TornadoShape.Stovepipe, 450.0, 3) };
+            foreach (var (shape, w, ef) in chaserShapes)
+            {
+                int found = -1;
+                for (int seed = 1; seed < 400 && found < 0; seed++)
+                    if (new DesignedStorm(new FixedEnvironment(plains), new Vec2(0, 0), seed, ClimoRegion.Plains).cycles.Any(c => c.tornado != null)) found = seed;
+                var st = runner.Spawn(new FixedEnvironment(plains), Vector2.zero, found, ClimoRegion.Plains);
+                var cyc = st.cycles.First(c => c.tornado != null);
+                var tg = cyc.tornado;
+                tg.ef = ef; tg.widthM = w; tg.vmax = TornadoClimatology.SampleVmax(ef, 0.5); tg.rcKm = C.Clamp(0.5 * w / 1000 * 29.0 / tg.vmax, 0.012, 0.6);
+                tg.lifeS = 1500; tg.rainWrap = 0;
+                StormGenome.Reshape(tg, shape, st.CharacterAt(tg.formS), 7);
+                tg.phases = null; tg.satellite = false; tg.leanKm = 0; tg.ghost = 0;
+                cyc.occludeS = tg.formS + tg.lifeS * (1 - 0.6 * tg.ropeFrac); cyc.endS = tg.EndS + 300;
+                foreach (var c in st.cycles.Where(c => c.index > cyc.index)) { c.wallS += 5000; c.occludeS += 5000; c.endS += 5000; if (c.tornado != null) c.tornado.formS += 5000; }
+                float T = (float)(tg.formS + 0.5 * tg.lifeS);
+                Settle(skin, T);
+                var tor = st.TornadoAt(T);
+                var g = KmToWorld(skin, tor.ground);
+                double zb = st.CharacterAt(T).zb;
+                foreach (float gap in new[] { 300f, 1000f })
+                {
+                    float D = (float)tor.groundKm * 1000f + gap;
+                    Pose(cam, g + Bearing(140f) * D + Vector3.up * 2f, g + Vector3.up * (float)(zb * 380), 60f);
+                    skin.debugFlags = 0; skin.ResetHistory(cam);
+                    var tex = Shot(cam, 960, 540);
+                    tiles.Add(tex);
+                    // the debug pass: no temporal blend or checkerboard, so each pixel is one ray's own result
+                    float blend = skin.temporalBlend; bool cb = skin.checkerboard;
+                    skin.debugFlags = 64; skin.temporalBlend = 1f; skin.checkerboard = false; skin.ResetHistory(cam);
+                    var rt = new RenderTexture(960, 540, 24, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Linear);
+                    rt.Create();
+                    var req = new RenderPipeline.StandardRequest { destination = rt };
+                    for (int f = 0; f < 3; f++) RenderPipeline.SubmitRenderRequest(cam, req);
+                    var prev = RenderTexture.active; RenderTexture.active = rt;
+                    var dbg = new Texture2D(960, 540, TextureFormat.RGBAHalf, false, true);
+                    dbg.ReadPixels(new Rect(0, 0, 960, 540), 0, 0); dbg.Apply();
+                    RenderTexture.active = prev; rt.Release(); Object.DestroyImmediate(rt);
+                    skin.debugFlags = 0; skin.temporalBlend = blend; skin.checkerboard = cb;
+                    var Ts = new List<string>(); float steps = 0f;
+                    foreach (float zm in new[] { 100f, 300f, 600f })
+                    {
+                        var vp = cam.WorldToViewportPoint(g + Vector3.up * zm);
+                        var px = dbg.GetPixel(Mathf.Clamp((int)(vp.x * 960), 0, 959), Mathf.Clamp((int)(vp.y * 540), 0, 539));
+                        Ts.Add($"{px.b:0.00}"); steps = Mathf.Max(steps, px.r);
+                    }
+                    var vis = new Texture2D(960, 540, TextureFormat.RGB24, false);
+                    vis.SetPixels(dbg.GetPixels().Select(p => new Color(p.r, p.g, p.b)).ToArray()); vis.Apply();
+                    tiles.Add(vis);
+                    Object.DestroyImmediate(dbg);
+                    rep.AppendLine($"| {shape} | {w:0} m | {gap:0} m from its edge | {string.Join(" / ", Ts)} | {steps * skin.maxSteps:0} of {skin.maxSteps} |");
+                    Debug.Log($"[Chaser] {shape} from {gap:0} m: T on the axis {string.Join(" / ", Ts)}, steps {steps * skin.maxSteps:0}/{skin.maxSteps}; radius {tor.groundKm * 1000:0}/{tor.topKm * 1000:0} m, envelope {tor.envelope:0.00}, multi {tor.multi:0.00}, cond {tor.condReach:0.00}");
+                }
+            }
+            Save(Sheet(tiles, 4), "designed_chaser"); foreach (var t in tiles) Object.DestroyImmediate(t);
+            rep.AppendLine().AppendLine("`designed_chaser.png`: per row, one shape: from 300 m (as drawn, debug), from 1 km (as drawn, debug). Debug: red steps used, green detail steps, blue transmittance.");
+        }
+
+        if (only == "game")
+        {
+            ok &= GameViews(skin, cam, runner, plains, rep);
+        }
+
         if (only == null || only == "timelapse")
         {
             // a storm with at least three cycles and two tornadoes
@@ -373,8 +446,128 @@ public static class DesignedSkinTests
 
         skin.Release();
         Object.DestroyImmediate(runner);
-        File.WriteAllText(Path.Combine(OutDir, only == "anatomy" ? "AnatomySkinReport.md" : "DesignedSkinReport.md"), rep.ToString());
+        File.WriteAllText(Path.Combine(OutDir, only == "anatomy" ? "AnatomySkinReport.md" : only == "chaser" ? "ChaserSkinReport.md" : only == "game" ? "GameSkinReport.md" : "DesignedSkinReport.md"), rep.ToString());
         Debug.Log($"[Designed] render test {(ok ? "PASS" : "FAIL")}; screenshots in {ShotDir}");
+        return ok;
+    }
+
+    /// <summary>A quad of StormLab/RainStreak (an HDRP transparent) in one flat colour, facing from, size m.</summary>
+    static GameObject Marker(string name, Vector3 at, Vector3 from, float size, Color c)
+    {
+        var mesh = new Mesh { name = name };
+        mesh.vertices = new[] { new Vector3(-0.5f, -0.5f, 0), new Vector3(0.5f, -0.5f, 0), new Vector3(0.5f, 0.5f, 0), new Vector3(-0.5f, 0.5f, 0) };
+        // u at the middle across (the shader's edge fade peaks there); v 0.2-0.75 is where its end fade is 1
+        mesh.uv = new[] { new Vector2(0.5f, 0.3f), new Vector2(0.5f, 0.3f), new Vector2(0.5f, 0.7f), new Vector2(0.5f, 0.7f) };
+        mesh.colors = new[] { c, c, c, c };
+        mesh.triangles = new[] { 0, 2, 1, 0, 3, 2 };
+        var go = new GameObject(name);
+        go.AddComponent<MeshFilter>().sharedMesh = mesh;
+        go.AddComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("StormLab/RainStreak"));
+        go.transform.position = at; go.transform.rotation = Quaternion.LookRotation(at - from, Vector3.up); go.transform.localScale = Vector3.one * size;
+        return go;
+    }
+
+    /// <summary>
+    /// The game's look, as a host game sets it up under HDRP: physically based sky, a 100,000 lux sun, fixed exposure,
+    /// ACES, fog, HDRP's volumetric clouds and a lit ground, with the skin in its defaults (physical units, no backdrop).
+    /// Checks that the storm hides what is behind it: the funnel looks the same with HDRP's volumetric clouds on and off,
+    /// and a transparent marker behind the tornado is hidden while one in front of it shows.
+    /// </summary>
+    static bool GameViews(StormSkin skin, Camera cam, DesignedStormRunner runner, SEnv plains, StringBuilder rep)
+    {
+        bool ok = true;
+        var made = new List<GameObject>();
+        foreach (var l in Object.FindObjectsByType<Light>(FindObjectsInactive.Exclude)) l.enabled = false;
+        var sunGo = new GameObject("Game sun"); made.Add(sunGo);
+        var sun = sunGo.AddComponent<Light>(); sun.type = LightType.Directional;
+        sunGo.AddComponent<HDAdditionalLightData>();
+        sun.lightUnit = LightUnit.Lux; sun.intensity = 100000f; sun.color = Color.white;
+        sunGo.transform.rotation = Quaternion.LookRotation(-StormSkin.VolToWorldDir(StormSkin.DefaultSunVol));
+        var profile = ScriptableObject.CreateInstance<VolumeProfile>();
+        var env = profile.Add<VisualEnvironment>(true); env.skyType.Override((int)SkyType.PhysicallyBased); env.cloudType.Override(0);
+        profile.Add<PhysicallyBasedSky>(true);
+        var ex = profile.Add<Exposure>(true); ex.mode.Override(ExposureMode.Fixed); ex.fixedExposure.Override(13f);
+        var tm = profile.Add<Tonemapping>(true); tm.mode.Override(TonemappingMode.ACES);
+        var fog = profile.Add<Fog>(true); fog.enabled.Override(true); fog.meanFreePath.Override(40000f); fog.maxFogDistance.Override(100000f);
+        var clouds = profile.Add<VolumetricClouds>(true); clouds.enable.Override(true);
+        var volGo = new GameObject("Game volume"); made.Add(volGo);
+        var vol = volGo.AddComponent<Volume>(); vol.isGlobal = true; vol.priority = 10; vol.sharedProfile = profile;
+        var ground = GameObject.CreatePrimitive(PrimitiveType.Plane); made.Add(ground);
+        ground.name = "Game ground"; ground.transform.localScale = new Vector3(12000f, 1f, 12000f);
+        var lit = new Material(Shader.Find("HDRP/Lit")); lit.SetColor("_BaseColor", new Color(0.18f, 0.2f, 0.12f)); lit.SetFloat("_Smoothness", 0.1f);
+        ground.GetComponent<MeshRenderer>().sharedMaterial = lit;
+        bool tm0 = skin.toneMap, bd0 = skin.drawBackdrop, na0 = skin.nightAdaptation; var sun0 = skin.sun;
+        skin.toneMap = false; skin.drawBackdrop = false; skin.nightAdaptation = false; skin.sun = sun;
+        rep.AppendLine("## Game look (HDRP sky, sun 100,000 lux, EV 13, ACES, fog, volumetric clouds)").AppendLine();
+        rep.AppendLine($"Skin luminance {skin.Luminance:0} nits per unit.").AppendLine();
+        rep.AppendLine("| Shape | Axis change with HDRP clouds on/off (100 / 300 / 600 m) | Marker behind: change | Marker in front: change |").AppendLine("| --- | --- | --- | --- |");
+        var tiles = new List<Texture2D>();
+        try
+        {
+            foreach (var (shape, w, ef) in new[] { (TornadoShape.MultiVortex, 900.0, 3), (TornadoShape.Wedge, 1400.0, 4) })
+            {
+                int found = -1;
+                for (int seed = 1; seed < 400 && found < 0; seed++)
+                    if (new DesignedStorm(new FixedEnvironment(plains), new Vec2(0, 0), seed, ClimoRegion.Plains).cycles.Any(c => c.tornado != null)) found = seed;
+                var st = runner.Spawn(new FixedEnvironment(plains), Vector2.zero, found, ClimoRegion.Plains);
+                // the runner binds the skin afresh; keep the game look on it
+                skin.toneMap = false; skin.drawBackdrop = false; skin.nightAdaptation = false; skin.sun = sun;
+                var cyc = st.cycles.First(c => c.tornado != null);
+                var tg = cyc.tornado;
+                tg.ef = ef; tg.widthM = w; tg.vmax = TornadoClimatology.SampleVmax(ef, 0.5); tg.rcKm = C.Clamp(0.5 * w / 1000 * 29.0 / tg.vmax, 0.012, 0.6);
+                tg.lifeS = 1500; tg.rainWrap = 0;
+                StormGenome.Reshape(tg, shape, st.CharacterAt(tg.formS), 7);
+                tg.phases = null; tg.satellite = false; tg.leanKm = 0; tg.ghost = 0;
+                cyc.occludeS = tg.formS + tg.lifeS * (1 - 0.6 * tg.ropeFrac); cyc.endS = tg.EndS + 300;
+                foreach (var c in st.cycles.Where(c => c.index > cyc.index)) { c.wallS += 5000; c.occludeS += 5000; c.endS += 5000; if (c.tornado != null) c.tornado.formS += 5000; }
+                float T = (float)(tg.formS + 0.5 * tg.lifeS);
+                Settle(skin, T);
+                var tor = st.TornadoAt(T);
+                var g = KmToWorld(skin, tor.ground);
+                double zb = st.CharacterAt(T).zb;
+                var eye = g + Bearing(140f) * ((float)tor.groundKm * 1000f + 1000f) + Vector3.up * 2f;
+                Pose(cam, eye, g + Vector3.up * (float)(zb * 380), 60f);
+                var axis = new[] { 100f, 300f, 600f }.Select(z => g + Vector3.up * z).ToArray();
+                Color[] At(Texture2D t) => axis.Select(p => { var v = cam.WorldToViewportPoint(p); return t.GetPixel(Mathf.Clamp((int)(v.x * t.width), 0, t.width - 1), Mathf.Clamp((int)(v.y * t.height), 0, t.height - 1)); }).ToArray();
+                float Diff(Color a, Color b) => (Mathf.Abs(a.r - b.r) + Mathf.Abs(a.g - b.g) + Mathf.Abs(a.b - b.b)) / Mathf.Max(a.r + a.g + a.b, 0.02f);
+                Texture2D Take() { skin.ResetHistory(cam); return Shot(cam, 960, 540, 16); }
+
+                var on = Take(); tiles.Add(on);
+                clouds.enable.Override(false); var off = Take(); clouds.enable.Override(true); tiles.Add(off);
+                var dClouds = At(on).Zip(At(off), Diff).ToArray();
+                // red transparents on the line of sight to the axis 300 m up: one well beyond the tornado, one halfway to it
+                var behind = Marker("Marker behind", eye + (axis[1] - eye) * 1.8f, eye, 500f, new Color(1f, 0f, 0f, 1f)); made.Add(behind);
+                var withBehind = Take(); tiles.Add(withBehind); behind.SetActive(false);
+                var front = Marker("Marker in front", eye + (axis[1] - eye) * 0.5f, eye, 40f, new Color(1f, 0f, 0f, 1f)); made.Add(front);
+                var withFront = Take(); tiles.Add(withFront); front.SetActive(false);
+                float dBehind = Diff(At(on)[1], At(withBehind)[1]), dFront = Diff(At(on)[1], At(withFront)[1]);
+                rep.AppendLine($"| {shape} | {string.Join(" / ", dClouds.Select(d => $"{d:0%}"))} | {dBehind:0%} | {dFront:0%} |");
+                Debug.Log($"[Game] {shape}: axis change with HDRP clouds {string.Join(" / ", dClouds.Select(d => $"{d:0.000}"))}; marker behind {dBehind:0.000}, in front {dFront:0.000}; axis colours {string.Join(" ", At(on).Select(c => $"({c.r:0.00},{c.g:0.00},{c.b:0.00})"))}");
+                if (dClouds.Max() > 0.05f) { ok = false; Debug.LogError($"[Game] {shape}: HDRP's volumetric clouds show through the funnel"); }
+                if (dBehind > 0.05f) { ok = false; Debug.LogError($"[Game] {shape}: a transparent behind the tornado shows through it"); }
+                if (dFront < 0.2f) { ok = false; Debug.LogError($"[Game] {shape}: a transparent in front of the tornado is hidden"); }
+                // control: looking away from the storm, HDRP's clouds must show, or the check above proves nothing
+                Pose(cam, eye, eye + Bearing(140f) * 1000f + Vector3.up * 350f, 60f);
+                var awayOn = Take(); clouds.enable.Override(false); var awayOff = Take(); clouds.enable.Override(true);
+                // the share of the view HDRP's clouds change by more than 10 % (they are a few small cumulus in a wide view)
+                var pa = awayOn.GetPixels(); var pb = awayOff.GetPixels(); int changed = 0, n = 0;
+                for (int k = 0; k < pa.Length; k += 13, n++) if (Diff(pa[k], pb[k]) > 0.1f) changed++;
+                double dAway = changed / (double)n;
+                tiles.Add(awayOn); tiles.Add(awayOff); Object.DestroyImmediate(withFront); tiles.Remove(withFront);
+                rep.AppendLine($"| {shape} control, facing away | HDRP clouds change {dAway:0.0%} of the view | | |");
+                Debug.Log($"[Game] {shape}: facing away from the storm, HDRP clouds change {dAway:0.000} of the view");
+                if (dAway < 0.005) { ok = false; Debug.LogError($"[Game] {shape}: HDRP's volumetric clouds do not render; the cloud check is void"); }
+            }
+            Save(Sheet(tiles, 5), "designed_game");
+            rep.AppendLine().AppendLine("`designed_game.png`: per row, one shape from 1 km: HDRP clouds on, off, red marker behind the tornado; then facing away with HDRP clouds on and off.");
+        }
+        finally
+        {
+            foreach (var t in tiles) Object.DestroyImmediate(t);
+            foreach (var go in made) Object.DestroyImmediate(go);
+            foreach (var l in Object.FindObjectsByType<Light>(FindObjectsInactive.Exclude)) l.enabled = true;
+            skin.toneMap = tm0; skin.drawBackdrop = bd0; skin.nightAdaptation = na0; skin.sun = sun0;
+        }
         return ok;
     }
 }

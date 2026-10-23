@@ -51,7 +51,7 @@ namespace StormLab.Supercell.Lightning.EditorTools
             if (!ground) return;
             var renderer = ground.GetComponent<Renderer>();
             if (renderer.sharedMaterial && renderer.sharedMaterial.name == "Lightning preview soil") return;
-            var material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            var material = new Material(Shader.Find("HDRP/Lit"));
             material.name = "Lightning preview soil";
             material.SetColor("_BaseColor", new Color(.012f, .018f, .026f));
             material.SetFloat("_Smoothness", .05f);

@@ -9,7 +9,6 @@ using StormLab.Supercell.Rendering;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 [InitializeOnLoad]
 public static class TornadoViewerScene
@@ -29,7 +28,7 @@ public static class TornadoViewerScene
         var cam = camGo.AddComponent<Camera>();
         cam.nearClipPlane = 1f; cam.farClipPlane = 250000f; cam.fieldOfView = 55f;
         cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
-        camGo.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
+        SkinTests.SetupCamera(camGo);
 
         var sunGo = new GameObject("Sun");
         var sun = sunGo.AddComponent<Light>(); sun.type = LightType.Directional; sun.intensity = 1.2f; sun.color = new Color(1f, 0.85f, 0.65f);
@@ -37,7 +36,7 @@ public static class TornadoViewerScene
         RenderSettings.sun = sun;
 
         var go = new GameObject("Tornado Viewer");
-        var skin = go.AddComponent<StormSkin>(); skin.sun = sun;
+        var skin = go.AddComponent<StormSkin>(); skin.sun = sun; skin.UseStandaloneLook();
         var runner = go.AddComponent<DesignedStormRunner>(); runner.skin = skin; runner.spawnOnStart = false;
         var viewer = go.AddComponent<TornadoViewer>(); viewer.cam = cam;
 

@@ -10,7 +10,6 @@ using StormLab.Supercell.Rendering;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 [InitializeOnLoad]
 public static class StormTestBenchScene
@@ -23,6 +22,18 @@ public static class StormTestBenchScene
     [MenuItem("Supercell Lab/Build Test Bench Scene")]
     public static void Build() => BuildScene(ScenePath, false);
 
+    /// <summary>Rebuild every lab scene from its builder (after a pipeline change). Batch:
+    /// -executeMethod StormTestBenchScene.RebuildAll -quit</summary>
+    [MenuItem("Supercell Lab/Rebuild All Lab Scenes")]
+    public static void RebuildAll()
+    {
+        SkinTests.BuildScene();
+        Build();
+        BuildScene(VariantScenePath, true);
+        TornadoViewerScene.Build();
+        BrainFullCycleSetup.Build();
+    }
+
     static void BuildScene(string path, bool comparison)
     {
         SkinTests.EnsurePipeline();
@@ -33,7 +44,7 @@ public static class StormTestBenchScene
         camGo.AddComponent<AudioListener>();
         cam.nearClipPlane = 1f; cam.farClipPlane = 250000f; cam.fieldOfView = 60f;
         cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
-        camGo.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
+        SkinTests.SetupCamera(camGo);
 
         var sunGo = new GameObject("Sun");
         var sun = sunGo.AddComponent<Light>(); sun.type = LightType.Directional; sun.intensity = 1.2f; sun.color = new Color(1f, 0.85f, 0.65f);
@@ -41,7 +52,7 @@ public static class StormTestBenchScene
         RenderSettings.sun = sun;
 
         var go = new GameObject("Storm Test Bench");
-        var skin = go.AddComponent<StormSkin>(); skin.sun = sun;
+        var skin = go.AddComponent<StormSkin>(); skin.sun = sun; skin.UseStandaloneLook();
         var runner = go.AddComponent<DesignedStormRunner>(); runner.skin = skin; runner.spawnOnStart = false;
         var bench = go.AddComponent<StormTestBench>(); bench.cam = cam;
         if (comparison) { bench.remember = false; bench.StructureComparison(); }

@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.inputsystem": "1.19.0",
         "com.unity.modules.audio": "1.0.0",
-        "com.unity.render-pipelines.universal": "17.0.0"
+        "com.unity.render-pipelines.high-definition": "17.0.0"
       }
     },
     "com.unity.2d.sprite": {
@@ -140,17 +140,23 @@
         "com.unity.profiling.core": "1.0.3"
       }
     },
-    "com.unity.render-pipelines.universal": {
+    "com.unity.render-pipelines.high-definition": {
       "version": "17.6.0",
       "depth": 0,
       "source": "builtin",
       "dependencies": {
+        "com.unity.modules.video": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.terrain": "1.0.0",
         "com.unity.render-pipelines.core": "17.6.0",
         "com.unity.shadergraph": "17.6.0",
-        "com.unity.render-pipelines.universal-config": "17.6.0"
+        "com.unity.visualeffectgraph": "17.6.0",
+        "com.unity.render-pipelines.high-definition-config": "17.6.0"
       }
     },
-    "com.unity.render-pipelines.universal-config": {
+    "com.unity.render-pipelines.high-definition-config": {
       "version": "17.6.0",
       "depth": 1,
       "source": "builtin",
@@ -192,6 +198,15 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.33",
         "com.unity.modules.jsonserialize": "1.0.0"
+      }
+    },
+    "com.unity.visualeffectgraph": {
+      "version": "17.6.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.shadergraph": "17.6.0",
+        "com.unity.render-pipelines.core": "17.6.0"
       }
     },
     "com.unity.modules.androidjni": {
@@ -252,6 +267,12 @@
         "com.unity.modules.imageconversion": "1.0.0"
       }
     },
+    "com.unity.modules.terrain": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.modules.ui": {
       "version": "1.0.0",
       "depth": 0,
@@ -276,6 +297,16 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {}
+    },
+    "com.unity.modules.video": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0"
+      }
     }
   }
 }

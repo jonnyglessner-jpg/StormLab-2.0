@@ -14,6 +14,13 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Storm-driven lightning checks failed.' }
     $refs = @('/r:' + "$unityData/NetStandard/ref/2.1.0/netstandard.dll")
     $refs += Get-ChildItem "$unityData/Managed/UnityEngine" -Filter '*.dll' | ForEach-Object { '/r:' + $_.FullName }
+    # the flash lights are HDRP lights: HDRP's runtime assemblies, as the test project compiled them (open it once first)
+    $scriptAssemblies = Join-Path $repo 'tests/SupercellLabTest/Library/ScriptAssemblies'
+    foreach ($a in 'Unity.RenderPipelines.HighDefinition.Runtime', 'Unity.RenderPipelines.Core.Runtime') {
+        $dll = Join-Path $scriptAssemblies "$a.dll"
+        if (-not (Test-Path $dll)) { throw "$dll is missing: open tests/SupercellLabTest in Unity once so it compiles HDRP." }
+        $refs += '/r:' + $dll
+    }
     $sources = Get-ChildItem src/com.stormlab.supercell/Runtime/Lightning -Filter '*.cs' | ForEach-Object { $_.FullName }
     $runtime = Join-Path $output 'StormLab.Lightning.dll'
     & $dotnet $compiler /nologo /noconfig /nostdlib /target:library /langversion:9 "/out:$runtime" $refs $sources

@@ -65,7 +65,7 @@ public static class BrainFullCycleSetup
         runner.gpuBudgetMs = 8; runner.maxSpeed = 0;
         skin.timelapse = 60; skin.playing = true; skin.playbackTime = 0;
         skin.sunSource = SunSource.TimeOfDay; skin.solarHour = 6;
-        skin.moonPhase = .5f; skin.drawBackdrop = true;
+        skin.moonPhase = .5f; skin.UseStandaloneLook();
         var camera = Camera.main;
         if (!camera.GetComponent<AudioListener>()) camera.gameObject.AddComponent<AudioListener>();
         if (!runner.GetComponent<BrainPreviewPanel>()) runner.gameObject.AddComponent<BrainPreviewPanel>();

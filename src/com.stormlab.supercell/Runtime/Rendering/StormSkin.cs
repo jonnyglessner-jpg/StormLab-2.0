@@ -1,8 +1,13 @@
 // The volumetric skin (DESIGN.md 2.5): draws the storm the brain simulates, or a designed storm (DesignedStormRunner,
-// or BindDesigned). Add it next to a SupercellRunner (or call Bind with a StormRun) and add StormSkinFeature to the URP
-// renderer. Every frame it reads the timeline at the playback
+// or BindDesigned). Add it next to a SupercellRunner (or call Bind with a StormRun); under HDRP it installs the custom
+// pass that draws it (StormSkinCustomPass). Every frame it reads the timeline at the playback
 // time through the FeatureDesigner, repaints part of the target volume, advects the live volume with the simulated wind,
-// relights part of it, and the renderer feature ray-marches it for each camera.
+// relights part of it, and the custom pass ray-marches it for each camera.
+//
+// Output: by default the storm is the game's weather. Its light is in HDRP's physical units (luminanceScale, times the
+// camera's exposure), the game's sky and ground show behind it, and HDRP's tonemapping and exposure adaptation apply.
+// UseStandaloneLook() gives the lab's own previews instead: 1.0's fields and sky behind the storm and 1.0's display
+// curve, for a volume with HDRP's tonemapping off.
 //
 // World placement: 1 Unity unit = 1 m, +x east, +z north, +y up. The sim grid's south-west corner is at groundOrigin
 // (world x, z) at t = 0 and moves with the grid's frame motion; the ground is at groundHeight.
@@ -75,9 +80,19 @@ namespace StormLab.Supercell.Rendering
         public float sunElevation = 15f;
 
         [Header("Look")]
+        [Tooltip("brightness through 1.0's display curve (toneMap on only)")]
         public float exposure = 1.7f;
-        [Tooltip("1.0's display curve (standalone). Off: linear radiance for the game's own HDR and post-processing")]
-        public bool toneMap = true;
+        [Tooltip("1.0's display curve, for the lab's standalone previews (HDRP tonemapping off). Off: the storm's light in " +
+                 "HDRP's physical units, for the game's own exposure and tonemapping")]
+        public bool toneMap = false;
+        [Tooltip("luminance (cd/m², nits) of the skin's unit of light: white cloud in 1.0's evening sun, 15 degrees up. " +
+                 "0: from the sun Light's illuminance (lux) as luminance = lux x " + nameof(SunToLuminance) + " / pi")]
+        public float luminanceScale = 0f;
+        /// <summary>the share of the sun Light's lux that reaches the ground with the sun 15 degrees up, under HDRP's
+        /// physically based sky (Kasten-Young air mass ~3.8 with a clear-day extinction, ~0.5)</summary>
+        public const float SunToLuminance = 0.5f;
+        /// <summary>the sun's illuminance assumed when there is no sun Light, lux (HDRP's default directional light)</summary>
+        public const float DefaultSunLux = 100000f;
         [Tooltip("Physical: sunlight on cloud from multiple-scattering octaves and a Mie phase function for the droplets " +
                  "(light glowing through towers and thin edges, silver linings when back-lit). Off: 1.0's lighting, for comparison")]
         public bool physicalLighting = true;
@@ -115,10 +130,12 @@ namespace StormLab.Supercell.Rendering
         [Range(0f, 1f)] public float lightPollution = 0.35f;
         [Tooltip("at night, a floor on how much sky every point sees: lifts the darkest shadows (under the base) as the eye's local adaptation does")]
         [Range(0f, 1f)] public float nightFill = 0.35f;
-        [Tooltip("brighten night scenes to nightBrightness. Turn off if the game's own exposure adapts to the dark (with toneMap off)")]
-        public bool nightAdaptation = true;
-        [Tooltip("draw 1.0's sky and fields behind the storm where the camera sees no geometry")]
-        public bool drawBackdrop = true;
+        [Tooltip("brighten night scenes to nightBrightness, for the standalone previews. Off (the game): night is as dark as " +
+                 "moonlight is, and HDRP's exposure adapts to it")]
+        public bool nightAdaptation = false;
+        [Tooltip("draw 1.0's sky and fields behind the storm where the camera sees no geometry (standalone previews only: " +
+                 "it covers the game's own sky)")]
+        public bool drawBackdrop = false;
         [Tooltip("draw this storm as well as the active one (several storms at once, e.g. DesignedScenarioRunner). The " +
                  "farthest storm drawn supplies the backdrop; nearer ones are laid over it")]
         public bool drawAlongside;
@@ -126,15 +143,22 @@ namespace StormLab.Supercell.Rendering
         public bool invertDepthFlip;
         [Tooltip("invert the automatic vertical flip of the composite (only if a platform shows the storm upside down)")]
         public bool invertCompositeFlip;
-        // Where UVs start at the top (D3D, Metal, Vulkan) the composite has to flip the march's bottom-up rows, while
-        // URP's camera depth texture is already stored bottom-up. Verified on D3D12 (validation/reports/SkinReport.md, the
-        // depth-test mast); other APIs follow the same rule but are untested
-        bool AutoFlip => SystemInfo.graphicsUVStartsAtTop;
+        // HDRP's camera targets, its depth buffer included, hold the bottom of the view in row 0 (it renders them with a
+        // flipped projection), as the march's rows do, so neither lookup flips. Verified on D3D12 (the game views'
+        // ground and markers, DesignedSkinTests); other APIs follow the same rule but are untested
+        bool AutoFlip => false;
         bool DepthAutoFlip => false;
+
+        /// <summary>The lab's standalone look: 1.0's backdrop, display curve and night adaptation (for a volume with
+        /// HDRP's tonemapping off). The defaults are the game's.</summary>
+        public void UseStandaloneLook() { toneMap = true; drawBackdrop = true; nightAdaptation = true; }
+
+        /// <summary>luminance of the skin's unit of light, nits (luminanceScale, or from the sun Light)</summary>
+        public float Luminance => luminanceScale > 0f ? luminanceScale : (sun ? sun.intensity : DefaultSunLux) * SunToLuminance / Mathf.PI;
 
         // ---------------------------------------------------------------- runtime
         public static StormSkin Active { get; private set; }
-        /// <summary>every enabled skin (the renderer feature draws Active and those marked drawAlongside)</summary>
+        /// <summary>every enabled skin (the custom pass draws Active and those marked drawAlongside)</summary>
         public static readonly List<StormSkin> Enabled = new List<StormSkin>();
         public StormRun Run { get; private set; }
         public FeatureDesigner Designer { get; private set; }
@@ -228,6 +252,7 @@ namespace StormLab.Supercell.Rendering
         /// <summary>the direction the light grids are computed for: the sun, or the moon at night</summary>
         public Vector3 KeyDirVol => Lighting.keyDir;
         bool lastKeyMoon;
+        static readonly int LightScaleId = Shader.PropertyToID("_StormLabLight");
 
         // ---- steady rotation. The shaders turn features by rate x clock; with a simulated rate that changes, that angle
         // jumps (or stalls) whenever the rate changes late in a session. Each angle is integrated here over model
@@ -275,8 +300,12 @@ namespace StormLab.Supercell.Rendering
         public static Vector3 WorldToVolDir(Vector3 w) => new Vector3(w.x, w.z, w.y);
         public static Vector3 VolToWorldDir(Vector3 v) => new Vector3(v.x, v.z, v.y);
 
-        void OnEnable() { Active = this; if (!Enabled.Contains(this)) Enabled.Add(this); }
-        /// <summary>Make this the skin the renderer feature draws (the last enabled one otherwise).</summary>
+        void OnEnable()
+        {
+            Active = this; if (!Enabled.Contains(this)) Enabled.Add(this);
+            if (GraphicsSettings.currentRenderPipeline is UnityEngine.Rendering.HighDefinition.HDRenderPipelineAsset) StormSkinCustomPass.EnsureInstalled();
+        }
+        /// <summary>Make this the skin the custom pass draws (the last enabled one otherwise).</summary>
         public void Activate() { Active = this; }
         void OnDisable()
         {
@@ -430,6 +459,9 @@ namespace StormLab.Supercell.Rendering
             if (nearOn) Near.Frame(frameCmd, GpuParams(), noise, Volume, wind, advect && windOk, Centre, sunVol, nearFull || relight, MotionSlabs(nearSlabs), MotionSlabs(nearLightSlabs));
             else Near?.Invalidate();
             Graphics.ExecuteCommandBuffer(frameCmd);
+            // the light scale the storm's lightning and rain streaks share with it: x luminance of a unit, y 1 to apply
+            // the camera's exposure (StormLab/Lightning, StormLab/RainStreak)
+            Shader.SetGlobalVector(LightScaleId, toneMap ? new Vector4(1, 0, 0, 0) : new Vector4(Luminance, 1, 0, 0));
             lastT = t; hasFrame = true;
             return true;
         }
@@ -477,14 +509,14 @@ namespace StormLab.Supercell.Rendering
         // ---------------------------------------------------------------- per-camera march state
         sealed class CamState
         {
-            public RenderTexture cur, dist; public readonly RenderTexture[] hist = new RenderTexture[2]; public int h;
+            public RenderTexture cur, dist, half; public readonly RenderTexture[] hist = new RenderTexture[2]; public int h;
             public Vector3 prevPos, prevFwd, prevRight, prevUp; public bool valid, wasTransient; public int frame;
             public void Shift(Vector2 s) { prevPos -= new Vector3(s.x, s.y, 0); }
             public void Ensure(int w, int hh)
             {
                 if (cur && cur.width == w && cur.height == hh) return;
                 Dispose();
-                cur = RT(w, hh, RenderTextureFormat.ARGBHalf); dist = RT(w, hh, RenderTextureFormat.RFloat);
+                cur = RT(w, hh, RenderTextureFormat.ARGBHalf); dist = RT(w, hh, RenderTextureFormat.RFloat); half = RT(w, hh, RenderTextureFormat.RFloat);
                 hist[0] = RT(w, hh, RenderTextureFormat.ARGBHalf); hist[1] = RT(w, hh, RenderTextureFormat.ARGBHalf);
                 valid = false; wasTransient = false;
             }
@@ -495,8 +527,8 @@ namespace StormLab.Supercell.Rendering
             }
             public void Dispose()
             {
-                foreach (var r in new[] { cur, dist, hist[0], hist[1] }) if (r) { r.Release(); Object.DestroyImmediate(r); }
-                cur = dist = hist[0] = hist[1] = null;
+                foreach (var r in new[] { cur, dist, half, hist[0], hist[1] }) if (r) { r.Release(); Object.DestroyImmediate(r); }
+                cur = dist = half = hist[0] = hist[1] = null;
             }
         }
         readonly Dictionary<Camera, CamState> cams = new Dictionary<Camera, CamState>();
@@ -505,11 +537,14 @@ namespace StormLab.Supercell.Rendering
         public void ResetHistory(Camera cam) { if (cams.TryGetValue(cam, out var s)) s.valid = false; }
 
         /// <summary>
-        /// Record the ray-march and temporal resolve for one camera into cmd. depth: the camera depth texture (or
-        /// null), fullW x fullH: the camera target size. Returns the resolved half-resolution storm texture.
+        /// Record the ray-march and temporal resolve for one camera into cmd. depth: the camera's depth buffer (or
+        /// null), not bound as a target; fullW x fullH: the camera's viewport size. Returns the resolved half-resolution
+        /// storm texture (rgb light, a transmittance), and in dist this frame's distance along each ray to where the storm
+        /// hides half of what is behind it, km.
         /// </summary>
-        public RenderTexture RecordMarch(CommandBuffer cmd, Camera cam, RenderTargetIdentifier? depth, int fullW, int fullH, bool backdrop = true)
+        public RenderTexture RecordMarch(CommandBuffer cmd, Camera cam, RTHandle depth, int fullW, int fullH, bool backdrop, out RenderTexture dist)
         {
+            dist = null;
             if (!ReadyToRender || !marchCs) return null;
             int w = Mathf.Max(8, Mathf.RoundToInt(fullW * renderScale)), h = Mathf.Max(8, Mathf.RoundToInt(fullH * renderScale));
             if (!cams.TryGetValue(cam, out var st)) { st = new CamState(); cams[cam] = st; }
@@ -543,9 +578,9 @@ namespace StormLab.Supercell.Rendering
             bool rev = SystemInfo.usesReversedZBuffer;
             float zx = rev ? -1f + f / n : 1f - f / n, zy = rev ? 1f : f / n;
             cmd.SetComputeVectorParam(marchCs, "_ZB", new Vector4(zx / f, zy / f, rev ? 1 : 0, (DepthAutoFlip ^ invertDepthFlip) ? 1 : 0));
-            if (depth.HasValue) cmd.SetComputeTextureParam(marchCs, kM, "_DepthTex", depth.Value);
-            else cmd.SetComputeTextureParam(marchCs, kM, "_DepthTex", Texture2D.blackTexture);
-            cmd.SetComputeVectorParam(marchCs, "_DepthP", new Vector4(depth.HasValue ? 1 : 0, fullW, fullH, maxSteps));
+            if (depth != null) cmd.SetComputeTextureParam(marchCs, kM, "_DepthTex", depth, 0, RenderTextureSubElement.Depth);
+            else cmd.SetComputeTextureParam(marchCs, kM, "_DepthTex", NoDepth);
+            cmd.SetComputeVectorParam(marchCs, "_DepthP", new Vector4(depth != null ? 1 : 0, fullW, fullH, maxSteps));
             cmd.SetComputeTextureParam(marchCs, kM, "_Dens", Volume.Dens);
             cmd.SetComputeTextureParam(marchCs, kM, "_NearTex", near ? (Texture)Near.Field : SkinVolume.Calm);
             cmd.SetComputeTextureParam(marchCs, kM, "_NearLight", near ? (Texture)Near.LightTex : SkinVolume.Calm);
@@ -563,6 +598,7 @@ namespace StormLab.Supercell.Rendering
             cmd.SetComputeTextureParam(marchCs, kM, "_Noise", noise);
             cmd.SetComputeTextureParam(marchCs, kM, "_Out", st.cur);
             cmd.SetComputeTextureParam(marchCs, kM, "_OutDist", st.dist);
+            cmd.SetComputeTextureParam(marchCs, kM, "_OutHalf", st.half);
             cmd.SetComputeIntParam(marchCs, "_TransientLightOn", 0);
             cmd.SetComputeTextureParam(marchCs, kM, "_TransientLightTex", SkinVolume.Calm);
             bool transient = TransientLighting != null && TransientLighting.RecordLighting(cmd, this, cam, marchCs, kM);
@@ -582,17 +618,44 @@ namespace StormLab.Supercell.Rendering
             cmd.DispatchCompute(marchCs, kR, (w + 7) / 8, (h + 7) / 8, 1);
             st.h = 1 - st.h; st.valid = true;
             st.prevPos = pos; st.prevFwd = fwd; st.prevRight = right; st.prevUp = up;
+            dist = st.half;
             return dst;
         }
 
-        /// <summary>Draw the storm texture over the bound render target (out = storm.rgb + storm.a * target).</summary>
-        public void RecordComposite(CommandBuffer cmd, Texture storm)
+        /// <summary>RecordMarch without the distance texture (profiling, offline checks).</summary>
+        public RenderTexture RecordMarch(CommandBuffer cmd, Camera cam, RTHandle depth, int fullW, int fullH, bool backdrop = true) =>
+            RecordMarch(cmd, cam, depth, fullW, fullH, backdrop, out _);
+
+        static Texture2DArray noDepth;
+        /// <summary>a 1 x 1 depth stand-in for cameras without depth (the march reads a texture array)</summary>
+        static Texture2DArray NoDepth
+        {
+            get
+            {
+                if (noDepth) return noDepth;
+                noDepth = new Texture2DArray(1, 1, 1, TextureFormat.RFloat, false, true) { hideFlags = HideFlags.HideAndDontSave, name = "storm no depth" };
+                noDepth.SetPixels(new[] { Color.clear }, 0); noDepth.Apply(false, true);
+                return noDepth;
+            }
+        }
+
+        MaterialPropertyBlock compositeProps;
+        /// <summary>
+        /// Draw the storm texture over the bound colour target (out = storm.rgb x light scale + storm.a x target) and,
+        /// with writeDepth and a depth target bound, write the storm's depth where it is opaque. w x h: the viewport.
+        /// The light scale is 1 with toneMap (the standalone look) and Luminance x the camera's exposure otherwise.
+        /// </summary>
+        public void RecordComposite(CommandBuffer cmd, Camera cam, Texture storm, Texture dist, int w, int h, bool writeDepth)
         {
             if (!compositeMat || storm == null) return;
-            var mpb = new MaterialPropertyBlock();
+            var mpb = compositeProps ??= new MaterialPropertyBlock(); mpb.Clear();
             mpb.SetTexture("_StormTex", storm);
-            mpb.SetFloat("_FlipY", (AutoFlip ^ invertCompositeFlip) ? 1 : 0);
+            mpb.SetTexture("_StormDist", dist ? dist : Texture2D.blackTexture);
+            mpb.SetVector("_StormView", new Vector4(w, h, (AutoFlip ^ invertCompositeFlip) ? 1 : 0, toneMap ? 0 : Luminance));
+            float tanY = Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
+            mpb.SetVector("_StormTan", new Vector4(tanY * w / (float)h, tanY, 0, 0));
             cmd.DrawProcedural(Matrix4x4.identity, compositeMat, 0, MeshTopology.Triangles, 3, 1, mpb);
+            if (writeDepth && dist) cmd.DrawProcedural(Matrix4x4.identity, compositeMat, 1, MeshTopology.Triangles, 3, 1, mpb);
         }
     }
 }

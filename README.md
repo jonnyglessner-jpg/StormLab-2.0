@@ -15,7 +15,7 @@ StormLab-2.0/
 │   ├── cm1-comparisons/      Weisman–Klemp runs against CM1's numbers
 │   └── reports/              reports the validation suites write
 ├── src/
-│   └── com.stormlab.supercell/   the Unity package (Unity 6, URP)
+│   └── com.stormlab.supercell/   the Unity package (Unity 6, HDRP)
 ├── tests/
 │   └── SupercellLabTest/     the Unity project that hosts the package for tests, renders and the test bench
 ├── tools/                    Python data tools (soundings, radar, satellite, SPC)

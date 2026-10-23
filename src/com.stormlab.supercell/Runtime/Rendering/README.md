@@ -1,16 +1,29 @@
 # Runtime/Rendering: the volumetric skin (Phase 2)
 
 Draws the storm the brain simulates (DESIGN.md §2.5). It ports StormLab 1.0's BUILD / LIGHT / RENDER passes from
-WGSL to HLSL as URP compute passes, with one big change: **the cloud moves with the simulated wind.**
+WGSL to HLSL as compute passes drawn by an HDRP custom pass, with one big change: **the cloud moves with the simulated
+wind.**
 
 ## Use it
 
-1. Add `StormSkinFeature` to your URP renderer asset (Renderer → Add Renderer Feature).
+1. The project renders with HDRP (Unity 6, HDRP 17). `StormSkin` installs the pass that draws it, a hidden global
+   `CustomPassVolume` with `StormSkinCustomPass` at `BeforeTransparent`, unless the scene already holds one.
 2. Put `StormSkin` on the GameObject that has the `SupercellRunner`, and set `runner`.
 3. Set `groundOrigin`: the world x, z (metres) of the simulation grid's south-west corner at t = 0. The grid is
    80 x 80 km and moves at the frame motion. The default `(-40000, -40000)` centres the grid on the world origin.
 4. Play. `playbackTime` advances at `timelapse` sim-seconds per second; it waits when it reaches the brain's horizon.
    Setting `playbackTime` backwards (a scrub) repaints the volume.
+
+Output. The defaults are for a game: the storm's light is in HDRP's physical units (`Luminance`, nits per unit of the
+skin's light: `luminanceScale`, or the sun Light's lux x 0.5 / pi), multiplied by the camera's exposure, over the game's
+own sky and ground, and HDRP's tonemapping and exposure adaptation apply. `UseStandaloneLook()` gives the lab's
+previews instead (1.0's backdrop, display curve and night adaptation), for a volume with HDRP's tonemapping off.
+
+Ordering. The pass composites after HDRP's sky, opaque fog and volumetric clouds, which all treat a pixel without
+depth as open sky (an earlier injection point gets HDRP's clouds and fog painted over the storm). It then writes the
+storm's depth where the storm hides more than half of what is behind it, at the distance along the ray where it
+starts to, so transparents behind the storm are hidden and those in front still show. HDRP's refraction colour pyramid
+is built before this point and does not contain the storm. The march reads HDRP's depth buffer (a texture array).
 
 Without the component's `Update`, as the test does: `skin.Bind(run)`, `skin.Wind.Capture(run, run.Time)` at each
 timeline frame, then `skin.StepTo(t, clock)` every frame before rendering.
@@ -108,7 +121,8 @@ debris retains a dense center with irregular outer streamers, filtered texture a
 
 `tests/SupercellLabTest`: the scene `Assets/Scenes/SupercellSkinTest.unity` has a `SupercellRunner` on
 `validation/soundings/ddc_20160524_hrrr.json` (copied to `Assets/StormData`), a `StormSkin`, a camera and the sun. Its
-URP asset `Assets/Settings/SkinTest_URP.asset` carries the feature. Headless run (do not pass `-nographics`):
+HDRP asset `Assets/Settings/SkinTest_HDRP.asset` has the standalone look as its volume profile
+(`SkinTest_Standalone.asset`: tonemapping, bloom, fog and sky off). Headless run (do not pass `-nographics`):
 
 ```
 "C:\Program Files\Unity\Hub\Editor\6000.6.6f1\Editor\Unity.exe" -batchmode -projectPath "C:\Users\Jonny Glessner\Desktop\ClaudeCoding\StormLab-2.0\tests\SupercellLabTest" -executeMethod SkinTests.RunFromCommandLine -logFile skin.log
@@ -141,12 +155,12 @@ storm budget in DESIGN.md §3. The brain's own run-ahead budget (4 ms per frame)
 | `StormSkin.cs` | the component: binding, playback, volume centre, per-camera march state and temporal history |
 | `SkinVolume.cs` | GPU volumes and the per-frame paint / advect / light schedule |
 | `WindHistory.cs` | the 2 km wind snapshots, stored by model time |
-| `StormSkinFeature.cs` | URP renderer feature (RenderGraph unsafe pass: march, resolve, composite) |
+| `StormSkinCustomPass.cs` | HDRP custom pass: march, resolve, composite, depth; installs itself in a global volume |
 | `CloudNoise.cs` | 1.0's 48³ tiling value noise (same seed, same billows) |
 | `Shaders/StormSkinCommon.hlsl` | the parameter block (`S_*`), noise, and the near-ground features shared by paint and march |
 | `Resources/StormSkinVolume.compute` | `Build`, `Advect`, `Light`, `Wind` |
 | `Resources/StormSkinMarch.compute` | `March`, `Resolve` |
-| `Resources/StormSkinComposite.shader` | full-screen composite |
+| `Resources/StormSkinComposite.shader` | full-screen composite (light scale and exposure) and the storm's depth |
 
 ## Known limits
 

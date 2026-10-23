@@ -105,7 +105,7 @@ public static class CloudMotionChecks
         var go = new GameObject("Cloud motion check");
         try
         {
-            var skin = go.AddComponent<StormSkin>(); skin.tier = SkinTier.Low; skin.nearField = false;
+            var skin = go.AddComponent<StormSkin>(); skin.tier = SkinTier.Low; skin.nearField = false; skin.UseStandaloneLook();
             skin.BindDesigned(storm, new KinematicWind(storm));
             Require(skin.StepTo(1800, 2), "initial frame failed");
             Require(skin.GpuBlock[Slot.Base].z == 1800 && skin.GpuParams()[(int)Slot.Base].z == 1800,
@@ -148,7 +148,7 @@ public static class CloudMotionChecks
         var go = new GameObject("Recenter regression");
         try
         {
-            var skin = go.AddComponent<StormSkin>(); skin.tier = SkinTier.Low; skin.nearField = false;
+            var skin = go.AddComponent<StormSkin>(); skin.tier = SkinTier.Low; skin.nearField = false; skin.UseStandaloneLook();
             skin.BindDesigned(storm, new KinematicWind(storm)); skin.StepTo(1800, 0);
             var volume = skin.Volume;
             var block = new SkinParams(); skin.GpuBlock.CopyTo(block);

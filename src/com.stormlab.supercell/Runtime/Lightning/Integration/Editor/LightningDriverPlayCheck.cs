@@ -8,7 +8,7 @@ using StormLab.Supercell.Rendering;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.HighDefinition;
 
 namespace StormLab.Supercell.Lightning.EditorTools
 {
@@ -190,14 +190,14 @@ namespace StormLab.Supercell.Lightning.EditorTools
                 var camGo = new GameObject("Main Camera") { tag = "MainCamera" };
                 var cam = camGo.AddComponent<Camera>(); camGo.AddComponent<AudioListener>();
                 cam.nearClipPlane = 1f; cam.farClipPlane = 250000f; cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
-                camGo.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
+                var hdCam = camGo.AddComponent<HDAdditionalCameraData>(); hdCam.clearColorMode = HDAdditionalCameraData.ClearColorMode.Color; hdCam.backgroundColorHDR = Color.black;
                 var sunGo = new GameObject("Sun");
                 var sun = sunGo.AddComponent<Light>(); sun.type = LightType.Directional; sun.intensity = 1.2f;
                 sunGo.transform.rotation = Quaternion.LookRotation(-StormSkin.VolToWorldDir(StormSkin.DefaultSunVol));
                 RenderSettings.sun = sun;
 
                 var go = new GameObject("Storm");
-                skin = go.AddComponent<StormSkin>(); skin.sun = sun;
+                skin = go.AddComponent<StormSkin>(); skin.sun = sun; skin.UseStandaloneLook();
                 runner = go.AddComponent<DesignedStormRunner>(); runner.skin = skin; runner.spawnOnStart = false;
                 runner.enableLightning = false; // This fixture tests its separate clock driver without cloud anchoring.
                 bench = go.AddComponent<StormTestBench>();

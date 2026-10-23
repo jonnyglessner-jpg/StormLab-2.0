@@ -29,7 +29,7 @@ namespace StormLab.Supercell.Lightning.EditorTools
                 skin.playing=false; skin.tier=SkinTier.Low; skin.nearField=false;
                 skin.renderScale=.5f; skin.checkerboard=true; skin.temporalBlend=.15f; skin.maxSteps=384;
                 skin.sunSource=SunSource.Fixed; skin.sunElevation=-18; skin.moonPhase=0; skin.moonElevation=-20;
-                skin.nightFloor=.012f; skin.lightPollution=0; skin.drawBackdrop=false;
+                skin.UseStandaloneLook(); skin.nightFloor=.012f; skin.lightPollution=0; skin.drawBackdrop=false;
                 var env=Environment.Make(StormPreset.All.First(p=>p.key=="plains").ToEnv());
                 var storm=new DesignedStorm(new FixedEnvironment(env),new Vec2(0,0),1,ClimoRegion.Plains);
                 var wind=new KinematicWind(storm);

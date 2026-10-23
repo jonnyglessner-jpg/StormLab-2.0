@@ -1,6 +1,6 @@
 # StormLab rainfall
 
-Near-camera liquid rain for Unity 6, with a separate assembly that has no dependency on the cloud simulation or URP.
+Near-camera liquid rain for Unity 6, with a separate assembly that has no dependency on the cloud simulation.
 One Unity unit is one metre. World axes are x east, y up, z north. Wind is ground relative in m/s.
 
 ## Standalone import
@@ -18,7 +18,8 @@ assign Fallback Rainfall or a weather source. Gauge accumulation is in mm, indep
 
 The included streak shader uses transparent geometry and works through a standard forward unlit pass; it requires
 no textures or renderer feature. The code compiles against Unity 6000.6.6f1. Rendering and physics must still be
-checked in the target project; URP camera stacking, XR, HDRP, and console/mobile builds are not verified.
+checked in the target project; its streak shader is HDRP (SRPDefaultUnlit, scaled by the storm's light and the camera's
+exposure); XR and console/mobile builds are not verified.
 
 ## Existing Supercell Lab project
 

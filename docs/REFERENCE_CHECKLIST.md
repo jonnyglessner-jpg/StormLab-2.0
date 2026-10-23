@@ -100,7 +100,7 @@ storm's outflow).
 
 ## Part 4: from your friend
 
-- [ ] Unity render pipeline: URP or HDRP
+- [x] Unity render pipeline: HDRP (2026-10-23)
 - [ ] A copy of the world (or a description: size in km, origin convention, object types)
 - [ ] Target frame rate and resolution on the minimum spec (RTX 3060)
 - [ ] Whether the storm needs to be interactive mid-run or set up first, then chased

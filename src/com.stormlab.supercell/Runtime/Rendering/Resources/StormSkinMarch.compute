@@ -22,9 +22,12 @@ float4 _TP;
 // x: debug switches (1 no flow detail, 2 no near field, 4 no rain streaks, 16 cloud only: no rain, shafts or haze,
 // 32 near field only, 64 step heat map, 128 no tornado, 256 no analytic anvil at all, 512 no far anvil beyond the volume)
 float4 _Dbg;
-Texture2D<float> _DepthTex;
+// the camera depth buffer: HDRP allocates its targets as texture arrays (one slice per XR eye; slice 0 otherwise)
+Texture2DArray<float> _DepthTex;
 RWTexture2D<float4> _Out;
 RWTexture2D<float> _OutDist;
+// where the ray's transmittance first falls below one half, km (the storm's depth for the composite)
+RWTexture2D<float> _OutHalf;
 
 // camera in the volume frame (km): position, forward, right, up; xy of _CamTan = tan of the half angles
 float4 _CamPos, _CamFwd, _CamRight, _CamUp, _CamTan;
@@ -622,7 +625,7 @@ void March(uint3 gid : SV_DispatchThreadID)
     {
         float2 duv = _ZB.w > 0.5 ? float2(uv.x, 1.0 - uv.y) : uv;
         uint2 dp = min((uint2)(duv * _DepthP.yz), (uint2)_DepthP.yz - 1);
-        float raw = _DepthTex[dp];
+        float raw = _DepthTex[uint3(dp, 0)];
         float eye = 1.0 / (_ZB.x * raw + _ZB.y);
         bool sky = _ZB.z > 0.5 ? raw <= 1e-7 : raw >= 0.9999999;
         if (!sky) tScene = eye / max(dot(rd, _CamFwd.xyz), 1e-3) / 1000.0;
@@ -650,7 +653,7 @@ void March(uint3 gid : SV_DispatchThreadID)
         float ea = max(max(amn.x, amn.y), max(amn.z, 0.0)), eb = min(min(amx.x, amx.y), amx.z);
         if (eb > ea) { tn0 = ea; tn1 = eb; }
     }
-    float3 col = 0.0; float T = 1.0; float dsum = 0.0, wsum = 0.0; int nSteps = 0, nDetail = 0;
+    float3 col = 0.0; float T = 1.0; float dsum = 0.0, wsum = 0.0; int nSteps = 0, nDetail = 0; float tHalf = 1e9;
     g_ph1 = 0.45 + 1.2 * pow(max(cosg, 0.0), 8.0); g_phW = miePhase(cosg, clamp(_PL.y, 5.0, 50.0)); g_phI = hg4(0.75, cosg);
     // the far anvil's slab: the anvil's height band, 90 km beyond the volume on every side
     float fa0 = -1.0, fa1 = -2.0;
@@ -663,6 +666,7 @@ void March(uint3 gid : SV_DispatchThreadID)
     }
     // in front of the volume (a camera outside it, looking in)
     if (fa1 > fa0) farAnvil(cp, rd, fa0, boxHit ? min(fa1, ta) : fa1, skyc, hazec, phys, col, T, dsum, wsum);
+    if (T < 0.5) tHalf = wsum > 1e-3 ? dsum / wsum : fa0;
     if (tb > ta)
     {
         float dt0 = 0.1;
@@ -1079,6 +1083,7 @@ void March(uint3 gid : SV_DispatchThreadID)
                 col += T * a * c;
                 dsum += T * a * t; wsum += T * a;
                 T *= 1.0 - a;
+                if (T < 0.5 && tHalf > 1e8) tHalf = t;
             }
             t += dt;
         }
@@ -1087,6 +1092,7 @@ void March(uint3 gid : SV_DispatchThreadID)
     if (fa1 > fa0 && boxHit && tBox < tStop) farAnvil(cp, rd, max(fa0, tBox), fa1, skyc, hazec, phys, col, T, dsum, wsum);
     float dist = wsum > 1e-3 ? dsum / wsum : min(tb, 60.0);
     _OutDist[id.xy] = dist;
+    _OutHalf[id.xy] = tHalf < 1e8 ? tHalf : dist;
     if ((uint)_Dbg.x & 64u) { _Out[id.xy] = float4(nSteps / _DepthP.w, nDetail / _DepthP.w, T, 0.0); return; }
 
     bool sceneHit = tScene < 1e8;

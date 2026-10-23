@@ -1,6 +1,6 @@
 {
   "name": "StormLab.Lightning",
   "rootNamespace": "StormLab.Supercell.Lightning",
-  "references": [],
+  "references": ["Unity.RenderPipelines.HighDefinition.Runtime", "Unity.RenderPipelines.Core.Runtime"],
   "autoReferenced": true
 }

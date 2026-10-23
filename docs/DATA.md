@@ -122,7 +122,7 @@ the visual ground truth. Cases marked * are days from your chase log.
 
 1. ~~**Architecture sign-off**~~ Hybrid approved 2026-10-18.
 2. ~~**Your friend's game constraints**~~ Unity 6000.6.6f1, RTX 3060 minimum, player goes anywhere including inside
-   the tornado (2026-10-18). Still open: URP or HDRP.
+   the tornado (2026-10-18). HDRP (2026-10-23).
 3. ~~**The world**~~ The friend builds the world. Yes to a copy: it is needed for Phase 2 (render pipeline, floating
    origin, where the storm sits relative to the map) and Phase 3 (object types for damage). Not needed for Phase 1.
 4. **Interaction model**: set up the environment first and then watch/chase (recommended, enables the time slider),

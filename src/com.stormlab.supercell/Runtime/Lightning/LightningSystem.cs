@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 using NVector3 = System.Numerics.Vector3;
 
 namespace StormLab.Supercell.Lightning
@@ -20,6 +21,9 @@ namespace StormLab.Supercell.Lightning
     public sealed class LightningSystem : MonoBehaviour
     {
         public LightningSettings settings = new LightningSettings();
+        /// <summary>luminous intensity of a flash's light on the ground and cloud at unit flash intensity, candela (HDRP):
+        /// 3e8 cd lights the ground 5 km away at 12 lux, fifty times a full moon and nothing beside daylight's 10^5 lux</summary>
+        public const float FlashCandela = 3e8f;
         [Tooltip("Local preview clock. Disable and call SampleAt(playbackSeconds) to follow a storm clock.")]
         public bool advanceClock = true;
         [Min(0)] public float timeScale = 1;
@@ -156,7 +160,7 @@ namespace StormLab.Supercell.Lightning
                     var colour = new Color(power, power * .96f, power * 1.08f, 1);
                     line.startColor = colour; line.endColor = channel.main ? colour : new Color(0, 0, 0, 0);
                 }
-                visual.light.intensity = intensity * 12;
+                visual.light.intensity = intensity * FlashCandela;
                 if (intensity > .0005f)
                 {
                     var path = flash.Channels[0].points;
@@ -199,7 +203,8 @@ namespace StormLab.Supercell.Lightning
                 for (int p = 0; p < channel.points.Length; p++) line.SetPosition(p, ToUnity(channel.points[p]));
             }
             var light = root.AddComponent<Light>(); light.type = LightType.Point;
-            light.intensity = 0;
+            root.AddComponent<HDAdditionalLightData>();
+            light.lightUnit = LightUnit.Candela; light.intensity = 0;
             bool aloft = flash.Event.kind == FlashKind.InCloud || flash.Event.kind == FlashKind.Crawler;
             light.transform.position = aloft ? ToUnity(flash.LightPosition) :
                 ToUnity(flash.Channels[0].points[128]) + Vector3.up * 120;

@@ -47,7 +47,7 @@ The tornado is a sub-grid model fed by the simulation.**
  ┌────────────────────────┐   ┌──────────────────────────────────────────────────┐
  │ TORNADO MODEL (CPU)    │   │ VOLUMETRIC SKIN (GPU)                            │
  │ genesis / maintenance /│   │ storm volume 150 m + near-field volume 20-30 m,  │
- │ decay rules + vortex   │   │ advected by the sim's winds, ray-marched in URP; │
+ │ decay rules + vortex   │   │ advected by the sim's winds, ray-marched (HDRP);│
  │ wind field + damage    │   │ funnel drawn analytically at full detail         │
  └────────────────────────┘   └──────────────────────────────────────────────────┘
 ```
@@ -150,7 +150,7 @@ research-grade storm simulations:
 
 ### 2.5 Volumetric skin (the look)
 
-Port of 1.0's BUILD / LIGHT / RENDER passes from WGSL to HLSL as a URP `ScriptableRenderPass` (works in HDRP too),
+Port of 1.0's BUILD / LIGHT / RENDER passes from WGSL to HLSL as an HDRP custom pass (URP until 2026-10-23),
 with three changes that matter:
 
 1. **The volume is advected.** Instead of repainting the volume from parameters every few frames, cloud water and
@@ -227,7 +227,7 @@ rest).
 | --- | --- | --- |
 | 0. Foundation (now) | Data tooling, climatology, reference case list, design sign-off | your answers in `DATA.md` §5 |
 | 1. Brain | Unity package with the dynamics on compute shaders, FFT pressure solver, real-sounding input, outflow boundary, timeline recorder, headless validation vs CM1 numbers and vs NEXRAD-derived geometry of the reference cases | Phase 0 |
-| 2. Skin | URP volumetric renderer: advected volumes, anvil sheets, overshooting top, mammatus, striations, inflow tails, vault, wall cloud, clear slot / horseshoe, FFD/RFD/hail; feature designer | Phase 1 timeline format |
+| 2. Skin | HDRP volumetric renderer: advected volumes, anvil sheets, overshooting top, mammatus, striations, inflow tails, vault, wall cloud, clear slot / horseshoe, FFD/RFD/hail; feature designer | Phase 1 timeline format |
 | 3. Tornado | Genesis/maintenance/decay model, vortex wind field, shapes, cycling, boundary-assisted LP genesis, EF5 path; damage via EF DI/DoD against world objects | Phases 1-2 |
 | 4. Presets and UI | The eight presets with acceptance windows, time slider, timelapse speeds, seed/replay, performance tiers | Phases 1-3 |
 | 5. Later (brief E) | Other modes (QLCS, multicell, pulse), storm interactions, mergers, boundary collisions, dryline / fronts, diurnal cycle | Phase 4 |
@@ -280,7 +280,7 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
 
 - The world belongs to the friend's project. A copy is wanted for Phase 2-3 integration (render pipeline, object
   types for damage indicators), not needed for Phase 1.
-- Still open: render pipeline (URP assumed, as in dodge-city-drive), multiplayer/VR (assumed neither), reference
+- Render pipeline: HDRP (the friend's game; decided 2026-10-23). Still open: multiplayer/VR (assumed neither), reference
   chase days and photo folders.
 - **2026-10-18** Plains LP acceptance window revised from three real cases; the textbook window (LCL 1.8-3 km, shear 45-70 kt,
   anvil storm-relative wind above 55 kt) did not fit them. LP vs classic must come from the simulated precipitation
@@ -396,3 +396,12 @@ vortex with corner flow and suction vortices), evaluated per pixel and per parti
   (2009) graupel flux at −15 °C and column ice from each timeline frame, kept per frame so ring eviction doesn't change
   the history. The flash-type split follows rain arrival, updraft strength and decay. Rates are presentation
   estimates (model-limitations.md).
+- **2026-10-23** HDRP. The friend's game renders with HDRP, so the package moved from URP to HDRP 17
+  (`StormSkinCustomPass`, which `StormSkin` installs itself). Three things a host game hits that URP did not: (1) the
+  pass runs at `BeforeTransparent`, after HDRP's sky, opaque fog and volumetric clouds, which treat any pixel without
+  depth as open sky; earlier, they paint over the storm (the friend's build showed his sky clouds through it). (2) The
+  storm writes its depth where it hides more than half of what is behind it, at the distance where it starts to (not
+  the mean distance, which hid things in front of thin rain), so transparents behind it are hidden. (3) Its light is in
+  physical units, the sun Light's lux x 0.5 / pi per unit, times the camera's exposure; the lab's own display curve
+  and backdrop are now the opt-in `UseStandaloneLook()`, which the test scenes use so the photo calibrations hold.
+  `DesignedSkinTests -designedOnly game` checks (1)-(2) against HDRP's physically based sky, fog and volumetric clouds.

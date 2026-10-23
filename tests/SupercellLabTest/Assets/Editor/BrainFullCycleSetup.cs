@@ -81,6 +81,7 @@ public static class BrainFullCycleSetup
         var preview = runner.gameObject.AddComponent<BrainFullCyclePreview>();
         preview.runner = runner; preview.skin = skin; preview.lightning = lightning;
         preview.driver = driver; preview.observer = camera; preview.outputDirectory = Output;
+        preview.ConfigureRainfall();
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
         AssetDatabase.SaveAssets();

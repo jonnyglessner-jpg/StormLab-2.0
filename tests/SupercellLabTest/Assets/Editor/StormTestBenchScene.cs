@@ -16,17 +16,21 @@ using UnityEngine.Rendering.Universal;
 public static class StormTestBenchScene
 {
     public const string ScenePath = "Assets/Scenes/StormTestBench.unity";
+    public const string VariantScenePath = "Assets/Scenes/DesignedVariantPreview.unity";
 
     static StormTestBenchScene() { StormTestBench.Capture = path => ScreenCapture.CaptureScreenshot(path); }
 
     [MenuItem("Supercell Lab/Build Test Bench Scene")]
-    public static void Build()
+    public static void Build() => BuildScene(ScenePath, false);
+
+    static void BuildScene(string path, bool comparison)
     {
         SkinTests.EnsurePipeline();
         SkinTests.EnsureFolder("Assets/Scenes");
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         var camGo = new GameObject("Main Camera") { tag = "MainCamera" };
         var cam = camGo.AddComponent<Camera>();
+        camGo.AddComponent<AudioListener>();
         cam.nearClipPlane = 1f; cam.farClipPlane = 250000f; cam.fieldOfView = 60f;
         cam.clearFlags = CameraClearFlags.SolidColor; cam.backgroundColor = Color.black;
         camGo.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing = false;
@@ -40,13 +44,28 @@ public static class StormTestBenchScene
         var skin = go.AddComponent<StormSkin>(); skin.sun = sun;
         var runner = go.AddComponent<DesignedStormRunner>(); runner.skin = skin; runner.spawnOnStart = false;
         var bench = go.AddComponent<StormTestBench>(); bench.cam = cam;
+        if (comparison) { bench.remember = false; bench.StructureComparison(); }
 
-        EditorSceneManager.SaveScene(scene, ScenePath);
+        EditorSceneManager.SaveScene(scene, path);
         var list = new System.Collections.Generic.List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
-        if (!list.Exists(s => s.path == ScenePath)) list.Add(new EditorBuildSettingsScene(ScenePath, true));
+        if (!list.Exists(s => s.path == path)) list.Add(new EditorBuildSettingsScene(path, true));
         EditorBuildSettings.scenes = list.ToArray();
         AssetDatabase.SaveAssets();
-        Debug.Log($"[Bench] scene saved: {ScenePath}");
+        Debug.Log($"[Bench] scene saved: {path}");
+    }
+
+    [MenuItem("Supercell Lab/Open Designed Variant Preview")]
+    public static void OpenVariantPreview()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            EditorApplication.ExitPlaymode();
+            return; // Use the menu again once Play mode has ended.
+        }
+        if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+        if (!File.Exists(VariantScenePath)) BuildScene(VariantScenePath, true);
+        else EditorSceneManager.OpenScene(VariantScenePath, OpenSceneMode.Single);
+        EditorApplication.EnterPlaymode();
     }
 
     [MenuItem("Supercell Lab/Open Test Bench %#t")]

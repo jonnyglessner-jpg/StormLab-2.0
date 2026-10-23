@@ -24,6 +24,7 @@ namespace UnityEngine
         public float x, y, z, w;
         public Vector4(float x, float y, float z, float w) { this.x = x; this.y = y; this.z = z; this.w = w; }
         public static Vector4 zero => new Vector4(0, 0, 0, 0);
+        public static implicit operator Vector2(Vector4 v) => new Vector2(v.x, v.y);
     }
     public static class Mathf
     {

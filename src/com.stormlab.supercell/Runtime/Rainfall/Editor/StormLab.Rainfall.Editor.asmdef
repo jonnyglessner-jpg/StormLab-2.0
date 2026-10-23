@@ -1,0 +1,6 @@
+{
+  "name": "StormLab.Rainfall.Editor",
+  "references": ["StormLab.Rainfall"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

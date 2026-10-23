@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StormTestBench.unity
     guid: b7a737490817eea4785ee6fb81b19fd3
+  - enabled: 1
+    path: Assets/Scenes/DesignedVariantPreview.unity
+    guid: 01a671f7f61b63149b94a61ff8a90033
   m_configObjects: {}

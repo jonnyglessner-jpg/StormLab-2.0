@@ -103,7 +103,7 @@ namespace StormLab.Supercell.Lightning
             double exposureStart = seek ? seconds : previous;
             expired.Clear();
             foreach (var pair in active)
-                if (seconds - pair.Value.flash.Event.time > 1) expired.Add(pair.Key);
+                if (seconds - pair.Value.flash.Event.time > Math.Max(1, pair.Value.flash.Duration)) expired.Add(pair.Key);
             foreach (long key in expired) { Release(active[key].root); active.Remove(key); }
             LightningSchedule.Query(settings, Math.Max(-1e-6, seconds - 1), seconds, events, ActivityAtTime);
             CurrentActivity = ActivityAtTime?.Invoke(seconds);
@@ -145,9 +145,11 @@ namespace StormLab.Supercell.Lightning
                 {
                     var line = visual.lines[c]; var channel = flash.Channels[c];
                     float power = intensity * channel.brightness;
-                    // Failed side leaders are mostly visible during the first return stroke.
-                    if (!channel.main && age > flash.StrokeTimes[0] + .06) power *= .08f;
-                    if (age < LightningFlash.LeaderSeconds) power = .008f * channel.brightness;
+                    // Failed side leaders are mostly visible during the first return stroke; a crawler's branches keep
+                    // carrying current through its pulses, and its slow leader is seen creeping out.
+                    bool crawler = flash.Event.kind == FlashKind.Crawler;
+                    if (!channel.main && age > flash.StrokeTimes[0] + .06) power *= crawler ? .6f : .08f;
+                    if (age < flash.LeadSeconds) power = (crawler ? .25f : .008f) * channel.brightness;
                     line.enabled = visible && power > .0005f;
                     line.positionCount = Math.Max(2, (int)(channel.points.Length * progress));
                     for (int p = 0; p < line.positionCount; p++) line.SetPosition(p, ToUnity(channel.points[p]));
@@ -198,9 +200,11 @@ namespace StormLab.Supercell.Lightning
             }
             var light = root.AddComponent<Light>(); light.type = LightType.Point;
             light.intensity = 0;
-            light.transform.position = flash.Event.kind == FlashKind.InCloud ? ToUnity(flash.LightPosition) :
+            bool aloft = flash.Event.kind == FlashKind.InCloud || flash.Event.kind == FlashKind.Crawler;
+            light.transform.position = aloft ? ToUnity(flash.LightPosition) :
                 ToUnity(flash.Channels[0].points[128]) + Vector3.up * 120;
-            light.color = new Color(.86f, .9f, 1); light.range = 6000; light.shadows = LightShadows.None;
+            light.color = new Color(.86f, .9f, 1); light.range = flash.Event.kind == FlashKind.Crawler ? 12000 : 6000;
+            light.shadows = LightShadows.None;
             return new Visual { flash = flash, root = root, lines = lines, light = light };
         }
 

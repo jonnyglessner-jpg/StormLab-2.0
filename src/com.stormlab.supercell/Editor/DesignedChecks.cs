@@ -19,19 +19,201 @@ namespace StormLab.Supercell.EditorTools
 
         public static readonly (string name, Func<string> run)[] All =
         {
+            ("chasing presets retain the hail environment as LP and migrate saved selections", ChasingPresets),
             ("same seed gives the same storm, another seed a different one", Determinism),
             ("environment: high shear + low CAPE is smaller and more tilted than high CAPE", ShearVsCape),
             ("environment: High Plains dryline storm has a high base and exposed tornadoes; HP wraps them in rain", Visibility),
             ("climatology: EF mix and widths per region at the reference STP", Climatology),
             ("climatology: higher STP shifts the mix toward strong tornadoes", StpShift),
-            ("cycles: 1-4 per storm, tornado count and gaps near the record, later cycles both weaker and stronger", Cycles),
+            ("cycles: 2-4 per storm, every storm tornadic, quick game-paced gaps, later cycles both weaker and stronger", Cycles),
             ("geometry: clear slot and horseshoe grow with tornado size", Geometry),
             ("variety: one shape comes in many proportions; tornadoes change shape, skin and soil; satellites are rare", Variety),
             ("real time: storm and tornado move at the storm motion, wall cloud turns at v/r", RealTime),
             ("along-track environment: richer air turns an LP storm classic; a cap kills it early", AlongTrack),
             ("kinematic wind: inflow below the base, updraft, counter-clockwise mesocyclone, outflow aloft", KinematicWind),
             ("every preset evaluates over its whole life without NaN", Presets),
+            ("authored precipitation modes preserve environment and stay finite across presets", PrecipitationModes),
+            ("designed inflow tail follows the FFD boundary, bends and survives seeks/recentering", InflowBoundary),
+            ("game pacing: first wall cloud 10-20 min, most tornadoes 2-6 min, only strong or thin ones 10+, none over 30", GamePacing),
+            ("game scenario: 2-4 storms cross the 30-mile map, each with a tornado; ~40% of games EF3+, ~20% EF4+", Scenario),
         };
+
+        static string GamePacing()
+        {
+            var walls = new List<double>(); var lives = new List<(int ef, TornadoShape shape, double min)>(); int late = 0;
+            foreach (var preset in StormPreset.All)
+            for (int s = 1; s <= 120; s++)
+            {
+                var st = new DesignedStorm(new FixedEnvironment(SEnv.Make(preset.ToEnv())), new Vec2(0, 0), s, StormTestRegion(preset.key));
+                if (st.kind != StormKind.Supercell) return $"FAIL {preset.key} seed {s} is {st.kind}, not a supercell";
+                walls.Add(st.cycles[0].wallS / 60);
+                foreach (var c in st.cycles)
+                {
+                    if (c.tornado == null) continue;
+                    lives.Add((c.tornado.ef, c.tornado.shape, c.tornado.lifeS / 60));
+                    if (c.tornado.EndS > 3600) late++;
+                }
+            }
+            double share26 = lives.Count(l => l.min >= 2 && l.min <= 6.5) / (double)lives.Count;
+            var long10 = lives.Where(l => l.min >= 10).ToList();
+            bool longOk = long10.All(l => l.ef >= 3 || l.shape == TornadoShape.Rope || l.shape == TornadoShape.Drillbit || l.ef >= 2 && l.min <= 12);
+            double strong10 = lives.Where(l => l.ef >= 4).Count(l => l.min >= 10) / (double)Math.Max(1, lives.Count(l => l.ef >= 4));
+            string d = $"first wall cloud {F(walls.Min())}-{F(walls.Max())} min (median {F(walls.OrderBy(x => x).ElementAt(walls.Count / 2))}); {lives.Count} tornadoes: " +
+                $"{share26:0%} last 2-6.5 min, {long10.Count} last 10+ (EF4+ that do: {strong10:0%}), longest {F(lives.Max(l => l.min))} min; {late} still down after 60 min";
+            if (walls.Min() < 9.99 || walls.Max() > 20.01) return "FAIL first wall cloud outside 10-20 min; " + d;
+            if (share26 < 0.55) return "FAIL too few tornadoes last 2-6 min; " + d;
+            if (!longOk || strong10 < 0.85) return "FAIL long tornadoes are not the strong, wide or thin ones; " + d;
+            if (lives.Max(l => l.min) > 30) return "FAIL a tornado lasts over 30 min; " + d;
+            if (late > 0) return "FAIL tornadoes run past the hour; " + d;
+            return d;
+        }
+
+        static ClimoRegion StormTestRegion(string preset) => preset == "dixie" ? ClimoRegion.Dixie : preset == "ohio" ? ClimoRegion.Midwest : ClimoRegion.Plains;
+
+        static string Scenario()
+        {
+            var parts = new List<string>();
+            foreach (var preset in StormPreset.All)
+            {
+                var env = new FixedEnvironment(SEnv.Make(preset.ToEnv()));
+                int n = 400, ef3 = 0, ef4 = 0, built3 = 0, built4 = 0; var counts = new int[5]; double inMapMin = double.MaxValue;
+                for (int s = 1; s <= n; s++)
+                {
+                    var sc = new StormScenario(env, s, StormTestRegion(preset.key));
+                    int ns = sc.storms.Count; counts[Math.Min(ns, 4)]++;
+                    if (ns < 2 || ns > 4) return $"FAIL {preset.key} scenario {s} has {ns} storms";
+                    if (!sc.EveryStormTornadic) return $"FAIL {preset.key} scenario {s}: a storm puts down no tornado ({sc})";
+                    int top = sc.MaxEf;
+                    if (top > sc.topEf || (sc.topEf >= 3 && top != sc.topEf)) return $"FAIL {preset.key} scenario {s}: strongest EF{top}, built for EF{sc.topEf}";
+                    if (top >= 3) ef3++; if (top >= 4) ef4++;
+                    if (sc.topEf >= 3) built3++; if (sc.topEf >= 4) built4++;
+                    foreach (var st in sc.storms)
+                    {
+                        if (st.startS > StormScenario.LatestStartS) return $"FAIL {preset.key} scenario {s}: storm {st.index} starts at {st.startS / 60:0} min";
+                        var p = st.spawnKm;
+                        if (p.x < 0 || p.y < 0 || p.x > StormScenario.MapKm || p.y > StormScenario.MapKm) return $"FAIL {preset.key} scenario {s}: storm {st.index} starts off the map";
+                        // it crosses the map: how long its updraft stays on it (to the game's end)
+                        double on = 0;
+                        for (double t = 0; t < StormScenario.GameS - st.startS; t += 60)
+                        { var u = st.storm.UpdraftAt(t); if (u.x >= 0 && u.y >= 0 && u.x <= StormScenario.MapKm && u.y <= StormScenario.MapKm) on += 1; }
+                        inMapMin = Math.Min(inMapMin, on);
+                        foreach (var t in st.Tornadoes) if (t.EndS + st.startS > StormScenario.GameS + 1) return $"FAIL {preset.key} scenario {s}: a tornado runs past the hour";
+                    }
+                }
+                double f3 = ef3 / (double)n, f4 = ef4 / (double)n;
+                parts.Add($"{preset.key}: 2/3/4 storms {counts[2]}/{counts[3]}/{counts[4]}, EF3+ {f3:0%}, EF4+ {f4:0%}, every storm on the map {inMapMin:0}+ min");
+                if (Math.Abs(f3 - 0.4) > 0.07 || Math.Abs(f4 - 0.2) > 0.06) return $"FAIL {preset.key}: EF3+ in {f3:0%} of games, EF4+ in {f4:0%}; " + string.Join("; ", parts);
+                if (inMapMin < 20) return $"FAIL {preset.key}: a storm spends only {inMapMin} min on the map; " + string.Join("; ", parts);
+            }
+            return string.Join("; ", parts);
+        }
+
+        static string ChasingPresets()
+        {
+            if (!StormPreset.All.Select(p => p.key).SequenceEqual(new[] { "plains", "lp", "dixie", "ohio" }))
+                return "FAIL unexpected selectable environments";
+            var lp = StormPreset.Resolve("lp");
+            if (StormPreset.Resolve("hail") != lp || lp.name != "LP") return "FAIL hail selection did not migrate to LP";
+            if (lp.T0F != 92 || lp.TdF != 66 || lp.moistFt != 2000 || lp.lapse != 8.8 || lp.cap != 1 ||
+                lp.llj != 22 || lp.shear != 55 || lp.upper != 70) return "FAIL former hail environment changed";
+            foreach (var key in new[] { "capped", "pulse", "missing" })
+                if (StormPreset.Resolve(key) != StormPreset.All[0]) return "FAIL retired selection has no fallback";
+            return "four chasing environments; LP keeps hail settings; saved hail and retired selections resolve";
+        }
+
+        static string InflowBoundary()
+        {
+            int cases = 0; double maxError = 0; bool bends = false;
+            var a = new SkinParams(); var b = new SkinParams();
+            foreach (var preset in StormPreset.All)
+            foreach (DesignedPrecipitation mode in Enum.GetValues(typeof(DesignedPrecipitation)))
+            {
+                var st = new DesignedStorm(new FixedEnvironment(SEnv.Make(preset.ToEnv())), new Vec2(0, 0), 7, ClimoRegion.Plains, mode);
+                if (st.kind != StormKind.Supercell) continue;
+                // mature times: a quarter, half and three quarters of the way to the decay (game pacing)
+                double mature = st.lifeS - st.genome.decayS;
+                foreach (double t in new[] { Math.Max(1200, 0.25 * mature), 0.5 * mature, 0.75 * mature })
+                {
+                    st.Evaluate(t, t, new Vec2(0, 0), a);
+                    st.Evaluate(t, t + 50, new Vec2(3, -2), b);
+                    for (int k = 0; k < 4; k++)
+                    {
+                        var slot = (Slot)((int)Slot.TailPath0 + k);
+                        UnityEngine.Vector2 point = a[slot];
+                        double error = Math.Abs(DesignedInflowBoundary.Radius(a, point, out var gradient) - DesignedInflowBoundary.FrontRadius(a));
+                        maxError = Math.Max(maxError, error);
+                        if (a[slot].w != 2 || error > 0.002) return $"FAIL {preset.key}/{mode} knot {k} misses FFD edge: {error}";
+                        if (k > 0 && UnityEngine.Vector2.Dot(gradient.normalized, (UnityEngine.Vector2)a[Slot.Tail]) < -0.05)
+                            return $"FAIL {preset.key}/{mode}: knot {k} is on the downwind side of the FFD";
+                        if (((UnityEngine.Vector2)b[slot] + new UnityEngine.Vector2(3, -2) - point).magnitude > 0.0003)
+                            return $"FAIL {preset.key}/{mode}: recenter changed tail";
+                    }
+                    var head = (UnityEngine.Vector2)a[Slot.TailPath0];
+                    if ((head - (UnityEngine.Vector2)a[Slot.Up]).magnitude > a[Slot.Tower].y + 3)
+                        return $"FAIL {preset.key}/{mode}: tail detached from updraft";
+                    var d0 = ((UnityEngine.Vector2)(a[Slot.TailPath1] - a[Slot.TailPath0])).normalized;
+                    var d1 = ((UnityEngine.Vector2)(a[Slot.TailPath3] - a[Slot.TailPath2])).normalized;
+                    bends |= UnityEngine.Vector2.Dot(d0, d1) < 0.98;
+                    st.Evaluate(t - 300, 0, new Vec2(0, 0), b);
+                    st.Evaluate(t, t, new Vec2(0, 0), b);
+                    for (int k = 0; k < 4; k++)
+                        if ((a[(Slot)(51 + k)] - b[(Slot)(51 + k)]).magnitude > 0.00001)
+                            return "FAIL seek-dependent tail";
+                    cases++;
+                }
+            }
+            if (!bends) return "FAIL all tails are straight";
+            var reference = new DesignedStorm(new FixedEnvironment(Preset("plains")), new Vec2(0, 0), 7, ClimoRegion.Plains);
+            reference.Evaluate(2700, 2700, new Vec2(0, 0), a);
+            a.CopyTo(b);
+            b[Slot.Ffd] += new UnityEngine.Vector4(2, -1, 0, 0);
+            DesignedInflowBoundary.Write(b);
+            if (((UnityEngine.Vector2)(a[Slot.TailPath2] - b[Slot.TailPath2])).magnitude < 0.2)
+                return "FAIL tail ignores FFD displacement";
+            a.CopyTo(b);
+            var inflow = b[Slot.Inflow]; inflow.z *= 3; b[Slot.Inflow] = inflow;
+            DesignedInflowBoundary.Write(b);
+            if (((UnityEngine.Vector2)(a[Slot.TailPath2] - b[Slot.TailPath2])).magnitude < 0.02)
+                return "FAIL tail ignores inflow/outflow balance";
+            return $"{cases} preset/mode/age cases, maximum contour error {maxError:0.000000}; curved, attached, seek- and origin-independent";
+        }
+
+        static string PrecipitationModes()
+        {
+            int cases = 0;
+            foreach (var preset in StormPreset.All)
+            {
+                var source = new FixedEnvironment(SEnv.Make(preset.ToEnv()));
+                var original = new DesignedStorm(source, new Vec2(0, 0), 7, ClimoRegion.Plains);
+                var baseline = original.CharacterAt(2700);
+                foreach (DesignedPrecipitation mode in Enum.GetValues(typeof(DesignedPrecipitation)))
+                {
+                    var st = new DesignedStorm(source, new Vec2(0, 0), 7, ClimoRegion.Plains, mode);
+                    var ch = st.CharacterAt(2700);
+                    if (ch.cape != baseline.cape || ch.zb != baseline.zb || ch.w != baseline.w ||
+                        ch.motion.x != baseline.motion.x || ch.motion.y != baseline.motion.y)
+                        return $"FAIL {preset.key}/{mode}: environment changed";
+                    if (mode == DesignedPrecipitation.Auto && (st.lifeS != original.lifeS || ch.hpness != baseline.hpness))
+                        return $"FAIL {preset.key}: Auto changed default storm";
+                    if (ch.kind == StormKind.Supercell && mode != DesignedPrecipitation.Auto &&
+                        (mode == DesignedPrecipitation.LP ? !ch.LP : mode == DesignedPrecipitation.HP ? !ch.HP : ch.LP || ch.HP))
+                        return $"FAIL {preset.key}/{mode}: mode not applied";
+                    if (ch.kind != StormKind.Supercell && ch.hpness != baseline.hpness)
+                        return $"FAIL {preset.key}/{mode}: non-supercell was overridden";
+                    var p = new SkinParams();
+                    for (double t = 0; t <= st.lifeS; t += 300)
+                    {
+                        st.Evaluate(t, t, new Vec2(0, 0), p);
+                        foreach (var v in p.v)
+                            if (float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z) || float.IsNaN(v.w) ||
+                                float.IsInfinity(v.x) || float.IsInfinity(v.y) || float.IsInfinity(v.z) || float.IsInfinity(v.w))
+                                return $"FAIL {preset.key}/{mode}: nonfinite at {t}";
+                    }
+                    cases++;
+                }
+            }
+            return $"{cases} preset/mode combinations: environment retained, Auto unchanged, finite lifecycle parameters";
+        }
 
         // ------------------------------------------------------------------
         static string Variety()
@@ -210,6 +392,7 @@ namespace StormLab.Supercell.EditorTools
                 int nc = st.cycles.Count; hist[Math.Min(nc, 5)]++;
                 if (nc < 1 || nc > 4) return $"FAIL seed {s} has {nc} cycles";
                 var tors = st.cycles.Where(c => c.tornado != null).Select(c => c.tornado).ToList();
+                if (tors.Count == 0) return $"FAIL seed {s} puts down no tornado";
                 torHist[Math.Min(tors.Count, 5)]++;
                 for (int i = 1; i < tors.Count; i++)
                 {
@@ -223,11 +406,11 @@ namespace StormLab.Supercell.EditorTools
             int withTor = torHist.Skip(1).Sum();
             double two = torHist.Skip(2).Sum() / (double)Math.Max(withTor, 1);
             string d = $"cycles 1-4: {string.Join("/", hist.Skip(1).Take(4))}; storms with 1/2/3/4 tornadoes {string.Join("/", torHist.Skip(1).Take(4))} (2+ share {F(two)}, record ~0.34 at STP 1.5, more at this preset's STP 4.6); "
-                + $"median gap {medGap:0} min (record 15); next tornado weaker {weaker}/{pairs}, stronger {stronger}/{pairs}; next updraft smaller {smaller}/{upPairs}";
+                + $"median gap {medGap:0} min (record 15; game pacing a quarter of it); next tornado weaker {weaker}/{pairs}, stronger {stronger}/{pairs}; next updraft smaller {smaller}/{upPairs}";
             if (weaker < 0.15 * pairs || stronger < 0.1 * pairs) return "FAIL later cycles not varied; " + d;
             if (smaller < 0.15 * upPairs) return "FAIL updraft always grows; " + d;
-            if (medGap < 6 || medGap > 30) return "FAIL gap between tornadoes out of range; " + d;
-            if (two < 0.25 || two > 0.8) return "FAIL share of multi-tornado storms out of range; " + d;
+            if (medGap < 2 || medGap > 10) return "FAIL gap between tornadoes out of range; " + d;
+            if (two < 0.25 || two > 0.95) return "FAIL share of multi-tornado storms out of range; " + d;
             return d;
         }
 
@@ -309,13 +492,15 @@ namespace StormLab.Supercell.EditorTools
             var st = new DesignedStorm(new Zones(lp, rich, 25), new Vec2(0, 0), 7, ClimoRegion.Plains);
             double h0 = st.CharacterAt(600).hpness, h1 = st.CharacterAt(Math.Min(st.lifeS, 7200)).hpness;
             double z0 = st.CharacterAt(600).zb, z1 = st.CharacterAt(Math.Min(st.lifeS, 7200)).zb;
-            // and a classic storm that runs into a strong cap
-            var capped = Preset("capped");
-            var free = new DesignedStorm(new FixedEnvironment(rich), new Vec2(0, 0), 7, ClimoRegion.Plains);
-            var dies = new DesignedStorm(new Zones(rich, capped, 40), new Vec2(0, 0), 7, ClimoRegion.Plains);
+            // and a classic storm that runs into a strong cap 20 km downstream (about 20 min in; with no game horizon, so
+            // the comparison is the storms' own lives)
+            var capped = Env(90, 68, 0, 8.0, 4.0, 36, 50, 80);
+            var open = new DesignedStormOptions { horizonS = double.PositiveInfinity };
+            var free = new DesignedStorm(new FixedEnvironment(rich), new Vec2(0, 0), 7, ClimoRegion.Plains, DesignedPrecipitation.Auto, open);
+            var dies = new DesignedStorm(new Zones(rich, capped, 20), new Vec2(0, 0), 7, ClimoRegion.Plains, DesignedPrecipitation.Auto, open);
             string d = $"LP to classic: hpness {F(h0)} -> {F(h1)}, base {F(z0)} -> {F(z1)} km; into a cap: life {dies.lifeS / 60:0} min vs {free.lifeS / 60:0} min in open air";
             if (!(h1 > h0 + 0.5 && z1 < z0 - 0.5)) return "FAIL storm did not turn classic in richer air; " + d;
-            if (!(dies.lifeS < free.lifeS - 1800)) return "FAIL cap did not end the storm early; " + d;
+            if (!(dies.lifeS < free.lifeS - 600)) return "FAIL cap did not end the storm early; " + d;
             return d;
         }
 

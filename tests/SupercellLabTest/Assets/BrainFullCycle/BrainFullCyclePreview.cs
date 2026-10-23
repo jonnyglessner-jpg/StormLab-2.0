@@ -6,6 +6,7 @@ using System.Text;
 using StormLab.Supercell;
 using StormLab.Supercell.Dynamics;
 using StormLab.Supercell.Lightning;
+using StormLab.Supercell.Rainfall;
 using StormLab.Supercell.Rendering;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
     public LightningSystem lightning;
     public LightningStormDriver driver;
     public Camera observer;
+    public LocalRainfall rainfall;
+    public BrainRainSource rainSource;
     public float startSolarHour = 6, solarHoursPerModelHour = 8;
     public bool followStorm = true;
     public string outputDirectory;
@@ -29,8 +32,26 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
     readonly float[] captureTimes = { 60, 2700, 6000, 8100, 10800 };
     readonly string[] captureNames = { "01_morning", "02_noon", "03_sunset", "04_midnight", "05_next_morning" };
 
+    Vector3 cameraTarget, lastCameraAnchor;
+    float cameraYaw, cameraPitch, cameraDistance;
+    bool cameraReady;
+    int cameraDragButton = -1, cameraControlId;
+    BrainPreviewPanel diagnosticsPanel;
+    Vector2 panelScroll;
+    Rect PreviewPanelRect => new Rect(Mathf.Max(425, Screen.width - 390), 12, 375, Mathf.Min(570, Screen.height - 24));
+
+    void OnEnable() => HideRainVisuals();
+
+    void HideRainVisuals()
+    {
+        // Temporarily suppress volumetric rain, shafts and rain haze; keep model water intact.
+        if (skin) skin.debugFlags |= 16;
+        if (rainfall) rainfall.enabled = false;
+    }
+
     void Awake()
     {
+        ConfigureRainfall();
         Directory.CreateDirectory(outputDirectory);
         lightning.advanceClock = false;
         lightning.CellCentreAtTime = CentreAt;
@@ -41,8 +62,24 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
         File.WriteAllText(Path.Combine(outputDirectory, "preview-errors.txt"), "");
         Application.logMessageReceived += OnLog;
         // This scene owns the observer. The diagnostics panel must not also move it.
-        var panel = runner.GetComponent<BrainPreviewPanel>();
+        var panel = diagnosticsPanel = runner.GetComponent<BrainPreviewPanel>();
         if (panel) panel.allowCameraControl = false;
+    }
+
+    // Also used by the scene builder. Handles an already-open copy of the scene after a script refresh.
+    public void ConfigureRainfall()
+    {
+        if (!rainfall) rainfall = GetComponent<LocalRainfall>();
+        if (!rainfall) rainfall = gameObject.AddComponent<LocalRainfall>();
+        if (!rainSource) rainSource = GetComponent<BrainRainSource>();
+        if (!rainSource) rainSource = gameObject.AddComponent<BrainRainSource>();
+        rainfall.targetCamera = observer;
+        rainfall.rainMmPerHour = 0;
+        rainfall.groundHeight = skin.groundHeight;
+        rainfall.weatherSource = rainSource;
+        rainSource.skin = skin;
+        rainSource.rainfall = rainfall;
+        HideRainVisuals();
     }
 
     Vector3 CentreAt(double seconds)
@@ -85,16 +122,7 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
         if (runner.Run == null) return;
         var f = runner.Timeline.AtTime(skin.playbackTime);
         if (f == null) return;
-        if (followStorm && observer)
-        {
-            // Ride the simulation's translating frame, independent of whichever core is
-            // strongest. Position is a function of shown model time: pause is stationary,
-            // and an explicit seek lands immediately instead of flying across the map.
-            Vector2 anchor = new Vector2(runner.Run.g.Lx * .45f, runner.Run.g.Ly * .5f);
-            Vector3 p = CameraGroundAt(anchor, skin.groundOrigin, skin.FrameMotion, skin.groundHeight, skin.ShownTime);
-            observer.transform.position = p + new Vector3(15000, 2, -15000);
-            observer.transform.rotation = Quaternion.LookRotation(new Vector3(-15000, 4000, 15000));
-        }
+        UpdateCamera();
         peakW = Mathf.Max(peakW, f.wMax); peakCloud = Mathf.Max(peakCloud, f.cloudTop);
         float rate = driver.Current.HasValue ? driver.Current.Value.flashesPerMinute : 0;
         peakRate = Mathf.Max(peakRate, rate);
@@ -122,6 +150,102 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
         if (done) skin.playing = false;
     }
 
+    Vector3 CameraAnchor()
+    {
+        var anchor = new Vector2(runner.Run.g.Lx * .45f, runner.Run.g.Ly * .5f);
+        return CameraGroundAt(anchor, skin.groundOrigin, skin.FrameMotion, skin.groundHeight, skin.ShownTime);
+    }
+
+    void ResetCamera()
+    {
+        if (!observer || runner.Run == null) return;
+        lastCameraAnchor = CameraAnchor();
+        cameraTarget = lastCameraAnchor + Vector3.up * 4000;
+        var offset = new Vector3(15000, -3998, -15000);
+        cameraDistance = offset.magnitude;
+        cameraYaw = -45;
+        cameraPitch = Mathf.Asin(offset.y / cameraDistance) * Mathf.Rad2Deg;
+        cameraReady = true;
+        ApplyCamera();
+    }
+
+    void UpdateCamera()
+    {
+        if (!observer) return;
+        if (!cameraReady) ResetCamera();
+        Vector3 anchor = CameraAnchor();
+        // Preserve orbit and pan through playback, pause, and explicit timeline seeks.
+        if (followStorm) cameraTarget += anchor - lastCameraAnchor;
+        lastCameraAnchor = anchor;
+        ApplyCamera();
+    }
+
+    void ApplyCamera()
+    {
+        if (!cameraReady || !observer) return;
+        Vector3 position = cameraTarget + Quaternion.Euler(cameraPitch, cameraYaw, 0) * Vector3.back * cameraDistance;
+        position.y = Mathf.Max(skin.groundHeight + 2, position.y);
+        observer.transform.SetPositionAndRotation(position, Quaternion.LookRotation(cameraTarget - position));
+    }
+
+    void HandleCameraInput()
+    {
+        // IMGUI events work with the project's new Input System without a legacy Input dependency.
+        var e = Event.current;
+        cameraControlId = GUIUtility.GetControlID("BrainOrbitCamera".GetHashCode(), FocusType.Passive);
+        if (!cameraReady || !observer) return;
+        bool overPanel = PreviewPanelRect.Contains(e.mousePosition) ||
+            (diagnosticsPanel && diagnosticsPanel.PanelRect.Contains(e.mousePosition));
+        if (e.type == EventType.MouseDown && (e.button == 1 || e.button == 2) &&
+            !overPanel && GUIUtility.hotControl == 0)
+        {
+            cameraDragButton = e.button;
+            GUIUtility.hotControl = cameraControlId;
+            e.Use();
+        }
+        if (e.type == EventType.MouseDrag && GUIUtility.hotControl == cameraControlId)
+        {
+            if (cameraDragButton == 2 || e.shift)
+            {
+                float metresPerPixel = 2 * cameraDistance * Mathf.Tan(observer.fieldOfView * Mathf.Deg2Rad * .5f) /
+                    Mathf.Max(1, Screen.height);
+                cameraTarget += (-observer.transform.right * e.delta.x + observer.transform.up * e.delta.y) * metresPerPixel;
+                cameraTarget.y = Mathf.Max(skin.groundHeight + 2, cameraTarget.y);
+            }
+            else
+            {
+                cameraYaw = Mathf.Repeat(cameraYaw + e.delta.x * .25f, 360);
+                cameraPitch = Mathf.Clamp(cameraPitch + e.delta.y * .25f, -80, 89);
+            }
+            ApplyCamera();
+            e.Use();
+        }
+        if (e.type == EventType.MouseUp && GUIUtility.hotControl == cameraControlId && e.button == cameraDragButton)
+        {
+            GUIUtility.hotControl = 0;
+            cameraDragButton = -1;
+            e.Use();
+        }
+        if (e.type == EventType.ScrollWheel && !overPanel && GUIUtility.hotControl == 0)
+        {
+            cameraDistance = Mathf.Clamp(cameraDistance * Mathf.Exp(e.delta.y * .08f), 100, 150000);
+            ApplyCamera();
+            e.Use();
+        }
+    }
+
+    void OnApplicationFocus(bool focused)
+    {
+        if (!focused) ReleaseCameraDrag();
+    }
+
+    void OnDisable() => ReleaseCameraDrag();
+
+    void ReleaseCameraDrag()
+    {
+        if (cameraDragButton >= 0 && GUIUtility.hotControl == cameraControlId) GUIUtility.hotControl = 0;
+        cameraDragButton = -1;
+    }
     public static Vector3 CameraGroundAt(Vector2 anchor, Vector2 origin, Vector2 motion, float ground, float shownTime)
     {
         Vector2 p = anchor + origin + motion * shownTime;
@@ -136,12 +260,18 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
 
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(Mathf.Max(425, Screen.width - 390), 12, 375, 365), GUI.skin.box);
+        HandleCameraInput();
+        GUILayout.BeginArea(PreviewPanelRect, GUI.skin.box);
+        panelScroll = GUILayout.BeginScrollView(panelScroll);
         GUILayout.Label("BRAIN + LIGHTNING + DAY / NIGHT");
         GUILayout.Label($"Solar time {skin.solarHour:00.00} | 8 sky hours / model hour");
         GUILayout.Label($"Lightning: {driver.Bound} | shown events: {flashes}");
         GUILayout.Label(driver.Current.HasValue ? $"Activity: {driver.Current.Value.flashesPerMinute:0.0} flashes/min" : "Waiting for brain lightning diagnostics");
-        followStorm = GUILayout.Toggle(followStorm, "Steady storm camera");
+        followStorm = GUILayout.Toggle(followStorm, "Follow moving storm (keep viewing angle)");
+        GUILayout.Label("Right-drag: orbit 360 degrees | Wheel: zoom");
+        GUILayout.Label("Middle-drag / Shift + right-drag: pan");
+        if (GUILayout.Button("Reset camera to storm")) ResetCamera();
+        GUILayout.Label("Rain visuals disabled.");
         GUILayout.Label($"Storm time {skin.playbackTime / 60:0.0} / 180 min | playback {skin.timelapse:0}x");
         GUILayout.BeginHorizontal();
         if (GUILayout.Button(skin.playing ? "Pause" : "Play")) skin.playing = !skin.playing;
@@ -160,6 +290,7 @@ public sealed class BrainFullCyclePreview : MonoBehaviour
         GUILayout.Label(complete ? "3-hour run complete. Scrub to review." : "Recording brain diagnostics and day/night views.");
         GUILayout.Label("Thunder at 1x only. Sky clock is visual compression.");
         GUILayout.Label("A sustained storm may remain active at the end.");
+        GUILayout.EndScrollView();
         GUILayout.EndArea();
     }
 

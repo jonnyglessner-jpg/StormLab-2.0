@@ -3,11 +3,15 @@
 // from a chaser's eye on the ground, an orbit, or free flight, in any light and at any quality tier. The bench remembers
 // where you were (storm, time, camera, sun) between play sessions, so after a code change you press Play and see the
 // same storm from the same spot. Build its scene with Supercell Lab > Open Test Bench (Ctrl+Shift+T).
+// Game scenario mode (G) plays a whole game instead: 2-4 storms on the 30 x 30 mile map on one hour's clock
+// (StormScenario, DesignedScenarioRunner); the camera follows one storm at a time (Tab: next storm).
 //
 //   space  play / pause       , .  step 30 s back / on      T  next tornado    W  next wall cloud
 //   1 2 3  chase / orbit / fly   right-drag  look / orbit    scroll  distance (fly: speed)
 //   WASD QE  fly                 F12  screenshot             H  hide the panel
+//   G  game scenario on / off    Tab  next storm (scenario)
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using StormLab.Supercell.Rendering;
@@ -34,6 +38,7 @@ namespace StormLab.Supercell
         public class State
         {
             public string preset = "plains";
+            public DesignedPrecipitation precipitation = DesignedPrecipitation.Auto;
             public ClimoRegion region = ClimoRegion.Plains;
             public int seed = 1;
             public float time = 1800f;
@@ -47,6 +52,7 @@ namespace StormLab.Supercell
             public float bearing = 140f;
             public float distance = 12000f;
             public float elevation = 8f;
+            public float orbitTargetHeight;
             public float eyeHeight = 2f;
             public float lookUp = 6f;
             public float fov = 60f;
@@ -57,11 +63,19 @@ namespace StormLab.Supercell
             public float sunAzimuth = 272f;
             public float sunElevation = 15f;
             public float exposure = 1.7f;
+            public bool showRain = true;
+            [Tooltip("play a whole game scenario (2-4 storms) instead of one storm")]
+            public bool scenario;
+            [Tooltip("the scenario storm the camera follows")]
+            public int focusStorm;
         }
         public State s = new State();
 
         DesignedStormRunner runner; StormSkin skin;
         DesignedStorm storm;
+        DesignedScenarioRunner game;
+        /// <summary>Set by the lightning integration: a storm's lightning activity at its time t, for the readout.</summary>
+        public static Func<DesignedStorm, double, string> LightningReadout;
         bool playing, dirtyStorm = true;
         string status = "";
         Vector2 scroll; Rect panel = new Rect(10, 10, 360, 10);
@@ -74,7 +88,11 @@ namespace StormLab.Supercell
             runner = GetComponent<DesignedStormRunner>();
             runner.spawnOnStart = false;
             if (!cam) cam = Camera.main;
-            if (cam) { cam.nearClipPlane = 1f; cam.farClipPlane = 250000f; }
+            if (cam)
+            {
+                cam.nearClipPlane = 1f; cam.farClipPlane = 250000f;
+                if (!FindAnyObjectByType<AudioListener>()) cam.gameObject.AddComponent<AudioListener>();
+            }
             if (remember) Load();
         }
 
@@ -92,11 +110,31 @@ namespace StormLab.Supercell
         /// <summary>Spawn the storm again from the current settings (keeps the storm time).</summary>
         public void Respawn() => dirtyStorm = true;
 
+        /// <summary>A repeatable whole-storm view for comparing presets and precipitation modes: a mature storm (25 min on
+        /// the game clock looks like the old 45-min storm).</summary>
+        public void StructureComparison()
+        {
+            playing = false;
+            s.time = 25 * 60;
+            s.mode = BenchCamera.Orbit; s.followTornado = false;
+            s.bearing = 140; s.distance = 55000; s.elevation = 8; s.fov = 60;
+            s.orbitTargetHeight = 6000;
+            s.timeOfDay = false; s.sunAzimuth = 225; s.sunElevation = 35; s.exposure = 1.7f;
+            s.showRain = true;
+        }
+
+        public static ClimoRegion PresetRegion(string preset) => preset == "dixie" ? ClimoRegion.Dixie
+            : preset == "ohio" ? ClimoRegion.Midwest : ClimoRegion.Plains;
+
         // ------------------------------------------------------------------ the storm
         void SpawnStorm()
         {
             dirtyStorm = false;
-            var pr = Array.Find(StormPreset.All, p => p.key == s.preset) ?? StormPreset.All[0];
+            if (s.scenario) { SpawnScenario(); return; }
+            if (game) { Destroy(game.gameObject); game = null; }
+            // the single storm's skin, lightning and the rest switch back on (scenario mode turned them off)
+            foreach (var b in GetComponents<Behaviour>()) if (b != this) b.enabled = true;
+            var pr = StormPreset.Resolve(s.preset);
             s.preset = pr.key;
             skin = runner.skin ? runner.skin : GetComponent<StormSkin>();
             if (skin)
@@ -107,6 +145,7 @@ namespace StormLab.Supercell
             }
             float keep = s.time;
             var src = new FixedEnvironment(Environment.Make(pr.ToEnv()));
+            runner.precipitation = s.precipitation;
             storm = runner.Spawn(src, Vector2.zero, Math.Max(1, s.seed), s.region);
             skin = runner.skin;
             s.time = Mathf.Clamp(keep, 0f, (float)storm.lifeS);
@@ -117,30 +156,84 @@ namespace StormLab.Supercell
             Debug.Log($"[Bench] {s.preset}, {s.region}, seed {s.seed}, tier {s.tier}: {status}");
         }
 
-        TornadoGene[] Tornadoes => storm == null ? Array.Empty<TornadoGene>()
-            : storm.cycles.Where(c => c.tornado != null && c.tornado.lifeS > 0).Select(c => c.tornado).ToArray();
+        void SpawnScenario()
+        {
+            var pr = StormPreset.Resolve(s.preset);
+            s.preset = pr.key;
+            skin = runner.skin ? runner.skin : GetComponent<StormSkin>();
+            if (skin) skin.Release();
+            // the bench's own storm stands down: its skin, lightning and the rest (the runner only answers queries)
+            foreach (var b in GetComponents<Behaviour>()) if (b != this && !(b is DesignedStormRunner)) b.enabled = false;
+            storm = null;
+            if (!game)
+            {
+                var go = new GameObject("Game scenario");
+                go.transform.SetParent(transform, false);
+                game = go.AddComponent<DesignedScenarioRunner>();
+                game.spawnOnStart = false;
+            }
+            game.tier = s.tier; game.nearField = s.nearField; game.precipitation = s.precipitation; game.lookFrom = skin;
+            game.playing = false;
+            var sc = game.Spawn(new FixedEnvironment(Environment.Make(pr.ToEnv())), Math.Max(1, s.seed), s.region);
+            s.time = Mathf.Clamp(s.time, 0f, (float)StormScenario.GameS);
+            s.focusStorm = Mathf.Clamp(s.focusStorm, 0, sc.storms.Count - 1);
+            status = $"{pr.name} game, seed {s.seed}: {sc}.";
+            Debug.Log($"[Bench] scenario {s.preset}, {s.region}, seed {s.seed}: {sc}");
+        }
+
+        bool Scenario => s.scenario && game && game.Scenario != null;
+        /// <summary>the storm the camera follows, when it initiates (game s), and its own time now</summary>
+        DesignedStorm FocusStorm => Scenario ? game.Scenario.storms[s.focusStorm].storm : storm;
+        double FocusStart => Scenario ? game.Scenario.storms[s.focusStorm].startS : 0;
+        float FocusTime => FocusStorm == null ? 0f : Mathf.Clamp(s.time - (float)FocusStart, 0f, (float)FocusStorm.lifeS);
+        /// <summary>the length of the timeline: the storm's life, or the game</summary>
+        float Life => Scenario ? (float)StormScenario.GameS : storm == null ? 1f : (float)storm.lifeS;
+
+        /// <summary>every tornado and wall cloud, in game seconds, with the storm it belongs to</summary>
+        IEnumerable<(int storm, double formS, TornadoGene t)> Tornadoes()
+        {
+            if (Scenario)
+            {
+                foreach (var st in game.Scenario.storms)
+                foreach (var t in st.Tornadoes) yield return (st.index, st.startS + t.formS, t);
+            }
+            else if (storm != null)
+                foreach (var c in storm.cycles) if (c.tornado != null && c.tornado.lifeS > 0) yield return (0, c.tornado.formS, c.tornado);
+        }
+        IEnumerable<(int storm, double wallS)> WallClouds()
+        {
+            if (Scenario) { foreach (var st in game.Scenario.storms) foreach (var c in st.storm.cycles) yield return (st.index, st.startS + c.wallS); }
+            else if (storm != null) foreach (var c in storm.cycles) yield return (0, c.wallS);
+        }
 
         void Seek(float t)
         {
-            if (storm == null) return;
-            s.time = Mathf.Clamp(t, 0f, (float)storm.lifeS);
-            if (skin) skin.playbackTime = s.time;
+            if (storm == null && !Scenario) return;
+            s.time = Mathf.Clamp(t, 0f, Life);
+            if (skin && !Scenario) skin.playbackTime = s.time;
         }
 
         void NextTornado()
         {
-            var next = Tornadoes.Where(t => t.formS > s.time + 1).OrderBy(t => t.formS).FirstOrDefault()
-                    ?? Tornadoes.OrderBy(t => t.formS).FirstOrDefault();
-            if (next == null) { Flash("This storm puts down no tornado. Try another seed."); return; }
+            var all = Tornadoes().OrderBy(x => x.formS).ToList();
+            if (all.Count == 0) { Flash("This storm puts down no tornado. Try another seed."); return; }
+            var next = all.FirstOrDefault(x => x.formS > s.time + 1);
+            if (next.t == null) next = all[0];
+            s.focusStorm = next.storm;
             Seek((float)next.formS + 30f);
         }
 
         void NextWallCloud()
         {
-            if (storm == null || storm.cycles.Count == 0) return;
-            var next = storm.cycles.Where(c => c.wallS > s.time + 1).OrderBy(c => c.wallS).FirstOrDefault() ?? storm.cycles.OrderBy(c => c.wallS).First();
+            var all = WallClouds().OrderBy(x => x.wallS).ToList();
+            if (all.Count == 0) return;
+            var next = all.FirstOrDefault(x => x.wallS > s.time + 1);
+            if (next.wallS <= s.time + 1) next = all[0];
+            s.focusStorm = next.storm;
             Seek((float)next.wallS);
         }
+
+        void NextStorm() { if (Scenario) s.focusStorm = (s.focusStorm + 1) % game.Scenario.storms.Count; }
 
         void Flash(string msg) { shotNote = msg; shotNoteUntil = Time.unscaledTime + 4f; }
 
@@ -149,21 +242,24 @@ namespace StormLab.Supercell
         {
             if (!runner) return;
             if (dirtyStorm) SpawnStorm();
-            if (storm == null || !skin) return;
+            if ((storm == null && !Scenario) || !skin) return;
             fpsSmooth = Mathf.Lerp(fpsSmooth, 1f / Mathf.Max(Time.unscaledDeltaTime, 1e-4f), 0.05f);
             bool overPanel = showPanel && panel.Contains(new Vector2(MousePosition.x, Screen.height - MousePosition.y));
             Keys();
+            if (dirtyStorm) return;
 
-            // time: the bench owns playback, the skin only shows it
+            // time: the bench owns playback, the skin (or the game's skins) only show it
             if (playing)
             {
                 s.time += Time.deltaTime * s.timelapse;
-                if (s.time >= storm.lifeS) { s.time = (float)storm.lifeS; playing = false; }
+                if (s.time >= Life) { s.time = Life; playing = false; }
             }
             skin.playing = false;
-            skin.playbackTime = s.time;
+            if (Scenario) { game.playing = false; game.gameTime = s.time; game.Apply(); }
+            else skin.playbackTime = s.time;
             skin.renderScale = s.renderScale;
             skin.exposure = s.exposure;
+            skin.debugFlags = s.showRain ? skin.debugFlags & ~16 : skin.debugFlags | 16;
 
             // sun
             if (s.timeOfDay)
@@ -184,7 +280,9 @@ namespace StormLab.Supercell
             // editor shortcuts (Ctrl+Shift+T leaves Play) reach the game too
             if ((Keyboard.current?.leftCtrlKey.isPressed ?? false) || (Keyboard.current?.rightCtrlKey.isPressed ?? false) || (Keyboard.current?.leftAltKey.isPressed ?? false) || (Keyboard.current?.rightAltKey.isPressed ?? false)) return;
             if ((Keyboard.current?.hKey.wasPressedThisFrame ?? false)) showPanel = !showPanel;
-            if ((Keyboard.current?.spaceKey.wasPressedThisFrame ?? false)) { playing = !playing; if (playing && s.time >= storm.lifeS - 1) s.time = 0; }
+            if ((Keyboard.current?.spaceKey.wasPressedThisFrame ?? false)) { playing = !playing; if (playing && s.time >= Life - 1) s.time = 0; }
+            if ((Keyboard.current?.gKey.wasPressedThisFrame ?? false)) { s.scenario = !s.scenario; dirtyStorm = true; }
+            if ((Keyboard.current?.tabKey.wasPressedThisFrame ?? false)) NextStorm();
             if ((Keyboard.current?.commaKey.wasPressedThisFrame ?? false)) Seek(s.time - 30f);
             if ((Keyboard.current?.periodKey.wasPressedThisFrame ?? false)) Seek(s.time + 30f);
             if ((Keyboard.current?.tKey.wasPressedThisFrame ?? false)) NextTornado();
@@ -197,8 +295,17 @@ namespace StormLab.Supercell
 
         Vector3 Focus()
         {
-            var tor = runner.Tornado;
-            var p = s.followTornado && tor.on ? runner.TornadoGroundWorld : runner.UpdraftWorld;
+            Vector3 p;
+            if (Scenario)
+            {
+                var tor = game.Tornado(s.focusStorm);
+                p = s.followTornado && tor.on ? game.TornadoGroundWorld(s.focusStorm) : game.UpdraftWorld(s.focusStorm);
+            }
+            else
+            {
+                var tor = runner.Tornado;
+                p = s.followTornado && tor.on ? runner.TornadoGroundWorld : runner.UpdraftWorld;
+            }
             p.y = skin.groundHeight;
             return p;
         }
@@ -221,7 +328,7 @@ namespace StormLab.Supercell
             var md = MousePosition - lastMouse; lastMouse = MousePosition;
             bool drag = (Mouse.current?.rightButton.isPressed ?? false) && !overPanel;
             float wheel = overPanel ? 0f : (Mouse.current?.scroll.ReadValue().y / 120f ?? 0f);
-            float zb = (float)storm.CharacterAt(s.time).zb * 1000f;
+            float zb = (float)FocusStorm.CharacterAt(FocusTime).zb * 1000f;
             var focus = Focus();
 
             if (s.mode == BenchCamera.Fly)
@@ -266,7 +373,8 @@ namespace StormLab.Supercell
                 {
                     pos = focus + dir * s.distance * Mathf.Cos(s.elevation * Mathf.Deg2Rad) + Vector3.up * s.distance * Mathf.Sin(s.elevation * Mathf.Deg2Rad);
                     pos.y = Mathf.Max(pos.y, skin.groundHeight + 2f);
-                    look = Quaternion.LookRotation(focus + Vector3.up * zb * 0.6f - pos, Vector3.up);
+                    float aimHeight = s.orbitTargetHeight > 0 ? s.orbitTargetHeight : zb * 0.6f;
+                    look = Quaternion.LookRotation(focus + Vector3.up * aimHeight - pos, Vector3.up);
                 }
                 cam.transform.SetPositionAndRotation(pos, look);
             }
@@ -282,7 +390,8 @@ namespace StormLab.Supercell
             if (Capture == null) { Flash("No screenshot handler: set StormTestBench.Capture"); return; }
             string dir = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Screenshots"));
             Directory.CreateDirectory(dir);
-            string file = Path.Combine(dir, $"bench_{s.preset}_s{s.seed}_t{s.time / 60:000.0}min_{DateTime.Now:HHmmss}.png");
+            string game = Scenario ? $"game_storm{s.focusStorm + 1}_" : "";
+            string file = Path.Combine(dir, $"bench_{game}{s.preset}_{s.precipitation}_{s.region}_s{s.seed}_t{s.time / 60:000.0}min_{DateTime.Now:HHmmss}.png");
             Capture(file);
             Flash($"Saved {Path.GetFileName(file)}");
             Debug.Log($"[Bench] screenshot {file}");
@@ -297,14 +406,25 @@ namespace StormLab.Supercell
             panel.height = Mathf.Min(Screen.height - 20, 1100);
             GUILayout.BeginArea(panel, GUI.skin.box);
             scroll = GUILayout.BeginScrollView(scroll);
-            GUILayout.Label("<b>Storm Test Bench</b>", Rich());
+            GUILayout.Label("<b>Designed Storm Comparison</b>", Rich());
+            bool sc = GUILayout.Toggle(s.scenario, " Game scenario: 2-4 storms on the 30 x 30 mile map, one hour (G)");
+            if (sc != s.scenario) { s.scenario = sc; dirtyStorm = true; }
 
             // storm
-            GUILayout.Label("Storm", Bold());
+            GUILayout.Label("Environment preset", Bold());
             var keys = StormPreset.All.Select(p => p.key).ToArray();
             int pi = Array.IndexOf(keys, s.preset);
             int npi = GUILayout.SelectionGrid(Mathf.Max(pi, 0), keys, 4);
-            if (npi != pi) { s.preset = keys[npi]; dirtyStorm = true; }
+            if (npi != pi) { s.preset = keys[npi]; s.region = PresetRegion(s.preset); dirtyStorm = true; }
+            GUILayout.Label("Precipitation mode", Bold());
+            int npm = GUILayout.Toolbar((int)s.precipitation, new[] { "Auto", "Classic", "LP", "HP" });
+            if (npm != (int)s.precipitation) { s.precipitation = (DesignedPrecipitation)npm; dirtyStorm = true; }
+            GUILayout.Label(s.precipitation == DesignedPrecipitation.Auto
+                ? "Mode follows the environment. LP uses the former hail environment."
+                : "Authored mode override; sounding and storm motion are retained.", Wrap());
+            if (GUILayout.Button("25-minute (mature) structure comparison")) StructureComparison();
+            s.showRain = GUILayout.Toggle(s.showRain, " Show designed rain, hail shafts and haze");
+            GUILayout.Label("Tornado climatology region", Bold());
             int nr = GUILayout.Toolbar((int)s.region, Enum.GetNames(typeof(ClimoRegion)));
             if (nr != (int)s.region) { s.region = (ClimoRegion)nr; dirtyStorm = true; }
             GUILayout.BeginHorizontal();
@@ -318,9 +438,15 @@ namespace StormLab.Supercell
 
             // time
             GUILayout.Space(6);
-            float life = storm == null ? 1f : (float)storm.lifeS;
-            GUILayout.Label($"Time {Clock(s.time)} of {Clock(life)}", Bold());
+            float life = Life;
+            GUILayout.Label(Scenario ? $"Game time {Clock(s.time)} of {Clock(life)}" : $"Time {Clock(s.time)} of {Clock(life)}", Bold());
             Timeline(life);
+            if (Scenario)
+            {
+                var names = game.Scenario.storms.Select(x => $"Storm {x.index + 1}").ToArray();
+                int nf = GUILayout.Toolbar(s.focusStorm, names);
+                if (nf != s.focusStorm) s.focusStorm = nf;
+            }
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(playing ? "Pause" : "Play")) { playing = !playing; if (playing && s.time >= life - 1) s.time = 0; }
             if (GUILayout.Button("-30 s")) Seek(s.time - 30f);
@@ -354,6 +480,8 @@ namespace StormLab.Supercell
                 {
                     GUILayout.Label($"Elevation {s.elevation:0}°");
                     s.elevation = GUILayout.HorizontalSlider(s.elevation, 0f, 85f);
+                    GUILayout.Label($"Orbit target height {s.orbitTargetHeight / 1000:0.0} km (0: cloud base)");
+                    s.orbitTargetHeight = GUILayout.HorizontalSlider(s.orbitTargetHeight, 0f, 12000f);
                 }
             }
             else GUILayout.Label($"WASD move, Q/E down/up, Shift fast, right-drag look, scroll speed ({flySpeed:0} m/s)", Wrap());
@@ -398,7 +526,7 @@ namespace StormLab.Supercell
             if (GUILayout.Button("Screenshot (F12)")) Screenshot();
             if (GUILayout.Button("Reset bench")) { s = new State(); playing = false; dirtyStorm = true; }
             GUILayout.EndHorizontal();
-            GUILayout.Label("Space play, , . step, T tornado, W wall cloud, 1-3 camera, H hide", Wrap());
+            GUILayout.Label("Space play, , . step, T tornado, W wall cloud, 1-3 camera, G game scenario, Tab next storm, H hide", Wrap());
             GUILayout.EndScrollView();
             GUILayout.EndArea();
         }
@@ -406,20 +534,25 @@ namespace StormLab.Supercell
         // the storm's life as a bar: grey cycles (wall cloud to end), red tornadoes, white playhead; click or drag to seek
         void Timeline(float life)
         {
-            var r = GUILayoutUtility.GetRect(300, 26, GUILayout.ExpandWidth(true));
+            int rows = Scenario ? game.Scenario.storms.Count : 1;
+            var r = GUILayoutUtility.GetRect(300, 26 * rows, GUILayout.ExpandWidth(true));
             Fill(r, new Color(0.12f, 0.12f, 0.14f));
-            float X(double t) => r.x + (float)(t / life) * r.width;
-            if (storm != null)
+            float X(double t) => r.x + (float)(Math.Max(t, 0) / life) * r.width;
+            void Row(DesignedStorm st, double start, float y, bool focus)
             {
-                foreach (var c in storm.cycles)
+                // the storm's life (dim), its cycles (grey) and tornadoes (EF colour), shifted to game time
+                if (Scenario) Fill(new Rect(X(start), y + 1, Mathf.Max(2f, X(Math.Min(start + st.lifeS, life)) - X(start)), 24), focus ? new Color(0.22f, 0.24f, 0.3f) : new Color(0.17f, 0.17f, 0.2f));
+                foreach (var c in st.cycles)
                 {
-                    if (c.wallS >= life) continue;
-                    Fill(new Rect(X(c.wallS), r.y + 3, Mathf.Max(2f, X(Math.Min(c.endS, life)) - X(c.wallS)), 8), new Color(0.55f, 0.6f, 0.7f));
+                    if (start + c.wallS >= life) continue;
+                    Fill(new Rect(X(start + c.wallS), y + 3, Mathf.Max(2f, X(Math.Min(start + c.endS, life)) - X(start + c.wallS)), 8), new Color(0.55f, 0.6f, 0.7f));
                     var t = c.tornado;
-                    if (t != null && t.lifeS > 0 && t.formS < life)
-                        Fill(new Rect(X(t.formS), r.y + 13, Mathf.Max(2f, X(Math.Min(t.formS + t.lifeS, life)) - X(t.formS)), 10), EfColour(t.ef));
+                    if (t != null && t.lifeS > 0 && start + t.formS < life)
+                        Fill(new Rect(X(start + t.formS), y + 13, Mathf.Max(2f, X(Math.Min(start + t.formS + t.lifeS, life)) - X(start + t.formS)), 10), EfColour(t.ef));
                 }
             }
+            if (Scenario) foreach (var st in game.Scenario.storms) Row(st.storm, st.startS, r.y + 26 * st.index, st.index == s.focusStorm);
+            else if (storm != null) Row(storm, 0, r.y, true);
             Fill(new Rect(X(s.time) - 1, r.y, 2, r.height), Color.white);
             var e = Event.current;
             if ((e.type == EventType.MouseDown || e.type == EventType.MouseDrag) && e.button == 0 && r.Contains(e.mousePosition))
@@ -427,29 +560,57 @@ namespace StormLab.Supercell
                 Seek((e.mousePosition.x - r.x) / r.width * life);
                 e.Use();
             }
-            GUILayout.Label("<size=10>grey: rotation cycles (wall cloud)   colour: tornadoes by EF</size>", Rich());
+            GUILayout.Label(Scenario ? "<size=10>one row per storm from its start; grey: cycles (wall cloud), colour: tornadoes by EF</size>"
+                : "<size=10>grey: rotation cycles (wall cloud)   colour: tornadoes by EF</size>", Rich());
         }
 
         void Readout()
         {
-            if (storm == null) return;
-            var ch = storm.CharacterAt(s.time);
-            var tor = runner.Tornado;
-            GUILayout.Label($"<b>{runner.Stage}</b>", Rich());
-            GUILayout.Label(runner.Caption, Wrap());
+            var st = FocusStorm;
+            if (st == null) return;
+            double ft = FocusTime;
+            var ch = st.CharacterAt(ft);
+            TornadoNow tor;
+            if (Scenario)
+            {
+                int i = s.focusStorm; var fr = game.Runners[i];
+                tor = game.Tornado(i);
+                double own = game.StormTime(i);
+                string when = own < 0 ? $"initiates at {Clock((float)FocusStart)} (in {Clock((float)-own)})" : own > st.lifeS ? "has dissipated" : $"{Clock((float)own)} old";
+                GUILayout.Label($"<b>Storm {i + 1}</b> ({when}): {(game.Alive(i) ? fr.Stage : "")}", RichWrap());
+                if (game.Alive(i)) GUILayout.Label(fr.Caption, Wrap());
+                // the whole game at a glance
+                foreach (var x in game.Scenario.storms)
+                {
+                    var tx = game.Tornado(x.index);
+                    string what = !game.Alive(x.index) ? (game.StormTime(x.index) < 0 ? $"starts {Clock((float)x.startS)}" : "gone")
+                        : tx.on ? $"EF{tx.ef} {tx.phaseShape} on the ground" : game.Runners[x.index].Stage;
+                    string tors = string.Join(" ", x.Tornadoes.Select(t => $"EF{t.ef}"));
+                    GUILayout.Label($"<size=11>{x.index + 1}: {what}. Tornadoes {tors}</size>", RichWrap());
+                }
+            }
+            else
+            {
+                tor = runner.Tornado;
+                GUILayout.Label($"<b>{runner.Stage}</b>", Rich());
+                GUILayout.Label(runner.Caption, Wrap());
+            }
+            if (LightningReadout != null) GUILayout.Label($"Lightning: {LightningReadout(st, ft)}", Wrap());
             double mspd = Math.Sqrt(ch.motion.x * ch.motion.x + ch.motion.y * ch.motion.y);
             double mdir = (Math.Atan2(ch.motion.x, ch.motion.y) * Mathf.Rad2Deg + 360) % 360;
-            GUILayout.Label($"{ch.kind}, {(ch.hpness < -0.33 ? "LP" : ch.hpness > 0.33 ? "HP" : "classic")} ({ch.hpness:+0.00;-0.00}). Base {ch.zb * 1000 / C.FT:0} ft, top {ch.el:0.0} km, updraft {ch.w:0} m/s.\n"
+            GUILayout.Label($"{ch.kind}, {(ch.LP ? "LP" : ch.HP ? "HP" : "classic")} ({ch.hpness:+0.00;-0.00}). Base {ch.zb * 1000 / C.FT:0} ft, top {ch.el:0.0} km, updraft {ch.w:0} m/s.\n"
                 + $"CAPE {ch.cape:0}, CIN {ch.cin:0}, 0-6 km shear {ch.shear6 / C.KT:0} kt, 0-1 km SRH {ch.srh1:0}, STP {ch.stp:0.0}.\n"
                 + $"Moving toward {mdir:0}° at {mspd / C.MPH:0} mph.", Wrap());
             if (tor.on)
             {
-                var w = runner.TornadoWindWorld(cam ? cam.transform.position : Vector3.zero).magnitude;
+                var camPos = cam ? cam.transform.position : Vector3.zero;
+                var w = (Scenario ? game.TornadoWindWorld(camPos) : runner.TornadoWindWorld(camPos)).magnitude;
                 GUILayout.Label($"<b>Tornado on the ground</b>: EF{tor.ef} {tor.phaseShape}, {tor.groundKm * 1000:0} m wide at the ground, {tor.lifeFrac * 100:0} % through its life. Wind at the camera {w / C.MPH:0} mph.", RichWrap());
             }
             else GUILayout.Label("No tornado on the ground.", Wrap());
             var cp = cam ? cam.transform.position : Vector3.zero;
-            float dist = (new Vector2(cp.x, cp.z) - new Vector2(runner.UpdraftWorld.x, runner.UpdraftWorld.z)).magnitude;
+            var upW = Scenario ? game.UpdraftWorld(s.focusStorm) : runner.UpdraftWorld;
+            float dist = (new Vector2(cp.x, cp.z) - new Vector2(upW.x, upW.z)).magnitude;
             GUILayout.Label($"Camera {dist / 1000:0.0} km from the updraft, {cp.y - skin.groundHeight:0} m up.  {fpsSmooth:0} fps", Wrap());
         }
 

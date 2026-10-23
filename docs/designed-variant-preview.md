@@ -1,0 +1,31 @@
+# Designed storm variant preview
+
+Open the test Unity project at `tests/SupercellLabTest`, then choose **Supercell Lab > Open Designed Variant Preview**. If Play mode is already running, the first invocation stops it; invoke the menu again to open the comparison scene.
+
+The dedicated scene uses `DesignedStormRunner`, with no brain simulation. It starts paused at 25 minutes (the mature storm on the game clock; it was 45 minutes before game pacing) with rain enabled, a seed of 1, a 55 km orbit camera aimed at 6 km, and fixed daylight. It does not restore the old test-bench session. The **25-minute (mature) structure comparison** button restores the common view after camera or lighting experiments.
+
+- Environment presets: plains, lp, dixie and ohio. LP is the former hail environment with its sounding settings unchanged. The old dry High Plains LP, capped and pulse presets have been removed. Saved hail selections migrate to LP; saved capped/pulse selections fall back to Plains.
+- Precipitation modes: Auto, Classic, LP and HP. Auto retains the existing environment diagnosis. Other settings explicitly author the designed storm's mode; they do not reclassify the sounding.
+- Selecting an environment chooses its default tornado climatology region: Dixie for dixie, Midwest for ohio, Plains otherwise. The region can still be changed manually.
+- Rain, hail shafts and haze are enabled by default. Their toggle is independent of Brain Full Cycle Test's rain disable.
+- Mode or preset changes retain camera, time, seed and lighting. They respawn the storm; changing region or precipitation mode can change the tornado lifecycle even with the same seed.
+- Lightning is connected on each designed-storm spawn: storm-driven activity, cloud-anchored channels, cloud illumination/occlusion, and thunder at 1x. Playback, pause, scrubbing and respawning share the skin's clock. Accelerated playback suppresses thunder. The test bench supplies an audio listener when none exists.
+- Screenshot filenames include preset, precipitation mode, region, seed and age. The screenshot button is near the bottom of the scrollable panel.
+
+The overrides use the existing designed-storm mode blend and LP width rule. They are authoring controls, not a new physical mode predictor. No sounding, brain equations or reference observations were modified. The structural distinctions to inspect are documented in `docs/meteorology/visual-realism.md`: LP's exposed sculpted updraft, classic's rain-free base and forward-flank core, and HP's wrapped mesocyclone. This change supplies comparison controls; it does not establish that those appearances are realistic.
+
+Validation: runtime and editor tools compiled against Unity 6000.6.6f1 references; all 13 DesignedChecks passed, including 28 environment/mode combinations across their lifecycles. Native Unity DX12 preview opened and rendered; HP and Auto controls and Dixie region selection were exercised. These checks are not a visual realism score.
+
+2026-10-23 preset/lightning update: current runtime, lightning integration and package editor assemblies compile against Unity references. All 15 current DesignedChecks pass, including the preset migration/settings contract, 16 environment/mode combinations and 48 inflow cases. The 2,585 core lightning checks, designed activity curves and 14 brain lightning checks pass. This update has not received a new Play-mode visual/audio review.
+
+## Game pacing, lightning and the game scenario (2026-10-23)
+
+Designed storms now run on a game clock: the first wall cloud forms 10-20 minutes after initiation, tornadoes follow 2.5-8 minutes after their wall cloud, most last 2-6 minutes (EF3 6-15, EF4+ 11-28, some ropes and drillbits 12-20, never over 30), the next cycle follows within minutes, and every storm puts down at least one tornado. See `docs/meteorology/model-limitations.md` (Game pacing) for the full table.
+
+**Testing the lightning** (single storm or scenario): press Play at 1x, or scrub with the timeline. The readout shows the focused storm's lightning (`Lightning: ... flashes/min, ... reach ..., ...% crawlers`). Watch the rate climb as a wall cloud forms (grey bar on the timeline), climb much further in the 5 minutes before the tornado (coloured bar), then taper as the tornado goes on. During the jump bolts reach further from the updraft with more branches. Cycles with an EF3+ tornado (red, magenta or purple bars) add crawlers: long branching channels creeping out under the anvil, and bolts leaving the storm's side into clear air; neither touches the ground. **T** jumps to 30 s after the next tornado's touchdown; step back with **,** to see the jump before it.
+
+**Testing a whole game**: tick **Game scenario** at the top of the panel (or press **G**). The bench lays out one game from the seed: 2-4 storms entering the 30 x 30 mile map (south-west corner at world 0,0) from its upstream side, a few minutes apart, on a one-hour clock. The timeline shows one row per storm from its start; **Storm 1..4** buttons (or **Tab**) choose the storm the camera follows; **T** and **W** jump to the next tornado or wall cloud of any storm and follow it. The readout lists every storm's state and its tornadoes' ratings. Seed **+/-** gives another game: about 40 % of games reach EF3+ and 20 % EF4+ (in the others nothing exceeds EF2). Untick to go back to the single storm. Every storm is drawn: the farthest supplies the sky and ground and the nearer ones are laid over it, so expect lower frame rates with four storms (Quality: Low tier or a lower render scale helps).
+
+For the game, `DesignedScenarioRunner` does the same as the bench: `Spawn(environment, seed, region)`, then `gameTime`, `Runners[i]`, `Tornado(i)`, `TornadoWindWorld(position)`.
+
+Validation (no Unity): `validation/designed/DesignedChecks.csproj` runs all 17 DesignedChecks, including game pacing over 480 storms and the scenario over 400 games per preset (2-4 storms, every storm tornadic, EF3+ 36 %, EF4+ 17 % at 400 games; 38.5 % and 20.6 % over 1,500). `validation/lightning/check.ps1` and `StormChecks` cover the activity curves, reach and crawlers. Unity 6000.6.6f1 compiled every assembly and the lightning compute shader without errors. The scenario and the new lightning have not yet had a Play-mode visual review.

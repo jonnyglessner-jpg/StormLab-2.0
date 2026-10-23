@@ -740,6 +740,10 @@ void March(uint3 gid : SV_DispatchThreadID)
             else if (s.r <= 0.004 && s.g <= 0.2 && s.b <= 0.004 && wN <= 0.0) dt = max(dt, 0.45 * (1.0 + t / 40.0));   // rain below 0.2 is not drawn
             // 2.0: thin anvil ice and faint cloud far off are smooth; long steps there (the temporal resolve hides the jitter)
             else if (!surf && wN <= 0.0 && s.b <= 0.05 && (s.a < 0.12 || s.r < 0.12)) dt = max(dt, 0.12 + t * 0.008);
+            // Rain is translucent throughout a broad cell, not an opaque surface.
+            // The cloud empty-space step produces conspicuous nested contours there.
+            if (s.g > 0.025 && ((uint)_SP[38].x & 4096u) != 0u)
+                dt = min(dt, 0.04 + t * 0.0015);
             // in the box: fine steps near a surface, long ones where the field says the nearest cloud is far
             if (wN > 0.0) dt = min(dt, max(0.03 + t * 0.0025, (0.47 - nv.r) * 0.35));
             if (t < tn0) dt = min(dt, tn0 - t + 0.005);
@@ -909,17 +913,41 @@ void March(uint3 gid : SV_DispatchThreadID)
                     be += bn; Lc += c * bn;
                 }
             }
-            if (s.g > 0.2 && !((uint)_Dbg.x & 16u))
+            if (s.g > 0.005 && !((uint)_Dbg.x & 16u))
             {
                 // precipitation: a translucent curtain with fall streaks, thin for LP and dense for HP (designer), glowing
                 // when back-lit (rain and hail scatter strongly forward)
                 float cop = S_curt.x > 0.0 ? S_curt.x : 1.0;
-                float st = ((uint)_Dbg.x & 4u) ? 0.5 : n3k(float3(q.xy, q.z * 0.07 + S_base.z * 0.0005), 2.4, float3(0.3, 0.8, 0.1));
+                // Brain rain detail is already in the advected precipitation channel.
+                // Do not overlay an unrelated noise pattern that ignores the wind.
+                bool brainRain = ((uint)_SP[38].x & 4096u) != 0u;
+                float3 rainQ = brainRain ? q : designedRainCoordinates(q);
+                float st = 0.5;
+                if (!((uint)_Dbg.x & 4u))
+                {
+                    if (brainRain)
+                    {
+                        // Two fading phases carry fine, vertically stretched filaments
+                        // with air minus fallout. These modulate extinction inside observed
+                        // support only, never create/move a precipitation region.
+                        float ph = S_base.z / 24.0, a = frac(ph), b = frac(ph + 0.5);
+                        float w = 1.0 - abs(2.0 * a - 1.0);
+                        float3 v = windAt(q) - float3(0,0,_VolC.z);
+                        float3 grid = q + float3(_VolC.xy * 0.001, 0.0);
+                        float3 qa = grid - v * (a * 0.024);
+                        float3 qb = grid - v * (b * 0.024);
+                        st = lerp(n3k(float3(qb.xy, qb.z * 0.05), 4.0, float3(.8,.2,.6)),
+                                  n3k(float3(qa.xy, qa.z * 0.05), 4.0, float3(.3,.8,.1)), w);
+                    }
+                    else st = n3k(float3(rainQ.xy, q.z * 0.07 + S_base.z * 0.0005), 2.4, float3(0.3, 0.8, 0.1));
+                }
                 float mS = max(1.0 + S_curt.y * (st - 0.5) * 2.6, 0.05);
                 // the faint tails of the painted rain ellipses are dropped: a curtain is a shaft with clear air round it,
                 // not a 20 km veil (visibility under a light-rain edge is tens of km)
-                float br = s.g * s.g * ss(0.2, 0.5, s.g) * _MP.y * cop * mS;
-                float hq = length(q.xy - S_hail.xy) / max(S_hail.z, 0.5);
+                // Recorded rain has its own measured support. The analytic ellipse cutoff
+                // and mode multiplier turn coarse cells into opaque, round-edged masses.
+                float br = s.g * s.g * _MP.y * (brainRain ? lerp(0.35, 1.65, st) : ss(0.2, 0.5, s.g) * cop * mS);
+                float hq = length(rainQ.xy - S_hail.xy) / max(S_hail.z, 0.5);
                 float hw = S_hail.w * exp(-hq * hq);
                 float fwdS = 1.0 + (1.5 + 5.0 * S_curt.z) * pow(max(cosg, 0.0), 6.0) + 0.5 * S_curt.z * pow(max(cosg, 0.0), 1.5);
                 float3 pc = lerp(float3(0.55, 0.6, 0.66), float3(0.8, 0.88, 0.86), saturate(hw)) * (sunz * sunL * 0.9 * fwdS + skyc * (0.35 + 0.5 * lt.g));

@@ -1,4 +1,14 @@
-# Independent lightning prototype
+# Lightning and designed-storm integration
+
+Designed storms now connect this module automatically in Play when `DesignedStormRunner.Spawn` binds the skin.
+The integration reuses one `LightningSystem`, `LightningCloudBridge` and `LightningStormDriver` on the runner,
+sets the independent lightning seed from the storm seed, anchors channels to cloud, and follows the skin clock.
+Respawns rebind activity and clear the previous lightning presentation. Thunder remains silent on seeks and
+accelerated playback; the test bench supplies an audio listener if none exists. Game hosts should supply their
+player observer/listener and terrain callback as needed. Set `runner.enableLightning = false` before spawning
+to provide a custom rig instead. This flag controls automatic hookup at spawn, not a live visibility toggle.
+The optional integration assembly registers through a spawn event, keeping the core storm assembly independent.
+The independent previews below remain available. This wiring does not change the cloud shape or physics.
 
 An optional Unity module with its own assembly and random streams. The core stays independent; the cloud adapter
 adds a small transient-lighting hook to `StormSkin` and its march shader. Dynamics, genome, case studies, renderer
@@ -25,14 +35,14 @@ positive-ground peaks. Capture uses the current preview settings. It does not sa
 
 For an existing scene, add `LightningSystem` to a GameObject at the storm centre. Assign `observer` to the
 player/camera. `groundY` is the ground plane's world altitude; charge heights are measured above it.
-The component advances a local real-time clock by default. No scene hookup is automatic.
+The component advances a local real-time clock by default when used outside the designed-storm hookup.
 
 ## Cloud illumination and occlusion
 
 The independent `StormLab.Lightning` assembly still has no dependency on `StormLab.Supercell`.
 The optional `StormLab.Lightning.Clouds` assembly in `Integration/` connects the two. Add `LightningCloudBridge`
 to the lightning GameObject, then assign its `lightning` and `skin` references. The skin's URP renderer must already
-have `StormSkinFeature`. No existing scene, case study, cloud shape or storm random stream is changed automatically.
+have `StormSkinFeature`. Designed runners install this bridge automatically; other hosts can use this manual setup.
 
 For a prepared night storm and the same hold/replay controls, choose **Supercell Lab > Lightning > Open Cloud
 Lightning Preview**, then Play. This adds unsaved preview objects, holds the designed cloud at 30 minutes, and uses
@@ -143,7 +153,7 @@ represent broad appearance differences, not complete polarity physics.
 
 `LightningSystem.ActivityAtTime` takes a function of playback time that returns a `LightningActivity`: total flashes
 per minute over the storm, the share that reach the ground, and the positive share of those. While it is set, the
-settings' rate and fractions are ignored. Candidates are drawn at `settings.maxFlashesPerMinute` (default 120) and each
+settings' rate and fractions are ignored. Candidates are drawn at `settings.maxFlashesPerMinute` (default 200) and each
 is kept with probability rate / ceiling, with its type drawn from the fractions at its time. The acceptance draws use
 their own stream, so a candidate's time and geometry seed never move. Replay, seeking and frame partitioning stay exact
 as long as the function depends only on time. Rates above the ceiling are clipped to it; the ceiling also bounds the
@@ -160,18 +170,35 @@ skin's storm changes or the inspector edits it. Call `Rebind()` after changing t
   times the depth of cloud above freezing (EL − freezing level, 2 → 6 km). It is scaled so a mature 35 m/s, 3 km
   updraft gives `designedReferencePerMinute` (35). The square root of each cycle's updraft size scales it. The shape
   is set by hand, compressed so big updrafts stay under the ceiling. Pulse storms get `pulseFactor` (0.4) of a
-  supercell's rate. Supercells start flashing as the tower passes the charging zone (8–22 min) and fade with the
-  storm's decay. A lightning jump (+60 %) builds 20 to 10 minutes before each tornado and eases off over the 10 minutes
-  around touchdown; each new cycle adds a smaller surge (+30 %). Pulse storms peak at 16–26 min, before they collapse.
-  With the presets: Plains supercells about 60–70 flashes/min mature and 95–112 in a jump, Dixie 30–50, LP up to 33,
-  the summer pulse storm 18.
+  supercell's rate. Supercells start flashing as the tower passes the charging zone (8–22 development minutes, about
+  3–8 min on the game clock) and fade with the storm's decay. Each cycle heightens the activity in steps scaled by its
+  strength (`CycleStrength`: about 0.55 for an EF0's cycle, 1 for EF2, 1.65 for EF5, weak without a tornado): the rate
+  climbs as the wall cloud develops (`jumpWallCloud`, +40 % at strength 1), climbs further over the 5 minutes before
+  touchdown and peaks half a minute before it (`jumpPreTornado`, a further +90 %), then tapers through the tornado's
+  life and dips by `tornadoLull` (20 %) as it ropes out. The biggest jumps saturate slightly so the peak keeps its shape
+  under the ceiling (EF0 cycles run about x1.7 the calm rate, EF3+ about x2.2–2.4). The whole storm also runs hotter
+  while a strong cycle is under way (x0.75 + 0.25 strength). Pulse storms peak at 16–26 min, before they collapse.
+- **Reach and crawlers** (designed storms): `LightningActivity.reach` (0–1) follows the jump: about 0.2–0.4 as a wall
+  cloud forms, 0.65–1 just before touchdown, back to 0 as the tornado winds down. Each flash carries the reach it was
+  drawn with. Reach pushes in-cloud channels up to 2.6x further through the storm, starts ground flashes further from
+  the updraft and spreads their strike points (up to 2.5x), adds up to six side branches and makes them longer and
+  brighter, and raises the ground share by up to 30 % so more of the far-reaching bolts are seen. Cycles with an EF3+
+  tornado add **crawlers** (`FlashKind.Crawler`, `crawlerFraction` up to `crawlerShare` = 20 % of in-cloud flashes)
+  from the jump through the first half of the tornado. About two in three are anvil crawlers: a channel from the upper
+  updraft out along the anvil's lower part (cloud anchors put its far end 1.5–7.5 updraft radii downwind), throwing
+  14–22 long branches sideways. The rest leave the storm's side and end in clear air 5–13 km out. Crawlers never reach
+  the ground (every point at least 2.5 km up for anvil crawlers, 0.9 km for the others), creep for 0.32 s before they
+  light up and flicker for most of a second; their branches stay lit through the pulses. Weaker cycles never produce
+  crawlers. These are presentation rules for a game, not an electrification model.
+  Rates are checked against the current preset environments by the activity review; the synthetic pulse regression
+  fixture remains available even though pulse is no longer a selectable game preset.
 - **Brain** (`BrainLightning`): each timeline frame is reduced when it arrives, after McCaul et al. (2009, Wea.
   Forecasting 24, 709–729). The rate is 0.95 × graupel flux at −15 °C × 0.042 plus 0.05 × column ice × 0.2. Both are
   flash densities per km² per 5 minutes, summed over the 40 km storm window. The 0.042 slope is confirmed; the 0.2 is
   the value usually quoted, not checked against the paper. w at −15 °C is each block's column-maximum w scaled by the
   core's w profile. Ice is cloud ice plus hail/graupel; the timeline holds no snow. The −15 °C height comes from the
   base state. Block means may smooth the flux peaks; the rate from a real run is not yet checked, so tune
-  `brainRateScale` against `CurrentActivity`. (An idealised 109 km² core of 37 m/s and 3 g/kg graupel gives about
+`brainRateScale` against `CurrentActivity`. (An idealised 109 km² core of 37 m/s and 3 g/kg graupel gives about
   100/min.) Lightning jumps come from the brain's own updraft and graupel surges. Summaries are kept per
   frame index, so the timeline's ring buffer evicting old frames does not change the history. Attach before the run
   starts for a complete history.
@@ -183,10 +210,13 @@ skin's storm changes or the inspector edits it. Call `Rebind()` after changing t
   drawn from `docs/meteorology/cloud-microphysics.md`, not a polarity model.
 
 **Supercell Lab > Lightning > Check Storm-Driven Activity** (no GPU) samples four seeded Plains supercells, a Dixie and
-an LP supercell, and a pulse storm. It writes `designed_*.csv` curves and `checks.txt` to
-`validation/lightning/out/activity/`. It checks quiet initiation, a peak in a plausible band (supercells 15–160/min,
-pulse 3–40) that spends under 10 % of its life at the ceiling, the end with the storm, a rising ground share after
-rain, a rising positive share in decay, a jump before each tornado, and frame-partition replay of the real adapter.
+an LP supercell, and a pulse storm. It writes `designed_*.csv` curves (with reach and crawler share) and `checks.txt`
+to `validation/lightning/out/activity/`. It checks quiet initiation, a peak in a plausible band (supercells
+15–220/min, pulse 3–40) that spends under 15 % of its life at the ceiling, the end with the storm, a rising ground
+share after rain, a rising positive share in decay, and for every cycle: a climb as the wall cloud develops, a bigger
+jump just before the tornado with the greatest reach, a taper through the tornado and no jump left 5 min after it.
+Over 80 Plains storms it checks that stronger cycles jump harder and that crawlers come in every EF3+ cycle and no
+weaker one, and it checks frame-partition replay of the real adapter.
 `check.ps1` covers the schedule itself: thinning, partition and seek replay, the integrated rate, clipping and the type
 split. It then runs `validation/lightning/StormChecks`, which needs only .NET 8. That project runs the same activity
 review against `UnityStub.cs`, then feeds `BrainLightning` hand-built timeline frames on a real grid and Plains base
@@ -198,8 +228,8 @@ polarity trends and schedule replay. The stub stands in for Unity's API, so the 
 an empty scene; the previous scene is reopened after). It drives a Plains storm first on the skin's own clock, then
 from the Storm Test Bench, at 60 fps: the lightning clock and the Inspector readout must follow the skin on every
 frame, thunder must play at 1x and stay silent at 10x and 30x and on a seek, and the driver must rebind when the bench
-swaps the storm. A last phase runs 1x at 160 min and 240 fps, where float rounding of `playbackTime` is a large share
-of each frame's step; the driver judges 1x on a 0.1 s average, so thunder must still play on every frame. Results go
+swaps the storm. A last phase runs 1x at 40 min and 240 fps, where float rounding of `playbackTime` is a noticeable
+share of each frame's step; the driver judges 1x on a 0.1 s average, so thunder must still play on every frame. Results go
 to `validation/lightning/out/driver/checks.txt`. Above about 500 fps late in a long storm the float clock itself no
 longer advances at 1x, so thunder stays off there.
 

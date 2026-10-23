@@ -19,8 +19,10 @@ namespace StormLab.Supercell
         [Tooltip("the skin that draws the storm (added to this GameObject if empty)")]
         public StormSkin skin;
         [Header("Spawn (used by Spawn() with no arguments, e.g. on Start)")]
-        [Tooltip("StormPreset key for a fixed environment: plains, hail, dixie, ohio, lp, capped, pulse")]
+        [Tooltip("StormPreset key for a fixed environment: plains, lp, dixie, ohio")]
         public string preset = "plains";
+        [Tooltip("Auto follows the environment; other choices author a classic, LP or HP designed storm.")]
+        public DesignedPrecipitation precipitation = DesignedPrecipitation.Auto;
         public ClimoRegion region = ClimoRegion.Plains;
         public int seed = 1;
         [Tooltip("where the storm initiates, km in the environment's frame")]
@@ -31,6 +33,11 @@ namespace StormLab.Supercell
         [Tooltip("storm seconds per real second (1 = real time)")]
         public float timelapse = 1f;
 
+        [Tooltip("Connect the installed lightning module when spawning this storm.")]
+        public bool enableLightning = true;
+        // The optional integration assembly subscribes without making the storm depend on lightning.
+        public static event System.Action<DesignedStormRunner> Spawned;
+
         public DesignedStorm Storm { get; private set; }
         public IEnvironmentSource Source { get; private set; }
 
@@ -38,21 +45,30 @@ namespace StormLab.Supercell
 
         public void SpawnFromInspector()
         {
-            var pr = System.Array.Find(StormPreset.All, p => p.key == preset) ?? StormPreset.All[0];
+            var pr = StormPreset.Resolve(preset);
+            preset = pr.key;
             Spawn(new FixedEnvironment(Environment.Make(pr.ToEnv())), spawnKm, seed, region);
         }
 
         /// <summary>Lay out a new storm and start drawing it from initiation.</summary>
         public DesignedStorm Spawn(IEnvironmentSource source, Vector2 spawn, int stormSeed, ClimoRegion climoRegion)
         {
-            Source = source; spawnKm = spawn; seed = stormSeed; region = climoRegion;
-            Storm = new DesignedStorm(source, new Vec2(spawn.x, spawn.y), stormSeed, climoRegion);
+            return Spawn(new DesignedStorm(source, new Vec2(spawn.x, spawn.y), stormSeed, climoRegion, precipitation));
+        }
+
+        /// <summary>Draw a storm that is already laid out (a StormScenario's), from initiation.</summary>
+        public DesignedStorm Spawn(DesignedStorm storm)
+        {
+            Storm = storm; Source = storm.source;
+            spawnKm = new Vector2((float)storm.spawnKm.x, (float)storm.spawnKm.y);
+            seed = storm.genome.seed; region = storm.genome.region; precipitation = storm.precipitation;
             if (!skin) skin = GetComponent<StormSkin>();
             if (!skin) skin = gameObject.AddComponent<StormSkin>();
             var wind = new KinematicWind(Storm);
             skin.BindDesigned(Storm, wind);
             skin.groundOrigin = (wind.OriginKm - worldOriginKm) * 1000f;
             skin.playbackTime = 0; skin.timelapse = timelapse; skin.playing = true;
+            Spawned?.Invoke(this);
             return Storm;
         }
 

@@ -119,6 +119,9 @@ namespace StormLab.Supercell.Rendering
         public bool nightAdaptation = true;
         [Tooltip("draw 1.0's sky and fields behind the storm where the camera sees no geometry")]
         public bool drawBackdrop = true;
+        [Tooltip("draw this storm as well as the active one (several storms at once, e.g. DesignedScenarioRunner). The " +
+                 "farthest storm drawn supplies the backdrop; nearer ones are laid over it")]
+        public bool drawAlongside;
         [Tooltip("invert the automatic vertical flip of the scene-depth lookup (only if a platform shows the storm cut by the wrong objects)")]
         public bool invertDepthFlip;
         [Tooltip("invert the automatic vertical flip of the composite (only if a platform shows the storm upside down)")]
@@ -131,6 +134,8 @@ namespace StormLab.Supercell.Rendering
 
         // ---------------------------------------------------------------- runtime
         public static StormSkin Active { get; private set; }
+        /// <summary>every enabled skin (the renderer feature draws Active and those marked drawAlongside)</summary>
+        public static readonly List<StormSkin> Enabled = new List<StormSkin>();
         public StormRun Run { get; private set; }
         public FeatureDesigner Designer { get; private set; }
         public WindHistory Wind { get; private set; }
@@ -151,6 +156,7 @@ namespace StormLab.Supercell.Rendering
         public bool ReadyToRender => Volume != null && hasFrame;
         public float WallClock { get; private set; }
 
+        HydrometeorHistory hydrometeors;
         ComputeShader volCs, marchCs, nearCs; Material compositeMat; Texture3D noise;
         /// <summary>profiling switches for the march (see _Dbg in StormSkinMarch.compute); 0 in normal use</summary>
         [System.NonSerialized] public int debugFlags;
@@ -269,10 +275,17 @@ namespace StormLab.Supercell.Rendering
         public static Vector3 WorldToVolDir(Vector3 w) => new Vector3(w.x, w.z, w.y);
         public static Vector3 VolToWorldDir(Vector3 v) => new Vector3(v.x, v.z, v.y);
 
-        void OnEnable() { Active = this; }
+        void OnEnable() { Active = this; if (!Enabled.Contains(this)) Enabled.Add(this); }
         /// <summary>Make this the skin the renderer feature draws (the last enabled one otherwise).</summary>
         public void Activate() { Active = this; }
-        void OnDisable() { if (Active == this) Active = null; }
+        void OnDisable()
+        {
+            Enabled.Remove(this);
+            if (Active != this) return;
+            Active = null;
+            // hand over to another skin still drawn alongside, so a group of storms keeps drawing as members switch off
+            for (int i = Enabled.Count - 1; i >= 0; i--) if (Enabled[i] && Enabled[i].drawAlongside) { Active = Enabled[i]; break; }
+        }
         void OnDestroy() { Release(); }
 
         void LoadAssets()
@@ -293,6 +306,7 @@ namespace StormLab.Supercell.Rendering
             Run = run;
             Designer = new FeatureDesigner(run.timeline, run.env);
             Wind = new WindHistory(run.g, volCs);
+            hydrometeors = new HydrometeorHistory(run.timeline);
             Volume = new SkinVolume(tier, volCs);
             Near = nearCs ? new NearVolume(tier, nearCs) : null;
             hasFrame = false; lastT = float.NaN;
@@ -316,6 +330,7 @@ namespace StormLab.Supercell.Rendering
         public void Release()
         {
             Wind?.Dispose(); Wind = null;
+            hydrometeors?.Dispose(); hydrometeors = null;
             DesignedWind?.Dispose(); DesignedWind = null; Designed = null;
             Volume?.Dispose(); Volume = null;
             Near?.Dispose(); Near = null;
@@ -384,8 +399,11 @@ namespace StormLab.Supercell.Rendering
                 else state.Shift(shift);
             }
             if (!EvaluateBlock(t, t, Centre)) return false;
+            Volume.Precipitation = hydrometeors;
+            Volume.PrecipitationCentre = Centre;
             var wind = ActiveWind;
             bool windOk = wind.Upload(t);
+            Volume.PrecipitationWind = windOk ? wind : null;
             if (frameCmd == null) frameCmd = new CommandBuffer { name = "Storm skin volume" };
             frameCmd.Clear();
             if (sunSource == SunSource.TimeOfDay && sun) sun.transform.rotation = Quaternion.LookRotation(-VolToWorldDir(SunDirVol));
@@ -490,7 +508,7 @@ namespace StormLab.Supercell.Rendering
         /// Record the ray-march and temporal resolve for one camera into cmd. depth: the camera depth texture (or
         /// null), fullW x fullH: the camera target size. Returns the resolved half-resolution storm texture.
         /// </summary>
-        public RenderTexture RecordMarch(CommandBuffer cmd, Camera cam, RenderTargetIdentifier? depth, int fullW, int fullH)
+        public RenderTexture RecordMarch(CommandBuffer cmd, Camera cam, RenderTargetIdentifier? depth, int fullW, int fullH, bool backdrop = true)
         {
             if (!ReadyToRender || !marchCs) return null;
             int w = Mathf.Max(8, Mathf.RoundToInt(fullW * renderScale)), h = Mathf.Max(8, Mathf.RoundToInt(fullH * renderScale));
@@ -520,7 +538,7 @@ namespace StormLab.Supercell.Rendering
             cmd.SetComputeVectorParam(marchCs, "_MP", new Vector4(Volume.cloudMax, Volume.rainMax, exposure, st.frame++));
             cmd.SetComputeVectorParam(marchCs, "_PL", new Vector4(physicalLighting ? 1 : 0, dropletDiameter, sunScale, scatterOctaves));
             Vector2 travel = (Centre + FrameMotion * lastTOr0 + groundOrigin) / 1000f;
-            cmd.SetComputeVectorParam(marchCs, "_Opt", new Vector4(travel.x, travel.y, drawBackdrop ? 1 : 0, toneMap ? 1 : 0));
+            cmd.SetComputeVectorParam(marchCs, "_Opt", new Vector4(travel.x, travel.y, drawBackdrop && backdrop ? 1 : 0, toneMap ? 1 : 0));
             float n = cam.nearClipPlane, f = cam.farClipPlane;
             bool rev = SystemInfo.usesReversedZBuffer;
             float zx = rev ? -1f + f / n : 1f - f / n, zy = rev ? 1f : f / n;
@@ -538,7 +556,7 @@ namespace StormLab.Supercell.Rendering
             cmd.SetComputeTextureParam(marchCs, kM, "_WindA", windOk ? (Texture)aw.A : SkinVolume.Calm);
             cmd.SetComputeTextureParam(marchCs, kM, "_WindB", windOk ? (Texture)aw.Bt : SkinVolume.Calm);
             cmd.SetComputeVectorParam(marchCs, "_WindP", windOk ? new Vector4(aw.Blend, aw.Lx, aw.Ly, aw.NL) : new Vector4(0, 1, 1, 1));
-            cmd.SetComputeVectorParam(marchCs, "_VolC", new Vector4(Centre.x, Centre.y, 0, windOk ? 1 : 0));
+            cmd.SetComputeVectorParam(marchCs, "_VolC", new Vector4(Centre.x, Centre.y, Volume.rainFall, windOk ? 1 : 0));
             cmd.SetComputeTextureParam(marchCs, kM, "_Light", Volume.LightTex);
             cmd.SetComputeTextureParam(marchCs, kM, "_SkyVis", Volume.SkyVisTex);
             cmd.SetComputeTextureParam(marchCs, kM, "_Ground", Volume.GroundTex);

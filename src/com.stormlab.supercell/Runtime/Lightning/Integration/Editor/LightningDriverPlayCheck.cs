@@ -163,15 +163,16 @@ namespace StormLab.Supercell.Lightning.EditorTools
                 foreach (var _ in Hold("after storm swap (seed 2)", 4)) yield return null;
                 Close();
 
-                // Late in a long storm at a high frame rate, float rounding of playbackTime is a large share of each step.
+                // Late in the storm at a high frame rate, float rounding of playbackTime is a noticeable share of each step
+                // (storms last about an hour on the game clock: at 40 min one 240 fps step is ~17 units in the last place).
                 var second = runner.Storm;
-                bench.s.seed = 3; bench.s.time = 9600; bench.Respawn();
+                bench.s.seed = 3; bench.s.time = 2400; bench.Respawn();
                 for (int i = 0; runner.Storm == second; i++) { if (i > 600) throw new Exception("The bench never respawned the storm"); yield return null; }
-                Require(runner.Storm.lifeS > 9700, $"seed 3 lives {runner.Storm.lifeS / 60:0} min, past 160 min");
+                Require(runner.Storm.lifeS > 2500, $"seed 3 lives {runner.Storm.lifeS / 60:0} min, past 40 min");
                 Application.targetFrameRate = 240;
                 yield return null;
                 float realStart = Time.realtimeSinceStartup; int frameStart = Time.frameCount;
-                foreach (var _ in Hold("bench clock 1x at 160 min, 240 fps", 25)) yield return null;
+                foreach (var _ in Hold("bench clock 1x at 40 min, 240 fps", 25)) yield return null;
                 float fps = (Time.frameCount - frameStart) / (Time.realtimeSinceStartup - realStart);
                 var e = Close();
                 Require(fps > 180, $"late storm ran at {fps:0} fps");
@@ -198,6 +199,7 @@ namespace StormLab.Supercell.Lightning.EditorTools
                 var go = new GameObject("Storm");
                 skin = go.AddComponent<StormSkin>(); skin.sun = sun;
                 runner = go.AddComponent<DesignedStormRunner>(); runner.skin = skin; runner.spawnOnStart = false;
+                runner.enableLightning = false; // This fixture tests its separate clock driver without cloud anchoring.
                 bench = go.AddComponent<StormTestBench>();
                 // Off before Start, so the user's saved bench session is neither loaded nor overwritten.
                 bench.remember = false; bench.cam = cam;

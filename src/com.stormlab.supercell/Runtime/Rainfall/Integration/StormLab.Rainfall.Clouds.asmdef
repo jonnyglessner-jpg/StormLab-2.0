@@ -1,0 +1,6 @@
+{
+  "name": "StormLab.Rainfall.Clouds",
+  "rootNamespace": "StormLab.Supercell.Rainfall",
+  "references": ["StormLab.Rainfall", "StormLab.Supercell"],
+  "autoReferenced": true
+}

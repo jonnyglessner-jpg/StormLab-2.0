@@ -27,6 +27,24 @@ mover; average tier 240 × 240 × 72.
 | Single-moment microphysics | cost | no size sorting (ZDR arcs), fixed intercepts; cold pools and reflectivity are sensitive to the intercepts |
 | Bit-exact replay only on one machine | GPU floating point | another vendor or driver gives a similar, not identical, storm |
 
+## Game pacing of the designed storm (2026-10-23)
+
+The designed storm runs on a compressed clock for an hour-long game. These are design choices, not physics:
+
+| Choice | Real storms | Game |
+|---|---|---|
+| First wall cloud | 35–65 min after initiation | 10–20 min (formation stages run 2.75x real time for 8 min, then 1.5x: `StormGenome.DevMinutes`) |
+| Wall cloud to tornado | 8–18 min | 2.5–8 min; each cycle's wall cloud, RFD and occlusion at half their durations (`DesignedStorm.CycleK`) |
+| Gap between tornadoes | median ~15 min (record) | a quarter of the climatological interval, 2–7 min |
+| Tornado life | path length / storm speed | drawn for play: EF0–1 1.8–5.5 min, EF2 2.5–7, EF3 6–15, EF4+ 11–28; wide EF2+ at least 6–12; 30 % of ropes and drillbits 12–20; never over 30 or past the game's end |
+| Tornadoes per storm | many supercells make none | every supercell makes at least one (the second cycle is forced if the first makes none) |
+| Strongest tornado of a game | climatology | set per game by `StormScenario`: EF2 at most in ~60 %, EF3 in ~20 %, EF4+ in ~20 % |
+
+Ratings, widths, shapes and the cycle-to-cycle story still come from the SPC-calibrated draws. Path lengths are now life
+× storm speed, so they are shorter than the record for weak tornadoes and much shorter for long-track violent ones. The
+storms are full-size supercells on a 30 x 30 mile map; most run off the far edge before they die (scaling the storms down
+is a later project). Changing these draws changed every seed's storm.
+
 ## Measured biases (open)
 
 1. **Cold pools: now inside CM1's range at the WK case (improved 2026-10-20).** WK coldest −7.3 K against CM1's −4 to
@@ -138,3 +156,32 @@ mover; average tier 240 × 240 × 72.
   resolution.
 - **VORTEX2 Goshen County 2009:** compare the low-level meso and RFD with DOW dual-Doppler once the EOL orders arrive
   (`validation/README.md`).
+
+## Rendering continuity update (2026-10-22)
+
+Brain inflow tails and flanking towers now have separate persistent presentation
+positions rather than a shared turning template. Their response times and 20 m/s
+grid-relative speed limit are visual tuning: they can lag measured features and
+do not identify individual physical cloud parcels or storm cells. Brain rain uses
+the recorded 1 km Qr/Qh fields, without an LCL source cap; 10-second snapshots and
+the finite storm-centred crop limit detail and coverage. Hail extinction is bounded
+to reduce the existing excessive-hail bias, not to calibrate rainfall. Designed
+storms retain the analytic rain path. See cloud-motion.md for source mapping and
+the passing numerical/GPU checks; full-cycle visual comparison remains separate.
+Rain-motion follow-up: Qr/Qh snapshot interpolation is now motion-compensated and the presentation density is transported with wind minus terminal fall speed, with a 30 s observation correction. The independent scrolling detail overlay is disabled in brain mode. A fixed representative fall speed and coarse recorded data still limit drop-size, shear and turbulence detail; the skin draws storm-scale curtains rather than resolved drops.
+
+2026-10-23 correction: the rain channel now samples motion-compensated **Qr only**
+at current displayed time in both target and live volume. The hail-to-liquid-opacity
+term and separate 30 s rain history above are removed after lifecycle review showed
+a shroud/displacement problem. Missing recorded data does not invent analytic rain.
+The recorded-rain march uses continuous extinction without the designed ellipse
+cutoff or mode multiplier. This is a rendering correction, not a model-budget fix.
+The original 1 km mass field can still contain broad precipitation or detached
+advected rain, and the idealized cloud envelope need not cover all measured mass.
+There is no dedicated visible-hail representation or observational extinction
+calibration. See cloud-motion.md for the revised contract and lifecycle review tool.
+The lower-liquid display response is now 80 per (kg/kg), with finer rain marching
+and fall-aligned subgrid detail. This is visual tuning against lifecycle captures,
+not measured extinction. The original storm can still produce a very broad Qr
+footprint and intense rain; no correction to those atmospheric model biases is
+implied by making the optical layer more translucent.

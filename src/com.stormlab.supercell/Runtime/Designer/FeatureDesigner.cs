@@ -223,7 +223,9 @@ namespace StormLab.Supercell.Designer
             {
                 o.cold = 1; o.cpC = f.coldPoolCentroid; o.cpArea = f.coldPoolArea; o.cpMin = f.coldPoolMin1km;
                 // the flanking line follows the rear-flank gust front: its farthest point in the rear-right sector
-                Vector2 fwd = f.stormMotion.sqrMagnitude > 1f ? f.stormMotion.normalized : (Vector2)ToV(plan.fwd);
+                // Select the upshear gust-front sector in the environment frame.
+                // A changing propagation estimate must not rotate the boundary search.
+                Vector2 fwd = shearDir;
                 var lft = new Vector2(-fwd.y, fwd.x); var target = (-fwd - 0.6f * lft).normalized;
                 float best = float.MinValue; Vector2 bp = o.coreLow;
                 for (int b = 0; b < 36; b++)
@@ -261,7 +263,12 @@ namespace StormLab.Supercell.Designer
         // across the storm in one blend window. Build these in timeline order, never
         // playback order, so scrubbing and different playback rates give the same path.
         // The limits are visual tuning; the recorded diagnostics/winds are unchanged.
-        struct MotionSample { public float t; public Vector2 low, upperOffset, midOffset, rfdOffset; }
+        struct MotionSample
+        {
+            public float t;
+            public Vector2 low, upperOffset, midOffset, rfdOffset;
+            public Vector2[] tail, flank;
+        }
         readonly Dictionary<int, MotionSample> motionTrack = new Dictionary<int, MotionSample>();
         int motionLast = -1;
         bool motionStarted;
@@ -284,8 +291,7 @@ namespace StormLab.Supercell.Designer
                     motionTail = new MotionSample { t = frame.t, low = low, upperOffset = upper, midOffset = mid, rfdOffset = rear };
                     // Before any measurable updraft there is no feature to track;
                     // do not chase an arbitrary all-zero reduction from a corner.
-                    for (int k = Mathf.Max(0, tl.Oldest); k < i; k++)
-                    { var seed = motionTail; seed.t = k * tl.interval; motionTrack[k] = seed; }
+
                 }
                 else
                 {
@@ -296,6 +302,33 @@ namespace StormLab.Supercell.Designer
                     motionTail.rfdOffset = Follow(motionTail.rfdOffset, rear, dt, 90f, 10f);
                     motionTail.t = frame.t;
                 }
+                // Each section retains its own position, rather than sharing a rotating
+                // rigid frame. Store fresh arrays: older timeline samples are immutable.
+                float featureDt = motionLast >= 0 ? Mathf.Max(0, frame.t - motionTrack[motionLast].t) : 0;
+                bool seed = motionLast < 0 || !motionStarted && frame.wMax > 1f;
+                Vector2 td = f.inflow > 0 && f.inflowSR.sqrMagnitude > 4 ? -f.inflowSR.normalized : ToV(plan.fwd);
+                Vector2 tn = new Vector2(-td.y, td.x);
+                float length = Mathf.Clamp(6 + .4f * f.inflowSR.magnitude, 6, 16) * 1000;
+                var tail = new Vector2[4]; var towers = new Vector2[8];
+                for (int k = 0; k < 4; k++)
+                {
+                    float s = length * k / 3f;
+                    Vector2 want = motionTail.low + td * (2000 + s) + tn * (500 + .0000042f * s * s);
+                    tail[k] = seed || motionTail.tail == null ? want : Follow(motionTail.tail[k], want, featureDt, 60 + 40 * k, 20);
+                }
+                Vector2 fd = f.flank > 0 ? f.flankDir : (-shearDir - .6f * new Vector2(-shearDir.y, shearDir.x)).normalized;
+                Vector2 fn = new Vector2(fd.y, -fd.x);
+                for (int k = 0; k < 8; k++)
+                {
+                    // Fixed identities and spacing; maturity changes growth, not placement.
+                    float d = 5000 + 3000 * k;
+                    Vector2 want = motionTail.low + fd * d + fn * (.00003f * d * d);
+                    towers[k] = seed || motionTail.flank == null ? want : Follow(motionTail.flank[k], want, featureDt, 120 + 20 * k, 20);
+                }
+                motionTail.tail = tail; motionTail.flank = towers;
+                if (seed)
+                    for (int k = Mathf.Max(0, tl.Oldest); k < i; k++)
+                    { var initial = motionTail; initial.t = k * tl.interval; motionTrack[k] = initial; }
                 motionStarted |= frame.wMax > 1f;
                 motionTrack[i] = motionTail; motionLast = i;
                 motionTrack.Remove(i - tl.capacity - 1);
@@ -304,7 +337,10 @@ namespace StormLab.Supercell.Designer
             if (!motionTrack.TryGetValue(lo, out var a)) return motionTail;
             if (!motionTrack.TryGetValue(lo + 1, out var b)) return a;
             float blend = Mathf.Clamp01((t - a.t) / Mathf.Max(b.t - a.t, .001f));
-            return new MotionSample { t = t, low = Vector2.Lerp(a.low, b.low, blend),
+            var tailBlend = new Vector2[4]; var flankBlend = new Vector2[8];
+            for (int k = 0; k < 4; k++) tailBlend[k] = Vector2.Lerp((a.tail ?? b.tail)[k], (b.tail ?? a.tail)[k], blend);
+            for (int k = 0; k < 8; k++) flankBlend[k] = Vector2.Lerp((a.flank ?? b.flank)[k], (b.flank ?? a.flank)[k], blend);
+            return new MotionSample { t = t, tail = tailBlend, flank = flankBlend, low = Vector2.Lerp(a.low, b.low, blend),
                 upperOffset = Vector2.Lerp(a.upperOffset, b.upperOffset, blend),
                 midOffset = Vector2.Lerp(a.midOffset, b.midOffset, blend), rfdOffset = Vector2.Lerp(a.rfdOffset, b.rfdOffset, blend) };
         }
@@ -664,11 +700,24 @@ namespace StormLab.Supercell.Designer
                 Vector2 d = flankD.V.sqrMagnitude > 1e-4f ? flankD.V.normalized : -fwd;
                 float len = Mathf.Clamp(flankL.X / 1000f, 4f, 25f);
                 float growth = flank.Frac * Ramp(cpA.X, 30f, 250f);
-                P.Set(Slot.Flank, d.x, d.y, growth, Mathf.Clamp(Mathf.Round(len / 2.7f), 3, 8));
+                P.Set(Slot.Flank, d.x, d.y, growth, Mathf.Clamp(len / 3f, 3, 8));
                 P.Set(Slot.Flank2, up.x, up.y, len, growth);
                 sim |= Feature.Flank;
             }
             else if (age > 18) { P[Slot.Flank] = Fb(Slot.Flank, false); fb |= Feature.Flank; }
+
+            if (track.tail != null)
+                for (int k = 0; k < 4; k++)
+                {
+                    Vector2 p = V(track.tail[k]);
+                    P.Set((Slot)((int)Slot.TailPath0 + k), p.x, p.y, 0, 1);
+                }
+            if (track.flank != null)
+                for (int k = 0; k < 8; k++)
+                {
+                    Vector2 p = V(track.flank[k]);
+                    P.Set((Slot)((int)Slot.FlankTower0 + k), p.x, p.y, 0, 1);
+                }
 
             // ---- stage and caption, from what the sim shows
             int stageIx;

@@ -95,3 +95,146 @@ analytic base features are not a fully advected material texture. Rotation and l
 affect subgrid detail. These changes fix temporal consistency and cloud-base continuity; they do not
 establish exact real-world motion for every visible feature. Wider wind encoding, transported detail
 coordinates and observational sequence comparisons need separate implementation and validation.
+
+### Tail, flanking-line and precipitation review (2026-10-22, 14:26 recording)
+
+The recording shows feeder features moving together as orientation changes, and an
+exposed, flat-topped rain curtain. The old tail root used storm forward/left vectors;
+every flanking tower was reconstructed from one direction, and maturity changed their
+spacing. Analytic precipitation was explicitly faded out just above the LCL.
+
+The brain presentation now keeps four tail-spine knots and eight separate flanking
+tower positions in grid coordinates, built in timeline order alongside the existing
+low-core track. Sections have distinct response times (tail 60--180 model seconds;
+towers 120--260 seconds) and a 20 m/s grid-relative presentation speed limit. Tail roots
+use the inflow direction, and the gust-front search uses a fixed environmental-shear
+sector rather than the changing storm-propagation heading. Maturity changes tower
+growth, not their locations. Both coarse and near-field tail shaders project onto the
+same spine; the connecting flanking cloud follows the tracked tower positions.
+These are visual continuity choices, not measured parcel velocities or a new cell tracker.
+
+Brain-driven rain now samples the recorded Qr/Qh volumes at their actual heights,
+with independent window origins for the two bracketing frames. Padded window edges
+fade to zero; layer zero extends to the surface. Sampling is in grid coordinates,
+so neither frame translation nor volume recentering is added twice. The cloud envelope remains under the feature designer; coarse Qc/Qi diagnostics are not added as cloud geometry. Recorded rain now anchors a continuously transported presentation volume; see the rain-motion correction below. The old analytic path remains
+for designed storms or unavailable hydrometeor data. Extinction conversion (400 per
+kg/kg for rain, bounded 12% hail contribution)
+is visual tuning. It is not a radar or rainfall-rate calibration.
+
+Reference set consulted: all six collections' README/NOTES entry points where present.
+Relevant original material: Stull chapter 7, section 7.6.1 (hydrometeors falling
+relative to air); METR4403 text/14_Convective Mode.txt (shear separates precipitation
+from updraft and inflow interacts with gust fronts); SHARPpy winds.py sr_wind and
+MetPy basic.py wind-component conventions. CM1 moisture/fallout equation summary
+provides the transport contract. VORTEX2 notes supply observational caveats, not
+numerical tuning constants. No fluid equations, sounding, or microphysics were changed.
+
+Validation: Supercell Lab > Run Storm Structure Checks passes section-speed,
+nonrigid-tail, seek-order, recenter, and real-GPU recorded-rain tests (rain at 5 km
+with two LCL settings, temporal interpolation, moving crop, surface, empty sky and
+binding reset). Supercell Lab > Run Cloud Motion Checks passes all six existing
+clock, updraft, recenter, envelope-response and signed GPU transport regressions.
+These synthetic checks establish continuity and coordinate correctness. They do not
+establish meteorological realism across every storm stage; full-cycle visual review
+and the recorded 1 km hydrometeor resolution remain limitations.
+
+### Correction after visual review: excess cloud matter
+
+The first rain update also promoted the recorded 1 km Qc/Qi cells into the drawn
+cloud volume. Visual review found detached, blocky masses outside the intended
+storm. That addition is removed: hydrometeor sampling now changes precipitation
+only, leaving cloud density and material to the existing feature envelope.
+Qr/Qh still determine rain at their recorded heights, without an LCL cap.
+StormStructureChecks now includes high Qc/Qi in its synthetic precipitating source
+and asserts that this cannot create cloud geometry in otherwise empty air.
+This is a rendering correction; no meteorological equations or tuning of the
+brain changed. Existing stored live density must be repainted after shader reload
+(e.g. seek backward on the timeline), so old injected cloud is not left frozen
+in a paused volume.
+Validation of the correction: Run Storm Structure Checks passed in Unity, including the new assertion that Qc/Qi cannot add cloud geometry while rain remains present at 5 km above the LCL.
+
+### Rain-motion correction after playback review
+
+The initial recorded-rain display replaced the live rain channel with an Eulerian
+snapshot blend every update, while the march added a separate vertically scrolling
+noise pattern without horizontal wind. That made intensity appear/disappear in place
+and disconnected the visible pattern from rain transport.
+
+The Build kernel now traces the earlier Qr/Qh snapshot forward and the later one
+backward to displayed model time using local grid-relative air velocity minus the
+configured rain terminal fall speed. The live rain channel is semi-Lagrangian
+transported with that same velocity and corrected toward the measured field with
+a 30-model-second response. This is a presentation correction, not a second
+sedimentation step on the stored timeline. Constant-velocity translating data have
+the same displayed trajectory in target and live density.
+
+Weak, vertically elongated density variations are seeded in stable grid coordinates
+and carried inside the rain channel. Brain-mode marching no longer overlays the
+independent scrolling pattern. Camera motion/recentering does not reseed it.
+Pause freezes both transport and source response. Reset/seek reconstructs the
+target at the requested time. No cloud-water/ice geometry is added.
+
+Reference basis remains Stull chapter 7 section 7.6.1 (fall speed relative to air),
+METR4403 convective-mode material (wind separates precipitation and updraft), and
+the CM1 moisture/fallout transport contract in the source map above. The 7 m/s
+default already configured in SkinVolume is a representative visual rain speed,
+not a size-resolved drop spectrum. Local constant-velocity tracing over snapshots,
+1 km hydrometeor data, interpolation diffusion, and the 30 s correction are limits.
+Validation: StormStructureChecks passed in Unity after this correction. A synthetic source falling at 10 m/s retains its intensity halfway between snapshots; live-density centroid checks match signed air wind minus 7 m/s fall speed to within 2 m over 10 s, including a strong updraft, pause and volume recenter. Existing rain-height, no-added-cloud, seek and coordinate checks also pass. These are numerical/GPU checks, not observational rain-motion calibration.
+The six existing CloudMotionChecks also passed after the rain-motion correction. The preview was restarted for live review; no simulation equations were changed.
+
+### 2026-10-23: rain shroud and detached-volume correction
+
+Full-cycle screenshots exposed a problem that local drop rendering did not address.
+The storm-scale volume combined Qr with 12% of Qh (bounded at 0.001 kg/kg) and then
+rendered both as liquid rain. A hail-only reservoir could therefore produce a
+deep rain shroud. The live density also retained a separately advected rain copy
+with a 30-second correction, and that correction used staggered cloud-target slices.
+This could retain displaced/evaporated precipitation beyond its recorded support.
+
+The distant liquid-rain channel now uses Qr only. Build and Advect share the same
+motion-compensated observation sampler, with the latter binding its own current
+snapshot textures and sampling all live rain texels at displayed time. There is
+no extra 30-second rain mass history. A missing brain record yields no rain instead
+of reverting to analytic ellipses. Designed storms retain their analytic path.
+Paused rendering remains frozen, and the pure-transport test path is retained.
+Wind used to trace between observations is independent of cloud-advection enable,
+including reset/seek. The march no longer applies the designed ellipse cutoff or
+precipitation-mode opacity multiplier to measured rain; its continuous extinction
+matches the rain used for lighting. Hail is still simulated, but is no longer
+masquerading as liquid rain in the volume. A dedicated hail renderer is separate work.
+
+This supersedes the 30-second rain-motion response described above. Reference basis
+is the same six-collection source map, particularly Stull ch 7's separate liquid/ice
+categories and fall speed relative to air, and CM1's already-conservative model
+transport contract. No storm dynamics, sounding, rainwater budget, or phase-change
+equations changed. The revised 80 per (kg/kg) conversion remains visual tuning (previously 400), and the 1 km
+mass/2 km wind grids still limit shaft detail. Numerical transport/coordinate tests
+alone do not establish full-cycle visual realism.
+
+StormStructureChecks now also exercises hail-only observations, disappearance of Qr
+while cloud-target slabs are stale, and missing records. RainLifecycleReview adds
+paired rain-on/cloud-only captures at six recorded storm ages plus actual Qr/Qh
+areas/centroids by height; it never labels an image an automatic realism pass.
+
+The paired lifecycle captures also exposed solid, nested contours in the lower
+liquid field. The revised display response is `1-exp(-80*Qr)` rather than the
+previous `1-exp(-400*(Qr+hailTerm))`. This opacity change is explicitly visual
+tuning, not an inferred physical extinction coefficient. The march limits steps
+inside measured rain and adds low-contrast, vertically stretched filaments through
+two continuous clock phases, moving with grid-relative wind minus the same terminal
+fall speed used by the observation sampler. Their coordinates include the volume
+origin so recentering does not reseed detail. They modulate existing support only.
+The light volume uses the revised mean extinction; fine streak shadows are not
+resolved there. This refinement does not shrink, move, or delete the model's Qr.
+
+
+### Designed inflow tail at the FFD boundary (2026-10-23)
+
+The designed beaver/inflow tail now uses four knots along the inflow-facing edge of the same swept Gaussian footprint that draws its forward-flank precipitation. The edge's normal offset responds to the existing kinematic FFD outflow scale relative to storm-relative inflow. The head is projected from the updraft's inflow side; the remaining knots follow the footprint tangent. The shader rounds the path with Catmull-Rom interpolation. Moving/strengthening the FFD or changing inflow therefore changes the tail rather than rotating a fixed ramp from storm-forward offsets.
+
+The coarse volume and near-field cloud now use the same designed-tail density function. Its base and depth vary with smooth, inward-travelling cloud noise on model time; the band tapers away from the updraft, with soft edges rather than a solid wedge. The wall-cloud tail connection aims at this new spine. The brain's tracked spine and legacy shape paths are retained.
+
+Source support: the existing visual-realism.md distinction between a wall-cloud tail and a beaver tail along the inflow/FFD boundary, and METR4403 original text/14_Convective Mode.txt discussion of storm-relative inflow interacting with gust fronts and precipitation/downshear separation. This is designed presentation geometry, not a thermodynamic front solver. The Gaussian contour, outflow/inflow offset, smoothing, widths and cloud-depth coefficients are visual choices, not observationally calibrated constants. No sounding, RNG stream, tornado genealogy or brain equations changed.
+
+Validation: DesignedChecks includes sixty preset/mode/age boundary cases, checking contour attachment, the inflow-facing side, updraft attachment, curvature, seek independence, coordinate recentering and response to shifted FFD/inflow balance. Existing whole-life, mode, wind and tornado checks remain in the suite. Use Supercell Lab > Capture Designed Inflow Review in Play mode to capture four designed variants with rain-on/cloud-only pairs under the test project's Screenshots/DesignedInflow directory.

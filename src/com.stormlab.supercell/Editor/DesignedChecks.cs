@@ -36,7 +36,67 @@ namespace StormLab.Supercell.EditorTools
             ("designed inflow tail follows the FFD boundary, bends and survives seeks/recentering", InflowBoundary),
             ("game pacing: first wall cloud 10-20 min, most tornadoes 2-6 min, only strong or thin ones 10+, none over 30", GamePacing),
             ("game scenario: 2-4 storms cross the 30-mile map, each with a tornado; ~40% of games EF3+, ~20% EF4+", Scenario),
+            ("game scenario: the northernmost storm leans HP, the southernmost LP, the middle ones classic", ScenarioModes),
+            ("game scenario: the northernmost storm has the best chance of an EF3+ tornado", ScenarioNorthStrongest),
         };
+
+        static string ScenarioNorthStrongest()
+        {
+            var parts = new List<string>();
+            foreach (var key in new[] { "plains", "dixie" })
+            {
+                var env = new FixedEnvironment(Preset(key));
+                int[] count = new int[3], strong = new int[3], head = new int[3]; int games = 0;
+                for (int s = 1; s <= 600; s++)
+                {
+                    var sc = new StormScenario(env, s, StormTestRegion(key));
+                    if (sc.topEf >= 3) games++;
+                    foreach (var st in sc.storms)
+                    {
+                        int lane = st.northness > 0.99 ? 2 : st.northness < 0.01 ? 0 : 1;
+                        count[lane]++;
+                        if (st.Tornadoes.Any(t => t.ef >= 3)) strong[lane]++;
+                        if (st.options.forceEf >= 3) head[lane]++;
+                    }
+                }
+                double Share(int lane) => strong[lane] / (double)Math.Max(1, count[lane]);
+                parts.Add($"{key}: storms with an EF3+ southernmost {Share(0):0%}, middle {Share(1):0%}, northernmost {Share(2):0%}; strongest tornado of the game in the north {head[2] / (double)Math.Max(1, games):0%} of EF3+ games");
+                if (!(Share(2) > Share(1) && Share(2) > 1.4 * Share(0))) return "FAIL northernmost storm is not the likeliest to produce EF3+; " + string.Join("; ", parts);
+                if (head[2] < 0.55 * games) return "FAIL the game's strongest tornado is not usually in the north; " + string.Join("; ", parts);
+            }
+            return string.Join("; ", parts);
+        }
+
+        static string ScenarioModes()
+        {
+            var env = new FixedEnvironment(Preset("plains"));
+            // counts by lane: [0] southernmost, [1] middle, [2] northernmost; per mode LP / classic / HP
+            var c = new int[3, 3]; int forced = 0;
+            for (int s = 1; s <= 600; s++)
+            {
+                var sc = new StormScenario(env, s, ClimoRegion.Plains);
+                foreach (var st in sc.storms)
+                {
+                    if (st.storm.precipitation != st.precipitation) return $"FAIL scenario {s}: storm {st.index} drawn {st.precipitation}, laid out {st.storm.precipitation}";
+                    int lane = st.northness < 0.01 ? 0 : st.northness > 0.99 ? 2 : Math.Abs(st.northness - 0.5) < 0.01 ? 1 : -1;
+                    if (lane < 0) continue;
+                    int m = st.precipitation == DesignedPrecipitation.LP ? 0 : st.precipitation == DesignedPrecipitation.Classic ? 1 : 2;
+                    c[lane, m]++;
+                    var ch = st.storm.CharacterAt(600);
+                    if (m == 0 && !ch.LP || m == 2 && !ch.HP) return $"FAIL scenario {s}: storm {st.index} is {st.precipitation} but its hpness is {F(ch.hpness)}";
+                }
+                // a mode chosen for the whole scenario overrides the lanes
+                if (s <= 20 && new StormScenario(env, s, ClimoRegion.Plains, DesignedPrecipitation.HP).storms.All(x => x.precipitation == DesignedPrecipitation.HP)) forced++;
+            }
+            double Share(int lane, int m) => c[lane, m] / (double)Math.Max(1, c[lane, 0] + c[lane, 1] + c[lane, 2]);
+            string Row(int lane) => $"{F(Share(lane, 0))}/{F(Share(lane, 1))}/{F(Share(lane, 2))}";
+            string d = $"LP/classic/HP shares: southernmost {Row(0)}, middle {Row(1)}, northernmost {Row(2)}; forced HP scenario all HP in {forced}/20";
+            if (forced != 20) return "FAIL a forced mode did not apply to every storm; " + d;
+            if (!(Share(2, 2) > 0.6 && Share(2, 2) > 3 * Share(0, 2))) return "FAIL northernmost storm does not lean HP; " + d;
+            if (!(Share(0, 0) > 0.6 && Share(0, 0) > 3 * Share(2, 0))) return "FAIL southernmost storm does not lean LP; " + d;
+            if (!(Share(1, 1) > 0.6)) return "FAIL middle storms are not mostly classic; " + d;
+            return d;
+        }
 
         static string GamePacing()
         {

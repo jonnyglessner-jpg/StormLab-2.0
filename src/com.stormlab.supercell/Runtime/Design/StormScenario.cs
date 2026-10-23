@@ -2,8 +2,14 @@
 // enter from the map's upstream side in separate lanes, a few minutes apart, and cross it at their storm motion (most run
 // on past the far edge before they die; the storms are scaled down in a later project). Every storm puts down at least
 // one tornado. How strong a game gets is decided once for the whole game: in about 60 % of games no tornado exceeds EF2,
-// in 20 % the strongest is an EF3, and in 20 % an EF4 or (rarely) an EF5. The strongest tornado belongs to one storm
-// that starts early; the others are capped at that rating.
+// in 20 % the strongest is an EF3, and in 20 % an EF4 or (rarely) an EF5. The strongest tornado belongs to one storm,
+// most likely the northernmost (HeadlineWeight); the others are capped at that rating, so the northernmost storm has
+// the best chance of an EF3+ tornado.
+//
+// Precipitation mode by lane (when the scenario's mode is Auto): the northernmost storm most likely goes HP, the
+// southernmost most likely LP, and the storms between are mostly classic (LaneMode). A storm's "northness" is where its
+// track crosses the map's centre line, so it holds whichever way the storms move. Choosing Classic, LP or HP for the
+// scenario authors every storm that way instead.
 //
 // Map frame: km in the environment's frame, x east and y north, south-west corner at (0, 0). Times: game seconds from
 // the start; a storm's own time is the game time minus its start.
@@ -19,6 +25,9 @@ namespace StormLab.Supercell
         /// <summary>where it initiates, km in the map frame; game seconds when it initiates</summary>
         public Vec2 spawnKm; public double startS;
         public DesignedStormOptions options;
+        /// <summary>its precipitation mode (by lane unless the scenario forces one), and its lane from 0 (southernmost) to 1
+        /// (northernmost)</summary>
+        public DesignedPrecipitation precipitation; public double northness;
         public DesignedStorm storm;
         /// <summary>the storm's own time at game time t, s (negative before it initiates)</summary>
         public double StormTime(double gameS) => gameS - startS;
@@ -61,9 +70,18 @@ namespace StormLab.Supercell
             for (int i = 1; i < n; i++) starts.Add(60 * r.Range(2, LatestStartS / 60));
             starts.Sort();
 
-            // the storm with the game's strongest tornado starts in the first 8 min, so the tornado has time to run
-            var early = Enumerable.Range(0, n).Where(i => starts[i] <= 8 * 60).ToList();
-            int head = topEf >= 3 ? early[Math.Min((int)(uHead * early.Count), early.Count - 1)] : -1;
+            // north-south rank of each lane: where its track crosses the map's centre line (ties: by lane)
+            var byNorth = Enumerable.Range(0, n).OrderBy(i => centre.y + across.y * lanes[i]).ThenBy(i => lanes[i]).ToList();
+            double North(int i) => n > 1 ? byNorth.IndexOf(i) / (n - 1.0) : 0.5;
+
+            // the storm with the game's strongest tornado, weighted toward the north
+            int head = -1;
+            if (topEf >= 3)
+            {
+                double total = Enumerable.Range(0, n).Sum(i => HeadlineWeight(North(i))), acc = 0;
+                for (int i = 0; i < n && head < 0; i++) { acc += HeadlineWeight(North(i)) / total; if (uHead < acc) head = i; }
+                if (head < 0) head = byNorth[n - 1];
+            }
 
             for (int i = 0; i < n; i++)
             {
@@ -74,18 +92,40 @@ namespace StormLab.Supercell
                 double back = Math.Max(Math.Min(tx, ty) - 3, 0);
                 var spawn = new Vec2(lane.x - d.x * back, lane.y - d.y * back);
                 var options = new DesignedStormOptions { maxEf = topEf, forceEf = i == head ? topEf : -1, horizonS = GameS - starts[i] };
+                double northness = North(i);
+                // its own stream, so the draws above (storm count, lanes, starts, ratings) stay what they were
+                var mode = precipitation == DesignedPrecipitation.Auto ? LaneMode(northness, new StormRng(seed, 700 + i).U()) : precipitation;
                 int baseSeed = 1 + (int)(new StormRng(seed, 600 + i).Next() % 999983UL);
                 // the storm must put down a tornado (and the headline storm its rated one); try the next seed if not
                 DesignedStorm storm = null; int stormSeed = baseSeed;
                 for (int attempt = 0; attempt < 12; attempt++)
                 {
                     stormSeed = baseSeed + 7919 * attempt;
-                    storm = new DesignedStorm(env, spawn, stormSeed, region, precipitation, options);
+                    storm = new DesignedStorm(env, spawn, stormSeed, region, mode, options);
                     var tors = storm.cycles.Where(c => c.tornado != null).Select(c => c.tornado).ToList();
                     if (tors.Count > 0 && (options.forceEf < 0 || tors.Any(t => t.ef == options.forceEf))) break;
                 }
-                storms.Add(new ScenarioStorm { index = i, seed = stormSeed, spawnKm = spawn, startS = starts[i], options = options, storm = storm });
+                storms.Add(new ScenarioStorm { index = i, seed = stormSeed, spawnKm = spawn, startS = starts[i], options = options,
+                    precipitation = mode, northness = northness, storm = storm });
             }
+        }
+
+        /// <summary>How likely a storm is to carry the game's strongest tornado, by lane (0 southernmost .. 1 northernmost):
+        /// 0.5 + 3.5 q². The northernmost storm gets it in 89 % of two-storm games, 68 % of three-storm and 53 % of four-storm
+        /// games; the southernmost in 11 %, 15 % and 7 %.</summary>
+        public static double HeadlineWeight(double northness) => 0.5 + 3.5 * northness * northness;
+
+        /// <summary>
+        /// A storm's precipitation mode from its lane (0 southernmost .. 1 northernmost) and a uniform draw u. The odds run
+        /// linearly between three lanes: southernmost LP 70 % / classic 25 % / HP 5 %, middle classic 70 % / LP 15 % /
+        /// HP 15 %, northernmost HP 70 % / classic 25 % / LP 5 %.
+        /// </summary>
+        public static DesignedPrecipitation LaneMode(double northness, double u)
+        {
+            double q = C.Clamp(northness, 0, 1), f = q < 0.5 ? q / 0.5 : (q - 0.5) / 0.5;
+            double lp = q < 0.5 ? C.Lerp(0.70, 0.15, f) : C.Lerp(0.15, 0.05, f);
+            double hp = q < 0.5 ? C.Lerp(0.05, 0.15, f) : C.Lerp(0.15, 0.70, f);
+            return u < lp ? DesignedPrecipitation.LP : u < lp + hp ? DesignedPrecipitation.HP : DesignedPrecipitation.Classic;
         }
 
         /// <summary>the strongest tornado of the game</summary>

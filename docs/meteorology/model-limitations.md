@@ -38,7 +38,8 @@ The designed storm runs on a compressed clock for an hour-long game. These are d
 | Gap between tornadoes | median ~15 min (record) | a quarter of the climatological interval, 2–7 min |
 | Tornado life | path length / storm speed | drawn for play: EF0–1 1.8–5.5 min, EF2 2.5–7, EF3 6–15, EF4+ 11–28; wide EF2+ at least 6–12; 30 % of ropes and drillbits 12–20; never over 30 or past the game's end |
 | Tornadoes per storm | many supercells make none | every supercell makes at least one (the second cycle is forced if the first makes none) |
-| Strongest tornado of a game | climatology | set per game by `StormScenario`: EF2 at most in ~60 %, EF3 in ~20 %, EF4+ in ~20 % |
+| Strongest tornado of a game | climatology | set per game by `StormScenario`: EF2 at most in ~60 %, EF3 in ~20 %, EF4+ in ~20 %; carried most often by the northernmost storm (`HeadlineWeight`, ~76 % of EF3+ games) |
+| Precipitation mode across a game | from each storm's own environment | by lane (`StormScenario.LaneMode`): northernmost storm HP ~70 %, southernmost LP ~70 %, middle classic ~70 %; an authored override, not a moisture-gradient diagnosis |
 
 Ratings, widths, shapes and the cycle-to-cycle story still come from the SPC-calibrated draws. Path lengths are now life
 × storm speed, so they are shorter than the record for weak tornadoes and much shorter for long-track violent ones. The

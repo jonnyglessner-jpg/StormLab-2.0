@@ -420,7 +420,9 @@ namespace StormLab.Supercell
             int npm = GUILayout.Toolbar((int)s.precipitation, new[] { "Auto", "Classic", "LP", "HP" });
             if (npm != (int)s.precipitation) { s.precipitation = (DesignedPrecipitation)npm; dirtyStorm = true; }
             GUILayout.Label(s.precipitation == DesignedPrecipitation.Auto
-                ? "Mode follows the environment. LP uses the former hail environment."
+                ? (s.scenario ? "Game scenario: the northernmost storm leans HP, the southernmost LP, the middle ones classic."
+                    : "Mode follows the environment. LP uses the former hail environment.")
+                : s.scenario ? "Every storm of the game authored in this mode; sounding and storm motion are retained."
                 : "Authored mode override; sounding and storm motion are retained.", Wrap());
             if (GUILayout.Button("25-minute (mature) structure comparison")) StructureComparison();
             s.showRain = GUILayout.Toggle(s.showRain, " Show designed rain, hail shafts and haze");
@@ -577,7 +579,7 @@ namespace StormLab.Supercell
                 tor = game.Tornado(i);
                 double own = game.StormTime(i);
                 string when = own < 0 ? $"initiates at {Clock((float)FocusStart)} (in {Clock((float)-own)})" : own > st.lifeS ? "has dissipated" : $"{Clock((float)own)} old";
-                GUILayout.Label($"<b>Storm {i + 1}</b> ({when}): {(game.Alive(i) ? fr.Stage : "")}", RichWrap());
+                GUILayout.Label($"<b>Storm {i + 1}</b>, {ModeName(game.Scenario.storms[i].precipitation)} ({when}): {(game.Alive(i) ? fr.Stage : "")}", RichWrap());
                 if (game.Alive(i)) GUILayout.Label(fr.Caption, Wrap());
                 // the whole game at a glance
                 foreach (var x in game.Scenario.storms)
@@ -586,7 +588,7 @@ namespace StormLab.Supercell
                     string what = !game.Alive(x.index) ? (game.StormTime(x.index) < 0 ? $"starts {Clock((float)x.startS)}" : "gone")
                         : tx.on ? $"EF{tx.ef} {tx.phaseShape} on the ground" : game.Runners[x.index].Stage;
                     string tors = string.Join(" ", x.Tornadoes.Select(t => $"EF{t.ef}"));
-                    GUILayout.Label($"<size=11>{x.index + 1}: {what}. Tornadoes {tors}</size>", RichWrap());
+                    GUILayout.Label($"<size=11>{x.index + 1} ({ModeName(x.precipitation)}, {(x.northness > 0.99 ? "north" : x.northness < 0.01 ? "south" : "middle")}): {what}. Tornadoes {tors}</size>", RichWrap());
                 }
             }
             else
@@ -614,6 +616,7 @@ namespace StormLab.Supercell
             GUILayout.Label($"Camera {dist / 1000:0.0} km from the updraft, {cp.y - skin.groundHeight:0} m up.  {fpsSmooth:0} fps", Wrap());
         }
 
+        static string ModeName(DesignedPrecipitation m) => m == DesignedPrecipitation.Auto ? "environment" : m.ToString();
         static string Clock(float t) => $"{Mathf.FloorToInt(t / 3600)}:{Mathf.FloorToInt(t / 60 % 60):00}:{Mathf.FloorToInt(t % 60):00}";
         static Color EfColour(int ef) => ef switch
         {

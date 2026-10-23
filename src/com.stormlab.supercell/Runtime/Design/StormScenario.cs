@@ -1,15 +1,15 @@
-// A game scenario: the storms of one hour-long game on a 30 x 30 mile map, laid out from one seed. Two to four supercells
-// enter from the map's upstream side in separate lanes, a few minutes apart, and cross it at their storm motion (most run
+// A game scenario: the storms of one hour-long game on a 30 x 30 mile map, laid out from one seed. Two supercells enter
+// from the map's upstream side in lanes about 26 km apart, a few minutes apart, and cross it at their storm motion (most run
 // on past the far edge before they die; the storms are scaled down in a later project). Every storm puts down at least
 // one tornado. How strong a game gets is decided once for the whole game: in about 60 % of games no tornado exceeds EF2,
 // in 20 % the strongest is an EF3, and in 20 % an EF4 or (rarely) an EF5. The strongest tornado belongs to one storm,
 // most likely the northernmost (HeadlineWeight); the others are capped at that rating, so the northernmost storm has
 // the best chance of an EF3+ tornado.
 //
-// Precipitation mode by lane (when the scenario's mode is Auto): the northernmost storm most likely goes HP, the
-// southernmost most likely LP, and the storms between are mostly classic (LaneMode). A storm's "northness" is where its
-// track crosses the map's centre line, so it holds whichever way the storms move. Choosing Classic, LP or HP for the
-// scenario authors every storm that way instead.
+// Precipitation mode by lane (when the scenario's mode is Auto): the northern storm most likely goes HP, the southern
+// most likely LP (LaneMode; its classic-leaning middle lane is unused since games dropped to two storms). A storm's
+// "northness" is where its track crosses the map's centre line, so it holds whichever way the storms move. Choosing
+// Classic, LP or HP for the scenario authors every storm that way instead.
 //
 // Map frame: km in the environment's frame, x east and y north, south-west corner at (0, 0). Times: game seconds from
 // the start; a storm's own time is the game time minus its start.
@@ -39,6 +39,11 @@ namespace StormLab.Supercell
         public const double MapMiles = 30, MapKm = MapMiles * 1.609344, GameS = 3600;
         /// <summary>no storm starts later than this into the game, s</summary>
         public const double LatestStartS = 12 * 60;
+        /// <summary>storms in a game</summary>
+        public const int StormCount = 2;
+        /// <summary>each lane's distance from the map's centre line across the storm motion, as a share of the map width
+        /// (±0.03 jitter): the lanes are 23-29 km apart</summary>
+        public const double LaneOffset = 0.27;
 
         public readonly int seed;
         public readonly ClimoRegion region;
@@ -52,8 +57,10 @@ namespace StormLab.Supercell
         {
             this.seed = seed; this.region = region; this.precipitation = precipitation; source = env;
             var r = new StormRng(seed, 500);
-            double uN = r.U(), uTier = r.U(), uFive = r.U(), uHead = r.U();
-            int n = uN < 0.35 ? 2 : uN < 0.75 ? 3 : 4;
+            // the first draw used to pick 2-4 storms; it is still taken so each seed keeps its rating tier
+            r.U();
+            double uTier = r.U(), uFive = r.U(), uHead = r.U();
+            const int n = StormCount;
             topEf = uTier < 0.2 ? (uFive < 0.15 ? 5 : 4) : uTier < 0.4 ? 3 : 2;
 
             // storm motion over the map (the environment at the map's centre)
@@ -63,8 +70,9 @@ namespace StormLab.Supercell
             var d = m > 0.5 ? new Vec2(motion.x / m, motion.y / m) : new Vec2(1, 0);
             var across = new Vec2(-d.y, d.x);
 
-            // lanes across the storms' motion, shuffled so the first storm is not always the southern one
-            var lanes = Enumerable.Range(0, n).Select(i => -0.36 * MapKm + 0.72 * MapKm * (i + 0.5) / n + (r.U() - 0.5) * 0.08 * MapKm).ToList();
+            // lanes across the storms' motion, LaneOffset either side of the centre with a little jitter, shuffled so the
+            // first storm is not always the southern one
+            var lanes = Enumerable.Range(0, n).Select(i => (i == 0 ? -LaneOffset : LaneOffset) * MapKm + (r.U() - 0.5) * 0.06 * MapKm).ToList();
             for (int i = n - 1; i > 0; i--) { int j = (int)(r.U() * (i + 1)); (lanes[i], lanes[j]) = (lanes[j], lanes[i]); }
             var starts = new List<double> { 0 };
             for (int i = 1; i < n; i++) starts.Add(60 * r.Range(2, LatestStartS / 60));
@@ -111,8 +119,7 @@ namespace StormLab.Supercell
         }
 
         /// <summary>How likely a storm is to carry the game's strongest tornado, by lane (0 southernmost .. 1 northernmost):
-        /// 0.5 + 3.5 q². The northernmost storm gets it in 89 % of two-storm games, 68 % of three-storm and 53 % of four-storm
-        /// games; the southernmost in 11 %, 15 % and 7 %.</summary>
+        /// 0.5 + 3.5 q². With two storms the northern one gets it in 89 % of games.</summary>
         public static double HeadlineWeight(double northness) => 0.5 + 3.5 * northness * northness;
 
         /// <summary>

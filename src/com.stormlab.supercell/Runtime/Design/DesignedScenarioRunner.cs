@@ -1,4 +1,4 @@
-// The game's entry point for a whole game: lay out a StormScenario (2-4 storms on a 30 x 30 mile map) from one seed and
+// The game's entry point for a whole game: lay out a StormScenario (2 storms on a 30 x 30 mile map) from one seed and
 // draw every storm on one game clock. Each storm gets a child GameObject with its own StormSkin (drawn alongside the
 // others) and DesignedStormRunner, so lightning connects to each as usual. A storm's child is switched off before it
 // initiates and after it has gone.

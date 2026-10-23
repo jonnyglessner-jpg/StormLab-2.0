@@ -35,9 +35,9 @@ namespace StormLab.Supercell.EditorTools
             ("authored precipitation modes preserve environment and stay finite across presets", PrecipitationModes),
             ("designed inflow tail follows the FFD boundary, bends and survives seeks/recentering", InflowBoundary),
             ("game pacing: first wall cloud 10-20 min, most tornadoes 2-6 min, only strong or thin ones 10+, none over 30", GamePacing),
-            ("game scenario: 2-4 storms cross the 30-mile map, each with a tornado; ~40% of games EF3+, ~20% EF4+", Scenario),
-            ("game scenario: the northernmost storm leans HP, the southernmost LP, the middle ones classic", ScenarioModes),
-            ("game scenario: the northernmost storm has the best chance of an EF3+ tornado", ScenarioNorthStrongest),
+            ("game scenario: 2 well-spaced storms cross the 30-mile map, each with a tornado; ~40% of games EF3+, ~20% EF4+", Scenario),
+            ("game scenario: the northern storm leans HP, the southern LP", ScenarioModes),
+            ("game scenario: the northern storm has the best chance of an EF3+ tornado", ScenarioNorthStrongest),
         };
 
         static string ScenarioNorthStrongest()
@@ -60,8 +60,8 @@ namespace StormLab.Supercell.EditorTools
                     }
                 }
                 double Share(int lane) => strong[lane] / (double)Math.Max(1, count[lane]);
-                parts.Add($"{key}: storms with an EF3+ southernmost {Share(0):0%}, middle {Share(1):0%}, northernmost {Share(2):0%}; strongest tornado of the game in the north {head[2] / (double)Math.Max(1, games):0%} of EF3+ games");
-                if (!(Share(2) > Share(1) && Share(2) > 1.4 * Share(0))) return "FAIL northernmost storm is not the likeliest to produce EF3+; " + string.Join("; ", parts);
+                parts.Add($"{key}: storms with an EF3+ southern {Share(0):0%}, northern {Share(2):0%}; strongest tornado of the game in the north {head[2] / (double)Math.Max(1, games):0%} of EF3+ games");
+                if (!(Share(2) > 1.4 * Share(0))) return "FAIL northern storm is not the likeliest to produce EF3+; " + string.Join("; ", parts);
                 if (head[2] < 0.55 * games) return "FAIL the game's strongest tornado is not usually in the north; " + string.Join("; ", parts);
             }
             return string.Join("; ", parts);
@@ -70,7 +70,7 @@ namespace StormLab.Supercell.EditorTools
         static string ScenarioModes()
         {
             var env = new FixedEnvironment(Preset("plains"));
-            // counts by lane: [0] southernmost, [1] middle, [2] northernmost; per mode LP / classic / HP
+            // counts by lane: [0] southern, [2] northern; per mode LP / classic / HP
             var c = new int[3, 3]; int forced = 0;
             for (int s = 1; s <= 600; s++)
             {
@@ -90,11 +90,10 @@ namespace StormLab.Supercell.EditorTools
             }
             double Share(int lane, int m) => c[lane, m] / (double)Math.Max(1, c[lane, 0] + c[lane, 1] + c[lane, 2]);
             string Row(int lane) => $"{F(Share(lane, 0))}/{F(Share(lane, 1))}/{F(Share(lane, 2))}";
-            string d = $"LP/classic/HP shares: southernmost {Row(0)}, middle {Row(1)}, northernmost {Row(2)}; forced HP scenario all HP in {forced}/20";
+            string d = $"LP/classic/HP shares: southern {Row(0)}, northern {Row(2)}; forced HP scenario all HP in {forced}/20";
             if (forced != 20) return "FAIL a forced mode did not apply to every storm; " + d;
-            if (!(Share(2, 2) > 0.6 && Share(2, 2) > 3 * Share(0, 2))) return "FAIL northernmost storm does not lean HP; " + d;
-            if (!(Share(0, 0) > 0.6 && Share(0, 0) > 3 * Share(2, 0))) return "FAIL southernmost storm does not lean LP; " + d;
-            if (!(Share(1, 1) > 0.6)) return "FAIL middle storms are not mostly classic; " + d;
+            if (!(Share(2, 2) > 0.6 && Share(2, 2) > 3 * Share(0, 2))) return "FAIL northern storm does not lean HP; " + d;
+            if (!(Share(0, 0) > 0.6 && Share(0, 0) > 3 * Share(2, 0))) return "FAIL southern storm does not lean LP; " + d;
             return d;
         }
 
@@ -136,12 +135,19 @@ namespace StormLab.Supercell.EditorTools
             foreach (var preset in StormPreset.All)
             {
                 var env = new FixedEnvironment(SEnv.Make(preset.ToEnv()));
-                int n = 400, ef3 = 0, ef4 = 0, built3 = 0, built4 = 0; var counts = new int[5]; double inMapMin = double.MaxValue;
+                int n = 400, ef3 = 0, ef4 = 0, built3 = 0, built4 = 0; double inMapMin = double.MaxValue, gapMin = double.MaxValue;
                 for (int s = 1; s <= n; s++)
                 {
                     var sc = new StormScenario(env, s, StormTestRegion(preset.key));
-                    int ns = sc.storms.Count; counts[Math.Min(ns, 4)]++;
-                    if (ns < 2 || ns > 4) return $"FAIL {preset.key} scenario {s} has {ns} storms";
+                    int ns = sc.storms.Count;
+                    if (ns != StormScenario.StormCount) return $"FAIL {preset.key} scenario {s} has {ns} storms";
+                    // how close the two updrafts come while both are up
+                    var a = sc.storms[0]; var b = sc.storms[1];
+                    for (double t = Math.Max(a.startS, b.startS); t < StormScenario.GameS; t += 60)
+                    {
+                        var ua = a.storm.UpdraftAt(a.StormTime(t)); var ub = b.storm.UpdraftAt(b.StormTime(t));
+                        gapMin = Math.Min(gapMin, Math.Sqrt((ua.x - ub.x) * (ua.x - ub.x) + (ua.y - ub.y) * (ua.y - ub.y)));
+                    }
                     if (!sc.EveryStormTornadic) return $"FAIL {preset.key} scenario {s}: a storm puts down no tornado ({sc})";
                     int top = sc.MaxEf;
                     if (top > sc.topEf || (sc.topEf >= 3 && top != sc.topEf)) return $"FAIL {preset.key} scenario {s}: strongest EF{top}, built for EF{sc.topEf}";
@@ -161,8 +167,9 @@ namespace StormLab.Supercell.EditorTools
                     }
                 }
                 double f3 = ef3 / (double)n, f4 = ef4 / (double)n;
-                parts.Add($"{preset.key}: 2/3/4 storms {counts[2]}/{counts[3]}/{counts[4]}, EF3+ {f3:0%}, EF4+ {f4:0%}, every storm on the map {inMapMin:0}+ min");
+                parts.Add($"{preset.key}: EF3+ {f3:0%}, EF4+ {f4:0%}, every storm on the map {inMapMin:0}+ min, updrafts {gapMin:0.0}+ km apart");
                 if (Math.Abs(f3 - 0.4) > 0.07 || Math.Abs(f4 - 0.2) > 0.06) return $"FAIL {preset.key}: EF3+ in {f3:0%} of games, EF4+ in {f4:0%}; " + string.Join("; ", parts);
+                if (gapMin < 18) return $"FAIL {preset.key}: two updrafts come {gapMin:0.0} km apart; " + string.Join("; ", parts);
                 if (inMapMin < 20) return $"FAIL {preset.key}: a storm spends only {inMapMin} min on the map; " + string.Join("; ", parts);
             }
             return string.Join("; ", parts);

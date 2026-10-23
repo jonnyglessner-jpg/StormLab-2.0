@@ -3,7 +3,7 @@
 // from a chaser's eye on the ground, an orbit, or free flight, in any light and at any quality tier. The bench remembers
 // where you were (storm, time, camera, sun) between play sessions, so after a code change you press Play and see the
 // same storm from the same spot. Build its scene with Supercell Lab > Open Test Bench (Ctrl+Shift+T).
-// Game scenario mode (G) plays a whole game instead: 2-4 storms on the 30 x 30 mile map on one hour's clock
+// Game scenario mode (G) plays a whole game instead: 2 storms on the 30 x 30 mile map on one hour's clock
 // (StormScenario, DesignedScenarioRunner); the camera follows one storm at a time (Tab: next storm).
 //
 //   space  play / pause       , .  step 30 s back / on      T  next tornado    W  next wall cloud
@@ -64,7 +64,7 @@ namespace StormLab.Supercell
             public float sunElevation = 15f;
             public float exposure = 1.7f;
             public bool showRain = true;
-            [Tooltip("play a whole game scenario (2-4 storms) instead of one storm")]
+            [Tooltip("play a whole game scenario (2 storms) instead of one storm")]
             public bool scenario;
             [Tooltip("the scenario storm the camera follows")]
             public int focusStorm;
@@ -407,7 +407,7 @@ namespace StormLab.Supercell
             GUILayout.BeginArea(panel, GUI.skin.box);
             scroll = GUILayout.BeginScrollView(scroll);
             GUILayout.Label("<b>Designed Storm Comparison</b>", Rich());
-            bool sc = GUILayout.Toggle(s.scenario, " Game scenario: 2-4 storms on the 30 x 30 mile map, one hour (G)");
+            bool sc = GUILayout.Toggle(s.scenario, " Game scenario: 2 storms on the 30 x 30 mile map, one hour (G)");
             if (sc != s.scenario) { s.scenario = sc; dirtyStorm = true; }
 
             // storm
@@ -420,7 +420,7 @@ namespace StormLab.Supercell
             int npm = GUILayout.Toolbar((int)s.precipitation, new[] { "Auto", "Classic", "LP", "HP" });
             if (npm != (int)s.precipitation) { s.precipitation = (DesignedPrecipitation)npm; dirtyStorm = true; }
             GUILayout.Label(s.precipitation == DesignedPrecipitation.Auto
-                ? (s.scenario ? "Game scenario: the northernmost storm leans HP, the southernmost LP, the middle ones classic."
+                ? (s.scenario ? "Game scenario: the northern storm leans HP, the southern LP."
                     : "Mode follows the environment. LP uses the former hail environment.")
                 : s.scenario ? "Every storm of the game authored in this mode; sounding and storm motion are retained."
                 : "Authored mode override; sounding and storm motion are retained.", Wrap());
